@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="PathResource" load_steps=2 format=3 uid="uid://bi6wigkf4cpei"]
 
-[ext_resource type="Script" uid="uid://i4m7f41kqhr7" path="res://addons/MDunGen/Scripts/ResourceDefinitions/PathResource.cs" id="1_yk757"]
+[ext_resource type="Script"  path="res://addons/MDunGen/Scripts/ResourceDefinitions/PathResource.cs" id="1_yk757"]
 
 [resource]
 script = ExtResource("1_yk757")

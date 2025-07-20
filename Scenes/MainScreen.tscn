@@ -1,24 +1,24 @@
 [gd_scene load_steps=28 format=3 uid="uid://66fkglptwkl1"]
 
-[ext_resource type="Script" uid="uid://cdqlvg2bhmmmw" path="res://addons/MDunGen/Scripts/MainScreen/MainScreen.cs" id="1_t5mpj"]
-[ext_resource type="Script" uid="uid://djfl6fdn25yvr" path="res://addons/MDunGen/Scripts/MainScreen/CameraControls.cs" id="1_tt5em"]
-[ext_resource type="Script" uid="uid://b50i4pel860r8" path="res://addons/MDunGen/Scripts/MainScreen/DungeonViewerToolbar.cs" id="2_btfr4"]
-[ext_resource type="Script" uid="uid://dskib7cxw71ql" path="res://addons/MDunGen/Scripts/MainScreen/Selection/SelectOnClick.cs" id="2_tq51n"]
-[ext_resource type="Script" uid="uid://drk4k84yut460" path="res://addons/MDunGen/Scripts/MainScreen/SectionTypeListButton.cs" id="3_bakif"]
+[ext_resource type="Script" uid="uid://du70yfly3ubua" path="res://addons/MDunGen/Scripts/MainScreen/MainScreen.cs" id="1_t5mpj"]
+[ext_resource type="Script" uid="uid://coucy3eiqv7pk" path="res://addons/MDunGen/Scripts/MainScreen/CameraControls.cs" id="1_tt5em"]
+[ext_resource type="Script" uid="uid://dte6d76ji6ok" path="res://addons/MDunGen/Scripts/MainScreen/DungeonViewerToolbar.cs" id="2_btfr4"]
+[ext_resource type="Script" uid="uid://bajc648vpqt6c" path="res://addons/MDunGen/Scripts/MainScreen/Selection/SelectOnClick.cs" id="2_tq51n"]
+[ext_resource type="Script" uid="uid://dcxi3knpm8k06" path="res://addons/MDunGen/Scripts/MainScreen/SectionTypeListButton.cs" id="3_bakif"]
 [ext_resource type="Environment" uid="uid://bn1cwyorljhq2" path="res://addons/MDunGen/ViewerEnv.tres" id="3_ubg15"]
-[ext_resource type="Script" uid="uid://ba55it0enoyqt" path="res://addons/MDunGen/Scripts/MainScreen/ScreenDungeonVisualizer.cs" id="4_ey6f7"]
-[ext_resource type="Script" uid="uid://ch8xadpnaqmp7" path="res://addons/MDunGen/Scripts/MainScreen/Notifications.cs" id="7_cfcxe"]
-[ext_resource type="Texture2D" uid="uid://cs6tql22jx52e" path="res://addons/MDunGen/Icons/Plus.png" id="16_nrt1g"]
-[ext_resource type="Texture2D" uid="uid://b1i3jrr3errsd" path="res://addons/MDunGen/Icons/AddonIcon_big.png" id="17_kon6s"]
-[ext_resource type="Script" uid="uid://bov36sr6lc874" path="res://addons/MDunGen/Scripts/MainScreen/FloorOptions.cs" id="17_usypf"]
-[ext_resource type="Texture2D" uid="uid://bsth3cg3wgmx8" path="res://addons/MDunGen/Icons/Minus.png" id="17_wfx1p"]
-[ext_resource type="Script" uid="uid://bf18ypw6pbxwb" path="res://addons/MDunGen/Scripts/MainScreen/SectionSelector.cs" id="21_siix3"]
+[ext_resource type="Script" uid="uid://bxx3g1hm7cru0" path="res://addons/MDunGen/Scripts/MainScreen/ScreenDungeonVisualizer.cs" id="4_ey6f7"]
+[ext_resource type="Script" uid="uid://dcxfbjgf36d4d" path="res://addons/MDunGen/Scripts/MainScreen/Notifications.cs" id="7_cfcxe"]
+[ext_resource type="Texture2D" uid="uid://c7q1urwnthqkn" path="res://addons/MDunGen/Icons/Plus.png" id="16_nrt1g"]
+[ext_resource type="Texture2D" uid="uid://cr1hpslvutec6" path="res://addons/MDunGen/Icons/AddonIcon_big.png" id="17_kon6s"]
+[ext_resource type="Script" uid="uid://b4qja8ve6cuqs" path="res://addons/MDunGen/Scripts/MainScreen/FloorOptions.cs" id="17_usypf"]
+[ext_resource type="Texture2D" uid="uid://b131uvwbhe5g7" path="res://addons/MDunGen/Icons/Minus.png" id="17_wfx1p"]
+[ext_resource type="Script" uid="uid://buciutr8k533s" path="res://addons/MDunGen/Scripts/MainScreen/SectionSelector.cs" id="21_siix3"]
 [ext_resource type="Theme" uid="uid://c0br7ijjnpfqo" path="res://addons/MDunGen/Config/MainScreenTheme.tres" id="29_j2fmg"]
-[ext_resource type="Texture2D" uid="uid://dolibvvapd3g3" path="res://addons/MDunGen/Icons/Floorbox.png" id="29_le75x"]
-[ext_resource type="Texture2D" uid="uid://3f7srs8k2l4m" path="res://addons/MDunGen/Icons/ProfileIcon.png" id="31_7xw7w"]
-[ext_resource type="Texture2D" uid="uid://m5b3d5n3bmp4" path="res://addons/MDunGen/Icons/CogIcon.png" id="32_m0fwq"]
-[ext_resource type="Texture2D" uid="uid://bpo2mgmoodysf" path="res://addons/MDunGen/Icons/BiomeIcon.png" id="33_ck4ds"]
-[ext_resource type="Texture2D" uid="uid://c1dnvaudb0tbt" path="res://addons/MDunGen/Icons/ExportIcon.png" id="34_3dg3h"]
+[ext_resource type="Texture2D" uid="uid://g0bplc2iy80i" path="res://addons/MDunGen/Icons/Floorbox.png" id="29_le75x"]
+[ext_resource type="Texture2D" uid="uid://b8y8y55em4v1b" path="res://addons/MDunGen/Icons/ProfileIcon.png" id="31_7xw7w"]
+[ext_resource type="Texture2D" uid="uid://c4wdfsd72gu84" path="res://addons/MDunGen/Icons/CogIcon.png" id="32_m0fwq"]
+[ext_resource type="Texture2D" uid="uid://qy1b28bero4t" path="res://addons/MDunGen/Icons/BiomeIcon.png" id="33_ck4ds"]
+[ext_resource type="Texture2D" uid="uid://penon1kc48ja" path="res://addons/MDunGen/Icons/ExportIcon.png" id="34_3dg3h"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xqdge"]
 
@@ -293,7 +293,7 @@ stretch_mode = 5
 [node name="EndVisibleFloor" type="Label" parent="FloorOptions/HBoxContainer"]
 layout_mode = 2
 theme = ExtResource("29_j2fmg")
-text = "3"
+text = "1"
 
 [node name="Control" type="Control" parent="FloorOptions/HBoxContainer"]
 custom_minimum_size = Vector2(17.46, 0)

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://fcw44l4urw5r"]
 
-[ext_resource type="Script" uid="uid://dfj0qsij6ve4q" path="res://addons/MDunGen/Scripts/BottomScreen/BottomScreen.cs" id="1_qthb6"]
-[ext_resource type="Script" uid="uid://djp11i3gnmjt7" path="res://addons/MDunGen/Scripts/BottomScreen/PathInfo.cs" id="2_sxobj"]
+[ext_resource type="Script" uid="uid://bwg6a1qpx7orn" path="res://addons/MDunGen/Scripts/BottomScreen/BottomScreen.cs" id="1_qthb6"]
+[ext_resource type="Script" uid="uid://kdof06h15cl1" path="res://addons/MDunGen/Scripts/BottomScreen/PathInfo.cs" id="2_sxobj"]
 
 [node name="dungeonBottom" type="Control" node_paths=PackedStringArray("sectionInfo", "mapPieceInfo", "connectionInfo")]
 layout_mode = 3

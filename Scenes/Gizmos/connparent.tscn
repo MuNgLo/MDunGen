@@ -1,20 +1,20 @@
 [gd_scene load_steps=4 format=3 uid="uid://deiahx463v4d"]
 
-[ext_resource type="Script" uid="uid://dxftw1ily1vnk" path="res://addons/MDunGen/Scripts/MainScreen/Selection/Gizmos/ConnArrowGizmo.cs" id="1_l2k00"]
+[ext_resource type="Script" uid="uid://qdxria4nq8jx" path="res://addons/MDunGen/Scripts/MainScreen/Selection/Gizmos/ConnArrowGizmo.cs" id="1_l2k00"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rpt57"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qqmem"]
 albedo_color = Color(1.44392e-07, 0.610676, 0.383602, 1)
 emission_enabled = true
 emission = Color(1.44392e-07, 0.610676, 0.383602, 1)
 emission_energy_multiplier = 3.0
 disable_receive_shadows = true
 
-[sub_resource type="ImmediateMesh" id="ImmediateMesh_1bq1x"]
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_l3ilx"]
 
 [node name="ConnParentGizmo" type="MeshInstance3D"]
-material_override = SubResource("StandardMaterial3D_rpt57")
+material_override = SubResource("StandardMaterial3D_qqmem")
 cast_shadow = 0
-mesh = SubResource("ImmediateMesh_1bq1x")
+mesh = SubResource("ImmediateMesh_l3ilx")
 script = ExtResource("1_l2k00")
 Shape = 6
 GizmoColor = Color(1.44392e-07, 0.610676, 0.383602, 1)
