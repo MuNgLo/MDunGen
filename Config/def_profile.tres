@@ -10,4 +10,4 @@ showDebugLayer = false
 globalOffset = Vector3(0, 0, 0)
 settings = ExtResource("3_rlen8")
 biome = ExtResource("1_u6vhl")
-useRandomSeed = true
+useRandomSeed = false
