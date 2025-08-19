@@ -13,11 +13,7 @@ namespace Munglo.DungeonGenerator;
 public partial class DungeonVisualizer : Node3D
 {
     public static EventHandler<ISection> OnSectionVisualized;
-    [Export] private Dungeon dungeon;
     [Export] private BiomeResource biome; // TODO refactor biome into sectionbase
-    [Export] private Area3D loadOverWorld;
-    [Export] private Area3D loadDungeon;
-    [Export] private Node3D overWorld;
 
     private Dictionary<PIECEKEYS, Dictionary<int, Resource>> cacheKeyedPieces;
     private NavigationRegion3D mapContainer;
@@ -25,32 +21,11 @@ public partial class DungeonVisualizer : Node3D
     private Node3D tileContainer;
     private Node3D unsortedContainer;
 
-    public override void _Ready()
+    public async void ShowMap()
     {
-        loadDungeon.BodyEntered += WhenLoadDungeonTrigger;
-        loadOverWorld.BodyEntered += WhenLoadOverworldTrigger;
+        await VisualizeSections();
+        BuildNavMesh();
     }
-
-    private void WhenLoadOverworldTrigger(Node3D body)
-    {
-        if (body.GetInstanceId() == LocalPlayer.Avatar.GetInstanceId() && !overWorld.Visible)
-        {
-            Log($"Dungeon : Unloading Dungeon");
-            overWorld.Show();
-            ClearVisualizer();
-        }
-    }
-
-    private void WhenLoadDungeonTrigger(Node3D body)
-    {
-        if (body.GetInstanceId() == LocalPlayer.Avatar.GetInstanceId() && overWorld.Visible)
-        {
-            Log($"Dungeon : Loading in Dungeon");
-            overWorld.Hide();
-            ShowMap();
-        }
-    }
-
     public void ClearVisualizer()
     {
         cacheKeyedPieces = new Dictionary<PIECEKEYS, Dictionary<int, Resource>>();
@@ -64,17 +39,11 @@ public partial class DungeonVisualizer : Node3D
         mapContainer.AddChild(unsortedContainer, true);
     }
 
-    public async void ShowMap()
-    {
-        await VisualizeSections();
-        BuildNavMesh();
-    }
-
     private async Task VisualizeSections()
     {
         Log($"Dungeon : Visualizing sections");
 
-        foreach (ISection section in dungeon.Map.Sections)
+        foreach (ISection section in Core.GetDungeon.Map.Sections)
         {
             await VisualizeSection(section);
         }
@@ -96,7 +65,7 @@ public partial class DungeonVisualizer : Node3D
         int index = 0;
         foreach (MapPiece rp in section.Pieces)
         {
-            MapPiece piece = dungeon.Map.GetPiece(rp.Coord);
+            MapPiece piece = Core.GetDungeon.Map.GetPiece(rp.Coord);
             if (BuildVisualNode(biome, piece, out Node3D visualNode, propContainer, true))
             {
                 visualNode.Name = $"S{string.Format("0:000", section.SectionIndex)}-T{index}";

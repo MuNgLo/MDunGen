@@ -12,7 +12,6 @@ namespace Munglo.DungeonGenerator;
 [GlobalClass]
 public partial class Dungeon : Node
 {
-    [Export] private DungeonVisualizer dunVisualizer;
     [Export] private GenerationSettingsResource dunSettings;
     internal Dictionary<int, Dictionary<int, Dictionary<int, MapPiece>>> Pieces => map.Pieces;
     internal List<MapPiece> PendingPieces => map.GetPieces(MAPPIECESTATE.PENDING);
@@ -21,9 +20,9 @@ public partial class Dungeon : Node
 
     private MapData map;
 
-    public override void _EnterTree()
+    public override void _Ready()
     {
-        dunVisualizer.ClearVisualizer();
+        Core.DVisualizer.ClearVisualizer();
         GenerateMapData(dunSettings);
     }
 
@@ -35,7 +34,7 @@ public partial class Dungeon : Node
     private void GeneratedMapData()
     {
         Log($"Dungeon : Generation Completed #Pieces[{map.Pieces.Count}]");
-        //dunVisualizer.ShowMap();
+        Core.DVisualizer.ShowMap();
     }
 
     public async void BuildMapData(GenerationSettingsResource settings, Action callback)
