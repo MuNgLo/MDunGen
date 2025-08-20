@@ -1,4 +1,5 @@
-﻿using Godot;
+﻿#if TOOLS
+using Godot;
 using Godot.Collections;
 using System;
 using System.Linq;
@@ -485,3 +486,4 @@ namespace Munglo.DungeonGenerator.UI
         }
     }// eof class
 }
+#endif

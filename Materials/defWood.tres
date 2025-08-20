@@ -1,12 +1,8 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://dawr6dgw6djb1"]
-
-[ext_resource type="Texture2D" uid="uid://dnyv6ru5krypf" path="res://addons/MDunGen/Materials/Textures/defWood.png" id="1_8kbxq"]
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dawr6dgw6djb1"]
 
 [resource]
-albedo_color = Color(0.270588, 0.270588, 0.270588, 1)
-albedo_texture = ExtResource("1_8kbxq")
+albedo_color = Color(0.618276, 0.416348, 0.217926, 1)
 metallic_specular = 0.08
-roughness_texture = ExtResource("1_8kbxq")
 roughness_texture_channel = 4
 uv1_triplanar = true
 uv1_world_triplanar = true

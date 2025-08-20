@@ -1,3 +1,4 @@
+#if TOOLS
 using Godot;
 using System;
 using Munglo.DungeonGenerator.Gizmos;
@@ -392,3 +393,4 @@ internal class Manager
 
     #endregion
 }// EOF CLASS
+#endif

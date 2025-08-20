@@ -1,3 +1,4 @@
+#if TOOLS
 using Godot;
 using Munglo.DungeonGenerator.Pathfinding;
 using System;
@@ -19,3 +20,4 @@ public partial class PathInfo : Control
 
 
 }// EOF CLASS
+#endif

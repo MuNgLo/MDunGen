@@ -1,3 +1,4 @@
+#if TOOLS
 using Godot;
 using Munglo.DungeonGenerator;
 using System;
@@ -36,12 +37,12 @@ namespace Munglo.DungeonGenerator.UI
         {
             RaiseSectionTypeChanged();
         }
-        private void RaiseSectionTypeChanged(){
+        private void RaiseSectionTypeChanged() {
             EventHandler<Type> evt = OnSectionTypeSelected;
-            if(evt is not null)
+            if (evt is not null)
             {
                 Type T = GetSelectedType();
-                evt (this, T);
+                evt(this, T);
             }
         }
 
@@ -49,8 +50,8 @@ namespace Munglo.DungeonGenerator.UI
         {
             string nspace = "Munglo.DungeonGenerator.Sections";
             IEnumerable<Type> q = from t in Assembly.GetExecutingAssembly().GetTypes()
-                    where t.IsClass && t.Namespace == nspace
-                    select t;
+                                  where t.IsClass && t.Namespace == nspace
+                                  select t;
             return q.ToList();
         }
 
@@ -62,7 +63,8 @@ namespace Munglo.DungeonGenerator.UI
                                   select t;
 
             string selectedText = GetItemText(Selected);
-            return q.ToList().Find(p=>p.Name == selectedText);
+            return q.ToList().Find(p => p.Name == selectedText);
         }
     }// EOF CLASS
 }
+#endif

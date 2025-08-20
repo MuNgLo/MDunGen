@@ -1,10 +1,11 @@
+#if TOOLS
 using Godot;
 using System;
 namespace Munglo.DungeonGenerator.UI
 {
-	[Tool]
-	public partial class FloorOptions : CenterContainer
-	{
+    [Tool]
+    public partial class FloorOptions : CenterContainer
+    {
         private AddonSettingsResource MasterConfig;
         private MainScreen MS;
         private ProfileResource Profile = ResourceLoader.Load("res://addons/MDunGen/Config/def_profile.tres") as ProfileResource;
@@ -12,7 +13,7 @@ namespace Munglo.DungeonGenerator.UI
 
         // Called when the node enters the scene tree for the first time.
         public override void _Ready()
-		{
+        {
             MasterConfig = ResourceLoader.Load("res://addons/MDunGen/Config/def_addonconfig.tres") as AddonSettingsResource;
             MS = GetParent<MainScreen>();
             // Spinbox
@@ -46,7 +47,7 @@ namespace Munglo.DungeonGenerator.UI
             int currentCount = cont.GetChildCount();
             int goalCount = endfloor - MasterConfig.visibleFloorStart + 5 + 1; // 5 extra because not all are floorboxes
 
-            if(currentCount > goalCount)
+            if (currentCount > goalCount)
             {
                 // Subtract
                 for (int i = 0; i < currentCount - goalCount; i++)
@@ -94,8 +95,9 @@ namespace Munglo.DungeonGenerator.UI
             MS.ReDrawDungeon();
         }
 
-        private void ShowFloorsNotif(){
+        private void ShowFloorsNotif() {
             MS.RaiseNotification($"Showing floor {MasterConfig.visibleFloorStart + 1}" + (MasterConfig.maxVisibleFloors > 1 ? $" through {MasterConfig.visibleFloorStart + MasterConfig.maxVisibleFloors}" : string.Empty));
         }
     }// EOF CLASS
 }
+#endif

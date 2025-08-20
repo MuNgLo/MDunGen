@@ -1,3 +1,4 @@
+
 using Godot;
 using System;
 using System.Collections.Generic;
@@ -312,6 +313,7 @@ namespace Munglo.DungeonGenerator
         }
         private void MoveToEditedScene(Node node)
         {
+#if TOOLS
             if (Engine.IsEditorHint())
             {
                 node.Owner = EditorInterface.Singleton.GetEditedSceneRoot();
@@ -320,6 +322,7 @@ namespace Munglo.DungeonGenerator
                     MoveToEditedScene(node.GetChild(i));
                 }
             }
+#endif
         }
         /// <summary>
         /// returns a Node with the correct rotation

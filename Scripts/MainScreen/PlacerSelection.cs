@@ -1,4 +1,6 @@
-﻿using Godot;
+﻿
+#if TOOLS
+using Godot;
 using System;
 
 namespace Munglo.DungeonGenerator.UI
@@ -9,7 +11,7 @@ namespace Munglo.DungeonGenerator.UI
         public override void _Ready()
         {
             ResourceChanged += WhenResourceChanged;
-            ResourceSelected += WhenResouceSelected;
+            ResourceSelected += WhenResourceSelected;
         }
         private void FocusInspector()
         {
@@ -18,7 +20,7 @@ namespace Munglo.DungeonGenerator.UI
             ReleaseFocus();
         }
 
-        private void WhenResouceSelected(Resource resource, bool inspect)
+        private void WhenResourceSelected(Resource resource, bool inspect)
         {
             FocusInspector();
         }
@@ -29,3 +31,4 @@ namespace Munglo.DungeonGenerator.UI
         }
     }// EOF CLASS
 }
+#endif

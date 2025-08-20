@@ -1,10 +1,11 @@
+#if TOOLS
 using Godot;
 using System;
 namespace Munglo.DungeonGenerator.UI
 {
     [Tool]
-	public partial class InitialPopup : Control
-	{
+    public partial class InitialPopup : Control
+    {
         public MainScreen screen;
         [Export] private Button changeBtn;
         [Export] private Button closeBtn;
@@ -13,8 +14,8 @@ namespace Munglo.DungeonGenerator.UI
 
         // Called when the node enters the scene tree for the first time.
         public override void _Ready()
-		{
-			changeBtn.Pressed += WhenChangePressed;
+        {
+            changeBtn.Pressed += WhenChangePressed;
             closeBtn.Pressed += QueueFree;
             pathLine.Text = screen.addon.MasterConfig.ProjectResourcePath;
 
@@ -45,3 +46,4 @@ namespace Munglo.DungeonGenerator.UI
         }
     }// EOF CLASS
 }
+#endif

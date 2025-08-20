@@ -1,12 +1,15 @@
 #if TOOLS
+
 using Godot;
 using Munglo.DungeonGenerator.UI;
 
 namespace Munglo.DungeonGenerator
 {
+
     [Tool]
     public partial class Dungeons : EditorPlugin
     {
+
         private VIEWERMODE mode = VIEWERMODE.DUNGEON;
         public VIEWERMODE Mode => mode;
         private readonly string screenName = "Dungeon";

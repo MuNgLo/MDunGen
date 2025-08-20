@@ -1,8 +1,9 @@
+
+#if TOOLS
 using Godot;
 using Godot.Collections;
 using System;
 using System.Reflection;
-
 
 namespace Munglo.DungeonGenerator.UI;
 /// <summary>
@@ -11,7 +12,7 @@ namespace Munglo.DungeonGenerator.UI;
 [Tool]
 public partial class BottomScreen : Control
 {
-    public Dungeons addon;
+    public Munglo.DungeonGenerator.Dungeons addon;
     [Export] private Label sectionInfo;
     [Export] private Label mapPieceInfo;
     [Export] private Label connectionInfo;
@@ -44,3 +45,4 @@ public partial class BottomScreen : Control
         }
     }
 }// EOF CLASS
+#endif

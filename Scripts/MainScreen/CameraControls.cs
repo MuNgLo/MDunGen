@@ -1,3 +1,4 @@
+#if TOOLS
 using Godot;
 using System;
 namespace Munglo.DungeonGenerator.UI
@@ -71,3 +72,4 @@ namespace Munglo.DungeonGenerator.UI
         }
     }// EOF CLASS
 }
+#endif
