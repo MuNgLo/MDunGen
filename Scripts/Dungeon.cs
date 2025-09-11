@@ -12,6 +12,7 @@ namespace Munglo.DungeonGenerator;
 [GlobalClass]
 public partial class Dungeon : Node
 {
+    [Export] private Vector3 globalOffset = Vector3.Zero;
     [Export] private GenerationSettingsResource dunSettings;
     internal Dictionary<int, Dictionary<int, Dictionary<int, MapPiece>>> Pieces => map.Pieces;
     internal List<MapPiece> PendingPieces => map.GetPieces(MAPPIECESTATE.PENDING);
@@ -22,6 +23,7 @@ public partial class Dungeon : Node
 
     public override void _Ready()
     {
+        DungeonUtils.globalOffset = globalOffset;
         Core.DVisualizer.ClearVisualizer();
         GenerateMapData(dunSettings);
     }
