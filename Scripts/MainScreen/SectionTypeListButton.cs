@@ -22,7 +22,7 @@ namespace Munglo.DungeonGenerator.UI
                 AddItem(type.Name);
             }
             Select(0); // SELECT 0 DEFAULT ONE for starters
-            GD.Print($"SectionTypeListButton::_Ready() GetList.Count[{GetList().Count}] itemCount[{ItemCount}]");
+            //GD.Print($"SectionTypeListButton::_EnterTree() GetList.Count[{GetList().Count}] itemCount[{ItemCount}]");
         }
         public override void _ExitTree()
         {

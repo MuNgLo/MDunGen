@@ -41,13 +41,13 @@ namespace Munglo.DungeonGenerator.UI
         {
             if(ItemCount < 1){return;}
             if(Selected < 0) { Selected = 0; }
-            GD.Print($"SectionSelector::LoadSelected() Loading[{Selected}]");
+            //GD.Print($"SectionSelector::LoadSelected() Loading[{Selected}]");
             string itemText = GetItemText(Selected == -1 ? 0 : Selected);
         }
         private void PoulateResourceCollection()
         {
             string typeName = sectionTypeSelector.GetItemText(sectionTypeSelector.Selected);
-            GD.Print($"SectionSelector::PoulateResourceCollection() typeName[{typeName}] [{sectionTypeSelector.GetSelectedType()}]");
+            //GD.Print($"SectionSelector::PoulateResourceCollection() typeName[{typeName}] [{sectionTypeSelector.GetSelectedType()}]");
             resources = new Dictionary<string, string>();
             List<Resource> items = new List<Resource>();
 

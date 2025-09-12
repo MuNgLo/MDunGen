@@ -12,6 +12,7 @@ namespace Munglo.DungeonGenerator;
 [GlobalClass]
 public partial class Dungeon : Node
 {
+    [Export] private bool spawnInOnLaunch = false;
     [Export] private Vector3 globalOffset = Vector3.Zero;
     [Export] private GenerationSettingsResource dunSettings;
     internal Dictionary<int, Dictionary<int, Dictionary<int, MapPiece>>> Pieces => map.Pieces;
@@ -25,7 +26,7 @@ public partial class Dungeon : Node
     {
         DungeonUtils.globalOffset = globalOffset;
         Core.DVisualizer.ClearVisualizer();
-        GenerateMapData(dunSettings);
+        if (spawnInOnLaunch) { GenerateMapData(dunSettings); }
     }
 
     private void GenerateMapData(GenerationSettingsResource dunSettings)

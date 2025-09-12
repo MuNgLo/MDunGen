@@ -27,7 +27,7 @@ namespace Munglo.DungeonGenerator
         #region Overrides
         public override void _EnterTree()
         {
-            GD.Print("Loaded MuNgLo's Dungeon Plugin");
+            GD.Print("Loaded MDunGen Plugin");
             masterConfig = ResourceLoader.Load("res://addons/MDunGen/Config/def_addonconfig.tres") as AddonSettingsResource;
 
             // Centerscreen

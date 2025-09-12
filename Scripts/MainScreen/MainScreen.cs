@@ -36,7 +36,7 @@ namespace Munglo.DungeonGenerator.UI
         public override void _Ready()
         {
             dunVis = GetNode<ScreenDungeonVisualizer>("SubViewportContainer/SubViewport/Dungeon");
-            GD.Print($"DirExistsAbs [{DirAccess.DirExistsAbsolute(addon.MasterConfig.ProjectResourcePath)}]");
+            //GD.Print($"DirExistsAbs [{DirAccess.DirExistsAbsolute(addon.MasterConfig.ProjectResourcePath)}]");
 
             (FindChild("MasterConfig") as TextureButton).Pressed += PopupInitialSettingsDialougue;
 
