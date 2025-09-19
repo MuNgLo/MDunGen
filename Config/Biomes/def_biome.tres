@@ -88,7 +88,6 @@ resources = [ExtResource("23_gp6gk"), ExtResource("25_u2eaq")]
 
 [resource]
 script = ExtResource("16_41rgj")
-size = Vector3i(6, 6, 6)
 debug = [SubResource("Resource_awi6e"), SubResource("Resource_6aqxq"), SubResource("Resource_dcxid"), SubResource("Resource_4r5ff"), SubResource("Resource_pkx8c")]
 wallMaterials = []
 walls = [SubResource("Resource_mh7vr"), SubResource("Resource_jednj"), SubResource("Resource_57jlo"), SubResource("Resource_hkqsk")]

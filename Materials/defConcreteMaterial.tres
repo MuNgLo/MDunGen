@@ -7,9 +7,9 @@ colors = PackedColorArray(0.797659, 0.797658, 0.797659, 1, 1, 1, 1, 1)
 frequency = 0.0222
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_h3ne8"]
-seamless = true
-color_ramp = SubResource("Gradient_bcv8n")
 noise = SubResource("FastNoiseLite_h0bxp")
+color_ramp = SubResource("Gradient_bcv8n")
+seamless = true
 
 [sub_resource type="Gradient" id="Gradient_fc67d"]
 offsets = PackedFloat32Array(0, 0.997951)
@@ -18,9 +18,9 @@ colors = PackedColorArray(0.389287, 0.389287, 0.389287, 1, 1, 1, 1, 1)
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_papvm"]
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_u441k"]
-seamless = true
-color_ramp = SubResource("Gradient_fc67d")
 noise = SubResource("FastNoiseLite_papvm")
+color_ramp = SubResource("Gradient_fc67d")
+seamless = true
 
 [resource]
 albedo_color = Color(0.117647, 0.117647, 0.176471, 1)

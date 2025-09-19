@@ -6,8 +6,8 @@ offsets = PackedFloat32Array(0.332006, 1)
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_61mng"]
 
 [sub_resource type="NoiseTexture3D" id="NoiseTexture3D_gra6t"]
-color_ramp = SubResource("Gradient_ubm7x")
 noise = SubResource("FastNoiseLite_61mng")
+color_ramp = SubResource("Gradient_ubm7x")
 
 [resource]
 background_mode = 1
