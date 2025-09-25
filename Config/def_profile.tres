@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="ProfileResource" load_steps=4 format=3 uid="uid://c18oe4qok4s1t"]
 
 [ext_resource type="Script" uid="uid://ufhpkdr67fc6" path="res://addons/MDunGen/Scripts/ResourceDefinitions/ProfileResource.cs" id="1_aoufu"]
-[ext_resource type="Resource" uid="uid://7n7fb58etmro" path="res://Dungeon/biome01.tres" id="1_u6vhl"]
+[ext_resource type="Resource" uid="uid://cs58xqyn4ofdy" path="res://addons/MDunGen/Config/Biomes/def_biome.tres" id="1_u6vhl"]
 [ext_resource type="Resource" uid="uid://d0w4bxou2jqyn" path="res://Dungeon/DungeonPattern.tres" id="3_rlen8"]
 
 [resource]
