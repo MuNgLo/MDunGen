@@ -1,7 +1,7 @@
 #define MConsole
 using Godot;
 using Munglo.DungeonGenerator.Sections;
-using Players;
+using LPlayer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
