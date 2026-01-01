@@ -8,4 +8,3 @@
 script = ExtResource("1_aoufu")
 settings = ExtResource("3_rlen8")
 biome = ExtResource("1_u6vhl")
-useRandomSeed = false
