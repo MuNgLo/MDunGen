@@ -58,7 +58,6 @@ namespace Munglo.DungeonGenerator
             bscreen.addon = this;
             // Add bottom screen instance to the editor
             AddControlToBottomPanel(bscreen, "Dungeon");
-
         }
 
         Button testBTN;
