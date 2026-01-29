@@ -285,7 +285,7 @@ namespace Munglo.DungeonGenerator
 
         /// <summary>
         /// Sets the owner of the node and all its children recursively 
-        /// Skips children of scenbe instances
+        /// Skips children of scene instances
         /// </summary>
         /// <param name="Owner"></param>
         /// <param name="node"></param>
