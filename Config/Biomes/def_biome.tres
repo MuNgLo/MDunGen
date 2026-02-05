@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="BiomeResource" load_steps=38 format=3 uid="uid://cs58xqyn4ofdy"]
+[gd_resource type="Resource" script_class="BiomeResource" format=3 uid="uid://cs58xqyn4ofdy"]
 
 [ext_resource type="PackedScene" uid="uid://b0k5luvs28qyn" path="res://addons/MDunGen/Scenes/Standard/def_ceiling.tscn" id="1_jjr23"]
 [ext_resource type="Script" uid="uid://pf0cuqe7gn5h" path="res://addons/MDunGen/Scripts/Commons/BiomeEntry.cs" id="2_ei6xj"]
