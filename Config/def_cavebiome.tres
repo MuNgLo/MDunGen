@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="BiomeResource" load_steps=35 format=3 uid="uid://cja3tdsn4jffs"]
+[gd_resource type="Resource" script_class="BiomeResource" format=3 uid="uid://cja3tdsn4jffs"]
 
 [ext_resource type="PackedScene" uid="uid://bfo02c5yt1wo3" path="res://addons/MDunGen/Scenes/Cave/def_ceiling_cave.tscn" id="2_22a3s"]
-[ext_resource type="Script" uid="uid://pf0cuqe7gn5h" path="res://addons/MDunGen/Scripts/Commons/BiomeEntry.cs" id="2_ewuuo"]
+[ext_resource type="Script" uid="uid://ecyroodi8bjc" path="res://addons/MDunGen/Scripts/Commons/BiomeEntry.cs" id="2_ewuuo"]
 [ext_resource type="ArrayMesh" uid="uid://4ukiwxvbdo6w" path="res://addons/MDunGen/Meshes/DefaultMeshes_DebugMESH.res" id="3_lqstm"]
 [ext_resource type="ArrayMesh" uid="uid://bvs0cv3bt8ys5" path="res://addons/MDunGen/Meshes/DefaultMeshes_ErrorMESH.res" id="4_fqqev"]
 [ext_resource type="ArrayMesh" uid="uid://c5lxvxmcsj0wg" path="res://addons/MDunGen/Meshes/DefaultMeshes_FaultyMESH.res" id="5_eewic"]
@@ -16,7 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://ctq3ly115qcft" path="res://addons/MDunGen/Scenes/Standard/def_hallwayarch01.tscn" id="13_57ph5"]
 [ext_resource type="PackedScene" uid="uid://nxvpgv6ehoxa" path="res://addons/MDunGen/Scenes/Cave/def_wall_cave.tscn" id="28_opwum"]
 [ext_resource type="PackedScene" uid="uid://cosw3s35mahlh" path="res://addons/MDunGen/Scenes/Cave/def_wall_opening_cave.tscn" id="29_mkxdi"]
-[ext_resource type="Script" uid="uid://nsox7td22a8l" path="res://addons/MDunGen/Scripts/ResourceDefinitions/BiomeResource.cs" id="29_q157a"]
+[ext_resource type="Script" uid="uid://c3jmyg31j7sts" path="res://addons/MDunGen/Scripts/ResourceDefinitions/BiomeResource.cs" id="29_q157a"]
 [ext_resource type="PackedScene" uid="uid://e111sweiynw3" path="res://addons/MDunGen/Scenes/Cave/def_wall_opening_wide_cave.tscn" id="30_kks6w"]
 [ext_resource type="PackedScene" uid="uid://d4g1asmywmysa" path="res://addons/MDunGen/Scenes/Cave/def_wallcorner_cave.tscn" id="32_74y3x"]
 

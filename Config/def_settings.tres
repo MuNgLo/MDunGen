@@ -1,13 +1,11 @@
-[gd_resource type="Resource" script_class="GenerationSettingsResource" load_steps=3 format=3 uid="uid://6su0i5s3ukgo"]
+[gd_resource type="Resource" script_class="GenerationSettingsResource" format=3 uid="uid://6su0i5s3ukgo"]
 
 [ext_resource type="Resource" uid="uid://b0etk4whx01gn" path="res://addons/MDunGen/Config/Floors/def_floor.tres" id="1_4bk8j"]
-[ext_resource type="Script"  path="res://addons/MDunGen/Scripts/ResourceDefinitions/GenerationSettingsResource.cs" id="1_t4wih"]
+[ext_resource type="Script" uid="uid://dvngeu0rnogko" path="res://addons/MDunGen/Scripts/ResourceDefinitions/GenerationSettingsResource.cs" id="1_t4wih"]
 
 [resource]
 script = ExtResource("1_t4wih")
-nbOfFloors = 1
 floorDef = ExtResource("1_4bk8j")
-calculatePathing = true
 seed1 = 3285
 seed2 = 9075
 seed3 = 5363

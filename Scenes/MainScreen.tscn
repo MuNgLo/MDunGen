@@ -1,24 +1,24 @@
-[gd_scene load_steps=28 format=3 uid="uid://66fkglptwkl1"]
+[gd_scene format=3 uid="uid://66fkglptwkl1"]
 
-[ext_resource type="Script" uid="uid://du70yfly3ubua" path="res://addons/MDunGen/Scripts/MainScreen/MainScreen.cs" id="1_t5mpj"]
-[ext_resource type="Script" uid="uid://coucy3eiqv7pk" path="res://addons/MDunGen/Scripts/MainScreen/CameraControls.cs" id="1_tt5em"]
-[ext_resource type="Script" uid="uid://dte6d76ji6ok" path="res://addons/MDunGen/Scripts/MainScreen/DungeonViewerToolbar.cs" id="2_btfr4"]
-[ext_resource type="Script" uid="uid://bajc648vpqt6c" path="res://addons/MDunGen/Scripts/MainScreen/Selection/SelectOnClick.cs" id="2_tq51n"]
-[ext_resource type="Script" uid="uid://dcxi3knpm8k06" path="res://addons/MDunGen/Scripts/MainScreen/SectionTypeListButton.cs" id="3_bakif"]
+[ext_resource type="Script" uid="uid://bx8ye0yp4as34" path="res://addons/MDunGen/Scripts/MainScreen/MainScreen.cs" id="1_t5mpj"]
+[ext_resource type="Script" uid="uid://u852m6a2kfm0" path="res://addons/MDunGen/Scripts/MainScreen/CameraControls.cs" id="1_tt5em"]
+[ext_resource type="Script" uid="uid://cgcdgy21gpbor" path="res://addons/MDunGen/Scripts/MainScreen/DungeonViewerToolbar.cs" id="2_btfr4"]
+[ext_resource type="Script" uid="uid://cu6esrle4edls" path="res://addons/MDunGen/Scripts/MainScreen/Selection/SelectOnClick.cs" id="2_tq51n"]
+[ext_resource type="Script" uid="uid://b8o0su1w02a8q" path="res://addons/MDunGen/Scripts/MainScreen/SectionTypeListButton.cs" id="3_bakif"]
 [ext_resource type="Environment" uid="uid://bn1cwyorljhq2" path="res://addons/MDunGen/ViewerEnv.tres" id="3_ubg15"]
-[ext_resource type="Script" uid="uid://bxx3g1hm7cru0" path="res://addons/MDunGen/Scripts/MainScreen/ScreenDungeonVisualizer.cs" id="4_ey6f7"]
-[ext_resource type="Script" uid="uid://dcxfbjgf36d4d" path="res://addons/MDunGen/Scripts/MainScreen/Notifications.cs" id="7_cfcxe"]
-[ext_resource type="Texture2D" uid="uid://c7q1urwnthqkn" path="res://addons/MDropTables/Icons/Plus.png" id="16_nrt1g"]
-[ext_resource type="Texture2D" uid="uid://cr1hpslvutec6" path="res://addons/MDunGen/Icons/AddonIcon_big.png" id="17_kon6s"]
-[ext_resource type="Script" uid="uid://b4qja8ve6cuqs" path="res://addons/MDunGen/Scripts/MainScreen/FloorOptions.cs" id="17_usypf"]
-[ext_resource type="Texture2D" uid="uid://b131uvwbhe5g7" path="res://addons/MDropTables/Icons/Minus.png" id="17_wfx1p"]
-[ext_resource type="Script" uid="uid://buciutr8k533s" path="res://addons/MDunGen/Scripts/MainScreen/SectionSelector.cs" id="21_siix3"]
+[ext_resource type="Script" uid="uid://b6g1bwfjbouba" path="res://addons/MDunGen/Scripts/MainScreen/ScreenDungeonVisualizer.cs" id="4_ey6f7"]
+[ext_resource type="Script" uid="uid://du4q8vssgg2cu" path="res://addons/MDunGen/Scripts/MainScreen/Notifications.cs" id="7_cfcxe"]
+[ext_resource type="Texture2D" uid="uid://4q27seqmy13i" path="res://addons/MDunGen/Icons/Plus.png" id="16_nrt1g"]
+[ext_resource type="Texture2D" uid="uid://bl6sx6tdpubx1" path="res://addons/MDunGen/Icons/AddonIcon_big.png" id="17_kon6s"]
+[ext_resource type="Script" uid="uid://bmn0p3g45eyh5" path="res://addons/MDunGen/Scripts/MainScreen/FloorOptions.cs" id="17_usypf"]
+[ext_resource type="Texture2D" uid="uid://d0ntdvj52emit" path="res://addons/MDunGen/Icons/Minus.png" id="17_wfx1p"]
+[ext_resource type="Script" uid="uid://bdyfu6bhh7isp" path="res://addons/MDunGen/Scripts/MainScreen/SectionSelector.cs" id="21_siix3"]
 [ext_resource type="Theme" uid="uid://c0br7ijjnpfqo" path="res://addons/MDunGen/Config/MainScreenTheme.tres" id="29_j2fmg"]
-[ext_resource type="Texture2D" uid="uid://g0bplc2iy80i" path="res://addons/MDunGen/Icons/Floorbox.png" id="29_le75x"]
-[ext_resource type="Texture2D" uid="uid://b8y8y55em4v1b" path="res://addons/MDunGen/Icons/ProfileIcon.png" id="31_7xw7w"]
-[ext_resource type="Texture2D" uid="uid://c4wdfsd72gu84" path="res://addons/MDunGen/Icons/CogIcon.png" id="32_m0fwq"]
-[ext_resource type="Texture2D" uid="uid://qy1b28bero4t" path="res://addons/MDunGen/Icons/BiomeIcon.png" id="33_ck4ds"]
-[ext_resource type="Texture2D" uid="uid://penon1kc48ja" path="res://addons/MDunGen/Icons/ExportIcon.png" id="34_3dg3h"]
+[ext_resource type="Texture2D" uid="uid://dksyvo8w251vi" path="res://addons/MDunGen/Icons/Floorbox.png" id="29_le75x"]
+[ext_resource type="Texture2D" uid="uid://cu3wjl5suy5ug" path="res://addons/MDunGen/Icons/ProfileIcon.png" id="31_7xw7w"]
+[ext_resource type="Texture2D" uid="uid://cu1sdtnjc2sy4" path="res://addons/MDunGen/Icons/CogIcon.png" id="32_m0fwq"]
+[ext_resource type="Texture2D" uid="uid://bwpk2kflh7a7a" path="res://addons/MDunGen/Icons/BiomeIcon.png" id="33_ck4ds"]
+[ext_resource type="Texture2D" uid="uid://cpu11832tl6ux" path="res://addons/MDunGen/Icons/ExportIcon.png" id="34_3dg3h"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xqdge"]
 
@@ -48,7 +48,7 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
-[node name="DungeonViewer" type="Control"]
+[node name="DungeonViewer" type="Control" unique_id=1648561317]
 custom_minimum_size = Vector2(400, 200)
 layout_mode = 3
 anchors_preset = 15
@@ -61,7 +61,7 @@ size_flags_vertical = 3
 mouse_filter = 2
 script = ExtResource("1_t5mpj")
 
-[node name="DungeonViewerToolbar" type="HBoxContainer" parent="." node_paths=PackedStringArray("btnModeToggle", "btnClear", "btnBuild", "btnRandomToggle", "btnView", "btnSectionTypeList", "btnSectionSelector")]
+[node name="DungeonViewerToolbar" type="HBoxContainer" parent="." unique_id=293658028 node_paths=PackedStringArray("btnModeToggle", "btnClear", "btnBuild", "btnRandomToggle", "btnView", "btnSectionTypeList", "btnSectionSelector")]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -78,10 +78,10 @@ btnView = NodePath("btnView")
 btnSectionTypeList = NodePath("btnSectionTypeList")
 btnSectionSelector = NodePath("SectionResourceSelector")
 
-[node name="VSeparator" type="VSeparator" parent="DungeonViewerToolbar"]
+[node name="VSeparator" type="VSeparator" parent="DungeonViewerToolbar" unique_id=1580628586]
 layout_mode = 2
 
-[node name="btnMode" type="Button" parent="DungeonViewerToolbar"]
+[node name="btnMode" type="Button" parent="DungeonViewerToolbar" unique_id=1618313291]
 custom_minimum_size = Vector2(134.715, 40)
 layout_mode = 2
 tooltip_text = "Toggle between generating a full dungeon or a single section."
@@ -89,40 +89,38 @@ theme_type_variation = &"FlatButton"
 theme_override_styles/normal = SubResource("StyleBoxEmpty_xqdge")
 text = "DungeonMode"
 
-[node name="VSeparator2" type="VSeparator" parent="DungeonViewerToolbar"]
+[node name="VSeparator2" type="VSeparator" parent="DungeonViewerToolbar" unique_id=1923237035]
 layout_mode = 2
 
-[node name="btnSectionTypeList" type="OptionButton" parent="DungeonViewerToolbar"]
+[node name="btnSectionTypeList" type="OptionButton" parent="DungeonViewerToolbar" unique_id=1273063488]
 layout_mode = 2
 tooltip_text = "If a Section Type is selected above. All resources of that Type stored in correct paths will be listed."
 selected = 0
-item_count = 4
+item_count = 3
 popup/item_0/text = "HallwaySection"
 popup/item_0/id = 0
 popup/item_1/text = "PathSection"
 popup/item_1/id = 1
 popup/item_2/text = "RoomSection"
 popup/item_2/id = 2
-popup/item_3/text = "DiverStartRoom"
-popup/item_3/id = 3
 script = ExtResource("3_bakif")
 
-[node name="SectionResourceSelector" type="OptionButton" parent="DungeonViewerToolbar"]
+[node name="SectionResourceSelector" type="OptionButton" parent="DungeonViewerToolbar" unique_id=972387590]
 layout_mode = 2
 tooltip_text = "Lists the section resources for the selected Type"
 script = ExtResource("21_siix3")
 
-[node name="VSeparator3" type="VSeparator" parent="DungeonViewerToolbar"]
+[node name="VSeparator3" type="VSeparator" parent="DungeonViewerToolbar" unique_id=108631836]
 layout_mode = 2
 
-[node name="btnBuild" type="Button" parent="DungeonViewerToolbar"]
+[node name="btnBuild" type="Button" parent="DungeonViewerToolbar" unique_id=1974902759]
 custom_minimum_size = Vector2(54, 0)
 layout_mode = 2
 theme_type_variation = &"FlatButton"
 theme_override_styles/normal = SubResource("StyleBoxEmpty_xqdge")
 text = "Build"
 
-[node name="btnClear" type="Button" parent="DungeonViewerToolbar"]
+[node name="btnClear" type="Button" parent="DungeonViewerToolbar" unique_id=1015109876]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 tooltip_text = "Clears all generated data including the visuals."
@@ -130,10 +128,10 @@ theme_type_variation = &"FlatButton"
 theme_override_styles/normal = SubResource("StyleBoxEmpty_xqdge")
 text = "Clear"
 
-[node name="VSeparator4" type="VSeparator" parent="DungeonViewerToolbar"]
+[node name="VSeparator4" type="VSeparator" parent="DungeonViewerToolbar" unique_id=1902541533]
 layout_mode = 2
 
-[node name="btnRandom" type="Button" parent="DungeonViewerToolbar"]
+[node name="btnRandom" type="Button" parent="DungeonViewerToolbar" unique_id=1677727527]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 theme = ExtResource("29_j2fmg")
@@ -141,10 +139,10 @@ theme_type_variation = &"FlatButton"
 theme_override_styles/normal = SubResource("StyleBoxEmpty_xqdge")
 text = "Random"
 
-[node name="VSeparator5" type="VSeparator" parent="DungeonViewerToolbar"]
+[node name="VSeparator5" type="VSeparator" parent="DungeonViewerToolbar" unique_id=226472050]
 layout_mode = 2
 
-[node name="btnView" type="MenuButton" parent="DungeonViewerToolbar"]
+[node name="btnView" type="MenuButton" parent="DungeonViewerToolbar" unique_id=1914186436]
 custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 tooltip_text = "Check the things you want to show after a build"
@@ -175,10 +173,10 @@ popup/item_4/checkable = 1
 popup/item_4/checked = true
 popup/item_4/id = 4
 
-[node name="VSeparator6" type="VSeparator" parent="DungeonViewerToolbar"]
+[node name="VSeparator6" type="VSeparator" parent="DungeonViewerToolbar" unique_id=1394470982]
 layout_mode = 2
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=1236985055]
 process_mode = 3
 process_thread_group = 1
 process_thread_group_order = 0
@@ -195,7 +193,7 @@ grow_vertical = 2
 stretch = true
 script = ExtResource("2_tq51n")
 
-[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=1201576135]
 own_world_3d = true
 world_3d = SubResource("World3D_qk8pl")
 handle_input_locally = false
@@ -206,7 +204,7 @@ size = Vector2i(1152, 614)
 render_target_clear_mode = 2
 render_target_update_mode = 4
 
-[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport"]
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport" unique_id=625031757]
 transform = Transform3D(-0.34031, -0.790434, 0.509315, 0, 0.541644, 0.840608, -0.940313, 0.286067, -0.184327, 3.13087, 5.1674, -1.1331)
 environment = ExtResource("3_ubg15")
 attributes = SubResource("CameraAttributesPractical_blo15")
@@ -216,7 +214,7 @@ size = 59.787
 script = ExtResource("1_tt5em")
 speed = 10.0
 
-[node name="OmniLight3D" type="OmniLight3D" parent="SubViewportContainer/SubViewport/Camera3D"]
+[node name="OmniLight3D" type="OmniLight3D" parent="SubViewportContainer/SubViewport/Camera3D" unique_id=1737294028]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.265, -0.425, 0)
 light_energy = 6.0
 light_size = 0.028
@@ -224,7 +222,7 @@ light_bake_mode = 0
 shadow_enabled = true
 omni_range = 30.0
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport"]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport" unique_id=1231377590]
 transform = Transform3D(0.307938, 0.679591, -0.66583, 2.53496e-08, 0.699838, 0.714302, 0.951406, -0.219961, 0.215507, 0, 3, 0)
 shadow_enabled = true
 directional_shadow_split_1 = 0.262
@@ -233,27 +231,27 @@ directional_shadow_split_3 = 0.731
 directional_shadow_blend_splits = true
 directional_shadow_fade_start = 0.906
 
-[node name="Dungeon" type="Node3D" parent="SubViewportContainer/SubViewport"]
+[node name="Dungeon" type="Node3D" parent="SubViewportContainer/SubViewport" unique_id=2060387043]
 script = ExtResource("4_ey6f7")
 
-[node name="Generated" type="NavigationRegion3D" parent="SubViewportContainer/SubViewport/Dungeon"]
+[node name="Generated" type="NavigationRegion3D" parent="SubViewportContainer/SubViewport/Dungeon" unique_id=519316063]
 navigation_mesh = SubResource("NavigationMesh_pbb25")
 
-[node name="GeneratedDebug" type="Node3D" parent="SubViewportContainer/SubViewport/Dungeon"]
+[node name="GeneratedDebug" type="Node3D" parent="SubViewportContainer/SubViewport/Dungeon" unique_id=991082472]
 visible = false
 
-[node name="Target" type="Node3D" parent="SubViewportContainer/SubViewport"]
+[node name="Target" type="Node3D" parent="SubViewportContainer/SubViewport" unique_id=202705081]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 visible = false
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Target"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Target" unique_id=159174815]
 material_override = SubResource("StandardMaterial3D_sfpnj")
 mesh = SubResource("SphereMesh_sqo4d")
 skeleton = NodePath("../..")
 
-[node name="Gizmos" type="Node3D" parent="SubViewportContainer/SubViewport"]
+[node name="Gizmos" type="Node3D" parent="SubViewportContainer/SubViewport" unique_id=526395357]
 
-[node name="FloorOptions" type="CenterContainer" parent="."]
+[node name="FloorOptions" type="CenterContainer" parent="." unique_id=341526495]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -267,39 +265,39 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 script = ExtResource("17_usypf")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="FloorOptions"]
+[node name="HBoxContainer" type="HBoxContainer" parent="FloorOptions" unique_id=567097932]
 layout_mode = 2
 
-[node name="SpinBox" type="SpinBox" parent="FloorOptions/HBoxContainer"]
+[node name="SpinBox" type="SpinBox" parent="FloorOptions/HBoxContainer" unique_id=1666111704]
 layout_mode = 2
 theme = ExtResource("29_j2fmg")
 select_all_on_focus = true
 
-[node name="Plus" type="TextureButton" parent="FloorOptions/HBoxContainer"]
+[node name="Plus" type="TextureButton" parent="FloorOptions/HBoxContainer" unique_id=1351839006]
 layout_mode = 2
 texture_normal = ExtResource("16_nrt1g")
 stretch_mode = 5
 
-[node name="FloorBox" type="TextureButton" parent="FloorOptions/HBoxContainer"]
+[node name="FloorBox" type="TextureButton" parent="FloorOptions/HBoxContainer" unique_id=1492709818]
 layout_mode = 2
 texture_normal = ExtResource("29_le75x")
 stretch_mode = 5
 
-[node name="Minus" type="TextureButton" parent="FloorOptions/HBoxContainer"]
+[node name="Minus" type="TextureButton" parent="FloorOptions/HBoxContainer" unique_id=1421190175]
 layout_mode = 2
 texture_normal = ExtResource("17_wfx1p")
 stretch_mode = 5
 
-[node name="EndVisibleFloor" type="Label" parent="FloorOptions/HBoxContainer"]
+[node name="EndVisibleFloor" type="Label" parent="FloorOptions/HBoxContainer" unique_id=1011445695]
 layout_mode = 2
 theme = ExtResource("29_j2fmg")
-text = "1"
+text = "2"
 
-[node name="Control" type="Control" parent="FloorOptions/HBoxContainer"]
+[node name="Control" type="Control" parent="FloorOptions/HBoxContainer" unique_id=1218899995]
 custom_minimum_size = Vector2(17.46, 0)
 layout_mode = 2
 
-[node name="Notification" type="RichTextLabel" parent="."]
+[node name="Notification" type="RichTextLabel" parent="." unique_id=436063965]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -324,7 +322,7 @@ scroll_active = false
 autowrap_mode = 0
 script = ExtResource("7_cfcxe")
 
-[node name="Panel2" type="Panel" parent="."]
+[node name="Panel2" type="Panel" parent="." unique_id=2054075506]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -337,7 +335,7 @@ grow_horizontal = 0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_fkwmv")
 
-[node name="Profile" type="TextureButton" parent="Panel2"]
+[node name="Profile" type="TextureButton" parent="Panel2" unique_id=1718646168]
 layout_mode = 0
 offset_left = -1.0
 offset_right = 127.0
@@ -347,7 +345,7 @@ tooltip_text = "Profile: Open the profile resource in the Inspector"
 texture_normal = ExtResource("31_7xw7w")
 stretch_mode = 5
 
-[node name="Settings" type="TextureButton" parent="Panel2"]
+[node name="Settings" type="TextureButton" parent="Panel2" unique_id=718152780]
 layout_mode = 0
 offset_left = -2.0
 offset_top = 32.0
@@ -358,7 +356,7 @@ tooltip_text = "Show the settings resource in the inspector"
 texture_normal = ExtResource("32_m0fwq")
 stretch_mode = 5
 
-[node name="Biome" type="TextureButton" parent="Panel2"]
+[node name="Biome" type="TextureButton" parent="Panel2" unique_id=523616254]
 layout_mode = 0
 offset_left = -2.0
 offset_top = 64.0
@@ -369,7 +367,7 @@ tooltip_text = "Show the biome resource in the inspector"
 texture_normal = ExtResource("33_ck4ds")
 stretch_mode = 5
 
-[node name="Export" type="TextureButton" parent="Panel2"]
+[node name="Export" type="TextureButton" parent="Panel2" unique_id=529845810]
 layout_mode = 0
 offset_left = -2.0
 offset_top = 96.0
@@ -380,7 +378,7 @@ tooltip_text = "Export the generated Dungeon to a scene"
 texture_normal = ExtResource("34_3dg3h")
 stretch_mode = 5
 
-[node name="MasterConfig" type="TextureButton" parent="Panel2"]
+[node name="MasterConfig" type="TextureButton" parent="Panel2" unique_id=2056335532]
 layout_mode = 0
 offset_left = 6.0
 offset_top = 131.0

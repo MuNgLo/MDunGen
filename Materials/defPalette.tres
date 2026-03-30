@@ -1,6 +1,6 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://b8wt4qxyt2klr"]
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://b8wt4qxyt2klr"]
 
-[ext_resource type="Texture2D" uid="uid://cwa5a2r8oqnob" path="res://addons/MDunGen/Materials/Textures/Palette.png" id="1_3gs4o"]
+[ext_resource type="Texture2D" uid="uid://dnvabkvf7asp1" path="res://addons/MDunGen/Materials/Textures/CaveColour.png" id="1_3gs4o"]
 
 [resource]
 albedo_texture = ExtResource("1_3gs4o")

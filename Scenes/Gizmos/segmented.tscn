@@ -1,6 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://csuyaag8kiuqx"]
+[gd_scene format=3 uid="uid://csuyaag8kiuqx"]
 
-[ext_resource type="Script" uid="uid://57j7gxw78jh4" path="res://addons/MDunGen/Scripts/MainScreen/Selection/Gizmos/SegmentedGizmo.cs" id="1_n8cim"]
+[ext_resource type="Script" uid="uid://c6oxd2x4on5oj" path="res://addons/MDunGen/Scripts/MainScreen/Selection/Gizmos/SegmentedGizmo.cs" id="1_n8cim"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nd32p"]
 albedo_color = Color(1, 0, 0, 1)
@@ -10,7 +10,7 @@ disable_receive_shadows = true
 
 [sub_resource type="ImmediateMesh" id="ImmediateMesh_8sfs8"]
 
-[node name="Segmented" type="MeshInstance3D"]
+[node name="Segmented" type="MeshInstance3D" unique_id=1588525205]
 material_override = SubResource("StandardMaterial3D_nd32p")
 cast_shadow = 0
 mesh = SubResource("ImmediateMesh_8sfs8")

@@ -1,26 +1,18 @@
-[gd_scene load_steps=7 format=3 uid="uid://dedtciwwk6abt"]
+[gd_scene format=3 uid="uid://dedtciwwk6abt"]
 
 [ext_resource type="PackedScene" uid="uid://jjqt582r1xsv" path="res://addons/MDunGen/Scenes/Runtime/Dungeon.tscn" id="1_7rspm"]
 [ext_resource type="PackedScene" uid="uid://x0gfht324fhs" path="res://addons/MDunGen/Scenes/Runtime/DungeonVisualizer.tscn" id="2_gspk0"]
 [ext_resource type="Resource" uid="uid://6su0i5s3ukgo" path="res://addons/MDunGen/Config/def_settings.tres" id="4_ey76a"]
-[ext_resource type="PackedScene" uid="uid://de1od7uc00qsf" path="res://addons/MConsole/DropinScene/GameConsole.tscn" id="4_kt4sr"]
-[ext_resource type="PackedScene" uid="uid://v4kptsufr618" path="res://addons/MConsole/DropinScene/FPSCounter.tscn" id="6_ey76a"]
 [ext_resource type="Resource" uid="uid://cs58xqyn4ofdy" path="res://addons/MDunGen/Config/Biomes/def_biome.tres" id="6_qpgyb"]
 
-[node name="DungeonRuntimeExample" type="Node3D"]
+[node name="DungeonRuntimeExample" type="Node3D" unique_id=1816475462]
 
-[node name="GameConsole" parent="." instance=ExtResource("4_kt4sr")]
-
-[node name="FPScounter" parent="." instance=ExtResource("6_ey76a")]
-offset_left = -48.0
-
-[node name="Dungeon" parent="." node_paths=PackedStringArray("dunVisualizer") instance=ExtResource("1_7rspm")]
-dunVisualizer = NodePath("../DungeonVisualizer")
+[node name="Dungeon" parent="." unique_id=1917805050 instance=ExtResource("1_7rspm")]
 dunSettings = ExtResource("4_ey76a")
 
-[node name="DungeonVisualizer" parent="." node_paths=PackedStringArray("dungeon") instance=ExtResource("2_gspk0")]
-dungeon = NodePath("../Dungeon")
+[node name="DungeonVisualizer" parent="." unique_id=1199063606 node_paths=PackedStringArray("dungeon") instance=ExtResource("2_gspk0")]
 biome = ExtResource("6_qpgyb")
+dungeon = NodePath("../Dungeon")
 
-[node name="Camera3D" type="Camera3D" parent="."]
+[node name="Camera3D" type="Camera3D" parent="." unique_id=160346517]
 transform = Transform3D(0.881733, -0.304166, 0.360597, 0, 0.764383, 0.644763, -0.471749, -0.568509, 0.673981, 2.88932, 3.87125, 4.72137)

@@ -1,9 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://fcw44l4urw5r"]
+[gd_scene format=3 uid="uid://fcw44l4urw5r"]
 
-[ext_resource type="Script" uid="uid://bwg6a1qpx7orn" path="res://addons/MDunGen/Scripts/BottomScreen/BottomScreen.cs" id="1_qthb6"]
-[ext_resource type="Script" uid="uid://kdof06h15cl1" path="res://addons/MDunGen/Scripts/BottomScreen/PathInfo.cs" id="2_sxobj"]
+[ext_resource type="Script" uid="uid://djsfcbtprv4pe" path="res://addons/MDunGen/Scripts/BottomScreen/BottomScreen.cs" id="1_qthb6"]
+[ext_resource type="Script" uid="uid://b7u4r0l81go1u" path="res://addons/MDunGen/Scripts/BottomScreen/PathInfo.cs" id="2_sxobj"]
 
-[node name="dungeonBottom" type="Control" node_paths=PackedStringArray("sectionInfo", "mapPieceInfo", "connectionInfo")]
+[node name="dungeonBottom" type="Control" unique_id=1770433926 node_paths=PackedStringArray("sectionInfo", "mapPieceInfo", "connectionInfo")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -15,7 +15,7 @@ sectionInfo = NodePath("TabContainer/Selection/GridContainer/SectionInfo")
 mapPieceInfo = NodePath("TabContainer/Selection/GridContainer/MappieceInfo")
 connectionInfo = NodePath("TabContainer/Selection/GridContainer/ConnectionInfo")
 
-[node name="TabContainer" type="TabContainer" parent="."]
+[node name="TabContainer" type="TabContainer" parent="." unique_id=1417719414]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -24,11 +24,11 @@ grow_horizontal = 2
 grow_vertical = 2
 current_tab = 0
 
-[node name="Selection" type="Control" parent="TabContainer"]
+[node name="Selection" type="Control" parent="TabContainer" unique_id=1966692158]
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="GridContainer" type="GridContainer" parent="TabContainer/Selection"]
+[node name="GridContainer" type="GridContainer" parent="TabContainer/Selection" unique_id=1960655264]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -37,22 +37,22 @@ grow_horizontal = 2
 grow_vertical = 2
 columns = 2
 
-[node name="SectionInfo" type="Label" parent="TabContainer/Selection/GridContainer"]
+[node name="SectionInfo" type="Label" parent="TabContainer/Selection/GridContainer" unique_id=1740682333]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "SectionINfo"
 
-[node name="MappieceInfo" type="Label" parent="TabContainer/Selection/GridContainer"]
+[node name="MappieceInfo" type="Label" parent="TabContainer/Selection/GridContainer" unique_id=930518087]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "MapPieceInfo"
 
-[node name="ConnectionInfo" type="Label" parent="TabContainer/Selection/GridContainer"]
+[node name="ConnectionInfo" type="Label" parent="TabContainer/Selection/GridContainer" unique_id=1645994471]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "ConnectionInfo"
 
-[node name="Pathing" type="Control" parent="TabContainer" node_paths=PackedStringArray("BS", "pathDebugInfo")]
+[node name="Pathing" type="Control" parent="TabContainer" unique_id=1359643381 node_paths=PackedStringArray("BS", "pathDebugInfo")]
 visible = false
 layout_mode = 2
 script = ExtResource("2_sxobj")
@@ -60,7 +60,7 @@ BS = NodePath("../..")
 pathDebugInfo = NodePath("MarginContainer/FlowContainer/GridContainer/PathDebugInfo")
 metadata/_tab_index = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Pathing"]
+[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Pathing" unique_id=1976231724]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -72,30 +72,30 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="FlowContainer" type="FlowContainer" parent="TabContainer/Pathing/MarginContainer"]
+[node name="FlowContainer" type="FlowContainer" parent="TabContainer/Pathing/MarginContainer" unique_id=1888266059]
 layout_mode = 2
 
-[node name="GridContainer" type="GridContainer" parent="TabContainer/Pathing/MarginContainer/FlowContainer"]
+[node name="GridContainer" type="GridContainer" parent="TabContainer/Pathing/MarginContainer/FlowContainer" unique_id=1238005248]
 layout_mode = 2
 
-[node name="RichTextLabel" type="RichTextLabel" parent="TabContainer/Pathing/MarginContainer/FlowContainer/GridContainer"]
+[node name="RichTextLabel" type="RichTextLabel" parent="TabContainer/Pathing/MarginContainer/FlowContainer/GridContainer" unique_id=1513877721]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 text = "Path information"
 fit_content = true
 
-[node name="PathDebugInfo" type="RichTextLabel" parent="TabContainer/Pathing/MarginContainer/FlowContainer/GridContainer"]
+[node name="PathDebugInfo" type="RichTextLabel" parent="TabContainer/Pathing/MarginContainer/FlowContainer/GridContainer" unique_id=381088993]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 text = "Path information"
 fit_content = true
 
-[node name="DungeonInfo" type="Control" parent="TabContainer"]
+[node name="DungeonInfo" type="Control" parent="TabContainer" unique_id=903622796]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
-[node name="Settings" type="Control" parent="TabContainer"]
+[node name="Settings" type="Control" parent="TabContainer" unique_id=803476311]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 3

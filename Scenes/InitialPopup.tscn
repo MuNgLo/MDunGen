@@ -1,11 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://csd43eh854m4d"]
+[gd_scene format=3 uid="uid://csd43eh854m4d"]
 
-[ext_resource type="Script" uid="uid://bko5k5genwwep" path="res://addons/MDunGen/Scripts/MainScreen/InitialPopup.cs" id="1_u8nbk"]
+[ext_resource type="Script" uid="uid://bqoqv13mwbitl" path="res://addons/MDunGen/Scripts/MainScreen/InitialPopup.cs" id="1_u8nbk"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ykq0x"]
 bg_color = Color(0.101961, 0.101961, 0.101961, 0.501961)
 
-[node name="InitialPopup" type="Control" node_paths=PackedStringArray("changeBtn", "closeBtn", "pathLine")]
+[node name="InitialPopup" type="Control" unique_id=1343892519 node_paths=PackedStringArray("changeBtn", "closeBtn", "pathLine")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -17,7 +17,7 @@ changeBtn = NodePath("Panel/MarginContainer/FlowContainer/FlowContainer/Button")
 closeBtn = NodePath("Panel/CloseBtn")
 pathLine = NodePath("Panel/MarginContainer/FlowContainer/FlowContainer/LineEdit")
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Panel" type="Panel" parent="." unique_id=24265020]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -31,7 +31,7 @@ offset_bottom = 150.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+[node name="MarginContainer" type="MarginContainer" parent="Panel" unique_id=776833882]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -43,11 +43,11 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="FlowContainer" type="FlowContainer" parent="Panel/MarginContainer"]
+[node name="FlowContainer" type="FlowContainer" parent="Panel/MarginContainer" unique_id=1925802492]
 layout_mode = 2
 vertical = true
 
-[node name="Label" type="Label" parent="Panel/MarginContainer/FlowContainer"]
+[node name="Label" type="Label" parent="Panel/MarginContainer/FlowContainer" unique_id=97306478]
 custom_minimum_size = Vector2(390, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 26
@@ -55,34 +55,34 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_ykq0x")
 text = "Proc Dungeon Settings"
 horizontal_alignment = 1
 
-[node name="FlowContainer" type="FlowContainer" parent="Panel/MarginContainer/FlowContainer"]
+[node name="FlowContainer" type="FlowContainer" parent="Panel/MarginContainer/FlowContainer" unique_id=742056551]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Panel/MarginContainer/FlowContainer/FlowContainer"]
+[node name="Label" type="Label" parent="Panel/MarginContainer/FlowContainer/FlowContainer" unique_id=1031481252]
 custom_minimum_size = Vector2(390, 0)
 layout_mode = 2
 size_flags_vertical = 0
 text = "Project resource path"
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Panel/MarginContainer/FlowContainer/FlowContainer"]
+[node name="RichTextLabel" type="RichTextLabel" parent="Panel/MarginContainer/FlowContainer/FlowContainer" unique_id=1394725569]
 custom_minimum_size = Vector2(390, 70.6)
 layout_mode = 2
 theme_override_font_sizes/normal_font_size = 12
 bbcode_enabled = true
 text = "[center]Point this to the folder you want all the dungeon resources in. Subfolders will be created to seperate resources by category. If you manually create resources for the generation. Make sure they are in the correct folder.[/center]"
 
-[node name="LineEdit" type="LineEdit" parent="Panel/MarginContainer/FlowContainer/FlowContainer"]
+[node name="LineEdit" type="LineEdit" parent="Panel/MarginContainer/FlowContainer/FlowContainer" unique_id=541080933]
 custom_minimum_size = Vector2(311.84, 0)
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="Button" type="Button" parent="Panel/MarginContainer/FlowContainer/FlowContainer"]
+[node name="Button" type="Button" parent="Panel/MarginContainer/FlowContainer/FlowContainer" unique_id=268394125]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 10
 text = "CHANGE"
 
-[node name="CloseBtn" type="Button" parent="Panel"]
+[node name="CloseBtn" type="Button" parent="Panel" unique_id=1066477325]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
