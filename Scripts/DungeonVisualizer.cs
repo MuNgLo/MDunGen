@@ -1,12 +1,15 @@
-#define MConsole
+// Gone through at v1.3
+//#define MConsole TODO remember to comment out all of these in addon project
 using Godot;
-using Munglo.DungeonGenerator.Sections;
+using MDunGen.Commons;
+using MDunGen.Resources;
+using MDunGen.Sections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Munglo.DungeonGenerator;
+namespace MDunGen;
 
 [GlobalClass]
 public partial class DungeonVisualizer : Node3D

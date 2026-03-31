@@ -1,6 +1,7 @@
 using Godot;
 
-namespace Munglo.DungeonGenerator.Gizmos;
+namespace MDunGen.MS.Gizmos;
+
 /// <summary>
 /// Uses an array of vector3 to draw line segments.
 /// Has predefined shapes, offset,scale and colour that can be changed

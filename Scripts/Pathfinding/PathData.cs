@@ -1,5 +1,9 @@
+// Gone through at v1.3
 using System.Collections.Generic;
-namespace Munglo.DungeonGenerator.Pathfinding;
+
+namespace MDunGen.Pathfinding;
+
+[System.Obsolete("Is this even used")]
 internal class PathData{
 
     internal List<PathLocation> path;
@@ -20,4 +24,4 @@ internal class PathData{
         }
         return text;
     }
-}
+}// EOF CLASS

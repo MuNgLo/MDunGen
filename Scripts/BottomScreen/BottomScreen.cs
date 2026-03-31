@@ -1,18 +1,18 @@
 
 #if TOOLS
 using Godot;
-using Godot.Collections;
+using MDunGen.Commons;
+using MDunGen.Sections;
 using System;
-using System.Reflection;
 
-namespace Munglo.DungeonGenerator.UI;
+namespace MDunGen.Bottom;
 /// <summary>
 /// The bottom window center editor to view and change dungeon configuration
 /// </summary>
 [Tool]
 public partial class BottomScreen : Control
 {
-    public Munglo.DungeonGenerator.Dungeons addon;
+    public Dungeons addon;
     [Export] private Label sectionInfo;
     [Export] private Label mapPieceInfo;
     [Export] private Label connectionInfo;

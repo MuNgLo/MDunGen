@@ -1,5 +1,6 @@
-﻿using Godot;
-namespace Munglo.DungeonGenerator;
+﻿// Gone through at v1.3
+using Godot;
+namespace MDunGen.Resources;
 
 [GlobalClass, Tool]
 public partial class GenerationSettingsResource : DungeonAddonResource
@@ -15,7 +16,7 @@ public partial class GenerationSettingsResource : DungeonAddonResource
 	[Export] public int seed3 = 3333;
 	[Export] public int seed4 = 4444;
 
-	public ulong[] Seed => new[] { (ulong)seed1, (ulong)seed2, (ulong)seed3, (ulong)seed4 };
+	public ulong[] MasterSeed => new[] { (ulong)seed1, (ulong)seed2, (ulong)seed3, (ulong)seed4 };
 
 	public GenerationSettingsResource() { }
 }// EOF CLASS

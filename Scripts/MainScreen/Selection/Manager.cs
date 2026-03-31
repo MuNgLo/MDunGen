@@ -1,12 +1,16 @@
+// Gone through at v1.3
 #if TOOLS
 using Godot;
 using System;
-using Munglo.DungeonGenerator.Gizmos;
 using System.Linq;
-using Munglo.DungeonGenerator.Pathfinding;
 using System.Collections.Generic;
+using MDunGen.Commons;
+using MDunGen.Sections;
+using MDunGen.Resources;
+using MDunGen.Pathfinding;
+using MDunGen.MS.Gizmos;
 
-namespace Munglo.DungeonGenerator.UI.Selection;
+namespace MDunGen.MS.Selection;
 
 internal class Manager
 {
@@ -48,7 +52,7 @@ internal class Manager
     }
     private void RaiseSelectionChanged()
     {
-        // If selected mappiece is part of a connection. Also debug that
+        // If selected map piece is part of a connection. Also debug that
         if (selectedMapPiece is not null && addon.MS.Map.GetConnection(SelectedMapPiece.SectionIndex, SelectedMapPiece.Coord, out SectionConnection conn))
         {
             if (conn.connectionID != -1) { SelectConnection(conn); }

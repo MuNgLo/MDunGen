@@ -1,27 +1,12 @@
-[gd_resource type="Resource" script_class="SectionResource" load_steps=2 format=3 uid="uid://cpo4pr8osbhnk"]
+[gd_resource type="Resource" script_class="SectionResource" format=3 uid="uid://cpo4pr8osbhnk"]
 
-[ext_resource type="Script"  path="res://addons/MDunGen/Scripts/ResourceDefinitions/SectionResource.cs" id="1_jal31"]
+[ext_resource type="Script" uid="uid://dabyiog8edqj1" path="res://addons/MDunGen/Scripts/ResourceDefinitions/SectionResource.cs" id="1_jal31"]
 
 [resource]
 script = ExtResource("1_jal31")
 sectionName = "Diver Room Standard"
 sectionType = "RoomSection"
-sectionStyle = ""
-defaultResponses = 15
-sizeWidthMin = 3
-sizeWidthMax = 5
-sizeDepthMin = 3
-sizeDepthMax = 5
-nbFloorsMin = 1
 nbFloorsMax = 1
 arches = false
-waterLevel = -1.0
-waterDepth = 1.0
-debug = false
-nbDoorsPerFloorMin = 0
-nbDoorsPerFloorMax = 0
 placers = []
-centerSpiralStairs = false
 firstPieceDoor = false
-backDoorChance = 30
-allFloor = false

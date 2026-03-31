@@ -6,6 +6,7 @@
 script = ExtResource("1_5xn5v")
 lastUsedProfile = "res://addons/MuNgLosDungeon/Config/def_profile.tres"
 ProjectResourcePath = "res://Dungeon/"
-maxVisibleFloors = 2
+maxVisibleFloors = 3
 showCeilings = false
 showExtras = false
+pathingPass = false

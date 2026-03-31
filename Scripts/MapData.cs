@@ -1,12 +1,14 @@
-﻿using Godot;
-using Godot.Collections;
+﻿// Gone through at v1.3
+using Godot;
+using MDunGen.Commons;
+using MDunGen.Resources;
+using MDunGen.Sections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Munglo.DungeonGenerator;
+namespace MDunGen;
 /// <summary>
 /// On instantiation this sets itself up to be used. Call GenerateMap() to generate dungeon data. Use its callback to
 /// do what you want with it.
@@ -20,7 +22,7 @@ public class MapData
     internal SectionResource standardRoom;
     private List<ISection> sections;
     private System.Collections.Generic.Dictionary<int, SectionConnection> connections;
-    private PRNGMarsenneTwister rng;
+    //private PRNGMarsenneTwister rng;
 
     public List<ISection> Sections => sections;
     public System.Collections.Generic.Dictionary<int, SectionConnection> Connections { get => connections; }
@@ -35,6 +37,7 @@ public class MapData
         connections = new System.Collections.Generic.Dictionary<int, SectionConnection>();
         pieces = new System.Collections.Generic.Dictionary<int, System.Collections.Generic.Dictionary<int, System.Collections.Generic.Dictionary<int, MapPiece>>>();
         mapArgs = args;
+        builder = new MapBuilder(this, MapArgs.MasterSeed);
     }
     internal MapData(GenerationSettingsResource args, FloorResource floor)
     {
@@ -42,6 +45,8 @@ public class MapData
         connections = new System.Collections.Generic.Dictionary<int, SectionConnection>();
         pieces = new System.Collections.Generic.Dictionary<int, System.Collections.Generic.Dictionary<int, System.Collections.Generic.Dictionary<int, MapPiece>>>();
         mapArgs = args;
+		//rng = new PRNGMarsenneTwister(MapArgs.MasterSeed);
+        builder = new MapBuilder(this, MapArgs.MasterSeed);
         this.floor = floor;
     }
     internal MapData(GenerationSettingsResource args, SectionResource startRoom, SectionResource standardRoom)
@@ -52,6 +57,7 @@ public class MapData
         mapArgs = args;
         this.startRoom = startRoom;
         this.standardRoom = standardRoom;
+        builder = new MapBuilder(this, MapArgs.MasterSeed);
     }
     /// <summary>
     /// This generates the data that describes the layout of the dungeon
@@ -62,29 +68,20 @@ public class MapData
     internal async Task GenerateMap(Action callback, bool doPathing)
     {
         GD.Print("MapData::GenerateMap() Generation started.....");
-        rng = new PRNGMarsenneTwister(MapArgs.Seed);
-        MapBuilder builder = new MapBuilder(this, MapArgs.Seed);
-
-        await builder.BuildFloorMapData(MapArgs.floorDef, doPathing);
-
-
+        await builder.BuildFloorMapData(0, MapArgs.floorDef, doPathing); // TODO Will only do bottom floor
         callback.Invoke();
     }
-    internal async Task GenerateFloor(FloorResource floorDef, Action callback, bool doPathing)
+	MapBuilder builder;
+    internal async Task GenerateFloor(int floorIndex, FloorResource floorDef, Action callback, bool doPathing)
     {
-        GD.Print($"MapData::GenerateFloor() Generation started of [{floorDef.ResourceName}].");
-        rng = new PRNGMarsenneTwister(MapArgs.Seed);
-        MapBuilder builder = new MapBuilder(this, MapArgs.Seed);
-
-        await builder.BuildFloorMapData(floorDef, doPathing);
-
+        GD.Print($"MapData::GenerateFloor({floorIndex}) Generation started of [{floorDef.ResourceName}].");
+        await builder.BuildFloorMapData(floorIndex, floorDef, doPathing);
         callback.Invoke();
     }
 
-    internal async Task GenerateSection(string sectionTypeName, ulong[] seed, SectionResource sectionDef, Action callback)
+	internal async Task GenerateSection(string sectionTypeName, ulong[] seed, SectionResource sectionDef, Action callback)
     {
         GD.Print($"MapData::GenerateSection() Generation started..... defIsNull[{sectionDef is null}]");
-        MapBuilder builder = new MapBuilder(this, seed);
         await builder.BuildSection(sectionTypeName, sectionDef);
         callback.Invoke();
     }
@@ -94,7 +91,8 @@ public class MapData
         pieces[piece.Coord.x][piece.Coord.y][piece.Coord.z] = piece;
     }
 
-    /// <summary>
+    /*
+	/// <summary>
     /// TODO rework this
     /// </summary>
     /// <param name="floor"></param>
@@ -144,16 +142,17 @@ public class MapData
         piece = pieces[x][y][z];
         return true;
     }
+	*/
 
 
-    internal ISection GetRandomRoom()
+    /*internal ISection GetRandomRoom()
     {
         return sections[rng.Next(0, sections.Count)];
-    }
+    }*/
 
 
 
-    internal MapPiece GetRandomPiece()
+    /*internal MapPiece GetRandomPiece()
     {
         int x = pieces.ElementAt(rng.Next(pieces.Keys.Count)).Key;
         int y = pieces[x].ElementAt(rng.Next(pieces[x].Keys.Count)).Key;
@@ -169,7 +168,7 @@ public class MapData
         //ProcGenMKIII.Log("MapData", "GetRandomPiece", $"pieces.Keys.Count[{pieces.Keys.Count}] pieces.ElementAt(0)[{pieces.ElementAt(0)}]");
         //ProcGenMKIII.Log("MapData", "GetRandomPiece", $"pieces.Keys.Count[{pieces[x].Keys.Count}] pieces[x].ElementAt(0)[{(pieces[x].ElementAt(0))}]");
         return pick;
-    }
+    }*/
     internal MapPiece GetRandomPieceEditor()
     {
         ISection rngSection = Sections[GD.RandRange(0, Sections.Count - 1)];

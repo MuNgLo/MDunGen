@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="BiomeResource" format=3 uid="uid://cs58xqyn4ofdy"]
 
 [ext_resource type="PackedScene" uid="uid://b0k5luvs28qyn" path="res://addons/MDunGen/Scenes/Standard/def_ceiling.tscn" id="1_jjr23"]
-[ext_resource type="Script" uid="uid://ecyroodi8bjc" path="res://addons/MDunGen/Scripts/Commons/BiomeEntry.cs" id="2_ei6xj"]
+[ext_resource type="Script" uid="uid://bexk71y5d2pt5" path="res://addons/MDunGen/Scripts/ResourceDefinitions/BiomeEntry.cs" id="2_jjr23"]
 [ext_resource type="ArrayMesh" uid="uid://d3o1e38vsdqs0" path="res://addons/MDunGen/Meshes/Standard/Standard_dbArrow.res" id="3_u2eaq"]
 [ext_resource type="ArrayMesh" uid="uid://bkhtgsky7tf8u" path="res://addons/MDunGen/Meshes/Standard/Standard_dbError.res" id="4_vu743"]
 [ext_resource type="ArrayMesh" uid="uid://jsyys7e6t7gu" path="res://addons/MDunGen/Meshes/Standard/Standard_dbFaulty.res" id="5_480td"]
@@ -20,79 +20,77 @@
 [ext_resource type="PackedScene" uid="uid://bv6l13mlr0w6b" path="res://addons/MDunGen/Scenes/Standard/def_wall02.tscn" id="18_08lf2"]
 [ext_resource type="PackedScene" uid="uid://bel2njfu1ge0j" path="res://addons/MDunGen/Scenes/Standard/def_wall03.tscn" id="19_prw1t"]
 [ext_resource type="PackedScene" uid="uid://c8jxalblikoj6" path="res://addons/MDunGen/Scenes/Standard/def_wallopening01.tscn" id="20_dxe22"]
-[ext_resource type="PackedScene" uid="uid://dkcfrdv2mfncb" path="res://addons/MDunGen/Scenes/Standard/def_wall04.tscn" id="20_ei6xj"]
 [ext_resource type="PackedScene" uid="uid://dp58p4c4wawlc" path="res://addons/MDunGen/Scenes/Standard/def_wallopening02.tscn" id="21_ncyry"]
 [ext_resource type="PackedScene" uid="uid://be4l3oub5omjw" path="res://addons/MDunGen/Scenes/Standard/def_wallopeningwide.tscn" id="22_64qie"]
 [ext_resource type="PackedScene" uid="uid://dyruxrgt241g7" path="res://addons/MDunGen/Scenes/Standard/def_wallcorner.tscn" id="23_gp6gk"]
-[ext_resource type="PackedScene" uid="uid://dfksj5p3mns48" path="res://addons/MDunGen/Scenes/Standard/def_wall04Corner.tscn" id="25_u2eaq"]
 
-[sub_resource type="Resource" id="Resource_xa35a"]
-script = ExtResource("2_ei6xj")
+[sub_resource type="Resource" id="Resource_ei6xj"]
+script = ExtResource("2_jjr23")
 key = 9
 resources = [ExtResource("1_jjr23")]
 
-[sub_resource type="Resource" id="Resource_awi6e"]
-script = ExtResource("2_ei6xj")
+[sub_resource type="Resource" id="Resource_u2eaq"]
+script = ExtResource("2_jjr23")
 key = 3
 resources = [ExtResource("3_u2eaq")]
 
-[sub_resource type="Resource" id="Resource_6aqxq"]
-script = ExtResource("2_ei6xj")
+[sub_resource type="Resource" id="Resource_vu743"]
+script = ExtResource("2_jjr23")
 key = 1
 resources = [ExtResource("4_vu743")]
 
-[sub_resource type="Resource" id="Resource_dcxid"]
-script = ExtResource("2_ei6xj")
+[sub_resource type="Resource" id="Resource_480td"]
+script = ExtResource("2_jjr23")
 key = 2
 resources = [ExtResource("5_480td")]
 
-[sub_resource type="Resource" id="Resource_4r5ff"]
-script = ExtResource("2_ei6xj")
+[sub_resource type="Resource" id="Resource_wg6cx"]
+script = ExtResource("2_jjr23")
 key = 4
 resources = [ExtResource("6_wg6cx")]
 
-[sub_resource type="Resource" id="Resource_pkx8c"]
-script = ExtResource("2_ei6xj")
+[sub_resource type="Resource" id="Resource_uhk14"]
+script = ExtResource("2_jjr23")
 key = 5
 resources = [ExtResource("7_uhk14")]
 
-[sub_resource type="Resource" id="Resource_67efp"]
-script = ExtResource("2_ei6xj")
+[sub_resource type="Resource" id="Resource_c3sh7"]
+script = ExtResource("2_jjr23")
 key = 15
 resources = [ExtResource("8_c3sh7"), ExtResource("9_to0q5"), ExtResource("10_hytc7")]
 
-[sub_resource type="Resource" id="Resource_s4hon"]
-script = ExtResource("2_ei6xj")
+[sub_resource type="Resource" id="Resource_to0q5"]
+script = ExtResource("2_jjr23")
 key = 7
 resources = [ExtResource("11_kbl5j"), ExtResource("12_xjl7o"), ExtResource("13_guq6r"), ExtResource("14_k3g1e"), ExtResource("15_g4srk")]
 
-[sub_resource type="Resource" id="Resource_mh7vr"]
-script = ExtResource("2_ei6xj")
+[sub_resource type="Resource" id="Resource_hytc7"]
+script = ExtResource("2_jjr23")
 key = 11
-resources = [ExtResource("17_p7b47"), ExtResource("18_08lf2"), ExtResource("19_prw1t"), ExtResource("20_ei6xj")]
+resources = [ExtResource("17_p7b47"), ExtResource("18_08lf2"), ExtResource("19_prw1t")]
 
-[sub_resource type="Resource" id="Resource_jednj"]
-script = ExtResource("2_ei6xj")
+[sub_resource type="Resource" id="Resource_kbl5j"]
+script = ExtResource("2_jjr23")
 key = 12
 resources = [ExtResource("20_dxe22"), ExtResource("21_ncyry")]
 
-[sub_resource type="Resource" id="Resource_57jlo"]
-script = ExtResource("2_ei6xj")
+[sub_resource type="Resource" id="Resource_xjl7o"]
+script = ExtResource("2_jjr23")
 key = 13
 resources = [ExtResource("22_64qie")]
 
-[sub_resource type="Resource" id="Resource_hkqsk"]
-script = ExtResource("2_ei6xj")
+[sub_resource type="Resource" id="Resource_guq6r"]
+script = ExtResource("2_jjr23")
 key = 14
-resources = [ExtResource("23_gp6gk"), ExtResource("25_u2eaq")]
+resources = [ExtResource("23_gp6gk")]
 
 [resource]
 script = ExtResource("16_41rgj")
-debug = [SubResource("Resource_awi6e"), SubResource("Resource_6aqxq"), SubResource("Resource_dcxid"), SubResource("Resource_4r5ff"), SubResource("Resource_pkx8c")]
+debug = [SubResource("Resource_u2eaq"), SubResource("Resource_vu743"), SubResource("Resource_480td"), SubResource("Resource_wg6cx"), SubResource("Resource_uhk14")]
 wallMaterials = []
-walls = [SubResource("Resource_mh7vr"), SubResource("Resource_jednj"), SubResource("Resource_57jlo"), SubResource("Resource_hkqsk")]
+walls = [SubResource("Resource_hytc7"), SubResource("Resource_kbl5j"), SubResource("Resource_xjl7o"), SubResource("Resource_guq6r")]
 floorMaterials = []
-floors = [SubResource("Resource_s4hon")]
+floors = [SubResource("Resource_to0q5")]
 ceilingMaterials = []
-ceilings = [SubResource("Resource_xa35a")]
-extras = [SubResource("Resource_67efp")]
+ceilings = [SubResource("Resource_ei6xj")]
+extras = [SubResource("Resource_c3sh7")]

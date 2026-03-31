@@ -5,8 +5,9 @@
 
 [resource]
 script = ExtResource("1_t4wih")
+nbOfFloors = 3
 floorDef = ExtResource("1_4bk8j")
-seed1 = 3285
-seed2 = 9075
-seed3 = 5363
-seed4 = 9640
+seed1 = 1946
+seed2 = 9066
+seed3 = 5122
+seed4 = 2758

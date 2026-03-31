@@ -1,6 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://bsy1i0xtn5yww"]
+[gd_scene format=3 uid="uid://bsy1i0xtn5yww"]
 
-[ext_resource type="Script" uid="uid://qdxria4nq8jx" path="res://addons/MDunGen/Scripts/MainScreen/Selection/Gizmos/ConnArrowGizmo.cs" id="1_puqmx"]
+[ext_resource type="Script" uid="uid://d2r8vohdmlndt" path="res://addons/MDunGen/Scripts/MainScreen/Selection/Gizmos/ConnArrowGizmo.cs" id="1_puqmx"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xukes"]
 albedo_color = Color(0.62288, 0.498453, 0, 1)
@@ -11,7 +11,7 @@ disable_receive_shadows = true
 
 [sub_resource type="ImmediateMesh" id="ImmediateMesh_o7s3c"]
 
-[node name="ConnChildGizmo" type="MeshInstance3D"]
+[node name="ConnChildGizmo" type="MeshInstance3D" unique_id=100874656]
 material_override = SubResource("StandardMaterial3D_xukes")
 cast_shadow = 0
 mesh = SubResource("ImmediateMesh_o7s3c")

@@ -1,9 +1,12 @@
+// Gone through at v1.3
 //#define MConsole
 using Godot;
+using MDunGen.Commons;
+using MDunGen.Resources;
 using System;
 using System.Collections.Generic;
 
-namespace Munglo.DungeonGenerator;
+namespace MDunGen;
 /// <summary>
 /// Dungeon runtime class
 /// Use this node to generate the map data.

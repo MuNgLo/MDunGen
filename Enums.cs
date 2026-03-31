@@ -1,5 +1,7 @@
-﻿using System;
-namespace Munglo.DungeonGenerator;
+﻿// gone through at v1.3
+using System;
+
+namespace MDunGen;
 /// <summary>
 /// State enum for the viewer
 /// </summary>
@@ -9,7 +11,7 @@ public enum VIEWERMODE { DUNGEON, SECTION }
 /// Error something went wrong<br></br>
 /// Faulty don't fit right yet<br></br>
 /// Pending has things but is open to change<br></br>
-/// Locked can't be changed (Goasdal is to have all piece data locked by end of generation)
+/// Locked can't be changed (Goal is to have all piece data locked by end of generation)
 /// </summary>
 public enum MAPPIECESTATE { UNUSED, ERROR, FAULTY, PENDING, LOCKED }
 /// <summary>
@@ -21,7 +23,7 @@ public enum WATERAMOUNT { NONE, SMALL, MEDIUM, LARGE }
 /// </summary>
 public enum PATHSIZE { NONE, SMALL, MEDIUM, LARGE }
 /// <summary>
-/// When applicable this holds the direction that is important to the tile
+/// Direction in map.
 /// </summary>
 public enum MAPDIRECTION { ANY, NORTH, EAST, SOUTH, WEST, UP, DOWN }
 [Flags]

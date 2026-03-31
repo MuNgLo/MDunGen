@@ -1,7 +1,9 @@
-using System;
+// Gone through at v1.3
 using System.Collections.Generic;
+using MDunGen.Commons;
+using MDunGen.Sections;
 
-namespace Munglo.DungeonGenerator.Pathfinding;
+namespace MDunGen.Pathfinding;
 
 internal class PathQuery
 {
@@ -44,7 +46,7 @@ internal class PathQuery
             SectionConnection tempConn = new SectionConnection(tempConnId, location, sectionIndex, MAPDIRECTION.ANY);
             // Get connections from section
             ISection section = map.Sections[sectionIndex];
-            // Process connnection ID's from section
+            // Process connection ID's from section
             foreach (int otherConnID in section.Connections)
             {
                 SectionConnection otherConn = map.Connections[otherConnID];

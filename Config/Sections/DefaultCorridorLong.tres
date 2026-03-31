@@ -1,6 +1,6 @@
-[gd_resource type="Resource" script_class="PathResource" load_steps=2 format=3 uid="uid://c7uncev2xr220"]
+[gd_resource type="Resource" script_class="PathResource" format=3 uid="uid://c7uncev2xr220"]
 
-[ext_resource type="Script"  path="res://addons/MDunGen/Scripts/ResourceDefinitions/PathResource.cs" id="1_8nt58"]
+[ext_resource type="Script" uid="uid://cy5dccxbfa61l" path="res://addons/MDunGen/Scripts/ResourceDefinitions/PathResource.cs" id="1_8nt58"]
 
 [resource]
 script = ExtResource("1_8nt58")
@@ -10,21 +10,11 @@ corMinStraight = 8
 sectionName = "Corridor Long"
 sectionType = "PathSection"
 sectionStyle = "Connector"
-defaultResponses = 15
-sizeWidthMin = 1
-sizeWidthMax = 1
+sizeWidthMin = 4
+sizeWidthMax = 4
 sizeDepthMin = 1
 sizeDepthMax = 1
-nbFloorsMin = 1
-nbFloorsMax = 2
+nbFloorsMin = 5
+nbFloorsMax = 5
 arches = false
-waterLevel = -1.0
-waterDepth = 1.0
-debug = false
-nbDoorsPerFloorMin = 0
-nbDoorsPerFloorMax = 0
 placers = []
-centerSpiralStairs = false
-firstPieceDoor = true
-backDoorChance = 30
-allFloor = false

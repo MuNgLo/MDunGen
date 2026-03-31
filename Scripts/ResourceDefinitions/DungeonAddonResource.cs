@@ -1,5 +1,6 @@
-﻿using Godot;
-namespace Munglo.DungeonGenerator;
+﻿// Gone through at v1.3
+using Godot;
+namespace MDunGen.Resources;
 /// <summary>
 /// This class exists to group the resource nodes in the dialogue window
 /// </summary>

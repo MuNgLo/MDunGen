@@ -4,7 +4,7 @@
  [![Watch the video](https://img.youtube.com/vi/sLbqZpDT7UQ/0.jpg)](https://www.youtube.com/watch?v=sLbqZpDT7UQ)<br>
 
  
-# State-> v1.2 90% done
+# State-> v1.3 90% done
 
  Put all files in a folder called "MDunGen" in your addons folder and activate.
 
@@ -24,3 +24,8 @@ Features planned
 	- SectionResource with customizable placers
 	- Section droptables for each floor
 	- Profile create/swap support
+
+
+# Changelog
+
+	1.3 full refactor with new namespace and a couple of fixes

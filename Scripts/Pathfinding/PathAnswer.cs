@@ -1,7 +1,9 @@
+// Gone through at v1.3
 using System;
 using System.Collections.Generic;
+using MDunGen.Sections;
 
-namespace Munglo.DungeonGenerator.Pathfinding;
+namespace MDunGen.Pathfinding;
 
 internal class PathAnswer
 {

@@ -1,7 +1,9 @@
+// Gone through at v1.3
 using System.Collections.Generic;
-using System.Linq;
+using MDunGen.Commons;
+using MDunGen.Sections;
 
-namespace Munglo.DungeonGenerator.Pathfinding;
+namespace MDunGen.Pathfinding;
 
 internal class Map
 {
@@ -33,4 +35,4 @@ internal class Map
         }
         //Godot.GD.Print($"Map::Map() Nodes.Count[{Nodes.Count}]");
     }
-}
+}// EOF CLASS

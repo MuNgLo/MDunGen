@@ -1,8 +1,8 @@
-using Godot;
-using System;
-using System.Linq;
+// Gone through at v1.3
+using MDunGen.Commons;
+using MDunGen.Resources;
 
-namespace Munglo.DungeonGenerator.Sections;
+namespace MDunGen.Sections;
 public class HallwaySection : SectionBase
 {
     private int maxLength = 10;

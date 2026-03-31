@@ -1,8 +1,9 @@
 #if TOOLS
 using Godot;
-using Munglo.DungeonGenerator.Pathfinding;
-using System;
-namespace Munglo.DungeonGenerator.UI;
+using MDunGen.Pathfinding;
+
+namespace MDunGen.Bottom;
+
 [Tool]
 public partial class PathInfo : Control
 {
@@ -12,12 +13,9 @@ public partial class PathInfo : Control
 	{
 		BS.addon.MS.OnPathDataPushed += WhenPathDataPushed;
 	}
-
     private void WhenPathDataPushed(object sender, PathData e)
     {
         pathDebugInfo.Text = e.ToString();
     }
-
-
 }// EOF CLASS
 #endif

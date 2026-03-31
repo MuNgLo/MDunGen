@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://jjqt582r1xsv"]
+[gd_scene format=3 uid="uid://jjqt582r1xsv"]
 
-[ext_resource type="Script" uid="uid://sakg0lo0186v" path="res://addons/MDunGen/Scripts/Dungeon.cs" id="1_30c67"]
+[ext_resource type="Script" uid="uid://cch0xcj1of5b4" path="res://addons/MDunGen/Scripts/Dungeon.cs" id="1_30c67"]
 
-[node name="Dungeon" type="Node"]
+[node name="Dungeon" type="Node" unique_id=1958193577]
 script = ExtResource("1_30c67")

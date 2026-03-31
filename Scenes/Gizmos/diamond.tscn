@@ -1,6 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://bi0b0qyxcngcg"]
+[gd_scene format=3 uid="uid://bi0b0qyxcngcg"]
 
-[ext_resource type="Script" uid="uid://bqqmv7b6hshob" path="res://addons/MDunGen/Scripts/MainScreen/Selection/Gizmos/PathGizmo.cs" id="1_5au75"]
+[ext_resource type="Script" uid="uid://dkem0h4f4naq7" path="res://addons/MDunGen/Scripts/MainScreen/Selection/Gizmos/PathGizmo.cs" id="1_5au75"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vh2xp"]
 emission_enabled = true
@@ -10,7 +10,7 @@ disable_receive_shadows = true
 
 [sub_resource type="ImmediateMesh" id="ImmediateMesh_348h0"]
 
-[node name="Diamond" type="MeshInstance3D"]
+[node name="Diamond" type="MeshInstance3D" unique_id=1488657643]
 material_override = SubResource("StandardMaterial3D_vh2xp")
 cast_shadow = 0
 mesh = SubResource("ImmediateMesh_348h0")

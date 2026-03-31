@@ -1,0 +1,18 @@
+﻿// Gone through at v1.3
+using MDunGen.Commons;
+using MDunGen.Resources;
+
+namespace MDunGen.Sections;
+
+[System.Obsolete("Fix spelling!")]
+public class SectionbBuildArguments
+{
+	public SectionResource sectionDefinition;
+	public MapData map;
+	public MapPiece piece;
+	public int sectionID;
+	public GenerationSettingsResource cfg;
+	public ulong[] sectionSeed;
+	//public ulong[] Seed => sectionSeed is null ? cfg.Seed : sectionSeed;
+	public ulong[] Seed => sectionSeed;
+}// EOF CLASS

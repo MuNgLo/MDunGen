@@ -151,7 +151,7 @@ toggle_mode = false
 shortcut_feedback = false
 shortcut_in_tooltip = false
 text = "View"
-item_count = 5
+item_count = 6
 popup/item_0/text = "Floors"
 popup/item_0/checkable = 1
 popup/item_0/checked = true
@@ -172,6 +172,10 @@ popup/item_4/text = "PathingPass"
 popup/item_4/checkable = 1
 popup/item_4/checked = true
 popup/item_4/id = 4
+popup/item_5/text = "Debug"
+popup/item_5/checkable = 1
+popup/item_5/checked = true
+popup/item_5/id = 6
 
 [node name="VSeparator6" type="VSeparator" parent="DungeonViewerToolbar" unique_id=1394470982]
 layout_mode = 2
@@ -205,7 +209,7 @@ render_target_clear_mode = 2
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport" unique_id=625031757]
-transform = Transform3D(-0.34031, -0.790434, 0.509315, 0, 0.541644, 0.840608, -0.940313, 0.286067, -0.184327, 3.13087, 5.1674, -1.1331)
+transform = Transform3D(0.9999997, 0, 0, 0, -4.3711353e-08, 1, 0, -0.9999992, -4.371139e-08, 0, 350, 0)
 environment = ExtResource("3_ubg15")
 attributes = SubResource("CameraAttributesPractical_blo15")
 current = true

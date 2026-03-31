@@ -1,75 +1,72 @@
+// Gone through at v1.3
 #if TOOLS
 using Godot;
-using Godot.Collections;
-using Munglo.DungeonGenerator;
-using System;
-using System.Reflection;
-namespace Munglo.DungeonGenerator.UI
+using MDunGen.Bottom;
+
+namespace MDunGen.MS;
+/// <summary>
+/// This class keeps the placer bar updated. the updates are driven by the PlacerNavigationBar
+/// </summary>
+[Tool]
+public partial class PlacerBar : Control
 {
-	/// <summary>
-	/// This class keeps the placer bar updated. the updates are driven by the PlacerNavigationBar
-	/// </summary>
-	[Tool]
-	public partial class PlacerBar : Control
+	[Export] SectionSelector sectionSelector;
+
+	private BottomScreen BS;
+	private int index = 0;
+	// Called when the node enters the scene tree for the first time.
+	//public int Index { set { index = value; IndexChanged(); } }
+	public override void _Ready()
 	{
-		[Export] SectionSelector sectionSelector;
-
-		private BottomScreen BS;
-		private int index = 0;
-		// Called when the node enters the scene tree for the first time.
-		//public int Index { set { index = value; IndexChanged(); } }
-		public override void _Ready()
-		{
-			BS = GetParent<BottomScreen>();
-			//GetNode<TextureButton>("PlacerNameBtn").Pressed += WhenNamePressed;
-			//GetNode<Button>("CheckButton").Toggled += WhenCheckButtonToggled;
-		}
-		/*
-				private void WhenCheckButtonToggled(bool state)
+		BS = GetParent<BottomScreen>();
+		//GetNode<TextureButton>("PlacerNameBtn").Pressed += WhenNamePressed;
+		//GetNode<Button>("CheckButton").Toggled += WhenCheckButtonToggled;
+	}
+	/*
+			private void WhenCheckButtonToggled(bool state)
+			{
+				if (BS.SelectedSectionResource == null) { return; }
+				SectionResource section = BS.SelectedSectionResource;
+				if (section.placers.Count >= index)
 				{
-					if (BS.SelectedSectionResource == null) { return; }
-					SectionResource section = BS.SelectedSectionResource;
-					if (section.placers.Count >= index)
-					{
-						section.placers[index].active = state;
-					}
+					section.placers[index].active = state;
 				}
+			}
 
-				private void WhenNamePressed()
+			private void WhenNamePressed()
+			{
+				if (BS.SelectedSectionResource == null) { return; }
+				SectionResource section = BS.SelectedSectionResource;
+				if (section.placers.Count >= index)
 				{
-					if (BS.SelectedSectionResource == null) { return; }
-					SectionResource section = BS.SelectedSectionResource;
-					if (section.placers.Count >= index)
-					{
-						EditorInterface.Singleton.InspectObject(section.placers[index]);
-					}
+					EditorInterface.Singleton.InspectObject(section.placers[index]);
 				}
-				private void IndexChanged()
+			}
+			private void IndexChanged()
+			{
+				GD.Print($"PlacerBar::IndexChanged({index})");
+				if (index < 0) { Hide(); return; }
+				SectionResource section = sectionSelector.GetSelectedResource();
+				if (section.placers.Count > 0)
 				{
-					GD.Print($"PlacerBar::IndexChanged({index})");
-					if (index < 0) { Hide(); return; }
-					SectionResource section = sectionSelector.GetSelectedResource();
-					if (section.placers.Count > 0)
-					{
-						PlacerEntryResource entry = section.placers[index];
+					PlacerEntryResource entry = section.placers[index];
 
-						//IPlacer placer = ResourceLoader.Load(entry.ResourcePath) as IPlacer;
+					//IPlacer placer = ResourceLoader.Load(entry.ResourcePath) as IPlacer;
 
-						GetNode<RichTextLabel>("Index").Text = $"[center]{index}#[/center]";
-						GetNode<Button>("CheckButton").SetPressedNoSignal(entry.active);
-						GetNode<RichTextLabel>("PlacerName").Text = $"{entry.Name}";
-						GetNode<RichTextLabel>("min").Text = $"[right]{entry.count}[/right]";
+					GetNode<RichTextLabel>("Index").Text = $"[center]{index}#[/center]";
+					GetNode<Button>("CheckButton").SetPressedNoSignal(entry.active);
+					GetNode<RichTextLabel>("PlacerName").Text = $"{entry.Name}";
+					GetNode<RichTextLabel>("min").Text = $"[right]{entry.count}[/right]";
 
-						GetNode<RichTextLabel>("max").Text = $"[left][/left]";
-						GetNode<RichTextLabel>("Chance").Text = $"[center][/center]";
-						Show();
-					}
-					else
-					{
-						Hide();
-					}
-				}*/
+					GetNode<RichTextLabel>("max").Text = $"[left][/left]";
+					GetNode<RichTextLabel>("Chance").Text = $"[center][/center]";
+					Show();
+				}
+				else
+				{
+					Hide();
+				}
+			}*/
 
-	}// EOF CLASS
-}
+}// EOF CLASS
 #endif

@@ -1,9 +1,10 @@
-using System;
+// Gone through at v1.3
+using MDunGen.Commons;
 using System.Collections.Generic;
 
-namespace Munglo.DungeonGenerator;
+namespace MDunGen.Sections;
 /// <summary>
-/// Represents onse side of a dooropeninng you could say.
+/// Represents one side of a door opening you could say.
 /// It defines the location in a section that is connected to another section
 /// </summary>
 public class SectionConnection
@@ -55,4 +56,4 @@ public class SectionConnection
         Godot.GD.PushError($"SectionConnection::GetCost({coord}) coord was not found as connectedLocation. Returning max cost!");
         return double.MaxValue;
     }
-}
+}// EOF CLASS

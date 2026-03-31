@@ -1,11 +1,11 @@
-﻿using Godot;
+﻿// Gone through at v1.3
+using Godot;
 using System;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
 
-namespace Munglo.DungeonGenerator;
+namespace MDunGen.Resources;
 
-[Tool, GlobalClass]
+[Tool, GlobalClass, Obsolete]
 public partial class DropTableResource : DungeonAddonResource
 {
     [Export] private DropTableEntryResource[] entries;
