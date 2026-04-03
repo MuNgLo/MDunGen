@@ -89,16 +89,16 @@ public class MapPiece
 	/// <summary>
 	/// Stored as Dict so we can walk a direction until we hit a wall
 	/// </summary>
-	private Dictionary<MAPDIRECTION, KeyData> wallkeys = new Dictionary<MAPDIRECTION, KeyData>() {
+	private Dictionary<MAPDIRECTION, KeyData> wallKeys = new Dictionary<MAPDIRECTION, KeyData>() {
 			{ MAPDIRECTION.NORTH, new KeyData { key = PIECEKEYS.NONE, dir = MAPDIRECTION.NORTH } },
 			{ MAPDIRECTION.EAST, new KeyData { key = PIECEKEYS.NONE, dir = MAPDIRECTION.EAST } },
 			{ MAPDIRECTION.SOUTH, new KeyData { key = PIECEKEYS.NONE, dir = MAPDIRECTION.SOUTH } },
 			{ MAPDIRECTION.WEST, new KeyData { key = PIECEKEYS.NONE, dir = MAPDIRECTION.WEST } }
 		};
-	internal KeyData WallKeyNorth { get => wallkeys[MAPDIRECTION.NORTH]; private set => wallkeys[MAPDIRECTION.NORTH] = value; }
-	internal KeyData WallKeyEast { get => wallkeys[MAPDIRECTION.EAST]; private set => wallkeys[MAPDIRECTION.EAST] = value; }
-	internal KeyData WallKeySouth { get => wallkeys[MAPDIRECTION.SOUTH]; private set => wallkeys[MAPDIRECTION.SOUTH] = value; }
-	internal KeyData WallKeyWest { get => wallkeys[MAPDIRECTION.WEST]; private set => wallkeys[MAPDIRECTION.WEST] = value; }
+	internal KeyData WallKeyNorth { get => wallKeys[MAPDIRECTION.NORTH]; private set => wallKeys[MAPDIRECTION.NORTH] = value; }
+	internal KeyData WallKeyEast { get => wallKeys[MAPDIRECTION.EAST]; private set => wallKeys[MAPDIRECTION.EAST] = value; }
+	internal KeyData WallKeySouth { get => wallKeys[MAPDIRECTION.SOUTH]; private set => wallKeys[MAPDIRECTION.SOUTH] = value; }
+	internal KeyData WallKeyWest { get => wallKeys[MAPDIRECTION.WEST]; private set => wallKeys[MAPDIRECTION.WEST] = value; }
 
 	internal List<KeyData> extras;
 	internal List<KeyData> Extras => extras;
@@ -114,7 +114,7 @@ public class MapPiece
 	/// checks for any props, floor, ceiling and walls.
 	/// </summary>
 	public bool isEmpty => CheckIfEmpty();
-	public bool hasCieling => keyCeiling.key != PIECEKEYS.NONE;
+	public bool hasCeiling => keyCeiling.key != PIECEKEYS.NONE;
 	public bool hasFloor => keyFloor.key != PIECEKEYS.NONE;
 	#endregion
 
@@ -332,7 +332,7 @@ public class MapPiece
 			SetError(true);
 			return;
 		}
-		wallkeys[wallKey.dir] = wallKey;
+		wallKeys[wallKey.dir] = wallKey;
 		// Update the wallflag
 		WALLS flags = ResolveWallFlag(wallKey.dir);
 		if (wallKey.key == PIECEKEYS.NONE)

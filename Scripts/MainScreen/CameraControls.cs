@@ -5,32 +5,104 @@ using System;
 namespace MDunGen.MS;
 
 [Tool]
-public partial class CameraControls : Camera3D
+public partial class CameraControls : Node
 {
-	MainScreen screen;
 	public enum CAMERAMODE { LOCKED, FREELOOK }
-	private CAMERAMODE state = CAMERAMODE.LOCKED;
-	[Export] private float speed = 20.0f;
-	[Export] private float maxSpeed = 200.0f;
-	[Export] private float mouseSensitivity = 10.0f;
-	private Vector2 mVel;
-	private Vector3 inV;
-	private Vector3 ogPos;
-	private Vector3 ogRot;
+	[Export] MainScreen mainScreen;
+	[Export] Camera3D camera;
+	[Export] float speed = 20.0f;
+	[Export] float maxSpeed = 200.0f;
+	[Export] float mouseSensitivity = 10.0f;
+	CAMERAMODE state = CAMERAMODE.LOCKED;
+	Vector2 mVel;
+	Vector3 inV;
+	Vector3 ogPos;
+	Vector3 ogRot;
+	bool skipNextMouseMovement = false;
+	Vector2 mouseRelative = Vector2.Zero;
 
 	public CAMERAMODE State => state;
 
 	public override void _EnterTree()
 	{
-		screen = GetParent().GetParent().GetParent() as MainScreen;
-		ogPos = Position;
-		ogRot = Rotation;
+		ogPos = camera.Position;
+		ogRot = camera.Rotation;
 	}
 	public override void _Ready()
 	{
-		screen.Visualizer.OnMapBuildEnded += WhenNewMapBuilt;
-		base._Ready();
+		mainScreen.Visualizer.OnMapBuildEnded += WhenNewMapBuilt;
 	}
+
+	public override void _Input(InputEvent @event)
+	{
+
+		if (@event is InputEventMouseMotion && state == CAMERAMODE.FREELOOK)
+		{
+			InputEventMouseMotion m = (InputEventMouseMotion)@event;
+			mouseRelative += m.Relative;
+		}
+		if (@event is InputEventMouseButton)
+		{
+			InputEventMouseButton b = (InputEventMouseButton)@event;
+
+			if (b.ButtonIndex == MouseButton.Right)
+			{
+				if (b.Pressed) { GoFreeLook(); }
+				if (b.IsReleased()) { GoLocked(); }
+			}
+
+			if (b.ButtonIndex == MouseButton.WheelUp)
+			{
+				if (b.Pressed) { WheelUp(); }
+			}
+			if (b.ButtonIndex == MouseButton.WheelDown)
+			{
+				if (b.Pressed) { WheelDown(); }
+			}
+		}
+	}
+	public override void _Process(double delta)
+	{
+		if (state != CAMERAMODE.FREELOOK) { return; }
+
+		if (skipNextMouseMovement)
+		{
+			mouseRelative = Vector2.Zero;
+			skipNextMouseMovement = false;
+		}
+		MouseMove();
+		if (storedCursorPosition.DistanceTo(GetViewport().GetMousePosition()) > 400)
+		{
+			//SnapCursorBack();
+			CallDeferred(nameof(SnapCursorBack));
+		}
+
+
+		Vector3 inputVector = Vector3.Zero;
+		if (Input.IsKeyPressed(Key.W)) { inputVector += Vector3.Forward; }
+		if (Input.IsKeyPressed(Key.S)) { inputVector += Vector3.Back; }
+		if (Input.IsKeyPressed(Key.A)) { inputVector += Vector3.Left; }
+		if (Input.IsKeyPressed(Key.D)) { inputVector += Vector3.Right; }
+		if (Input.IsKeyPressed(Key.E)) { inputVector += Vector3.Up; }
+		if (Input.IsKeyPressed(Key.Q)) { inputVector += Vector3.Down; }
+		//if (Input.IsKeyPressed(Key.Shift)) { screen.shiftIsPressed; }
+		inputVector = inputVector.Normalized();
+		InputVector(inputVector);
+		float multiplier = 1.0f;
+		if (Input.IsKeyPressed(Key.Shift)) { multiplier = 2.0f; }
+
+		camera.Position += inV.Normalized() * speed * (float)delta * multiplier;
+		inV = Vector3.Zero;
+
+
+	}
+
+	void SnapCursorBack()
+	{
+		Input.WarpMouse(storedCursorPosition);
+		skipNextMouseMovement = true;
+	}
+
 
 	private void WhenNewMapBuilt(object sender, EventArgs e)
 	{
@@ -39,66 +111,63 @@ public partial class CameraControls : Camera3D
 
 	private void ResetCamera()
 	{
-		Position = ogPos;
-		Rotation = ogRot;
+		camera.Position = ogPos;
+		camera.Rotation = ogRot;
 	}
 
-	public override void _Process(double delta)
-	{
-		float multiplier = 1.0f;
-		if (Input.IsKeyPressed(Key.Shift)) { multiplier = 2.0f; }
-
-		Position += inV.Normalized() * speed * (float)delta * multiplier;
-		inV = Vector3.Zero;
-	}
-
-	internal void MouseMove(Vector2 relative)
+	void MouseMove()
 	{
 		if (state == CAMERAMODE.LOCKED) { return; }
+		if (skipNextMouseMovement) { GD.Print("MouseMove SKIPPY!!"); return; }
+
 		//GD.Print($"CameraControls::MouseMove() relative[{relative}]");
-		Vector3 rot = RotationDegrees;
+		Vector3 rot = camera.RotationDegrees;
 		// MouseInput
-		rot.Y -= mouseSensitivity * relative.X * 0.01f; // Rotate this body left/right
-		rot.X -= mouseSensitivity * relative.Y * 0.01f; // Tilt Camera Up/Down
-		RotationDegrees = rot;
+		rot.Y -= mouseSensitivity * mouseRelative.X * 0.01f; // Rotate this body left/right
+		rot.X -= mouseSensitivity * mouseRelative.Y * 0.01f; // Tilt Camera Up/Down
+		camera.RotationDegrees = rot;
+		mouseRelative = Vector2.Zero;
 	}
 
-	internal void InputVector(Vector3 inputvector)
+	void InputVector(Vector3 inputVector)
 	{
 		if (state == CAMERAMODE.LOCKED) { inV = Vector3.Zero; return; }
-		inV = ToGlobal(inputvector) - ToGlobal(Vector3.Zero);
+		inV = camera.ToGlobal(inputVector) - camera.ToGlobal(Vector3.Zero);
 	}
-
-	internal void GoFreeLook()
+	Vector2 storedCursorPosition;
+	void GoFreeLook()
 	{
 		state = CAMERAMODE.FREELOOK;
-		Input.MouseMode = Input.MouseModeEnum.Captured;
+		mouseRelative = Vector2.Zero;
+		storedCursorPosition = GetViewport().GetMousePosition();
+		Input.MouseMode = Input.MouseModeEnum.ConfinedHidden;
 	}
 
-	internal void GoLocked()
+	void GoLocked()
 	{
+		CallDeferred(nameof(SnapCursorBack));
+		mouseRelative = Vector2.Zero;
 		state = CAMERAMODE.LOCKED;
 		Input.MouseMode = Input.MouseModeEnum.Visible;
-
 	}
 
-	internal void WheelUp()
+	void WheelUp()
 	{
 		speed = Mathf.Clamp(speed + 5.0f, 2.0f, maxSpeed);
-		screen.RaiseNotification($"Speed:" + string.Format("{0:0.0}", speed));
+		mainScreen.RaiseNotification($"Speed:" + string.Format("{0:0.0}", speed));
 	}
 
-	internal void WheelDown()
+	void WheelDown()
 	{
 		speed = Mathf.Clamp(speed - 5.0f, 2.0f, maxSpeed);
-		screen.RaiseNotification($"Speed:" + string.Format("{0:0.0}", speed));
+		mainScreen.RaiseNotification($"Speed:" + string.Format("{0:0.0}", speed));
 	}
 
 	internal void FocusOnMapCoordinate(MapCoordinate coord)
 	{
 		Vector3 focusPoint = DungeonUtils.GlobalPosition(coord);
-		GlobalPosition = focusPoint + Vector3.Up * 30.0f;
-		Rotation = ogRot;
+		camera.GlobalPosition = focusPoint + Vector3.Up * 30.0f;
+		camera.Rotation = ogRot;
 	}
 }// EOF CLASS
 #endif

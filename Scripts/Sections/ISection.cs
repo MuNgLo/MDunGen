@@ -16,6 +16,10 @@ public interface ISection
 	/// </summary>
 	public int SectionIndex { get; }
 	/// <summary>
+	/// Assigned level index on creation
+	/// </summary>
+	public int LevelIndex { get; }
+	/// <summary>
 	/// The name of the section. That should be unique for that resource
 	/// </summary>
 	public string SectionName { get; }
@@ -46,7 +50,7 @@ public interface ISection
 	/// <summary>
 	/// Grows the section into the current MapData
 	/// </summary>
-	public void Build();
+	public void Build(Action<BuildLogEventArgument> log);
 
 	/// <summary>
 	/// Write all the section's pieces to the mapData instance

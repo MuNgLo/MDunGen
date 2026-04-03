@@ -7,7 +7,7 @@ namespace MDunGen.Resources;
 public partial class BuildRuleResource : DungeonAddonResource
 {
     // Rule category
-    [Export] public CATEGORYRULE catergory = CATEGORYRULE.NONE;
+    [Export] public CATEGORYRULE category = CATEGORYRULE.NONE;
     // Where to start this rule
     [Export] public STARTLOCATIONRULE location = STARTLOCATIONRULE.NONE;
     // Direction

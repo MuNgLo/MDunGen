@@ -166,11 +166,11 @@ internal class Manager
             MS.RaiseUpdateUI();
         }
     }
-    private double randmonSelectionTimestamp = 0.0;
+    private double randomSelectionTimestamp = 0.0;
     internal void SelectRandomPiecesForPathing(float timeRandomSelectionIsBlocked)
     {
-        if(randmonSelectionTimestamp > Time.GetTicksMsec()) {return;}
-        randmonSelectionTimestamp = Time.GetTicksMsec() + timeRandomSelectionIsBlocked * 1000.0;
+        if(randomSelectionTimestamp > Time.GetTicksMsec()) {return;}
+        randomSelectionTimestamp = Time.GetTicksMsec() + timeRandomSelectionIsBlocked * 1000.0;
         MapPiece mp1 = MS.Map.GetRandomPieceEditor();
         MapPiece mp2 = MS.Map.GetRandomPieceEditor();
         SelectMapPiece(mp1,false);

@@ -19,6 +19,6 @@ public partial class UIbtnMSProfile : Button
 	private void WhenBtnPressed()
 	{
 		EditorInterface.Singleton.InspectObject(mainScreen.addon.Profile);
-		ReleaseFocus();
+		//ReleaseFocus();
 	}
 }// EOF CLASS

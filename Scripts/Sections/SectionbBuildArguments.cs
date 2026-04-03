@@ -10,6 +10,7 @@ public class SectionBuildArguments
 	public MapData map;
 	public MapPiece piece;
 	public int sectionID;
+	public int levelIndex = -1;
 	public GenerationSettingsResource cfg;
 	public ulong[] sectionSeed;
 	//public ulong[] Seed => sectionSeed is null ? cfg.Seed : sectionSeed;

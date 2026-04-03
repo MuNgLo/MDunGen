@@ -19,6 +19,6 @@ public partial class UIbtnMSMasterConfig : Button
 	private void WhenBtnPressed()
 	{
 		mainScreen.PopupInitialSettingsDialogue();
-		ReleaseFocus();
+		//ReleaseFocus();
 	}
 }// EOF CLASS

@@ -1,50 +1,41 @@
 [gd_resource type="Resource" script_class="FloorResource" format=3 uid="uid://b0etk4whx01gn"]
 
 [ext_resource type="Script" uid="uid://bhecvamptmrrg" path="res://addons/MDunGen/Scripts/ResourceDefinitions/BuildRuleResource.cs" id="1_v8uvr"]
-[ext_resource type="Script" uid="uid://dabyiog8edqj1" path="res://addons/MDunGen/Scripts/ResourceDefinitions/SectionResource.cs" id="2_v8uvr"]
-[ext_resource type="Resource" uid="uid://bfws7yk2wikiu" path="res://addons/MDunGen/Config/Sections/DefaultCorridorLongTangledWide.tres" id="3_ul5we"]
-[ext_resource type="Resource" uid="uid://bi6wigkf4cpei" path="res://addons/MDunGen/Config/Sections/DefaultCorridorLongTangled.tres" id="3_xpxpc"]
-[ext_resource type="Resource" uid="uid://cpo4pr8osbhnk" path="res://addons/MDunGen/Config/Sections/DefaultStandardRoom.tres" id="4_21l8d"]
+[ext_resource type="Resource" uid="uid://dk1ltui3mo7xj" path="res://addons/MDunGen/Config/Sections/RoomStart.tres" id="2_21l8d"]
+[ext_resource type="Resource" uid="uid://bi6wigkf4cpei" path="res://addons/MDunGen/Config/Sections/PathLongTangled.tres" id="3_ijhfp"]
+[ext_resource type="Resource" uid="uid://c7uncev2xr220" path="res://addons/MDunGen/Config/Sections/PathLong.tres" id="4_21l8d"]
 [ext_resource type="Script" uid="uid://bbywsm7ndqlx2" path="res://addons/MDunGen/Scripts/ResourceDefinitions/FloorResource.cs" id="7_nn5bf"]
 
-[sub_resource type="Resource" id="Resource_21l8d"]
-script = ExtResource("2_v8uvr")
-sectionName = "Start Room"
-sectionType = "RoomSection"
-nbFloorsMax = 1
-placers = []
-firstPieceDoor = false
-
-[sub_resource type="Resource" id="Resource_ijhfp"]
+[sub_resource type="Resource" id="Resource_v8uvr"]
 script = ExtResource("1_v8uvr")
-catergory = 1
+category = 1
 location = 1
-section = SubResource("Resource_21l8d")
+section = ExtResource("2_21l8d")
+metadata/_custom_type_script = "uid://bhecvamptmrrg"
+
+[sub_resource type="Resource" id="Resource_21l8d"]
+script = ExtResource("1_v8uvr")
+category = 1
+location = 2
+section = ExtResource("3_ijhfp")
+amount = 3
 metadata/_custom_type_script = "uid://bhecvamptmrrg"
 
 [sub_resource type="Resource" id="Resource_ul5we"]
 script = ExtResource("1_v8uvr")
-catergory = 1
+category = 1
 location = 2
-section = ExtResource("3_ul5we")
-metadata/_custom_type_script = "uid://bhecvamptmrrg"
-
-[sub_resource type="Resource" id="Resource_ptpeo"]
-script = ExtResource("1_v8uvr")
-catergory = 1
-location = 2
-section = ExtResource("3_xpxpc")
-amount = 6
+section = ExtResource("4_21l8d")
 metadata/_custom_type_script = "uid://bhecvamptmrrg"
 
 [sub_resource type="Resource" id="Resource_xpxpc"]
 script = ExtResource("1_v8uvr")
-catergory = 1
+category = 1
 location = 2
-section = ExtResource("4_21l8d")
-amount = 16
+section = ExtResource("3_ijhfp")
+amount = 4
 metadata/_custom_type_script = "uid://bhecvamptmrrg"
 
 [resource]
 script = ExtResource("7_nn5bf")
-rules = [SubResource("Resource_ijhfp"), SubResource("Resource_ul5we"), SubResource("Resource_ptpeo"), SubResource("Resource_xpxpc")]
+rules = [SubResource("Resource_v8uvr"), SubResource("Resource_21l8d"), SubResource("Resource_ul5we"), SubResource("Resource_xpxpc")]

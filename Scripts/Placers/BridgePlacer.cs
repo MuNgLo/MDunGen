@@ -6,9 +6,11 @@ using MDunGen.Resources;
 using System;
 
 namespace MDunGen.Placers;
+
 [Obsolete]
-public class BridgePlacer : IPlacer
+public class BridgePlacer //: IPlacer
 {
+	/*
 	/// <summary>
 	/// The parent map data this section belongs to
 	/// </summary>
@@ -248,5 +250,5 @@ public class BridgePlacer : IPlacer
 		throw new NotImplementedException();
 	}
 
-
+	*/
 }// EOF CLASS

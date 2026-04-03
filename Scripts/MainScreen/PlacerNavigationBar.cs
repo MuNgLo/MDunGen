@@ -7,7 +7,7 @@ namespace MDunGen.MS;
 [Tool]
 public partial class PlacerNavigationBar : Control
 {
-	[Export] SectionSelector sectionSelector;
+	//[Export] SectionSelector sectionSelector;
 	private BottomScreen BS;
 	private PlacerBar placerBar;
 	private int index = 0;

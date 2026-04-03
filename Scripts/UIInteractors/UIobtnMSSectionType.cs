@@ -1,15 +1,16 @@
 // Gone through at v1.3
 #if TOOLS
 using Godot;
+using MDunGen.MS;
 using MDunGen.Sections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-namespace MDunGen.MS;
+namespace MDunGen.UI;
 
 [Tool, GlobalClass]
-public partial class SectionTypeListButton : OptionButton
+public partial class UIobtnMSSectionType : OptionButton
 {
 	[Export] MainScreen screen;
 	public EventHandler<Type> OnSectionTypeSelected;
@@ -23,7 +24,7 @@ public partial class SectionTypeListButton : OptionButton
 			AddItem(type.Name);
 		}
 		Select(0); // SELECT 0 DEFAULT ONE for starters
-				   //GD.Print($"SectionTypeListButton::_EnterTree() GetList.Count[{GetList().Count}] itemCount[{ItemCount}]");
+		//GD.Print($"SectionTypeListButton::_EnterTree() GetList.Count[{GetList().Count}] itemCount[{ItemCount}]");
 	}
 	public override void _ExitTree()
 	{
@@ -49,7 +50,6 @@ public partial class SectionTypeListButton : OptionButton
 
 	private List<Type> GetList()
 	{
-		
 		string nameSpace = "MDunGen.Sections";
 		IEnumerable<Type> q = from t in Assembly.GetExecutingAssembly().GetTypes()
 							  where t.IsClass && t.Namespace == nameSpace

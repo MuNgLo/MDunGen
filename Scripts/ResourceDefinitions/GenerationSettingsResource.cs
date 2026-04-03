@@ -18,6 +18,6 @@ public partial class GenerationSettingsResource : DungeonAddonResource
 
 	public ulong[] MasterSeed => new[] { (ulong)seed1, (ulong)seed2, (ulong)seed3, (ulong)seed4 };
 
-	public GenerationSettingsResource() { }
+	//public GenerationSettingsResource() { }
 }// EOF CLASS
 

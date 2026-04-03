@@ -6,7 +6,7 @@
 script = ExtResource("1_ow5cj")
 corMaxTotal = 120
 corMaxStraight = 2
-sectionName = "Corridor Long"
+sectionName = "Long Tangled Wide"
 sectionType = "PathSection"
 sectionStyle = "Connector"
 sizeWidthMin = 2

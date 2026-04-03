@@ -1,10 +1,10 @@
 [gd_resource type="Resource" script_class="SectionResource" format=3 uid="uid://dk1ltui3mo7xj"]
 
-[ext_resource type="Script" uid="uid://dabyiog8edqj1" path="res://addons/MDunGen/Scripts/ResourceDefinitions/SectionResource.cs" id="1_u2vxy"]
+[ext_resource type="Script" uid="uid://dabyiog8edqj1" path="res://addons/MDunGen/Scripts/ResourceDefinitions/SectionResource.cs" id="1_vrlku"]
 
 [resource]
-script = ExtResource("1_u2vxy")
-sectionName = "Start Room"
+script = ExtResource("1_vrlku")
+sectionName = "Start"
 sectionType = "RoomSection"
 sizeWidthMin = 4
 sizeWidthMax = 6

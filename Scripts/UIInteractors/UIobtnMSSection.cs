@@ -1,17 +1,18 @@
 ﻿// Gone through at v1.3
 #if TOOLS
 using Godot;
+using MDunGen.MS;
 using MDunGen.Resources;
 using System;
 using System.Collections.Generic;
 
-namespace MDunGen.MS;
+namespace MDunGen.UI;
 
 [Tool, GlobalClass]
-internal partial class SectionSelector : OptionButton
+internal partial class UIobtnMSSection : OptionButton
 {
 	[Export] MainScreen screen;
-	[Export] SectionTypeListButton sectionTypeSelector;
+	[Export] UIobtnMSSectionType sectionTypeSelector;
 
 	private Dictionary<string, string> resources;
 	public override void _Ready()
@@ -35,7 +36,6 @@ internal partial class SectionSelector : OptionButton
 	private void WhenSectionTypeSelected(object sender, Type T)
 	{
 		if (!Visible) { Clear(); return; }
-		GD.Print($"SectionSelector::WhenSectionTypeSelected() Selected[{Selected}] ItemCount[{ItemCount}]");
 		PopulateResourceCollection();
 		LoadSelected();
 	}

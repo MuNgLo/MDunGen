@@ -4,6 +4,7 @@ using Godot;
 using Godot.Collections;
 using MDunGen.Resources;
 using System;
+using System.Threading.Tasks;
 
 namespace MDunGen.MS;
 
@@ -16,7 +17,7 @@ public partial class MainScreen : Control
 	/// <summary>
 	/// Use this to only react to input if cursor is over screen
 	/// </summary>
-	public bool cursorIsInside = false;
+	//public bool cursorIsInside = false;
 	public Dungeons addon;
 	private Selection.Manager selection;
 	private ScreenDungeonVisualizer dunVis;
@@ -28,6 +29,7 @@ public partial class MainScreen : Control
 	internal EventHandler OnMainScreenUIUpdate;
 	internal EventHandler<string> OnNotificationPushed;
 	internal EventHandler<Pathfinding.PathData> OnPathDataPushed;
+	//private SubViewportContainer subV;
 
 
 	internal Selection.Manager Selection => selection;
@@ -42,14 +44,27 @@ public partial class MainScreen : Control
 
 	public override void _Ready()
 	{
-		//GD.Print($"DirExistsAbs [{DirAccess.DirExistsAbsolute(addon.MasterConfig.ProjectResourcePath)}]");
-
 		if (addon.MasterConfig.ProjectResourcePath == string.Empty || !DirAccess.DirExistsAbsolute(addon.MasterConfig.ProjectResourcePath))
 		{
 			PopupInitialSettingsDialogue();
 		}
 		SetDebugLayer(addon.Profile.showDebugLayer);
 		RaiseUpdateUI();
+		//subV = FindChild("SubViewportContainer") as SubViewportContainer;
+		//subV.MouseEntered += WhenMouseEnterMain;
+		//subV.MouseExited += WhenMouseExitMain;
+	}
+	public override void _ExitTree()
+	{
+		//subV.MouseEntered -= WhenMouseEnterMain;
+		//subV.MouseExited -= WhenMouseExitMain;
+	}
+	public override void _Process(double delta)
+	{
+		if (Visible && Input.IsMouseButtonPressed(MouseButton.Middle))
+		{
+			Selection.SelectRandomPiecesForPathing(0.05f);
+		}
 	}
 	public void PopupInitialSettingsDialogue()
 	{
@@ -73,16 +88,16 @@ public partial class MainScreen : Control
 	/// </summary>
 	/// <param name="settings"></param>
 	/// <param name="biome"></param>
-	public void GenerateDungeon(GenerationSettingsResource settings, BiomeResource biome)
+	public async Task GenerateDungeon(GenerationSettingsResource settings, BiomeResource biome)
 	{
-		dunVis.BuildDungeon(settings, settings.floorDef, biome);
+		await dunVis.BuildDungeon(settings, settings.floorDef, biome);
 	}
-	public void GenerateSection(string sectionTypeName, SectionResource sectionDef, GenerationSettingsResource settings, BiomeResource biome)
+	public void GenerateSection(int levelIndex, string sectionTypeName, SectionResource sectionDef, GenerationSettingsResource settings, BiomeResource biome)
 	{
 		RaiseNotification($"Building Section {sectionDef.sectionName}");
 		Array<PlacerEntryResource> placers = sectionDef.placers;
 		GD.Print($"MainScreen::GenerateSection() defIsNull[{sectionDef is null}] placers is Null[{placers is null}]");
-		dunVis.BuildSection(sectionTypeName, sectionDef, settings.MasterSeed, settings, biome, ReDrawDungeon);
+		dunVis.BuildSection(levelIndex, sectionTypeName, sectionDef, settings.MasterSeed, settings, biome, ReDrawDungeon);
 	}
 	public void ReDrawDungeon()
 	{
@@ -126,5 +141,17 @@ public partial class MainScreen : Control
 	{
 		OnPathDataPushed?.Invoke(this, pathData);
 	}
+
+
+/*
+	private void WhenMouseEnterMain()
+	{
+		cursorIsInside = true;
+	}
+	private void WhenMouseExitMain()
+	{
+		cursorIsInside = false;
+	}
+*/
 }// EOF CLASS
 #endif

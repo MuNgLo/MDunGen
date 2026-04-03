@@ -98,12 +98,12 @@ visible = false
 layout_mode = 2
 metadata/_tab_index = 3
 
-[node name="BuildLog" type="MarginContainer" parent="." unique_id=564089281 node_paths=PackedStringArray("BS", "container", "leFilter", "cbShowSource")]
+[node name="BuildLog" type="MarginContainer" parent="." unique_id=564089281 node_paths=PackedStringArray("BS", "logRichText", "leFilter", "cbShowSource")]
 layout_mode = 2
 script = ExtResource("3_82ax6")
 BS = NodePath("..")
 prefabLogEntry = ExtResource("4_iq0wc")
-container = NodePath("GridContainer/MarginContainer2/ScrollContainer/LogContainer")
+logRichText = NodePath("GridContainer/MarginContainer2/ScrollContainer/LogRichText")
 leFilter = NodePath("GridContainer/MarginContainer/buildLogFooter/leFilter")
 cbShowSource = NodePath("GridContainer/MarginContainer/buildLogFooter/cbShowSource")
 metadata/_tab_index = 4
@@ -126,11 +126,15 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_iq0wc")
 
-[node name="LogContainer" type="GridContainer" parent="BuildLog/GridContainer/MarginContainer2/ScrollContainer" unique_id=2071522582]
+[node name="LogRichText" type="RichTextLabel" parent="BuildLog/GridContainer/MarginContainer2/ScrollContainer" unique_id=1152818480]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/h_separation = 0
-theme_override_constants/v_separation = 0
+size_flags_vertical = 3
+focus_mode = 2
+bbcode_enabled = true
+fit_content = true
+selection_enabled = true
+drag_and_drop_selection_enabled = false
 
 [node name="MarginContainer" type="MarginContainer" parent="BuildLog/GridContainer" unique_id=2114811054]
 layout_mode = 2

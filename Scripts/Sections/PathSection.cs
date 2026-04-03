@@ -35,8 +35,10 @@ public class PathSection : SectionBase
 		corMinStraight = pathRes.corMinStraight;
 	}
 
-	public override void Build()
+	public override void Build(Action<BuildLogEventArgument> log)
 	{
+		log.Invoke(new() { source = "RoomSection::Build()", message = "Building Path section", sectionIndex = sectionIndex, levelIndex = levelIndex, mapLocations = [coord] });
+
 		MapPiece step = map.GetPiece(coord);
 		MAPDIRECTION startDir = step.Orientation;
 		if (map.Sections.Count > 0)

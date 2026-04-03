@@ -29,6 +29,10 @@ public class SectionBase : ISection
 	/// </summary>
 	private protected readonly int sectionIndex;
 	/// <summary>
+	/// Level the section was grown on
+	/// </summary>
+	private protected readonly int levelIndex;
+	/// <summary>
 	/// What type of section is this. Room, Corridor, Void, Pantry?
 	/// </summary>
 	private protected string sectionStyle = string.Empty;
@@ -98,6 +102,7 @@ public class SectionBase : ISection
 
 
 	public int SectionIndex => sectionIndex;
+	public int LevelIndex => levelIndex;
 	public string SectionStyle => sectionStyle;
 	public string SectionName => sectionName;
 	public virtual int TileCount => Pieces.Count;
@@ -148,6 +153,7 @@ public class SectionBase : ISection
 
 		sectionDefinition = args.sectionDefinition;
 		sectionIndex = args.sectionID;
+		levelIndex = args.levelIndex;
 		sectionStyle = sectionDefinition.sectionStyle;
 		sectionName = sectionDefinition.sectionName;
 		coord = args.piece.Coord;
@@ -209,9 +215,9 @@ public class SectionBase : ISection
 		}
 	}
 
-	public virtual void Build()
+	public virtual void Build(Action<BuildLogEventArgument> log)
 	{
-		throw new NotImplementedException();
+		log.Invoke(new() { severity = BUILDLOGSEVERITY.WARNING, source = "SectionBase::Build()", message = "Building a base section!", levelIndex = levelIndex, sectionIndex = sectionIndex });
 	}
 
 	public virtual bool AddOpening(MapCoordinate coord, MAPDIRECTION dir, bool wide, bool overrideLocked, Action<BuildLogEventArgument> log)
@@ -600,7 +606,7 @@ public class SectionBase : ISection
 	}
 	private protected void FitSmallArch(MapPiece piece)
 	{
-		if (!piece.hasCieling) { return; }
+		if (!piece.hasCeiling) { return; }
 		// add small arches
 		if (piece.HasNorthWall)
 		{

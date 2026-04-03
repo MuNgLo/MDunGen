@@ -12,8 +12,10 @@ public class RoomSection : SectionBase
 	public RoomSection(SectionBuildArguments args) : base(args) { }
 
 	#region ISection methods
-	public override void Build()
+	public override void Build(Action<BuildLogEventArgument> log)
 	{
+		log.Invoke(new() { source = "RoomSection::Build()", message = "Building Room section", sectionIndex = sectionIndex, levelIndex = levelIndex, mapLocations = [coord] });
+
 		MapPiece start = map.GetPiece(coord);
 		start.State = MAPPIECESTATE.PENDING;
 		start.keyFloor = new KeyData() { key = PIECEKEYS.F, dir = orientation, variantID = 0 };

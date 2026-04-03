@@ -6,19 +6,22 @@ using MDunGen.Resources;
 using MDunGen.Sections;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MDunGen.MS;
 
 /// <summary>
-/// The class that builds and updates the visual representation of the mapdata in the Dungeon Viewer
+/// The class that builds and updates the visual representation of the map data in the Dungeon Viewer
 /// </summary>
-[Tool]
+[Tool, GlobalClass]
 public partial class ScreenDungeonVisualizer : Node3D
 {
+	[Export] bool debug;
+
 	private MainScreen screen;
 	private MapData map;
 	private GenerationSettingsResource settings;
-	private AddonSettingsResource MasterConfig;
+	private AddonSettingsResource MasterConfig => screen.addon.MasterConfig;
 	private System.Collections.Generic.Dictionary<PIECEKEYS, System.Collections.Generic.Dictionary<int, Resource>> cacheKeyedPieces;
 	private Node3D mapContainer;
 	private Node3D propContainer;
@@ -27,7 +30,7 @@ public partial class ScreenDungeonVisualizer : Node3D
 	private BiomeResource biome;
 	public MapData Map { get => map; }
 
-	public event EventHandler OnMapBuildStarted;
+	public event EventHandler OnMapBuildFloorStarted;
 	public event EventHandler OnMapBuildEnded;
 	public event EventHandler<BuildLogEventArgument> OnMapBuildLog;
 
@@ -40,11 +43,10 @@ public partial class ScreenDungeonVisualizer : Node3D
 	public override void _EnterTree()
 	{
 		screen = GetParent().GetParent().GetParent() as MainScreen;
-		MasterConfig = ResourceLoader.Load("res://addons/MDunGen/Config/def_addonconfig.tres") as AddonSettingsResource;
 	}
-	public async void BuildDungeon(GenerationSettingsResource settings, FloorResource floor, BiomeResource biome)
+	public async Task BuildDungeon(GenerationSettingsResource settings, FloorResource floor, BiomeResource biome)
 	{
-		OnMapBuildStarted?.Invoke(EventArgs.Empty, EventArgs.Empty);
+		OnMapBuildFloorStarted?.Invoke(EventArgs.Empty, EventArgs.Empty);
 		screen.RaiseNotification($"Building Dungeon");
 		this.settings = settings;
 		screen.RaiseNotification($"Generating:" + string.Format("{0:0}", 0) + "%");
@@ -54,7 +56,7 @@ public partial class ScreenDungeonVisualizer : Node3D
 		await ToSignal(GetTree(), "process_frame");
 		OnMapBuildEnded?.Invoke(EventArgs.Empty, EventArgs.Empty);
 	}
-	public async void BuildSection(string sectionTypeName, SectionResource sectionDef, ulong[] seed, GenerationSettingsResource settings, BiomeResource biome, Action callback)
+	public async void BuildSection(int levelIndex, string sectionTypeName, SectionResource sectionDef, ulong[] seed, GenerationSettingsResource settings, BiomeResource biome, Action callback)
 	{
 		this.settings = settings;
 		screen.RaiseNotification($"Generating:" + string.Format("{0:0}", 0) + "%");
@@ -64,7 +66,7 @@ public partial class ScreenDungeonVisualizer : Node3D
 		this.biome = biome;
 
 		map = new MapData(settings, RaiseBuildLogEvent);
-		await map.GenerateSection(sectionTypeName, seed, sectionDef, callback);
+		await map.GenerateSection(levelIndex, sectionTypeName, seed, sectionDef, callback);
 	}
 
 
@@ -93,7 +95,7 @@ public partial class ScreenDungeonVisualizer : Node3D
 	{
 		if (settings is null) { return; }
 		screen.RaiseNotification($"Generating Visuals");
-		GD.Print($"ScreenDungeonVisulaizer::ReDrawMap()");
+		if(debug) { GD.Print($"ScreenDungeonVisualizer::ReDrawMap()"); }
 		cacheKeyedPieces = new System.Collections.Generic.Dictionary<PIECEKEYS, System.Collections.Generic.Dictionary<int, Resource>>();
 		mapContainer = FindChild("Generated") as Node3D;
 		debugContainer = FindChild("GeneratedDebug") as Node3D;
@@ -110,7 +112,7 @@ public partial class ScreenDungeonVisualizer : Node3D
 
 	public void ReDrawSection()
 	{
-		GD.Print($"ScreenDungeonVisulaizer::ReDrawSection()");
+		if(debug) { GD.Print($"ScreenDungeonVisualizer::ReDrawSection()"); }
 		cacheKeyedPieces = new System.Collections.Generic.Dictionary<PIECEKEYS, System.Collections.Generic.Dictionary<int, Resource>>();
 		mapContainer = FindChild("Generated") as Node3D;
 		debugContainer = FindChild("GeneratedDebug") as Node3D;
@@ -128,7 +130,7 @@ public partial class ScreenDungeonVisualizer : Node3D
 
 		if (floorContainer == null)
 		{
-			GD.Print($"ScreenDungeonVisulaizer::ClearFloor()  floor container node missing!");
+			GD.Print($"ScreenDungeonVisualizer::ClearFloor()  floor container node missing!");
 			return;
 		}
 		foreach (Node child in floorContainer.GetChildren())
@@ -149,7 +151,7 @@ public partial class ScreenDungeonVisualizer : Node3D
 
 		if (floorContainer == null)
 		{
-			GD.Print($"ScreenDungeonVisulaizer::ClearDebugFloor()  floor container node missing!");
+			GD.Print($"ScreenDungeonVisualizer::ClearDebugFloor()  floor container node missing!");
 			return;
 		}
 		foreach (Node child in floorContainer.GetChildren())
@@ -168,7 +170,7 @@ public partial class ScreenDungeonVisualizer : Node3D
 		Node3D generated = GetNode<Node3D>("Generated");
 		if (generated == null)
 		{
-			GD.Print($"ScreenDungeonVisulaizer::ClearLevel()  Generated node missing!");
+			GD.Print($"ScreenDungeonVisualizer::ClearLevel()  Generated node missing!");
 			return;
 		}
 		foreach (Node child in generated.GetChildren())
@@ -188,7 +190,7 @@ public partial class ScreenDungeonVisualizer : Node3D
 		Node3D generated = GetNode<Node3D>("GeneratedDebug");
 		if (generated == null)
 		{
-			GD.Print($"ScreenDungeonVisulaizer::ClearLevel()  GeneratedDebug node missing!");
+			GD.Print($"ScreenDungeonVisualizer::ClearLevel()  GeneratedDebug node missing!");
 			return;
 		}
 		foreach (Node child in generated.GetChildren())
@@ -484,7 +486,7 @@ public partial class ScreenDungeonVisualizer : Node3D
 		Node3D generated = GetNode<Node3D>("GeneratedDebug");
 		if (generated == null)
 		{
-			GD.Print($"ScreenDungeonVisulaizer::ClearLevel()  GeneratedDebug node missing!");
+			GD.Print($"ScreenDungeonVisualizer::ClearLevel()  GeneratedDebug node missing!");
 			return;
 		}
 		if (!state)
@@ -508,7 +510,7 @@ public partial class ScreenDungeonVisualizer : Node3D
 	{
 		if (map is null || map.Pieces.Count == 0)
 		{
-			GD.PushError("Mapdata needs to be rebuilt");
+			GD.PushError("Map data needs to be rebuilt");
 			return null;
 		}
 		return map.GetExistingPiece(coord);

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="SectionResource" format=3 uid="uid://cpo4pr8osbhnk"]
+
+[ext_resource type="Script" uid="uid://dabyiog8edqj1" path="res://addons/MDunGen/Scripts/ResourceDefinitions/SectionResource.cs" id="1_66q4r"]
+
+[resource]
+script = ExtResource("1_66q4r")
+sectionName = "Standard"
+sectionType = "RoomSection"
+sizeWidthMax = 7
+sizeDepthMax = 7
+arches = false
+placers = []
+firstPieceDoor = false

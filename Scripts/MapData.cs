@@ -83,15 +83,15 @@ public class MapData
 	MapBuilder builder;
     internal async Task GenerateFloor(int floorIndex, FloorResource floorDef, Action callback, bool doPathing)
     {
-		log.Invoke(new BuildLogEventArgument(){source = "MapData: GenerateFloor()", message = "Generating floor......"});
+		log.Invoke(new BuildLogEventArgument(){source = "MapData: GenerateFloor()", message = "Generating floor......", levelIndex = floorIndex });
         await builder.BuildFloorMapData(floorIndex, floorDef, doPathing);
         callback.Invoke();
     }
 
-	internal async Task GenerateSection(string sectionTypeName, ulong[] seed, SectionResource sectionDef, Action callback)
+	internal async Task GenerateSection(int levelIndex, string sectionTypeName, ulong[] seed, SectionResource sectionDef, Action callback)
     {
 		log.Invoke(new BuildLogEventArgument(){source = "MapData::GenerateSection()", message = $"Generation started..... defIsNull[{sectionDef is null}]"});
-        await builder.BuildSection(sectionTypeName, sectionDef, seed);
+        await builder.BuildSection(levelIndex, sectionTypeName, sectionDef, seed);
         callback.Invoke();
     }
 

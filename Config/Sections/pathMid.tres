@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="PathResource" format=3 uid="uid://fwwvfja283kt"]
+
+[ext_resource type="Script" uid="uid://cy5dccxbfa61l" path="res://addons/MDunGen/Scripts/ResourceDefinitions/PathResource.cs" id="1_q13uj"]
+
+[resource]
+script = ExtResource("1_q13uj")
+corMaxTotal = 15
+corMinStraight = 5
+sectionName = "Mid"
+sectionType = "PathSection"
+sectionStyle = "Connector"
+sizeWidthMin = 1
+sizeWidthMax = 1
+sizeDepthMin = 1
+sizeDepthMax = 1
+arches = false
+placers = []

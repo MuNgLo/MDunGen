@@ -1,4 +1,5 @@
 // Gone through at v1.3
+using System;
 using MDunGen.Commons;
 using MDunGen.Resources;
 
@@ -13,8 +14,10 @@ public class HallwaySection : SectionBase
         args.sectionDefinition.sizeDepthMax = maxLength;
         args.sectionDefinition.sizeDepthMin = maxLength;
     }
-    public override void Build()
+    public override void Build(Action<BuildLogEventArgument> log)
     {
+		log.Invoke(new() { source = "RoomSection::Build()", message = "Building Hallway section", sectionIndex = sectionIndex, levelIndex = levelIndex, mapLocations = [coord] });
+
         SetMinMaxCoord(coord + DungeonUtils.TwistRight(orientation) + MapCoordinate.Down);
 
         BuildHallwayStart(coord, orientation);

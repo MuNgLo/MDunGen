@@ -20,6 +20,6 @@ public partial class UIbtnMSExport : Button
 	private void WhenBtnPressed()
 	{
 		mainScreen.addon.ShowExportPopup();
-		ReleaseFocus();
+		//ReleaseFocus();
 	}
 }// EOF CLASS

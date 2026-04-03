@@ -20,7 +20,6 @@ public partial class Dungeons : EditorPlugin
 	private MainScreen screen;
 	public MainScreen MS => screen;
 	private BottomScreen bScreen;
-	private SubViewportContainer subV;
 	private CameraControls cam;
 	private PackedScene mainPrefab = ResourceLoader.Load<PackedScene>("res://addons/MDunGen/Scenes/MainScreen.tscn");
 	private PackedScene bottomPrefab = ResourceLoader.Load<PackedScene>("res://addons/MDunGen/Scenes/BottomScreen.tscn");
@@ -30,7 +29,7 @@ public partial class Dungeons : EditorPlugin
 	public override void _EnterTree()
 	{
 		GD.Print("Loaded MDunGen Plugin");
-		masterConfig = ResourceLoader.Load("res://addons/MDunGen/Config/def_addonconfig.tres") as AddonSettingsResource;
+		masterConfig = ResourceLoader.Load("res://addons/MDunGen/Config/def_master.tres") as AddonSettingsResource;
 
 		// Center screen
 		screen = (MainScreen)mainPrefab.Instantiate();
@@ -40,20 +39,16 @@ public partial class Dungeons : EditorPlugin
 		// Hide the main panel. Very much required.
 		_MakeVisible(false);
 
-		subV = screen.FindChild("SubViewportContainer") as SubViewportContainer;
-		subV.MouseEntered += WhenMouseEnterMain;
-		subV.MouseExited += WhenMouseExitMain;
-
 		cam = screen.FindChild("Camera3D") as CameraControls;
 
 		// Bottom screen
 		bScreen = (BottomScreen)bottomPrefab.Instantiate();
+		bScreen.Name = "MDunGen";
 		bScreen.addon = this;
 
-		EditorDock bDock = new EditorDock(){ DefaultSlot =  EditorDock.DockSlot.Bottom };
-		bDock.AddChild(bScreen);
 		// Add bottom screen instance to the editor
-		//AddControlToBottomPanel(bScreen, "Dungeon");
+		EditorDock bDock = new EditorDock() { DefaultSlot = EditorDock.DockSlot.Bottom };
+		bDock.AddChild(bScreen);
 		AddDock(bDock);
 	}
 
@@ -92,9 +87,8 @@ public partial class Dungeons : EditorPlugin
 		//RemoveControlFromBottomPanel(bScreen);
 		RemoveDock(bScreen.GetParent() as EditorDock);
 		bScreen.GetParent().QueueFree();
-		GD.Print("Unloaded MuNgLo's Dungeon Plugin");
-		subV.MouseEntered -= WhenMouseEnterMain;
-		subV.MouseExited -= WhenMouseExitMain;
+		GD.Print("Unloaded MDunGen Plugin");
+
 		// Release main screen UI
 		// The other Side
 	}
@@ -118,40 +112,9 @@ public partial class Dungeons : EditorPlugin
 			screen.Visible = visible;
 		}
 	}
-	public override void _Process(double delta)
-	{
-		if (!screen.cursorIsInside) { return; }
-		Vector3 inputVector = Vector3.Zero;
-		if (Input.IsKeyPressed(Key.W)) { inputVector += Vector3.Forward; }
-		if (Input.IsKeyPressed(Key.S)) { inputVector += Vector3.Back; }
-		if (Input.IsKeyPressed(Key.A)) { inputVector += Vector3.Left; }
-		if (Input.IsKeyPressed(Key.D)) { inputVector += Vector3.Right; }
-		if (Input.IsKeyPressed(Key.E)) { inputVector += Vector3.Up; }
-		if (Input.IsKeyPressed(Key.Q)) { inputVector += Vector3.Down; }
-		//if (Input.IsKeyPressed(Key.Shift)) { screen.shiftIsPressed; }
-		inputVector = inputVector.Normalized();
-		cam.InputVector(inputVector);
 
-		if (Input.IsMouseButtonPressed(MouseButton.Middle))
-		{
-			MS.Selection.SelectRandomPiecesForPathing(0.05f);
-		}
-	}
 	public override void _Input(InputEvent @event)
 	{
-		if (!MS.cursorIsInside)
-		{
-			if (cam.State == CameraControls.CAMERAMODE.FREELOOK)
-			{
-				cam.GoLocked();
-			}
-			return;
-		}
-		if (@event is InputEventMouseMotion)
-		{
-			InputEventMouseMotion m = (InputEventMouseMotion)@event;
-			cam.MouseMove(m.Relative);
-		}
 		if (@event is InputEventMouseButton)
 		{
 			InputEventMouseButton b = (InputEventMouseButton)@event;
@@ -170,21 +133,6 @@ public partial class Dungeons : EditorPlugin
 					(cont as SelectOnClick).RayCastToMapPiece((mp) => { MS.Selection.SelectMapPiece(mp); });
 				}
 
-			}
-
-			if (b.ButtonIndex == MouseButton.Right)
-			{
-				if (b.Pressed) { cam.GoFreeLook(); }
-				if (b.IsReleased()) { cam.GoLocked(); }
-			}
-
-			if (b.ButtonIndex == MouseButton.WheelUp)
-			{
-				if (b.Pressed) { cam.WheelUp(); }
-			}
-			if (b.ButtonIndex == MouseButton.WheelDown)
-			{
-				if (b.Pressed) { cam.WheelDown(); }
 			}
 		}
 	}
@@ -216,13 +164,23 @@ public partial class Dungeons : EditorPlugin
 	/// </summary>
 	private void WhenExportConfirmed()
 	{
+		// Check things
+		if (screen.CurrentDungeon is null)
+		{
+			GD.PrintErr($"Dungeons::WhenExportConfirmed() CurrentDungeon Node was NULL!");
+			return;
+		}
+		if (screen.CurrentDungeon.GetChildCount() < 1)
+		{
+			GD.PrintErr($"Dungeons::WhenExportConfirmed() CurrentDungeon Node has no children to export!");
+			return;
+		}
 		popup.Confirmed -= WhenExportConfirmed;
 		PackedScene sceneToSave = new PackedScene();
 		foreach (Node node in screen.CurrentDungeon.GetChildren())
 		{
 			SetOwner(screen.CurrentDungeon, node);
 		}
-		GD.Print($"ExportConfirmed() O1[{screen.CurrentDungeon.GetChildren()[0].Owner}] O2[{screen.CurrentDungeon.GetChildren()[1].Owner}]");
 		Error err = sceneToSave.Pack(screen.CurrentDungeon);
 		if (err != Error.Ok)
 		{
@@ -249,14 +207,8 @@ public partial class Dungeons : EditorPlugin
 		return false;
 	}
 
-	private void WhenMouseEnterMain()
-	{
-		screen.cursorIsInside = true;
-	}
-	private void WhenMouseExitMain()
-	{
-		screen.cursorIsInside = false;
-	}
+
+
 
 	#endregion
 
@@ -290,7 +242,6 @@ public partial class Dungeons : EditorPlugin
 	{
 		if (newMode != mode)
 		{
-			GD.Print($"Dungeons::ChangeMode() changed to {newMode}");
 			mode = newMode;
 			screen.RaiseUpdateUI();
 		}

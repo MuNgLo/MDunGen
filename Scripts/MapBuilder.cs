@@ -59,19 +59,19 @@ internal class MapBuilder
 		this.floorIndex = floorIndex;
 		floorRNG = new PRNGMarsenneTwister(NewSeed());
 
-		log.Invoke(new() { source = "MapBuilder::BuildFloorMapData()", message = "starting." });
+		log.Invoke(new() { source = "MapBuilder::BuildFloorMapData()", message = "Starting build rules for floor.", levelIndex = floorIndex });
 
 		foreach (BuildRuleResource ruleResource in floor.rules)
 		{
-			switch (ruleResource.catergory)
+			switch (ruleResource.category)
 			{
 				case CATEGORYRULE.BUILD:
-					await ResolveBuildRule(ruleResource);
+					await ResolveBuildRule(floorIndex, ruleResource);
 					break;
 			}
 		}
 
-		log.Invoke(new() { source = "MapBuilder::BuildFloorMapData()", message = "Rules done." });
+		log.Invoke(new() { source = "MapBuilder::BuildFloorMapData()", message = "Build rules completed.", levelIndex = floorIndex });
 
 		BuildOpeningsFromConnections();
 
@@ -97,21 +97,21 @@ internal class MapBuilder
 		}
 		log.Invoke(new() { source = "MapBuilder::BuildFloorMapData()", message = "Finished." });
 	}
-	private async Task ResolveBuildRule(BuildRuleResource rule)
+	private async Task ResolveBuildRule(int levelIndex, BuildRuleResource rule)
 	{
 		ISection prevSec = map.Sections.Count > 0 ? map.Sections.Last() : null;
 		for (int i = 0; i < rule.amount; i++)
 		{
 			if (ResolveLocationRule(rule.location, out MapPiece mp, prevSec))
 			{
-				ISection section = ResolveSectionInstance(mp.Coord, mp.Orientation, rule.section);
-				section.Build();
+				ISection section = ResolveSectionInstance(levelIndex, mp.Coord, mp.Orientation, rule.section);
+				section.Build(log);
 				map.Sections.Add(section);
 			}
 			await Task.Delay(1);
 		}
 	}
-	private ISection ResolveSectionInstance(MapCoordinate location, MAPDIRECTION direction, SectionResource sectionDef)
+	private ISection ResolveSectionInstance(int levelIndex, MapCoordinate location, MAPDIRECTION direction, SectionResource sectionDef)
 	{
 		MapPiece piece = map.GetPiece(location);
 		piece.Orientation = direction;
@@ -121,6 +121,7 @@ internal class MapBuilder
 			map = map,
 			piece = piece,
 			sectionID = map.Sections.Count,
+			levelIndex = levelIndex,
 			cfg = Args,
 			sectionDefinition = sectionDef,
 			sectionSeed = [(ulong)floorRNG.Next(9999), (ulong)floorRNG.Next(9999), (ulong)floorRNG.Next(9999), (ulong)floorRNG.Next(9999)]
@@ -176,7 +177,7 @@ internal class MapBuilder
     // Build Start Room
     ulong[] roomSeed = new ulong[4] { (ulong)rng.Next(1111, 9999), (ulong)rng.Next(1111, 9999), (ulong)rng.Next(1111, 9999), (ulong)rng.Next(1111, 9999) };
     RoomSection centerRoom = new RoomSection(
-        new SectionbBuildArguments()
+        new SectionBuildArguments()
         {
             sectionDefinition = Args.roomStart,
             map = map,
@@ -194,7 +195,7 @@ internal class MapBuilder
     for (int floor = 0; floor < Args.nbOfFloors; floor++)
     {
 
-        // Build corridors out from the Startroom
+        // Build corridors out from the Start room
         if (Args.corPerFloor > 0)
         {
             List<MapPiece> candidates = centerRoom.GetWallPieces(floor);
@@ -290,7 +291,7 @@ internal class MapBuilder
 					SectionConnection to = map.Connections[toID];
 
 					//if(section.SectionIndex != to.sectionID){ 
-					//    Godot.GD.PushError($"MapBuilder::DoPathingPass() Section missmatch! Skipping!");
+					//    Godot.GD.PushError($"MapBuilder::DoPathingPass() Section miss match! Skipping!");
 					//    continue;
 					//}
 					MapPiece mpStart = map.GetExistingPiece(conn.coord);
@@ -324,7 +325,7 @@ internal class MapBuilder
 	}
 
 
-	internal async Task BuildSection(string sectionTypeName, SectionResource sectionDef, ulong[] usedSeed)
+	internal async Task BuildSection(int levelIndex, string sectionTypeName, SectionResource sectionDef, ulong[] usedSeed)
 	{
 		MapPiece piece = map.GetPiece(MapCoordinate.Zero);
 		piece.Orientation = MAPDIRECTION.NORTH;
@@ -334,6 +335,7 @@ internal class MapBuilder
 			map = map,
 			piece = piece,
 			sectionID = map.Sections.Count,
+			levelIndex = levelIndex,
 			cfg = Args,
 			sectionDefinition = sectionDef,
 			sectionSeed = usedSeed
@@ -348,7 +350,7 @@ internal class MapBuilder
 
 		//GD.Print($"MapBuilder::BuildSection() [{section.GetType().Name}]");
 
-		section.Build();
+		section.Build(log);
 		map.Sections.Add(section);
 
 		// Start Fitting every piece and add debug
@@ -381,15 +383,15 @@ internal class MapBuilder
 	/// <summary>
 	/// Instances a BridgePlacer and 
 	/// </summary>
-	private void PlaceBridges(ISection section)
+	/*private void PlaceBridges(ISection section)
 	{
 		BridgePlacer bridgeMaker = new BridgePlacer(section, map);
 		bridgeMaker.Place(section);
-	}
+	}*/
 
 	private void FitRoundedCorners(MapPiece piece)
 	{
-		MapPiece adjacentN = map.GetExistingPiece(piece.Coord.StepNorth); // These need to NOT create new piecess
+		MapPiece adjacentN = map.GetExistingPiece(piece.Coord.StepNorth); // These need to NOT create new pieces
 		MapPiece adjacentE = map.GetExistingPiece(piece.Coord.StepEast);
 		MapPiece adjacentS = map.GetExistingPiece(piece.Coord.StepSouth);
 		MapPiece adjacentW = map.GetExistingPiece(piece.Coord.StepWest);
@@ -450,7 +452,7 @@ internal class MapBuilder
 		if (NE)
 		{
 			piece.AssignWall(new KeyData() { key = PIECEKEYS.WCI, dir = MAPDIRECTION.NORTH }, true);
-			if (piece.hasCieling && piece.Section.PlaceArches)
+			if (piece.hasCeiling && piece.Section.PlaceArches)
 			{
 				piece.AddExtra(new KeyData() { key = PIECEKEYS.ARCH, dir = MAPDIRECTION.NORTH, variantID = 1 });
 			}
@@ -458,7 +460,7 @@ internal class MapBuilder
 		if (SE)
 		{
 			piece.AssignWall(new KeyData() { key = PIECEKEYS.WCI, dir = MAPDIRECTION.EAST }, true);
-			if (piece.hasCieling && piece.Section.PlaceArches)
+			if (piece.hasCeiling && piece.Section.PlaceArches)
 			{
 				piece.AddExtra(new KeyData() { key = PIECEKEYS.ARCH, dir = MAPDIRECTION.EAST, variantID = 1 });
 			}
@@ -466,7 +468,7 @@ internal class MapBuilder
 		if (SW)
 		{
 			piece.AssignWall(new KeyData() { key = PIECEKEYS.WCI, dir = MAPDIRECTION.SOUTH }, true);
-			if (piece.hasCieling && piece.Section.PlaceArches)
+			if (piece.hasCeiling && piece.Section.PlaceArches)
 			{
 				piece.AddExtra(new KeyData() { key = PIECEKEYS.ARCH, dir = MAPDIRECTION.SOUTH, variantID = 1 });
 			}
@@ -476,7 +478,7 @@ internal class MapBuilder
 			if (adjacentN.HasWestWall && adjacentW.HasNorthWall)
 			{
 				piece.AssignWall(new KeyData() { key = PIECEKEYS.WCI, dir = MAPDIRECTION.WEST }, true);
-				if (piece.hasCieling && piece.Section.PlaceArches)
+				if (piece.hasCeiling && piece.Section.PlaceArches)
 				{
 					piece.AddExtra(new KeyData() { key = PIECEKEYS.ARCH, dir = MAPDIRECTION.WEST, variantID = 1 });
 				}
@@ -533,23 +535,8 @@ internal class MapBuilder
 		}
 	}
 
-	/*private void AddCorridor(MapPiece startpoint, MAPDIRECTION dir, int size, bool canBranch = true)
-	{
-		// make the seed to usefor the path
-		ulong[] bosse = new ulong[4] { (ulong)masterRNG.Next(1111, 9999), (ulong)masterRNG.Next(1111, 9999), (ulong)masterRNG.Next(1111, 9999), (ulong)masterRNG.Next(1111, 9999) };
-		startpoint.Orientation = dir;
-
-		SectionResource corr = ResourceLoader.Load("res://addons/MDunGen/Config/Sections/DefaultCorridor.tres") as SectionResource;
-
-
-		SectionbBuildArguments args = new SectionbBuildArguments() { sectionDefinition = corr, map = map, piece = startpoint, sectionID = map.Sections.Count, sectionSeed = bosse, cfg = Args };
-		PathSection path = new PathSection(args);
-		path.Build();
-		if (path.IsValid) { path.Save(); map.Sections.Add(path); }
-	}*/
-
 	/// <summary>
-	/// Removes all pieces in mapdata that isEmpty
+	/// Removes all pieces in map data that isEmpty
 	/// Run this as last step of the generation.
 	/// </summary>
 	private void RemoveAllEmpty()

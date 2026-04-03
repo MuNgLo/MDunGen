@@ -6,10 +6,19 @@ namespace MDunGen.MS;
 [Tool]
 public partial class Notifications : RichTextLabel
 {
-	[Export] MainScreen screen;
+	[Export] MainScreen mainScreen;
 
 	double notificationTTL;
 
+	public override void _Ready()
+	{
+		mainScreen.OnNotificationPushed += WhenNotificationPushed;
+		Text = string.Empty;
+	}
+	public override void _ExitTree()
+	{
+		mainScreen.OnNotificationPushed -= WhenNotificationPushed;
+	}
 	public override void _Process(double delta)
 	{
 		// Notification timer
@@ -19,7 +28,7 @@ public partial class Notifications : RichTextLabel
 	/// Show a message on the bottom of the viewer. Only one can be shown so it overwrites the existing one.
 	/// </summary>
 	/// <param name="message"></param>
-	public void ScreenNotify(object obj, string message)
+	public void WhenNotificationPushed(object obj, string message)
 	{
 		Text = message;
 		notificationTTL = 1.5f;
