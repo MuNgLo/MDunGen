@@ -4,8 +4,7 @@ using MDunGen.Resources;
 
 namespace MDunGen.Sections;
 
-[System.Obsolete("Fix spelling!")]
-public class SectionbBuildArguments
+public class SectionBuildArguments
 {
 	public SectionResource sectionDefinition;
 	public MapData map;

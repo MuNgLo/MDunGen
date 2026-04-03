@@ -20,14 +20,16 @@ namespace MDunGen;
 /// </summary>
 internal class MapBuilder
 {
-	private ulong[] seed;
-	private MapData map;
-	private PRNGMarsenneTwister masterRNG;
-	private PRNGMarsenneTwister floorRNG;
-	private GenerationSettingsResource Args => map.MapArgs;
+	ulong[] seed;
+	MapData map;
+	PRNGMarsenneTwister masterRNG;
+	PRNGMarsenneTwister floorRNG;
+	GenerationSettingsResource Args => map.MapArgs;
+	Action<BuildLogEventArgument> log;
 
-	public MapBuilder(MapData map, ulong[] seed)
+	public MapBuilder(MapData map, ulong[] seed, Action<BuildLogEventArgument> log)
 	{
+		this.log = log;
 		this.map = map;
 		this.seed = seed;
 		masterRNG = new PRNGMarsenneTwister(this.seed);
@@ -57,8 +59,7 @@ internal class MapBuilder
 		this.floorIndex = floorIndex;
 		floorRNG = new PRNGMarsenneTwister(NewSeed());
 
-
-		GD.Print("MapBuilder::BuildFloorMapData() starting.");
+		log.Invoke(new() { source = "MapBuilder::BuildFloorMapData()", message = "starting." });
 
 		foreach (BuildRuleResource ruleResource in floor.rules)
 		{
@@ -70,7 +71,7 @@ internal class MapBuilder
 			}
 		}
 
-		GD.Print("MapBuilder::BuildFloorMapData() Rules done.");
+		log.Invoke(new() { source = "MapBuilder::BuildFloorMapData()", message = "Rules done." });
 
 		BuildOpeningsFromConnections();
 
@@ -94,8 +95,7 @@ internal class MapBuilder
 			GD.Print("MapBuilder::BuildFloorMapData() adding pathing.");
 			DoPathingPass();
 		}
-
-		GD.Print("MapBuilder::BuildFloorMapData() Finished.");
+		log.Invoke(new() { source = "MapBuilder::BuildFloorMapData()", message = "Finished." });
 	}
 	private async Task ResolveBuildRule(BuildRuleResource rule)
 	{
@@ -116,7 +116,7 @@ internal class MapBuilder
 		MapPiece piece = map.GetPiece(location);
 		piece.Orientation = direction;
 
-		SectionbBuildArguments buildArgs = new SectionbBuildArguments()
+		SectionBuildArguments buildArgs = new SectionBuildArguments()
 		{
 			map = map,
 			piece = piece,
@@ -265,6 +265,11 @@ internal class MapBuilder
 			if (connPair.Value.sectionID < 0 || connPair.Value.sectionID >= map.Sections.Count)
 			{
 				GD.PushError($"MapBuilder::DoPathingPass() missing section for connection Connection[key:{connPair.Key}][value.sectionID:{connPair.Value.sectionID}] Map has [{map.Sections.Count}] sections.");
+				log(new BuildLogEventArgument()
+				{
+					source = $"MapBuilder::DoPathingPass()",
+					message = $"missing section for connection Connection[key:{connPair.Key}][value.sectionID:{connPair.Value.sectionID}] Map has [{map.Sections.Count}] sections."
+				});
 				continue;
 			}
 
@@ -319,12 +324,20 @@ internal class MapBuilder
 	}
 
 
-	internal async Task BuildSection(string sectionTypeName, SectionResource sectionDef)
+	internal async Task BuildSection(string sectionTypeName, SectionResource sectionDef, ulong[] usedSeed)
 	{
 		MapPiece piece = map.GetPiece(MapCoordinate.Zero);
 		piece.Orientation = MAPDIRECTION.NORTH;
 
-		SectionbBuildArguments buildArgs = new SectionbBuildArguments() { map = map, piece = piece, sectionID = map.Sections.Count, cfg = Args, sectionDefinition = sectionDef };
+		SectionBuildArguments buildArgs = new SectionBuildArguments()
+		{
+			map = map,
+			piece = piece,
+			sectionID = map.Sections.Count,
+			cfg = Args,
+			sectionDefinition = sectionDef,
+			sectionSeed = usedSeed
+		};
 
 		Assembly assembly = Assembly.GetExecutingAssembly();
 		Type type = assembly.GetTypes().First(t => t.Name == sectionTypeName);

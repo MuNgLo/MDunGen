@@ -2,14 +2,20 @@
 
 [ext_resource type="Script" uid="uid://bx8ye0yp4as34" path="res://addons/MDunGen/Scripts/MainScreen/MainScreen.cs" id="1_t5mpj"]
 [ext_resource type="Script" uid="uid://u852m6a2kfm0" path="res://addons/MDunGen/Scripts/MainScreen/CameraControls.cs" id="1_tt5em"]
-[ext_resource type="Script" uid="uid://cgcdgy21gpbor" path="res://addons/MDunGen/Scripts/MainScreen/DungeonViewerToolbar.cs" id="2_btfr4"]
 [ext_resource type="Script" uid="uid://cu6esrle4edls" path="res://addons/MDunGen/Scripts/MainScreen/Selection/SelectOnClick.cs" id="2_tq51n"]
+[ext_resource type="Texture2D" uid="uid://c5kw2p2uqfwvp" path="res://icon.svg" id="3_b5t2r"]
 [ext_resource type="Script" uid="uid://b8o0su1w02a8q" path="res://addons/MDunGen/Scripts/MainScreen/SectionTypeListButton.cs" id="3_bakif"]
 [ext_resource type="Environment" uid="uid://bn1cwyorljhq2" path="res://addons/MDunGen/ViewerEnv.tres" id="3_ubg15"]
 [ext_resource type="Script" uid="uid://b6g1bwfjbouba" path="res://addons/MDunGen/Scripts/MainScreen/ScreenDungeonVisualizer.cs" id="4_ey6f7"]
+[ext_resource type="Script" uid="uid://cgcdgy21gpbor" path="res://addons/MDunGen/Scripts/MainScreen/DungeonViewerToolbar.cs" id="6_b5t2r"]
 [ext_resource type="Script" uid="uid://du4q8vssgg2cu" path="res://addons/MDunGen/Scripts/MainScreen/Notifications.cs" id="7_cfcxe"]
+[ext_resource type="Script" uid="uid://djx3eyxua0ql8" path="res://addons/MDunGen/Scripts/UIInteractors/UIbtnMSProfile.cs" id="12_kw32i"]
+[ext_resource type="Script" uid="uid://l8oaij1i4oxi" path="res://addons/MDunGen/Scripts/UIInteractors/UIbtnMSBiome.cs" id="13_b5t2r"]
+[ext_resource type="Script" uid="uid://balb1epp61klj" path="res://addons/MDunGen/Scripts/UIInteractors/UIbtnMSExport.cs" id="14_y73eu"]
+[ext_resource type="Texture2D" uid="uid://dp1urbb1lo12r" path="res://addons/MDunGen/Icons/AddonIcon.png" id="15_tveyh"]
+[ext_resource type="Script" uid="uid://bai7127c45rf" path="res://addons/MDunGen/Scripts/UIInteractors/UIbtnMSSettings.cs" id="15_y73eu"]
+[ext_resource type="Script" uid="uid://bouocqo76ttg6" path="res://addons/MDunGen/Scripts/UIInteractors/UIbtnMSMasterConfig.cs" id="16_h5g5n"]
 [ext_resource type="Texture2D" uid="uid://4q27seqmy13i" path="res://addons/MDunGen/Icons/Plus.png" id="16_nrt1g"]
-[ext_resource type="Texture2D" uid="uid://bl6sx6tdpubx1" path="res://addons/MDunGen/Icons/AddonIcon_big.png" id="17_kon6s"]
 [ext_resource type="Script" uid="uid://bmn0p3g45eyh5" path="res://addons/MDunGen/Scripts/MainScreen/FloorOptions.cs" id="17_usypf"]
 [ext_resource type="Texture2D" uid="uid://d0ntdvj52emit" path="res://addons/MDunGen/Icons/Minus.png" id="17_wfx1p"]
 [ext_resource type="Script" uid="uid://bdyfu6bhh7isp" path="res://addons/MDunGen/Scripts/MainScreen/SectionSelector.cs" id="21_siix3"]
@@ -18,9 +24,6 @@
 [ext_resource type="Texture2D" uid="uid://cu3wjl5suy5ug" path="res://addons/MDunGen/Icons/ProfileIcon.png" id="31_7xw7w"]
 [ext_resource type="Texture2D" uid="uid://cu1sdtnjc2sy4" path="res://addons/MDunGen/Icons/CogIcon.png" id="32_m0fwq"]
 [ext_resource type="Texture2D" uid="uid://bwpk2kflh7a7a" path="res://addons/MDunGen/Icons/BiomeIcon.png" id="33_ck4ds"]
-[ext_resource type="Texture2D" uid="uid://cpu11832tl6ux" path="res://addons/MDunGen/Icons/ExportIcon.png" id="34_3dg3h"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xqdge"]
 
 [sub_resource type="World3D" id="World3D_qk8pl"]
 environment = ExtResource("3_ubg15")
@@ -41,16 +44,8 @@ height = 0.2
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nw88t"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fkwmv"]
-bg_color = Color(0.211765, 0.211765, 0.211765, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-
-[node name="DungeonViewer" type="Control" unique_id=1648561317]
+[node name="DungeonViewer" type="MarginContainer" unique_id=1180595730]
 custom_minimum_size = Vector2(400, 200)
-layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -61,139 +56,13 @@ size_flags_vertical = 3
 mouse_filter = 2
 script = ExtResource("1_t5mpj")
 
-[node name="DungeonViewerToolbar" type="HBoxContainer" parent="." unique_id=293658028 node_paths=PackedStringArray("btnModeToggle", "btnClear", "btnBuild", "btnRandomToggle", "btnView", "btnSectionTypeList", "btnSectionSelector")]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_top = 1.0
-offset_bottom = 41.0
-grow_horizontal = 2
-alignment = 1
-script = ExtResource("2_btfr4")
-btnModeToggle = NodePath("btnMode")
-btnClear = NodePath("btnClear")
-btnBuild = NodePath("btnBuild")
-btnRandomToggle = NodePath("btnRandom")
-btnView = NodePath("btnView")
-btnSectionTypeList = NodePath("btnSectionTypeList")
-btnSectionSelector = NodePath("SectionResourceSelector")
-
-[node name="VSeparator" type="VSeparator" parent="DungeonViewerToolbar" unique_id=1580628586]
-layout_mode = 2
-
-[node name="btnMode" type="Button" parent="DungeonViewerToolbar" unique_id=1618313291]
-custom_minimum_size = Vector2(134.715, 40)
-layout_mode = 2
-tooltip_text = "Toggle between generating a full dungeon or a single section."
-theme_type_variation = &"FlatButton"
-theme_override_styles/normal = SubResource("StyleBoxEmpty_xqdge")
-text = "DungeonMode"
-
-[node name="VSeparator2" type="VSeparator" parent="DungeonViewerToolbar" unique_id=1923237035]
-layout_mode = 2
-
-[node name="btnSectionTypeList" type="OptionButton" parent="DungeonViewerToolbar" unique_id=1273063488]
-layout_mode = 2
-tooltip_text = "If a Section Type is selected above. All resources of that Type stored in correct paths will be listed."
-selected = 0
-item_count = 3
-popup/item_0/text = "HallwaySection"
-popup/item_0/id = 0
-popup/item_1/text = "PathSection"
-popup/item_1/id = 1
-popup/item_2/text = "RoomSection"
-popup/item_2/id = 2
-script = ExtResource("3_bakif")
-
-[node name="SectionResourceSelector" type="OptionButton" parent="DungeonViewerToolbar" unique_id=972387590]
-layout_mode = 2
-tooltip_text = "Lists the section resources for the selected Type"
-script = ExtResource("21_siix3")
-
-[node name="VSeparator3" type="VSeparator" parent="DungeonViewerToolbar" unique_id=108631836]
-layout_mode = 2
-
-[node name="btnBuild" type="Button" parent="DungeonViewerToolbar" unique_id=1974902759]
-custom_minimum_size = Vector2(54, 0)
-layout_mode = 2
-theme_type_variation = &"FlatButton"
-theme_override_styles/normal = SubResource("StyleBoxEmpty_xqdge")
-text = "Build"
-
-[node name="btnClear" type="Button" parent="DungeonViewerToolbar" unique_id=1015109876]
-custom_minimum_size = Vector2(64, 0)
-layout_mode = 2
-tooltip_text = "Clears all generated data including the visuals."
-theme_type_variation = &"FlatButton"
-theme_override_styles/normal = SubResource("StyleBoxEmpty_xqdge")
-text = "Clear"
-
-[node name="VSeparator4" type="VSeparator" parent="DungeonViewerToolbar" unique_id=1902541533]
-layout_mode = 2
-
-[node name="btnRandom" type="Button" parent="DungeonViewerToolbar" unique_id=1677727527]
-custom_minimum_size = Vector2(80, 0)
-layout_mode = 2
-theme = ExtResource("29_j2fmg")
-theme_type_variation = &"FlatButton"
-theme_override_styles/normal = SubResource("StyleBoxEmpty_xqdge")
-text = "Random"
-
-[node name="VSeparator5" type="VSeparator" parent="DungeonViewerToolbar" unique_id=226472050]
-layout_mode = 2
-
-[node name="btnView" type="MenuButton" parent="DungeonViewerToolbar" unique_id=1914186436]
-custom_minimum_size = Vector2(60, 0)
-layout_mode = 2
-tooltip_text = "Check the things you want to show after a build"
-theme = ExtResource("29_j2fmg")
-toggle_mode = false
-shortcut_feedback = false
-shortcut_in_tooltip = false
-text = "View"
-item_count = 6
-popup/item_0/text = "Floors"
-popup/item_0/checkable = 1
-popup/item_0/checked = true
-popup/item_0/id = 0
-popup/item_1/text = "Walls"
-popup/item_1/checkable = 1
-popup/item_1/checked = true
-popup/item_1/id = 1
-popup/item_2/text = "Ceilings"
-popup/item_2/checkable = 1
-popup/item_2/checked = true
-popup/item_2/id = 2
-popup/item_3/text = "Extras"
-popup/item_3/checkable = 1
-popup/item_3/checked = true
-popup/item_3/id = 5
-popup/item_4/text = "PathingPass"
-popup/item_4/checkable = 1
-popup/item_4/checked = true
-popup/item_4/id = 4
-popup/item_5/text = "Debug"
-popup/item_5/checkable = 1
-popup/item_5/checked = true
-popup/item_5/id = 6
-
-[node name="VSeparator6" type="VSeparator" parent="DungeonViewerToolbar" unique_id=1394470982]
-layout_mode = 2
-
 [node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=1236985055]
 process_mode = 3
 process_thread_group = 1
 process_thread_group_order = 0
 process_thread_messages = 0
 custom_minimum_size = Vector2(300, 100)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = 41.0
-offset_bottom = 7.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 stretch = true
 script = ExtResource("2_tq51n")
 
@@ -204,7 +73,7 @@ handle_input_locally = false
 physics_object_picking = true
 physics_object_picking_sort = true
 physics_object_picking_first_only = true
-size = Vector2i(1152, 614)
+size = Vector2i(1152, 648)
 render_target_clear_mode = 2
 render_target_update_mode = 4
 
@@ -255,65 +124,219 @@ skeleton = NodePath("../..")
 
 [node name="Gizmos" type="Node3D" parent="SubViewportContainer/SubViewport" unique_id=526395357]
 
-[node name="FloorOptions" type="CenterContainer" parent="." unique_id=341526495]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -68.0
-offset_top = 47.0
-offset_right = 69.0
-offset_bottom = 64.0
-grow_horizontal = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-script = ExtResource("17_usypf")
+[node name="DungeonViewerToolbar" type="HBoxContainer" parent="." unique_id=937660188 node_paths=PackedStringArray("btnModeToggle", "btnClear", "btnBuild", "btnRandomToggle", "btnView", "btnSectionTypeList", "btnSectionSelector", "vsLeft", "vsRight")]
+layout_mode = 2
+size_flags_vertical = 0
+alignment = 1
+script = ExtResource("6_b5t2r")
+btnModeToggle = NodePath("btnMode")
+btnClear = NodePath("btnClear")
+btnBuild = NodePath("btnBuild")
+btnRandomToggle = NodePath("btnRandom")
+btnView = NodePath("btnView")
+btnSectionTypeList = NodePath("btnSectionTypeList")
+btnSectionSelector = NodePath("SectionResourceSelector")
+vsLeft = NodePath("sectionSeperator1")
+vsRight = NodePath("sectionSeperator2")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="FloorOptions" unique_id=567097932]
+[node name="btnMode" type="Button" parent="DungeonViewerToolbar" unique_id=1618313291]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+tooltip_text = "Toggle between generating a full dungeon or a single section."
+icon = ExtResource("3_b5t2r")
+icon_alignment = 1
+expand_icon = true
+
+[node name="sectionSeperator1" type="VSeparator" parent="DungeonViewerToolbar" unique_id=1923237035]
 layout_mode = 2
 
-[node name="SpinBox" type="SpinBox" parent="FloorOptions/HBoxContainer" unique_id=1666111704]
+[node name="btnSectionTypeList" type="OptionButton" parent="DungeonViewerToolbar" unique_id=1273063488 node_paths=PackedStringArray("screen")]
+layout_mode = 2
+tooltip_text = "If a Section Type is selected above. All resources of that Type stored in correct paths will be listed."
+script = ExtResource("3_bakif")
+screen = NodePath("../..")
+
+[node name="SectionResourceSelector" type="OptionButton" parent="DungeonViewerToolbar" unique_id=972387590 node_paths=PackedStringArray("screen", "sectionTypeSelector")]
+layout_mode = 2
+tooltip_text = "Lists the section resources for the selected Type"
+script = ExtResource("21_siix3")
+screen = NodePath("../..")
+sectionTypeSelector = NodePath("../btnSectionTypeList")
+
+[node name="sectionSeperator2" type="VSeparator" parent="DungeonViewerToolbar" unique_id=108631836]
+layout_mode = 2
+
+[node name="btnBuild" type="Button" parent="DungeonViewerToolbar" unique_id=1974902759]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+tooltip_text = "Generate new map data"
+icon = ExtResource("3_b5t2r")
+icon_alignment = 1
+expand_icon = true
+
+[node name="btnClear" type="Button" parent="DungeonViewerToolbar" unique_id=1015109876]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+tooltip_text = "Clears all generated data including the visuals."
+icon = ExtResource("3_b5t2r")
+icon_alignment = 1
+expand_icon = true
+
+[node name="btnRandom" type="Button" parent="DungeonViewerToolbar" unique_id=1677727527]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+tooltip_text = "Use random seed of a fixed one"
+toggle_mode = true
+icon = ExtResource("3_b5t2r")
+icon_alignment = 1
+expand_icon = true
+
+[node name="btnView" type="MenuButton" parent="DungeonViewerToolbar" unique_id=1914186436]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+tooltip_text = "Layers to visualize from map data"
+toggle_mode = false
+shortcut_feedback = false
+shortcut_in_tooltip = false
+icon = ExtResource("3_b5t2r")
+flat = false
+icon_alignment = 1
+expand_icon = true
+item_count = 6
+popup/item_0/text = "Floors"
+popup/item_0/checkable = 1
+popup/item_0/checked = true
+popup/item_0/id = 0
+popup/item_1/text = "Walls"
+popup/item_1/checkable = 1
+popup/item_1/checked = true
+popup/item_1/id = 1
+popup/item_2/text = "Ceilings"
+popup/item_2/checkable = 1
+popup/item_2/checked = true
+popup/item_2/id = 2
+popup/item_3/text = "Extras"
+popup/item_3/checkable = 1
+popup/item_3/checked = true
+popup/item_3/id = 5
+popup/item_4/text = "PathingPass"
+popup/item_4/checkable = 1
+popup/item_4/checked = true
+popup/item_4/id = 4
+popup/item_5/text = "Debug"
+popup/item_5/checkable = 1
+popup/item_5/checked = true
+popup/item_5/id = 6
+
+[node name="VSeparator4" type="VSeparator" parent="DungeonViewerToolbar" unique_id=1902541533]
+layout_mode = 2
+
+[node name="Profile" type="Button" parent="DungeonViewerToolbar" unique_id=388072740 node_paths=PackedStringArray("mainScreen")]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+tooltip_text = "Profile: Open the profile resource in the Inspector"
+icon = ExtResource("31_7xw7w")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("12_kw32i")
+mainScreen = NodePath("../..")
+
+[node name="Biome" type="Button" parent="DungeonViewerToolbar" unique_id=481680385 node_paths=PackedStringArray("mainScreen")]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+tooltip_text = "Show the biome resource in the inspector"
+icon = ExtResource("33_ck4ds")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("13_b5t2r")
+mainScreen = NodePath("../..")
+
+[node name="Export" type="Button" parent="DungeonViewerToolbar" unique_id=1943034520 node_paths=PackedStringArray("mainScreen")]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+tooltip_text = "Export the generated Dungeon to a scene"
+icon = ExtResource("3_b5t2r")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("14_y73eu")
+mainScreen = NodePath("../..")
+
+[node name="VSeparator5" type="VSeparator" parent="DungeonViewerToolbar" unique_id=226472050]
+layout_mode = 2
+
+[node name="Settings" type="Button" parent="DungeonViewerToolbar" unique_id=220830015 node_paths=PackedStringArray("mainScreen")]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+tooltip_text = "Show the settings resource in the inspector"
+icon = ExtResource("15_tveyh")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("15_y73eu")
+mainScreen = NodePath("../..")
+
+[node name="MasterConfig" type="Button" parent="DungeonViewerToolbar" unique_id=638762782 node_paths=PackedStringArray("mainScreen")]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+tooltip_text = "Addon settings"
+icon = ExtResource("32_m0fwq")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("16_h5g5n")
+mainScreen = NodePath("../..")
+
+[node name="FloorOptions" type="CenterContainer" parent="." unique_id=341526495]
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 2
+script = ExtResource("17_usypf")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="FloorOptions" unique_id=515925141]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Control" type="Control" parent="FloorOptions/VBoxContainer" unique_id=1057790447]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="FloorOptions/VBoxContainer" unique_id=567097932]
+layout_mode = 2
+
+[node name="SpinBox" type="SpinBox" parent="FloorOptions/VBoxContainer/HBoxContainer" unique_id=1666111704]
 layout_mode = 2
 theme = ExtResource("29_j2fmg")
 select_all_on_focus = true
 
-[node name="Plus" type="TextureButton" parent="FloorOptions/HBoxContainer" unique_id=1351839006]
+[node name="Plus" type="TextureButton" parent="FloorOptions/VBoxContainer/HBoxContainer" unique_id=1351839006]
 layout_mode = 2
 texture_normal = ExtResource("16_nrt1g")
 stretch_mode = 5
 
-[node name="FloorBox" type="TextureButton" parent="FloorOptions/HBoxContainer" unique_id=1492709818]
+[node name="FloorBox" type="TextureButton" parent="FloorOptions/VBoxContainer/HBoxContainer" unique_id=1492709818]
 layout_mode = 2
 texture_normal = ExtResource("29_le75x")
 stretch_mode = 5
 
-[node name="Minus" type="TextureButton" parent="FloorOptions/HBoxContainer" unique_id=1421190175]
+[node name="Minus" type="TextureButton" parent="FloorOptions/VBoxContainer/HBoxContainer" unique_id=1421190175]
 layout_mode = 2
 texture_normal = ExtResource("17_wfx1p")
 stretch_mode = 5
 
-[node name="EndVisibleFloor" type="Label" parent="FloorOptions/HBoxContainer" unique_id=1011445695]
+[node name="EndVisibleFloor" type="Label" parent="FloorOptions/VBoxContainer/HBoxContainer" unique_id=1011445695]
 layout_mode = 2
 theme = ExtResource("29_j2fmg")
-text = "2"
+text = "1"
 
-[node name="Control" type="Control" parent="FloorOptions/HBoxContainer" unique_id=1218899995]
+[node name="Control" type="Control" parent="FloorOptions/VBoxContainer/HBoxContainer" unique_id=1218899995]
 custom_minimum_size = Vector2(17.46, 0)
 layout_mode = 2
 
-[node name="Notification" type="RichTextLabel" parent="." unique_id=436063965]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -14.0
-offset_top = -114.0
-offset_right = 14.0
-offset_bottom = -71.0
-grow_horizontal = 2
-grow_vertical = 0
+[node name="Control2" type="Control" parent="FloorOptions/VBoxContainer" unique_id=1815623534]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="Notification" type="RichTextLabel" parent="FloorOptions/VBoxContainer" unique_id=436063965 node_paths=PackedStringArray("screen")]
+layout_mode = 2
 mouse_filter = 2
 theme_override_colors/default_color = Color(0.658824, 0.509804, 0.223529, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -321,74 +344,10 @@ theme_override_constants/outline_size = 3
 theme_override_font_sizes/normal_font_size = 35
 theme_override_styles/normal = SubResource("StyleBoxTexture_nw88t")
 bbcode_enabled = true
+text = "asdasd"
 fit_content = true
 scroll_active = false
 autowrap_mode = 0
+horizontal_alignment = 1
 script = ExtResource("7_cfcxe")
-
-[node name="Panel2" type="Panel" parent="." unique_id=2054075506]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -40.0
-offset_top = 47.0
-offset_right = -12.0
-offset_bottom = 207.0
-grow_horizontal = 0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_fkwmv")
-
-[node name="Profile" type="TextureButton" parent="Panel2" unique_id=1718646168]
-layout_mode = 0
-offset_left = -1.0
-offset_right = 127.0
-offset_bottom = 128.0
-scale = Vector2(0.25, 0.25)
-tooltip_text = "Profile: Open the profile resource in the Inspector"
-texture_normal = ExtResource("31_7xw7w")
-stretch_mode = 5
-
-[node name="Settings" type="TextureButton" parent="Panel2" unique_id=718152780]
-layout_mode = 0
-offset_left = -2.0
-offset_top = 32.0
-offset_right = 126.0
-offset_bottom = 160.0
-scale = Vector2(0.25, 0.25)
-tooltip_text = "Show the settings resource in the inspector"
-texture_normal = ExtResource("32_m0fwq")
-stretch_mode = 5
-
-[node name="Biome" type="TextureButton" parent="Panel2" unique_id=523616254]
-layout_mode = 0
-offset_left = -2.0
-offset_top = 64.0
-offset_right = 126.0
-offset_bottom = 192.0
-scale = Vector2(0.25, 0.25)
-tooltip_text = "Show the biome resource in the inspector"
-texture_normal = ExtResource("33_ck4ds")
-stretch_mode = 5
-
-[node name="Export" type="TextureButton" parent="Panel2" unique_id=529845810]
-layout_mode = 0
-offset_left = -2.0
-offset_top = 96.0
-offset_right = 126.0
-offset_bottom = 224.0
-scale = Vector2(0.25, 0.25)
-tooltip_text = "Export the generated Dungeon to a scene"
-texture_normal = ExtResource("34_3dg3h")
-stretch_mode = 5
-
-[node name="MasterConfig" type="TextureButton" parent="Panel2" unique_id=2056335532]
-layout_mode = 0
-offset_left = 6.0
-offset_top = 131.0
-offset_right = 38.0
-offset_bottom = 163.0
-scale = Vector2(0.5, 0.5)
-tooltip_text = "Export the generated Dungeon to a scene"
-texture_normal = ExtResource("17_kon6s")
-stretch_mode = 5
+screen = NodePath("../../..")

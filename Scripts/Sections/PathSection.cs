@@ -27,7 +27,7 @@ public class PathSection : SectionBase
 	private int corMinStraight = 2;
 	private bool nextTurnIsRight = false;
 
-	public PathSection(SectionbBuildArguments args) : base(args, false)
+	public PathSection(SectionBuildArguments args) : base(args, false)
 	{
 		PathResource pathRes = args.sectionDefinition as PathResource;
 		corMaxTotal = pathRes.corMaxTotal;

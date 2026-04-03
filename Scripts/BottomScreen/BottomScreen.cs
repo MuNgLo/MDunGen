@@ -9,7 +9,7 @@ namespace MDunGen.Bottom;
 /// <summary>
 /// The bottom window center editor to view and change dungeon configuration
 /// </summary>
-[Tool]
+[Tool, GlobalClass]
 public partial class BottomScreen : Control
 {
     public Dungeons addon;
@@ -18,18 +18,18 @@ public partial class BottomScreen : Control
     [Export] private Label connectionInfo;
     public override void _EnterTree()
     {
-        addon.MS.Selection.OnSelectionChanged += WhenselectionChanged;
+        addon.MS.Selection.OnSelectionChanged += WhenSelectionChanged;
         connectionInfo.Text = string.Empty;
     }
 
-    private void WhenselectionChanged(object sender, EventArgs e)
+    private void WhenSelectionChanged(object sender, EventArgs e)
     {
         MapPiece mp = addon.MS.Selection.SelectedMapPiece;
         ISection ss = addon.MS.Selection.SelectedSection;
         SectionConnection sc = addon.MS.Selection.SelectedConnection;
         if (mp is not null)
         {
-            mapPieceInfo.Text = $"Mappiece Info:\n MapPiece[{mp.Coord}] section[{mp.SectionIndex}] floor[{mp.hasFloor}] bridge[{mp.isBridge}] stair[{mp.hasStairs}]";
+            mapPieceInfo.Text = $"MapPiece Info:\n MapPiece[{mp.Coord}] section[{mp.SectionIndex}] floor[{mp.hasFloor}] bridge[{mp.isBridge}] stair[{mp.hasStairs}]";
         }
         if (ss is not null)
         {

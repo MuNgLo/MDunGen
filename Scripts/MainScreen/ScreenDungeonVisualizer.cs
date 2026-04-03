@@ -27,7 +27,15 @@ public partial class ScreenDungeonVisualizer : Node3D
 	private BiomeResource biome;
 	public MapData Map { get => map; }
 
-	public event EventHandler OnNewMapBuilt;
+	public event EventHandler OnMapBuildStarted;
+	public event EventHandler OnMapBuildEnded;
+	public event EventHandler<BuildLogEventArgument> OnMapBuildLog;
+
+	public void RaiseBuildLogEvent(BuildLogEventArgument args)
+	{
+		EventHandler<BuildLogEventArgument> evt = OnMapBuildLog;
+		evt?.Invoke(this, args);
+	}
 
 	public override void _EnterTree()
 	{
@@ -36,6 +44,7 @@ public partial class ScreenDungeonVisualizer : Node3D
 	}
 	public async void BuildDungeon(GenerationSettingsResource settings, FloorResource floor, BiomeResource biome)
 	{
+		OnMapBuildStarted?.Invoke(EventArgs.Empty, EventArgs.Empty);
 		screen.RaiseNotification($"Building Dungeon");
 		this.settings = settings;
 		screen.RaiseNotification($"Generating:" + string.Format("{0:0}", 0) + "%");
@@ -43,7 +52,7 @@ public partial class ScreenDungeonVisualizer : Node3D
 		//BuildData(biome, () => { ShowMap(null, null); }, settings.roomStart, settings.roomDefault);
 		BuildData(biome, () => { ReDrawMap(); }, floor);
 		await ToSignal(GetTree(), "process_frame");
-		OnNewMapBuilt?.Invoke(EventArgs.Empty, EventArgs.Empty);
+		OnMapBuildEnded?.Invoke(EventArgs.Empty, EventArgs.Empty);
 	}
 	public async void BuildSection(string sectionTypeName, SectionResource sectionDef, ulong[] seed, GenerationSettingsResource settings, BiomeResource biome, Action callback)
 	{
@@ -54,7 +63,7 @@ public partial class ScreenDungeonVisualizer : Node3D
 		cacheKeyedPieces = new System.Collections.Generic.Dictionary<PIECEKEYS, System.Collections.Generic.Dictionary<int, Resource>>();
 		this.biome = biome;
 
-		map = new MapData(settings);
+		map = new MapData(settings, RaiseBuildLogEvent);
 		await map.GenerateSection(sectionTypeName, seed, sectionDef, callback);
 	}
 
@@ -68,7 +77,7 @@ public partial class ScreenDungeonVisualizer : Node3D
 			GD.PrintErr($"DungeonGenerator::BuildDungeon() BuildDungeonFailed! settings is NULL[{settings is null}] biome is NUll[{biome is null}]");
 			return;
 		}
-		map = new MapData(settings, floor);
+		map = new MapData(settings, floor, RaiseBuildLogEvent);
 		//await map.GenerateMap(callback, screen.addon.MasterConfig.pathingPass);
 		for (int i = 0; i < settings.nbOfFloors; i++)
 		{

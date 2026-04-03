@@ -6,7 +6,8 @@
 script = ExtResource("1_jal31")
 sectionName = "Diver Room Standard"
 sectionType = "RoomSection"
-nbFloorsMax = 1
+nbFloorsMin = 2
+nbFloorsMax = 3
 arches = false
 placers = []
 firstPieceDoor = false

@@ -15,9 +15,11 @@ public partial class DungeonViewerToolbar : HBoxContainer
 	[Export] private Button btnBuild;
 	[Export] private Button btnRandomToggle;
 	[Export] private MenuButton btnView;
+	[ExportGroup("Section visible")]
 	[Export] private SectionTypeListButton btnSectionTypeList;
 	[Export] private SectionSelector btnSectionSelector;
-
+	[Export] VSeparator vsLeft;
+	[Export] VSeparator vsRight;
 	public ProfileResource Profile => screen.addon.Profile;
 
 	// Called when the node enters the scene tree for the first time.
@@ -30,6 +32,15 @@ public partial class DungeonViewerToolbar : HBoxContainer
 		btnClear.Pressed += WhenMSClearPressed;
 		btnRandomToggle.Pressed += WhenMSRNGSeedPressed;
 		btnView.GetPopup().IdPressed += WhenMSShowChanged;
+
+		btnBuild.Icon = EditorInterface.Singleton.GetBaseControl().GetThemeIcon("BuildCSharp", "EditorIcons");
+		btnClear.Icon = EditorInterface.Singleton.GetBaseControl().GetThemeIcon("RotateLeft", "EditorIcons");
+		btnRandomToggle.Icon = EditorInterface.Singleton.GetBaseControl().GetThemeIcon("RandomNumberGenerator", "EditorIcons");
+		btnView.Icon = EditorInterface.Singleton.GetBaseControl().GetThemeIcon("ViewportTexture", "EditorIcons");
+		btnModeToggle.Icon = EditorInterface.Singleton.GetBaseControl().GetThemeIcon("TexturePreviewChannels", "EditorIcons");
+		
+
+
 	}
 
 	private void UpdateUI(object sender, EventArgs e)
@@ -38,29 +49,20 @@ public partial class DungeonViewerToolbar : HBoxContainer
 		switch (screen.addon.Mode)
 		{
 			case VIEWERMODE.SECTION:
-				btnModeToggle.Text = "SectionMode";
 				btnSectionSelector.Show();
 				btnSectionTypeList.Show();
+				vsLeft.Show();
+				vsRight.Show();
 				break;
 			case VIEWERMODE.DUNGEON:
 			default:
-				btnModeToggle.Text = "DungeonMode";
 				btnSectionSelector.Hide();
 				btnSectionTypeList.Hide();
+				vsLeft.Hide();
+				vsRight.Hide();
 				break;
 		}
 
-		if (!Profile.useRandomSeed)
-		{
-			if (Profile.useRandomSeed)
-			{
-				btnRandomToggle.Text = "Random";
-			}
-			else
-			{
-				btnRandomToggle.Text = "Seeded";
-			}
-		}
 		PopupMenu pop = btnView.GetPopup();
 		pop.HideOnCheckableItemSelection = false;
 		pop.HideOnItemSelection = false;
@@ -127,14 +129,6 @@ public partial class DungeonViewerToolbar : HBoxContainer
 		GD.Print("DungeonViewerToolbar::WhenMSRNGSeedPressed()");
 		Profile.useRandomSeed = !Profile.useRandomSeed;
 		ResourceSaver.Save(Profile);
-		if (Profile.useRandomSeed)
-		{
-			btnRandomToggle.Text = "Random";
-		}
-		else
-		{
-			btnRandomToggle.Text = "Seeded";
-		}
 		screen.RaiseNotification("Generate " + (Profile.useRandomSeed ? "Random" : "Seeded"));
 		btnRandomToggle.ReleaseFocus();
 	}

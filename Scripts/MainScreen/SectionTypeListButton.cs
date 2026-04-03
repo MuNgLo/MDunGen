@@ -8,10 +8,10 @@ using System.Linq;
 using System.Reflection;
 namespace MDunGen.MS;
 
-[Tool]
+[Tool, GlobalClass]
 public partial class SectionTypeListButton : OptionButton
 {
-	private MainScreen screen;
+	[Export] MainScreen screen;
 	public EventHandler<Type> OnSectionTypeSelected;
 	public override void _EnterTree()
 	{
@@ -31,7 +31,6 @@ public partial class SectionTypeListButton : OptionButton
 	}
 	public override void _Ready()
 	{
-		screen = GetParent().GetParent() as MainScreen;
 		ItemSelected += WhenItemSelected;
 	}
 	private void WhenItemSelected(long index)
@@ -50,18 +49,19 @@ public partial class SectionTypeListButton : OptionButton
 
 	private List<Type> GetList()
 	{
-		string nspace = "Munglo.DungeonGenerator.Sections";
+		
+		string nameSpace = "MDunGen.Sections";
 		IEnumerable<Type> q = from t in Assembly.GetExecutingAssembly().GetTypes()
-							  where t.IsClass && t.Namespace == nspace
+							  where t.IsClass && t.Namespace == nameSpace
 							  select t;
 		return q.ToList();
 	}
 
 	public Type GetSelectedType()
 	{
-		string nspace = "Munglo.DungeonGenerator.Sections";
+		string nameSpace = "MDunGen.Sections";
 		IEnumerable<Type> q = from t in Assembly.GetExecutingAssembly().GetTypes()
-							  where t.IsClass && t.Namespace == nspace
+							  where t.IsClass && t.Namespace == nameSpace
 							  select t;
 
 		string selectedText = GetItemText(Selected);

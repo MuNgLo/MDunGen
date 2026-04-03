@@ -6,7 +6,7 @@ namespace MDunGen.Sections;
 public class HallwaySection : SectionBase
 {
     private int maxLength = 10;
-    public HallwaySection(SectionbBuildArguments args) : base(args, false)
+    public HallwaySection(SectionBuildArguments args) : base(args, false)
     {
         PathResource pathRes = args.sectionDefinition as PathResource;
         maxLength = pathRes.corMaxTotal;

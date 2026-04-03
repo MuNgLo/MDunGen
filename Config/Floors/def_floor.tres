@@ -2,7 +2,9 @@
 
 [ext_resource type="Script" uid="uid://bhecvamptmrrg" path="res://addons/MDunGen/Scripts/ResourceDefinitions/BuildRuleResource.cs" id="1_v8uvr"]
 [ext_resource type="Script" uid="uid://dabyiog8edqj1" path="res://addons/MDunGen/Scripts/ResourceDefinitions/SectionResource.cs" id="2_v8uvr"]
+[ext_resource type="Resource" uid="uid://bfws7yk2wikiu" path="res://addons/MDunGen/Config/Sections/DefaultCorridorLongTangledWide.tres" id="3_ul5we"]
 [ext_resource type="Resource" uid="uid://bi6wigkf4cpei" path="res://addons/MDunGen/Config/Sections/DefaultCorridorLongTangled.tres" id="3_xpxpc"]
+[ext_resource type="Resource" uid="uid://cpo4pr8osbhnk" path="res://addons/MDunGen/Config/Sections/DefaultStandardRoom.tres" id="4_21l8d"]
 [ext_resource type="Script" uid="uid://bbywsm7ndqlx2" path="res://addons/MDunGen/Scripts/ResourceDefinitions/FloorResource.cs" id="7_nn5bf"]
 
 [sub_resource type="Resource" id="Resource_21l8d"]
@@ -24,10 +26,25 @@ metadata/_custom_type_script = "uid://bhecvamptmrrg"
 script = ExtResource("1_v8uvr")
 catergory = 1
 location = 2
+section = ExtResource("3_ul5we")
+metadata/_custom_type_script = "uid://bhecvamptmrrg"
+
+[sub_resource type="Resource" id="Resource_ptpeo"]
+script = ExtResource("1_v8uvr")
+catergory = 1
+location = 2
 section = ExtResource("3_xpxpc")
-amount = 3
+amount = 6
+metadata/_custom_type_script = "uid://bhecvamptmrrg"
+
+[sub_resource type="Resource" id="Resource_xpxpc"]
+script = ExtResource("1_v8uvr")
+catergory = 1
+location = 2
+section = ExtResource("4_21l8d")
+amount = 16
 metadata/_custom_type_script = "uid://bhecvamptmrrg"
 
 [resource]
 script = ExtResource("7_nn5bf")
-rules = [SubResource("Resource_ijhfp"), SubResource("Resource_ul5we")]
+rules = [SubResource("Resource_ijhfp"), SubResource("Resource_ul5we"), SubResource("Resource_ptpeo"), SubResource("Resource_xpxpc")]

@@ -24,6 +24,8 @@ public partial class Dungeon : Node
 	internal List<MapPiece> LockedPieces => map.GetPieces(MAPPIECESTATE.LOCKED);
 	internal MapData Map => map;
 
+	public event EventHandler<BuildLogEventArgument> OnMapBuildLog;
+
 	private MapData map;
 
 	public override void _Ready()
@@ -51,13 +53,20 @@ public partial class Dungeon : Node
 			Log($"Fail! settings is NULL[{settings is null}]");
 			return;
 		}
-		map = new MapData(settings);
+		map = new MapData(settings, RaiseBuildLogEvent);
 		await map.GenerateMap(callback, settings.calculatePathing);
 	}
+	[Obsolete("Use the build log instead")]
 	private void Log(string msg)
 	{
 #if MConsole
 		MConsole.GameConsole.AddLine(msg);
 #endif
+	}
+
+	public void RaiseBuildLogEvent(BuildLogEventArgument args)
+	{
+		EventHandler<BuildLogEventArgument> evt = OnMapBuildLog;
+		evt?.Invoke(this, args);
 	}
 }// EOF CLASS

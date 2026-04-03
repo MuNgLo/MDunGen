@@ -53,7 +53,7 @@ public interface ISection
 	/// </summary>
 	public void Save();
 
-	public bool AddOpening(MapCoordinate coord, MAPDIRECTION dir, bool wide, bool overrideLocked);
+	public bool AddOpening(MapCoordinate coord, MAPDIRECTION dir, bool wide, bool overrideLocked, Action<BuildLogEventArgument> log);
 	/// <summary>
 	/// Add inner prop to section
 	/// </summary>

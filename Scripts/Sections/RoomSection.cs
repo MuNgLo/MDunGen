@@ -9,7 +9,7 @@ namespace MDunGen.Sections;
 
 public class RoomSection : SectionBase
 {
-	public RoomSection(SectionbBuildArguments args) : base(args) { }
+	public RoomSection(SectionBuildArguments args) : base(args) { }
 
 	#region ISection methods
 	public override void Build()
@@ -171,6 +171,7 @@ public class RoomSection : SectionBase
 
 			if (nb.SectionIndex != sectionIndex)
 			{
+				// TODO Here the nb.SectionIndex been outside valid values
 				AddConnection(dir, map.Sections[nb.SectionIndex], pick.Coord, nb.Coord, true);
 				return;
 			}

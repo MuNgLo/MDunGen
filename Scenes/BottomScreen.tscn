@@ -2,33 +2,31 @@
 
 [ext_resource type="Script" uid="uid://djsfcbtprv4pe" path="res://addons/MDunGen/Scripts/BottomScreen/BottomScreen.cs" id="1_qthb6"]
 [ext_resource type="Script" uid="uid://b7u4r0l81go1u" path="res://addons/MDunGen/Scripts/BottomScreen/PathInfo.cs" id="2_sxobj"]
+[ext_resource type="Script" uid="uid://dvrh5eadrf1hw" path="res://addons/MDunGen/Scripts/BottomScreen/BuildLogTab.cs" id="3_82ax6"]
+[ext_resource type="PackedScene" uid="uid://bhdgi2espykeo" path="res://addons/MDunGen/Scenes/BuildLogEntry.tscn" id="4_iq0wc"]
 
-[node name="dungeonBottom" type="Control" unique_id=1770433926 node_paths=PackedStringArray("sectionInfo", "mapPieceInfo", "connectionInfo")]
-layout_mode = 3
-anchors_preset = 15
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iq0wc"]
+bg_color = Color(0.056291588, 0.05629161, 0.05629155, 1)
+
+[node name="dungeonBottom" type="TabContainer" unique_id=396926737 node_paths=PackedStringArray("sectionInfo", "mapPieceInfo", "connectionInfo")]
+custom_minimum_size = Vector2(0, 220)
+anchors_preset = 10
 anchor_right = 1.0
-anchor_bottom = 1.0
+offset_bottom = 220.0
 grow_horizontal = 2
-grow_vertical = 2
+size_flags_horizontal = 3
+current_tab = 4
 script = ExtResource("1_qthb6")
-sectionInfo = NodePath("TabContainer/Selection/GridContainer/SectionInfo")
-mapPieceInfo = NodePath("TabContainer/Selection/GridContainer/MappieceInfo")
-connectionInfo = NodePath("TabContainer/Selection/GridContainer/ConnectionInfo")
+sectionInfo = NodePath("Selection/GridContainer/SectionInfo")
+mapPieceInfo = NodePath("Selection/GridContainer/MappieceInfo")
+connectionInfo = NodePath("Selection/GridContainer/ConnectionInfo")
 
-[node name="TabContainer" type="TabContainer" parent="." unique_id=1417719414]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-current_tab = 0
-
-[node name="Selection" type="Control" parent="TabContainer" unique_id=1966692158]
+[node name="Selection" type="Control" parent="." unique_id=1966692158]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="GridContainer" type="GridContainer" parent="TabContainer/Selection" unique_id=1960655264]
+[node name="GridContainer" type="GridContainer" parent="Selection" unique_id=1960655264]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -37,30 +35,30 @@ grow_horizontal = 2
 grow_vertical = 2
 columns = 2
 
-[node name="SectionInfo" type="Label" parent="TabContainer/Selection/GridContainer" unique_id=1740682333]
+[node name="SectionInfo" type="Label" parent="Selection/GridContainer" unique_id=1740682333]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "SectionINfo"
 
-[node name="MappieceInfo" type="Label" parent="TabContainer/Selection/GridContainer" unique_id=930518087]
+[node name="MappieceInfo" type="Label" parent="Selection/GridContainer" unique_id=930518087]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "MapPieceInfo"
 
-[node name="ConnectionInfo" type="Label" parent="TabContainer/Selection/GridContainer" unique_id=1645994471]
+[node name="ConnectionInfo" type="Label" parent="Selection/GridContainer" unique_id=1645994471]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "ConnectionInfo"
 
-[node name="Pathing" type="Control" parent="TabContainer" unique_id=1359643381 node_paths=PackedStringArray("BS", "pathDebugInfo")]
+[node name="Pathing" type="Control" parent="." unique_id=1359643381 node_paths=PackedStringArray("BS", "pathDebugInfo")]
 visible = false
 layout_mode = 2
 script = ExtResource("2_sxobj")
-BS = NodePath("../..")
+BS = NodePath("..")
 pathDebugInfo = NodePath("MarginContainer/FlowContainer/GridContainer/PathDebugInfo")
 metadata/_tab_index = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Pathing" unique_id=1976231724]
+[node name="MarginContainer" type="MarginContainer" parent="Pathing" unique_id=1976231724]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -72,30 +70,94 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="FlowContainer" type="FlowContainer" parent="TabContainer/Pathing/MarginContainer" unique_id=1888266059]
+[node name="FlowContainer" type="FlowContainer" parent="Pathing/MarginContainer" unique_id=1888266059]
 layout_mode = 2
 
-[node name="GridContainer" type="GridContainer" parent="TabContainer/Pathing/MarginContainer/FlowContainer" unique_id=1238005248]
+[node name="GridContainer" type="GridContainer" parent="Pathing/MarginContainer/FlowContainer" unique_id=1238005248]
 layout_mode = 2
 
-[node name="RichTextLabel" type="RichTextLabel" parent="TabContainer/Pathing/MarginContainer/FlowContainer/GridContainer" unique_id=1513877721]
+[node name="RichTextLabel" type="RichTextLabel" parent="Pathing/MarginContainer/FlowContainer/GridContainer" unique_id=1513877721]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 text = "Path information"
 fit_content = true
 
-[node name="PathDebugInfo" type="RichTextLabel" parent="TabContainer/Pathing/MarginContainer/FlowContainer/GridContainer" unique_id=381088993]
+[node name="PathDebugInfo" type="RichTextLabel" parent="Pathing/MarginContainer/FlowContainer/GridContainer" unique_id=381088993]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 text = "Path information"
 fit_content = true
 
-[node name="DungeonInfo" type="Control" parent="TabContainer" unique_id=903622796]
+[node name="DungeonInfo" type="Control" parent="." unique_id=903622796]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
-[node name="Settings" type="Control" parent="TabContainer" unique_id=803476311]
+[node name="Settings" type="Control" parent="." unique_id=803476311]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 3
+
+[node name="BuildLog" type="MarginContainer" parent="." unique_id=564089281 node_paths=PackedStringArray("BS", "container", "leFilter", "cbShowSource")]
+layout_mode = 2
+script = ExtResource("3_82ax6")
+BS = NodePath("..")
+prefabLogEntry = ExtResource("4_iq0wc")
+container = NodePath("GridContainer/MarginContainer2/ScrollContainer/LogContainer")
+leFilter = NodePath("GridContainer/MarginContainer/buildLogFooter/leFilter")
+cbShowSource = NodePath("GridContainer/MarginContainer/buildLogFooter/cbShowSource")
+metadata/_tab_index = 4
+
+[node name="GridContainer" type="GridContainer" parent="BuildLog" unique_id=240077501]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="BuildLog/GridContainer" unique_id=1178499575]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 8
+
+[node name="ScrollContainer" type="ScrollContainer" parent="BuildLog/GridContainer/MarginContainer2" unique_id=2061611249]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_iq0wc")
+
+[node name="LogContainer" type="GridContainer" parent="BuildLog/GridContainer/MarginContainer2/ScrollContainer" unique_id=2071522582]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="BuildLog/GridContainer" unique_id=2114811054]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 2
+
+[node name="buildLogFooter" type="FlowContainer" parent="BuildLog/GridContainer/MarginContainer" unique_id=785898856]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="BuildLog/GridContainer/MarginContainer/buildLogFooter" unique_id=1926939650]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="lblFilter" type="Label" parent="BuildLog/GridContainer/MarginContainer/buildLogFooter" unique_id=242642203]
+layout_mode = 2
+text = "Filter:"
+
+[node name="leFilter" type="LineEdit" parent="BuildLog/GridContainer/MarginContainer/buildLogFooter" unique_id=2056826950]
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+
+[node name="Control2" type="Control" parent="BuildLog/GridContainer/MarginContainer/buildLogFooter" unique_id=733722322]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="cbShowSource" type="CheckBox" parent="BuildLog/GridContainer/MarginContainer/buildLogFooter" unique_id=1527818448]
+layout_mode = 2
+text = "show source"

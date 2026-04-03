@@ -19,7 +19,7 @@ public partial class Dungeons : EditorPlugin
 	public AddonSettingsResource MasterConfig => masterConfig;
 	private MainScreen screen;
 	public MainScreen MS => screen;
-	private BottomScreen bscreen;
+	private BottomScreen bScreen;
 	private SubViewportContainer subV;
 	private CameraControls cam;
 	private PackedScene mainPrefab = ResourceLoader.Load<PackedScene>("res://addons/MDunGen/Scenes/MainScreen.tscn");
@@ -46,20 +46,15 @@ public partial class Dungeons : EditorPlugin
 
 		cam = screen.FindChild("Camera3D") as CameraControls;
 
-		// Hook up mainscreen UI 
-		// The other side
-		(screen.FindChild("Profile") as TextureButton).Pressed += WhenMSProfilePressed;
-		(screen.FindChild("Settings") as TextureButton).Pressed += WhenMSSettingsPressed;
-		(screen.FindChild("Biome") as TextureButton).Pressed += WhenMSBiomePressed;
-		(screen.FindChild("Export") as TextureButton).Pressed += WhenMSExportPressed;
+		// Bottom screen
+		bScreen = (BottomScreen)bottomPrefab.Instantiate();
+		bScreen.addon = this;
 
-		//RunDebugTestThings();
-
-		// Bottomscreen
-		bscreen = (BottomScreen)bottomPrefab.Instantiate();
-		bscreen.addon = this;
+		EditorDock bDock = new EditorDock(){ DefaultSlot =  EditorDock.DockSlot.Bottom };
+		bDock.AddChild(bScreen);
 		// Add bottom screen instance to the editor
-		AddControlToBottomPanel(bscreen, "Dungeon");
+		//AddControlToBottomPanel(bScreen, "Dungeon");
+		AddDock(bDock);
 	}
 
 	Button testBTN;
@@ -94,17 +89,14 @@ public partial class Dungeons : EditorPlugin
 		{
 			RemoveControlFromContainer(CustomControlContainer.SpatialEditorMenu, testBTN);
 		}
-		RemoveControlFromBottomPanel(bscreen);
-		bscreen.QueueFree();
+		//RemoveControlFromBottomPanel(bScreen);
+		RemoveDock(bScreen.GetParent() as EditorDock);
+		bScreen.GetParent().QueueFree();
 		GD.Print("Unloaded MuNgLo's Dungeon Plugin");
 		subV.MouseEntered -= WhenMouseEnterMain;
 		subV.MouseExited -= WhenMouseExitMain;
-		// Release mainscreen UI
+		// Release main screen UI
 		// The other Side
-		(screen.FindChild("Profile") as TextureButton).Pressed -= WhenMSProfilePressed;
-		(screen.FindChild("Settings") as TextureButton).Pressed -= WhenMSSettingsPressed;
-		(screen.FindChild("Biome") as TextureButton).Pressed -= WhenMSBiomePressed;
-		(screen.FindChild("Export") as TextureButton).Pressed -= WhenMSExportPressed;
 	}
 	public override bool _HasMainScreen()
 	{
@@ -129,16 +121,16 @@ public partial class Dungeons : EditorPlugin
 	public override void _Process(double delta)
 	{
 		if (!screen.cursorIsInside) { return; }
-		Vector3 inputvector = Vector3.Zero;
-		if (Input.IsKeyPressed(Key.W)) { inputvector += Vector3.Forward; }
-		if (Input.IsKeyPressed(Key.S)) { inputvector += Vector3.Back; }
-		if (Input.IsKeyPressed(Key.A)) { inputvector += Vector3.Left; }
-		if (Input.IsKeyPressed(Key.D)) { inputvector += Vector3.Right; }
-		if (Input.IsKeyPressed(Key.E)) { inputvector += Vector3.Up; }
-		if (Input.IsKeyPressed(Key.Q)) { inputvector += Vector3.Down; }
+		Vector3 inputVector = Vector3.Zero;
+		if (Input.IsKeyPressed(Key.W)) { inputVector += Vector3.Forward; }
+		if (Input.IsKeyPressed(Key.S)) { inputVector += Vector3.Back; }
+		if (Input.IsKeyPressed(Key.A)) { inputVector += Vector3.Left; }
+		if (Input.IsKeyPressed(Key.D)) { inputVector += Vector3.Right; }
+		if (Input.IsKeyPressed(Key.E)) { inputVector += Vector3.Up; }
+		if (Input.IsKeyPressed(Key.Q)) { inputVector += Vector3.Down; }
 		//if (Input.IsKeyPressed(Key.Shift)) { screen.shiftIsPressed; }
-		inputvector = inputvector.Normalized();
-		cam.Inputvector(inputvector);
+		inputVector = inputVector.Normalized();
+		cam.InputVector(inputVector);
 
 		if (Input.IsMouseButtonPressed(MouseButton.Middle))
 		{
@@ -198,28 +190,27 @@ public partial class Dungeons : EditorPlugin
 	}
 	#endregion
 
-	#region Listeners
 	/// <summary>
-	/// Export Dialougue
+	/// Export Dialogue
 	/// </summary>
-	private void WhenMSExportPressed()
+	public void ShowExportPopup()
 	{
-		(screen.FindChild("Export") as TextureButton).ReleaseFocus();
-
-		popup = new EditorFileDialog();
-		popup.AlwaysOnTop = true;
-		popup.Title = "Export Dungeon";
-		popup.FileMode = EditorFileDialog.FileModeEnum.SaveFile;
-		popup.Access = EditorFileDialog.AccessEnum.Resources;
-		popup.PopupWindow = true;
-		popup.OkButtonText = "Save";
+		popup = new EditorFileDialog
+		{
+			AlwaysOnTop = true,
+			Title = "Export Dungeon",
+			FileMode = EditorFileDialog.FileModeEnum.SaveFile,
+			Access = EditorFileDialog.AccessEnum.Resources,
+			PopupWindow = true,
+			OkButtonText = "Save"
+		};
 		popup.Confirmed += WhenExportConfirmed;
-		//popup.ResetSize();
 		popup.Size = screen.GetViewport().GetWindow().Size / 2;
 		EditorInterface.Singleton.GetBaseControl().GetViewport().AddChild(popup);
 		popup.MoveToCenter();
 		popup.Show();
 	}
+	#region Listeners
 	/// <summary>
 	/// Handle the export
 	/// </summary>
@@ -257,22 +248,6 @@ public partial class Dungeons : EditorPlugin
 		}
 		return false;
 	}
-	private void WhenMSSettingsPressed()
-	{
-		EditorInterface.Singleton.InspectObject(Profile.settings);
-		(screen.FindChild("Settings") as TextureButton).ReleaseFocus();
-	}
-	private void WhenMSBiomePressed()
-	{
-		EditorInterface.Singleton.InspectObject(Profile.biome);
-		(screen.FindChild("Biome") as TextureButton).ReleaseFocus();
-	}
-	private void WhenMSProfilePressed()
-	{
-		EditorInterface.Singleton.InspectObject(Profile);
-		//(screen.FindChild("Build") as TextureButton).ReleaseFocus();
-	}
-
 
 	private void WhenMouseEnterMain()
 	{

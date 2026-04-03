@@ -10,7 +10,7 @@ namespace MDunGen.MS;
 /// <summary>
 /// The main screen window center editor to generate/view dungeon data
 /// </summary>
-[Tool]
+[Tool, GlobalClass]
 public partial class MainScreen : Control
 {
 	/// <summary>
@@ -43,16 +43,15 @@ public partial class MainScreen : Control
 	public override void _Ready()
 	{
 		//GD.Print($"DirExistsAbs [{DirAccess.DirExistsAbsolute(addon.MasterConfig.ProjectResourcePath)}]");
-		(FindChild("MasterConfig") as TextureButton).Pressed += PopupInitialSettingsDialougue;
 
 		if (addon.MasterConfig.ProjectResourcePath == string.Empty || !DirAccess.DirExistsAbsolute(addon.MasterConfig.ProjectResourcePath))
 		{
-			PopupInitialSettingsDialougue();
+			PopupInitialSettingsDialogue();
 		}
 		SetDebugLayer(addon.Profile.showDebugLayer);
 		RaiseUpdateUI();
 	}
-	private void PopupInitialSettingsDialougue()
+	public void PopupInitialSettingsDialogue()
 	{
 		PackedScene pScn = ResourceLoader.Load("res://addons/MDunGen/Scenes/InitialPopup.tscn") as PackedScene;
 		InitialPopup pop = pScn.Instantiate<InitialPopup>();
@@ -61,7 +60,6 @@ public partial class MainScreen : Control
 	}
 	public void RaiseUpdateUI()
 	{
-		//GD.Print($"MainScreen::RaiseUpdateUI()  EVENT!!");
 		EventHandler evt = OnMainScreenUIUpdate;
 		evt?.Invoke(this, EventArgs.Empty);
 	}
@@ -83,7 +81,7 @@ public partial class MainScreen : Control
 	{
 		RaiseNotification($"Building Section {sectionDef.sectionName}");
 		Array<PlacerEntryResource> placers = sectionDef.placers;
-		GD.Print($"MainScreen::GenerateSection() defIsNull[{sectionDef is null}] placersisNull[{placers is null}]");
+		GD.Print($"MainScreen::GenerateSection() defIsNull[{sectionDef is null}] placers is Null[{placers is null}]");
 		dunVis.BuildSection(sectionTypeName, sectionDef, settings.MasterSeed, settings, biome, ReDrawDungeon);
 	}
 	public void ReDrawDungeon()
@@ -102,7 +100,7 @@ public partial class MainScreen : Control
 		}
 	}
 	/// <summary>
-	/// Clears existing dungoen that is being viewed
+	/// Clears existing dungeon that is being viewed
 	/// </summary>
 	internal async void WhenClearPressed()
 	{

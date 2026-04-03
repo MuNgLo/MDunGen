@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="PathResource" format=3 uid="uid://bfws7yk2wikiu"]
+
+[ext_resource type="Script" uid="uid://cy5dccxbfa61l" path="res://addons/MDunGen/Scripts/ResourceDefinitions/PathResource.cs" id="1_ow5cj"]
+
+[resource]
+script = ExtResource("1_ow5cj")
+corMaxTotal = 120
+corMaxStraight = 2
+sectionName = "Corridor Long"
+sectionType = "PathSection"
+sectionStyle = "Connector"
+sizeWidthMin = 2
+sizeWidthMax = 2
+sizeDepthMin = 1
+sizeDepthMax = 1
+nbFloorsMin = 2
+arches = false
+placers = []

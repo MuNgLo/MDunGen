@@ -91,6 +91,15 @@ static internal class DungeonUtils
 		return GlobalPosition(piece.Coord);
 	}
 	/// <summary>
+	/// Unverified untested TODO verify!
+	/// </summary>
+	/// <param name="pos"></param>
+	/// <returns></returns>
+	internal static Vector3 GlobalPosition(Vector3I pos)
+	{
+		return GlobalPosition(GlobalSnapCoordinate(pos));
+	}
+	/// <summary>
 	/// Returns the global position in engine space for the coord of the map piece
 	/// </summary>
 	/// <param name="piece"></param>

@@ -31,33 +31,42 @@ public class MapData
     internal System.Collections.Generic.Dictionary<int, System.Collections.Generic.Dictionary<int, System.Collections.Generic.Dictionary<int, MapPiece>>> Pieces => pieces;
     internal int nbOfPieces => pieces.Values.SelectMany(p => p.Values).Distinct().SelectMany(p => p.Values).Distinct().Count(); // Würkz
 
-    internal MapData(GenerationSettingsResource args)
+	private Action<BuildLogEventArgument> log;
+
+	public void LogBuildEventArgs(BuildLogEventArgument args)
+	{
+		log.Invoke(args);
+	}
+    internal MapData(GenerationSettingsResource args, Action<BuildLogEventArgument> log)
     {
+		this.log=log;
         sections = new List<ISection>();
         connections = new System.Collections.Generic.Dictionary<int, SectionConnection>();
         pieces = new System.Collections.Generic.Dictionary<int, System.Collections.Generic.Dictionary<int, System.Collections.Generic.Dictionary<int, MapPiece>>>();
         mapArgs = args;
-        builder = new MapBuilder(this, MapArgs.MasterSeed);
+        builder = new MapBuilder(this, MapArgs.MasterSeed, log);
     }
-    internal MapData(GenerationSettingsResource args, FloorResource floor)
+    internal MapData(GenerationSettingsResource args, FloorResource floor, Action<BuildLogEventArgument> log)
     {
+		this.log=log;
         sections = new List<ISection>();
         connections = new System.Collections.Generic.Dictionary<int, SectionConnection>();
         pieces = new System.Collections.Generic.Dictionary<int, System.Collections.Generic.Dictionary<int, System.Collections.Generic.Dictionary<int, MapPiece>>>();
         mapArgs = args;
 		//rng = new PRNGMarsenneTwister(MapArgs.MasterSeed);
-        builder = new MapBuilder(this, MapArgs.MasterSeed);
+        builder = new MapBuilder(this, MapArgs.MasterSeed, log);
         this.floor = floor;
     }
-    internal MapData(GenerationSettingsResource args, SectionResource startRoom, SectionResource standardRoom)
+    internal MapData(GenerationSettingsResource args, SectionResource startRoom, SectionResource standardRoom, Action<BuildLogEventArgument> log)
     {
+		this.log=log;
         sections = new List<ISection>();
         connections = new System.Collections.Generic.Dictionary<int, SectionConnection>();
         pieces = new System.Collections.Generic.Dictionary<int, System.Collections.Generic.Dictionary<int, System.Collections.Generic.Dictionary<int, MapPiece>>>();
         mapArgs = args;
         this.startRoom = startRoom;
         this.standardRoom = standardRoom;
-        builder = new MapBuilder(this, MapArgs.MasterSeed);
+        builder = new MapBuilder(this, MapArgs.MasterSeed, log);
     }
     /// <summary>
     /// This generates the data that describes the layout of the dungeon
@@ -67,22 +76,22 @@ public class MapData
     /// <returns></returns>
     internal async Task GenerateMap(Action callback, bool doPathing)
     {
-        GD.Print("MapData::GenerateMap() Generation started.....");
+		log.Invoke(new BuildLogEventArgument(){source = "MapData: GenerateMap()", message = "Generating map......"});
         await builder.BuildFloorMapData(0, MapArgs.floorDef, doPathing); // TODO Will only do bottom floor
         callback.Invoke();
     }
 	MapBuilder builder;
     internal async Task GenerateFloor(int floorIndex, FloorResource floorDef, Action callback, bool doPathing)
     {
-        GD.Print($"MapData::GenerateFloor({floorIndex}) Generation started of [{floorDef.ResourceName}].");
+		log.Invoke(new BuildLogEventArgument(){source = "MapData: GenerateFloor()", message = "Generating floor......"});
         await builder.BuildFloorMapData(floorIndex, floorDef, doPathing);
         callback.Invoke();
     }
 
 	internal async Task GenerateSection(string sectionTypeName, ulong[] seed, SectionResource sectionDef, Action callback)
     {
-        GD.Print($"MapData::GenerateSection() Generation started..... defIsNull[{sectionDef is null}]");
-        await builder.BuildSection(sectionTypeName, sectionDef);
+		log.Invoke(new BuildLogEventArgument(){source = "MapData::GenerateSection()", message = $"Generation started..... defIsNull[{sectionDef is null}]"});
+        await builder.BuildSection(sectionTypeName, sectionDef, seed);
         callback.Invoke();
     }
 
@@ -173,21 +182,6 @@ public class MapData
     {
         ISection rngSection = Sections[GD.RandRange(0, Sections.Count - 1)];
         return rngSection.GetRandomPiece();
-        /*
-
-                int x = Pieces.Keys.Count > 0 ? Pieces.ElementAt(GD.RandRange(0, Pieces.Keys.Count - 1)).Key : Pieces.ElementAt(0).Key;
-                int y = Pieces[x].Count > 0 ? Pieces[x].ElementAt(GD.RandRange(0, Pieces[x].Keys.Count - 1)).Key : Pieces[x].ElementAt(0).Key;
-                int z = Pieces[x][y].Keys.Count > 0 ? Pieces[x][y].ElementAt(GD.RandRange(0, Pieces[x][y].Keys.Count - 1)).Key : Pieces[x][y].ElementAt(0).Key;
-                MapPiece pick = pieces[x][y][z];
-                while (pick.keyFloor.key != PIECEKEYS.F)
-                {
-                    x = Pieces.ElementAt(GD.RandRange(0, Pieces.Keys.Count - 1)).Key;
-                    y = Pieces[x].ElementAt(GD.RandRange(0, Pieces[x].Keys.Count - 1)).Key;
-                    z = Pieces[x][y].ElementAt(GD.RandRange(0, Pieces[x][y].Keys.Count - 1)).Key;
-                    pick = Pieces[x][y][z];
-                }
-                return pick;
-        */
     }
     /// <summary>
     /// Uses piece verification and then return the piece.
@@ -348,7 +342,7 @@ public class MapData
     internal void AddOpeningBetweenSections(SectionConnection connection, bool overrideLocked)
     {
         MapPiece p1 = GetExistingPiece(connection.coord);
-        sections[p1.SectionIndex].AddOpening(p1.Coord, connection.Dir, false, overrideLocked);
+        sections[p1.SectionIndex].AddOpening(p1.Coord, connection.Dir, false, overrideLocked, log);
     }
 
 

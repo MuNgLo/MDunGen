@@ -1,5 +1,6 @@
 #if TOOLS
 using Godot;
+using MDunGen.Commons;
 using System;
 namespace MDunGen.MS;
 
@@ -27,7 +28,7 @@ public partial class CameraControls : Camera3D
 	}
 	public override void _Ready()
 	{
-		screen.Visualizer.OnNewMapBuilt += WhenNewMapBuilt;
+		screen.Visualizer.OnMapBuildEnded += WhenNewMapBuilt;
 		base._Ready();
 	}
 
@@ -62,7 +63,7 @@ public partial class CameraControls : Camera3D
 		RotationDegrees = rot;
 	}
 
-	internal void Inputvector(Vector3 inputvector)
+	internal void InputVector(Vector3 inputvector)
 	{
 		if (state == CAMERAMODE.LOCKED) { inV = Vector3.Zero; return; }
 		inV = ToGlobal(inputvector) - ToGlobal(Vector3.Zero);
@@ -91,6 +92,13 @@ public partial class CameraControls : Camera3D
 	{
 		speed = Mathf.Clamp(speed - 5.0f, 2.0f, maxSpeed);
 		screen.RaiseNotification($"Speed:" + string.Format("{0:0.0}", speed));
+	}
+
+	internal void FocusOnMapCoordinate(MapCoordinate coord)
+	{
+		Vector3 focusPoint = DungeonUtils.GlobalPosition(coord);
+		GlobalPosition = focusPoint + Vector3.Up * 30.0f;
+		Rotation = ogRot;
 	}
 }// EOF CLASS
 #endif

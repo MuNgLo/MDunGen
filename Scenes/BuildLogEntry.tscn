@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://bhdgi2espykeo"]
+
+[ext_resource type="Script" uid="uid://dwk54rcvkrirq" path="res://addons/MDunGen/Scripts/BottomScreen/BuildLogEntry.cs" id="1_7tbxj"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_82ax6"]
+resource_local_to_scene = true
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.2159017, 0.21590173, 0.2159017, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7tbxj"]
+
+[node name="BuildLogEntry" type="PanelContainer" unique_id=1591930579 node_paths=PackedStringArray("richText", "crSeverity")]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_82ax6")
+script = ExtResource("1_7tbxj")
+richText = NodePath("FlowContainer/RichTextLabel")
+crSeverity = NodePath("FlowContainer/ColorRect")
+
+[node name="FlowContainer" type="FlowContainer" parent="." unique_id=492820634]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ColorRect" type="ColorRect" parent="FlowContainer" unique_id=1723501002]
+custom_minimum_size = Vector2(6, 0)
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="FlowContainer" unique_id=2016341322]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxEmpty_7tbxj")
+text = "Ipsum lorelie Ipsum lorelie Ipsum lorelie "
+fit_content = true

@@ -15,7 +15,7 @@ public class MapPiece
 	private protected MapData map;
 	private MAPPIECESTATE state = MAPPIECESTATE.UNUSED;
 	private MAPDIRECTION orientation = MAPDIRECTION.ANY;
-	internal MAPDIRECTION Orientation { get => orientation; set => SetOrientaion(value); }
+	internal MAPDIRECTION Orientation { get => orientation; set => SetOrientation(value); }
 	internal MAPPIECESTATE State { get => state; set => state = value; }
 	public bool hasStairs = false;
 	public bool isBridge = false;
@@ -37,16 +37,25 @@ public class MapPiece
 		{
 			if (sectionIndex < 0)
 			{
-				GD.PushError($"MapPiece[{coord}] has unset sectionIndex! Defaulting to 0 but this need fixing!");
+				map.LogBuildEventArgs(new BuildLogEventArgument()
+				{
+					severity = BUILDLOGSEVERITY.ERROR,
+					source = "MapPiece::Section:Get=>",
+					message = "has unset sectionIndex! Defaulting to 0 but this need fixing!",
+					mapLocations = [coord]
+				});
 				SetError(true);
 				sectionIndex = 0;
 			}
 			if (sectionIndex >= map.Sections.Count)
 			{
-				GD.PushError($"MapPiece[{coord}] sectionIndex[{sectionIndex}] to high! Count[{map.Sections.Count}] Defaulting to last section but this need fixing!");
-
-				GD.Print(System.Environment.StackTrace);
-
+				map.LogBuildEventArgs(new BuildLogEventArgument()
+				{
+					severity = BUILDLOGSEVERITY.ERROR,
+					source = "MapPiece::Section:Get=>",
+					message = $"sectionIndex[{sectionIndex}] to high! Count[{map.Sections.Count}] Defaulting to last section but this need fixing!",
+					mapLocations = [coord]
+				});
 				SetError(true);
 				sectionIndex = map.Sections.Count - 1;
 			}
@@ -109,7 +118,7 @@ public class MapPiece
 	public bool hasFloor => keyFloor.key != PIECEKEYS.NONE;
 	#endregion
 
-	private void SetOrientaion(MAPDIRECTION value)
+	private void SetOrientation(MAPDIRECTION value)
 	{
 		orientation = value;
 	}
@@ -126,7 +135,7 @@ public class MapPiece
 	internal MapCoordinate Coord => coord;
 
 	#region Constructors
-	public MapPiece(MapData mapData, MapCoordinate coordinates, MAPDIRECTION dir, MAPPIECESTATE s)
+	/*public MapPiece(MapData mapData, MapCoordinate coordinates, MAPDIRECTION dir, MAPPIECESTATE s)
 	{
 		map = mapData;
 		coord = coordinates;
@@ -134,7 +143,7 @@ public class MapPiece
 		orientation = dir;
 		walls = new WALLS();
 		extras = new List<KeyData>();
-	}
+	}*/
 	public MapPiece(MapData mapData, MapCoordinate coordinates)
 	{
 		map = mapData;
@@ -143,14 +152,14 @@ public class MapPiece
 		walls = new WALLS();
 		extras = new List<KeyData>();
 	}
-	public MapPiece(MapData mapData)
+	/*public MapPiece(MapData mapData)
 	{
 		map = mapData;
 		coord = MapCoordinate.Down * 10;
 		state = MAPPIECESTATE.ERROR;
 		walls = new WALLS();
 		extras = new List<KeyData>();
-	}
+	}*/
 	#endregion
 
 	internal bool HasWall(MAPDIRECTION dir)

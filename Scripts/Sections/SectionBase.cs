@@ -124,7 +124,7 @@ public class SectionBase : ISection
 	/// <param name="sizeOverrides"></param>
 	/// <param name="adjustWidthDepth"></param>
 	/// <exception cref="ArgumentException"></exception>
-	public SectionBase(SectionbBuildArguments args, int[] sizeOverrides, bool adjustWidthDepth = true)
+	public SectionBase(SectionBuildArguments args, int[] sizeOverrides, bool adjustWidthDepth = true)
 	{
 		if (args.sectionDefinition is null) { GD.PushError("Section definition was NULL"); return; }
 		if (sizeOverrides.Length != 6)
@@ -169,7 +169,7 @@ public class SectionBase : ISection
 	}
 
 
-	public SectionBase(SectionbBuildArguments args, bool adjustWidthDepth = true)
+	public SectionBase(SectionBuildArguments args, bool adjustWidthDepth = true)
 	{
 		if (args.sectionDefinition is null) { GD.PushError("Section definition was NULL"); return; }
 
@@ -214,12 +214,18 @@ public class SectionBase : ISection
 		throw new NotImplementedException();
 	}
 
-	public virtual bool AddOpening(MapCoordinate coord, MAPDIRECTION dir, bool wide, bool overrideLocked)
+	public virtual bool AddOpening(MapCoordinate coord, MAPDIRECTION dir, bool wide, bool overrideLocked, Action<BuildLogEventArgument> log)
 	{
 		MapPiece piece = Pieces.Find(p => p.Coord == coord);
 		if (piece is null)
 		{
-			GD.PrintErr($"SectionBase::AddOpening() no piece on coord({coord}) part of room[{sectionIndex}]");
+			log.Invoke(new()
+			{
+				source = "SectionBase::AddOpening()",
+				severity = BUILDLOGSEVERITY.ERROR, 
+				message = $"no piece on coord({coord}) part of room[{sectionIndex}]",
+				mapLocations = [coord]
+			});
 			return false;
 		}
 		if (wide)

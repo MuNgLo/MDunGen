@@ -7,30 +7,36 @@ using System.Collections.Generic;
 
 namespace MDunGen.MS;
 
-[Tool]
+[Tool, GlobalClass]
 internal partial class SectionSelector : OptionButton
 {
-	private MainScreen screen;
-	private SectionTypeListButton sectionTypeSelector;
+	[Export] MainScreen screen;
+	[Export] SectionTypeListButton sectionTypeSelector;
 
 	private Dictionary<string, string> resources;
 	public override void _Ready()
 	{
-		screen = GetParent().GetParent() as MainScreen;
-		sectionTypeSelector = GetParent().GetNode<SectionTypeListButton>("btnSectionTypeList");
-		//screen.OnMainScreenUIUpdate += WhenMainScreenUIUpdate;
 		sectionTypeSelector.OnSectionTypeSelected += WhenSectionTypeSelected;
 		ItemSelected += WhenItemSelected;
 		resources = new Dictionary<string, string>();
 		Clear();
-		PoulateResourceCollection();
-		LoadSelected();
+		VisibilityChanged += WhenVisibilityChanges;
 	}
+
+	private void WhenVisibilityChanges()
+	{
+		if (Visible)
+		{
+			PopulateResourceCollection();
+			LoadSelected();
+		}
+	}
+
 	private void WhenSectionTypeSelected(object sender, Type T)
 	{
 		if (!Visible) { Clear(); return; }
 		GD.Print($"SectionSelector::WhenSectionTypeSelected() Selected[{Selected}] ItemCount[{ItemCount}]");
-		PoulateResourceCollection();
+		PopulateResourceCollection();
 		LoadSelected();
 	}
 	private void WhenItemSelected(long index)
@@ -44,10 +50,10 @@ internal partial class SectionSelector : OptionButton
 		//GD.Print($"SectionSelector::LoadSelected() Loading[{Selected}]");
 		string itemText = GetItemText(Selected == -1 ? 0 : Selected);
 	}
-	private void PoulateResourceCollection()
+	private void PopulateResourceCollection()
 	{
 		string typeName = sectionTypeSelector.GetItemText(sectionTypeSelector.Selected);
-		//GD.Print($"SectionSelector::PoulateResourceCollection() typeName[{typeName}] [{sectionTypeSelector.GetSelectedType()}]");
+		//GD.Print($"SectionSelector::PopulateResourceCollection() typeName[{typeName}] [{sectionTypeSelector.GetSelectedType()}]");
 		resources = new Dictionary<string, string>();
 		List<Resource> items = new List<Resource>();
 

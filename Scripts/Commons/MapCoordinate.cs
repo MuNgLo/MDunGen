@@ -41,7 +41,7 @@ public struct MapCoordinate
 	}
 	public override string ToString()
 	{
-		return $"[{x}.{y}.{z}]";
+		return $"{x}.{y}.{z}";
 	}
 	public override int GetHashCode()
 	{
