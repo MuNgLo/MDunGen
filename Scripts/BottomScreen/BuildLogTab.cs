@@ -26,7 +26,7 @@ public partial class BuildLogTab : MarginContainer
 	MS.CameraControls camera;
 	public void CoordinateClicked(MapCoordinate coord)
 	{
-		camera = BS.addon.MS.FindChild("Camera3D") as MS.CameraControls; 
+		camera = BS.addon.MS.FindChild("CameraControls") as MS.CameraControls; 
 		camera.FocusOnMapCoordinate(coord);
 	}
 

@@ -44,7 +44,7 @@ albedo_color = Color(0.956863, 0.294118, 0.666667, 1)
 radius = 0.1
 height = 0.2
 
-[sub_resource type="DPITexture" id="DPITexture_jguo1"]
+[sub_resource type="DPITexture" id="DPITexture_cdl1b"]
 _source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><path fill=\"none\" stroke=\"#000\" stroke-linejoin=\"round\" stroke-opacity=\".8\" stroke-width=\"2\" d=\"m8 1 7 3v8l-7 3-7-3V4Z\"/><path fill-opacity=\".8\" d=\"M2 5h12v6l-12-.008Z\" paint-order=\"stroke fill markers\"/><path fill=\"#c2c2c2\" d=\"m8 7.5-7 3V12l7 3 7-3v-1.5z\"/><path fill=\"#d6d6d6\" d=\"m8 15-7-3v-1.5l7 3z\"/><path fill=\"#f9f9f9\" d=\"m1 10.5 7 3 7-3-7-3z\"/><path fill=\"#c2c2c2\" d=\"m8 4.25-7 3v1.5l7 3 7-3v-1.5z\"/><path fill=\"#d6d6d6\" d=\"m8 11.75-7-3v-1.5l7 3z\"/><path fill=\"#f9f9f9\" d=\"m1 7.25 7 3 7-3-7-3z\"/><path fill=\"#c2c2c2\" d=\"M8 1 1 4v1.5l7 3 7-3V4Z\"/><path fill=\"#f9f9f9\" d=\"m1 4 7 3 7-3-7-3z\"/><path fill=\"#d6d6d6\" d=\"m8 8.5-7-3V4l7 3z\"/></svg>
 "
 saturation = 2.0
@@ -54,7 +54,7 @@ Color(0.37254903, 1, 0.5921569, 1): Color(0.45, 0.95, 0.5, 1),
 Color(1, 0.8666667, 0.39607844, 1): Color(0.83, 0.78, 0.62, 1)
 }
 
-[sub_resource type="DPITexture" id="DPITexture_cdl1b"]
+[sub_resource type="DPITexture" id="DPITexture_anxd6"]
 _source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><path fill=\"#f0caa0\" d=\"M3 1a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-10a2 2 0 00-2-2zM3 3h2v2h-2zm4 0h6v2h-6zM3 7h2v2h-2zm4 0h6v2h-6zM3 11h2v2h-2zm4 0h6v2h-6z\"/></svg>
 "
 saturation = 2.0
@@ -64,7 +64,7 @@ Color(0.37254903, 1, 0.5921569, 1): Color(0.45, 0.95, 0.5, 1),
 Color(1, 0.8666667, 0.39607844, 1): Color(0.83, 0.78, 0.62, 1)
 }
 
-[sub_resource type="DPITexture" id="DPITexture_anxd6"]
+[sub_resource type="DPITexture" id="DPITexture_d15gd"]
 _source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><path fill=\"#e0e0e0\" d=\"m2.256 4.85 1.7 2.945 2.598-1.5 4.5 7.794a1 1-30 0 0 2.598-1.5l-4.65-8.054 3.464-2-.25-.433s-1.25-2.165-3.848-.665l-3.464 2-.31.063z\"/></svg>
 "
 saturation = 2.0
@@ -74,7 +74,7 @@ Color(0.37254903, 1, 0.5921569, 1): Color(0.45, 0.95, 0.5, 1),
 Color(1, 0.8666667, 0.39607844, 1): Color(0.83, 0.78, 0.62, 1)
 }
 
-[sub_resource type="DPITexture" id="DPITexture_d15gd"]
+[sub_resource type="DPITexture" id="DPITexture_v7alc"]
 _source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><path fill=\"#e0e0e0\" d=\"M5 8a4 4 0 1 1 4 4v2a6 6 0 1 0-6-6H1l3 4 3-4z\"/></svg>
 "
 saturation = 2.0
@@ -84,7 +84,7 @@ Color(0.37254903, 1, 0.5921569, 1): Color(0.45, 0.95, 0.5, 1),
 Color(1, 0.8666667, 0.39607844, 1): Color(0.83, 0.78, 0.62, 1)
 }
 
-[sub_resource type="DPITexture" id="DPITexture_v7alc"]
+[sub_resource type="DPITexture" id="DPITexture_ast8b"]
 _source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><path fill=\"#fff\" d=\"M8 1C1 1 1 1 1 8s0 7 7 7 7 0 7-7 0-7-7-7zM4.25 2.25a1 1 0 0 1 0 4 1 1 0 0 1 0-4zM8 6a1 1 0 0 1 0 4 1 1 0 0 1 0-4zm3.75 3.75a1 1 0 0 1 0 4 1 1 0 0 1 0-4z\"/></svg>
 "
 saturation = 2.0
@@ -94,7 +94,7 @@ Color(0.37254903, 1, 0.5921569, 1): Color(0.45, 0.95, 0.5, 1),
 Color(1, 0.8666667, 0.39607844, 1): Color(0.83, 0.78, 0.62, 1)
 }
 
-[sub_resource type="DPITexture" id="DPITexture_ast8b"]
+[sub_resource type="DPITexture" id="DPITexture_rnhfd"]
 _source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><path fill=\"#e0e0e0\" d=\"M8 2C5.443 2 2.209 3.948 1.045 7.705a1 1 0 0 0 0 .55C2.163 12.211 5.5 14 8 14s5.836-1.789 6.961-5.725a1 1 0 0 0 0-.55C13.861 3.935 10.554 2 8 2zm0 2a4 4 0 0 1 0 8 4 4 0 0 1 0-8zm0 2a2 2 0 0 0 0 4 2 2 0 0 0 0-4z\"/></svg>
 "
 saturation = 2.0
@@ -104,7 +104,7 @@ Color(0.37254903, 1, 0.5921569, 1): Color(0.45, 0.95, 0.5, 1),
 Color(1, 0.8666667, 0.39607844, 1): Color(0.83, 0.78, 0.62, 1)
 }
 
-[sub_resource type="DPITexture" id="DPITexture_rnhfd"]
+[sub_resource type="DPITexture" id="DPITexture_qnf5v"]
 _source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><path fill=\"#e0e0e0\" d=\"M3 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4l-3-3h-1v6H3zm1 0v5h3V1zm4 8a1 1 0 0 1 0 4 1 1 0 0 1 0-4z\"/></svg>
 "
 saturation = 2.0
@@ -128,10 +128,11 @@ size_flags_vertical = 3
 mouse_filter = 2
 script = ExtResource("1_t5mpj")
 
-[node name="CameraControls" type="Node" parent="." unique_id=555686811 node_paths=PackedStringArray("mainScreen", "camera")]
+[node name="CameraControls" type="Node" parent="." unique_id=555686811 node_paths=PackedStringArray("mainScreen", "camera", "subV")]
 script = ExtResource("1_tt5em")
 mainScreen = NodePath("..")
 camera = NodePath("../SubViewportContainer/SubViewport/Camera3D")
+subV = NodePath("../SubViewportContainer")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=1236985055 node_paths=PackedStringArray("mainScreen", "camera", "subViewPort", "visualizer")]
 process_mode = 3
@@ -224,7 +225,7 @@ layout_mode = 2
 tooltip_text = "Toggle between generating a full dungeon or a single section."
 focus_mode = 0
 toggle_mode = true
-icon = SubResource("DPITexture_jguo1")
+icon = SubResource("DPITexture_cdl1b")
 icon_alignment = 1
 expand_icon = true
 
@@ -261,7 +262,7 @@ custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 tooltip_text = "Open selected resource in inspector"
 focus_mode = 0
-icon = SubResource("DPITexture_cdl1b")
+icon = SubResource("DPITexture_anxd6")
 icon_alignment = 1
 expand_icon = true
 script = ExtResource("9_cdl1b")
@@ -276,7 +277,7 @@ custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 tooltip_text = "Generate new map data"
 focus_mode = 0
-icon = SubResource("DPITexture_anxd6")
+icon = SubResource("DPITexture_d15gd")
 icon_alignment = 1
 expand_icon = true
 script = ExtResource("9_jguo1")
@@ -289,7 +290,7 @@ custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 tooltip_text = "Clears all generated data including the visuals."
 focus_mode = 0
-icon = SubResource("DPITexture_d15gd")
+icon = SubResource("DPITexture_v7alc")
 icon_alignment = 1
 expand_icon = true
 
@@ -299,7 +300,7 @@ layout_mode = 2
 tooltip_text = "Use random seed of a fixed one"
 focus_mode = 0
 toggle_mode = true
-icon = SubResource("DPITexture_v7alc")
+icon = SubResource("DPITexture_ast8b")
 icon_alignment = 1
 expand_icon = true
 
@@ -310,7 +311,7 @@ tooltip_text = "Layers to visualize from map data"
 toggle_mode = false
 shortcut_feedback = false
 shortcut_in_tooltip = false
-icon = SubResource("DPITexture_ast8b")
+icon = SubResource("DPITexture_rnhfd")
 flat = false
 icon_alignment = 1
 expand_icon = true
@@ -372,7 +373,7 @@ custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 tooltip_text = "Export the generated Dungeon to a scene"
 focus_mode = 0
-icon = SubResource("DPITexture_rnhfd")
+icon = SubResource("DPITexture_qnf5v")
 icon_alignment = 1
 expand_icon = true
 script = ExtResource("14_y73eu")

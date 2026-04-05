@@ -10,25 +10,25 @@ public partial class BiomeResource : DungeonAddonResource
 {
 	[Export] public Vector3I size = Vector3I.One * 6;
 	[ExportCategory("Debug")]
-	[Export] public BiomeEntry[] debug;
+	[Export] public BiomeEntryResource[] debug;
 	[ExportCategory("Walls")]
 	[Export] public Material[] wallMaterials;
-	[Export] public BiomeEntry[] walls;
+	[Export] public BiomeEntryResource[] walls;
 	[ExportCategory("Floors")]
 	[Export] public Material[] floorMaterials;
-	[Export] public BiomeEntry[] floors;
+	[Export] public BiomeEntryResource[] floors;
 	[ExportCategory("Ceilings")]
 	[Export] public Material[] ceilingMaterials;
-	[Export] public BiomeEntry[] ceilings;
+	[Export] public BiomeEntryResource[] ceilings;
 	[ExportCategory("Extras")]
-	[Export] public BiomeEntry[] extras;
+	[Export] public BiomeEntryResource[] extras;
 
 	private readonly string standardMeshPath = "res://addons/MDunGen/Meshes/Standard/Standard_";
 	private readonly string standardScenePath = "res://addons/MDunGen/Scenes/Standard/";
 	internal bool GetResource(PIECEKEYS key, int variantID, out Resource result)
 	{
 		result = null;
-		BiomeEntry entry = null;
+		BiomeEntryResource entry = null;
 		if (debug.Where(p => p.key == key).Count() > 0) { entry = debug.Where(p => p.key == key).First(); }
 		if (entry is null) { if (walls.Where(p => p.key == key).Count() > 0) { entry = walls.Where(p => p.key == key).First(); } }
 		if (entry is null) { if (floors.Where(p => p.key == key).Count() > 0) { entry = floors.Where(p => p.key == key).First(); } }
@@ -79,7 +79,7 @@ public partial class BiomeResource : DungeonAddonResource
 				standardMeshPath + "dbWallFlagGreen.res",
 				standardMeshPath + "dbWallFlagRed.res"
 		};
-		debug = new BiomeEntry[defDebugKeys.Length];
+		debug = new BiomeEntryResource[defDebugKeys.Length];
 		SetupArray(ref debug, defDebugKeys, defDebugEntries);
 		//walls
 		PIECEKEYS[] defWallsKeys = new PIECEKEYS[]
@@ -96,7 +96,7 @@ public partial class BiomeResource : DungeonAddonResource
 				new string[]{ standardScenePath + "def_wallopeningwide.tscn" },
 				new string[]{ standardScenePath + "def_wallcorner.tscn" }
 		};
-		walls = new BiomeEntry[defWallsKeys.Length];
+		walls = new BiomeEntryResource[defWallsKeys.Length];
 		SetupArray(ref walls, defWallsKeys, defWallsEntries);
 
 		// Floors
@@ -114,7 +114,7 @@ public partial class BiomeResource : DungeonAddonResource
 				   standardScenePath + "def_hallwayfloor02.tscn"
 				}
 		};
-		floors = new BiomeEntry[defFloorsKeys.Length];
+		floors = new BiomeEntryResource[defFloorsKeys.Length];
 		SetupArray(ref floors, defFloorsKeys, defFloorsEntries);
 
 		// Ceilings
@@ -126,7 +126,7 @@ public partial class BiomeResource : DungeonAddonResource
 		{
 				new string[]{ standardScenePath + "def_ceiling.tscn" }
 		};
-		ceilings = new BiomeEntry[defCeilingsKeys.Length];
+		ceilings = new BiomeEntryResource[defCeilingsKeys.Length];
 		SetupArray(ref ceilings, defCeilingsKeys, defCeilingsEntries);
 
 		// Extras
@@ -142,17 +142,17 @@ public partial class BiomeResource : DungeonAddonResource
 					standardScenePath + "def_hallwayarch01.tscn",
 					}
 		};
-		extras = new BiomeEntry[defExtrakeys.Length];
+		extras = new BiomeEntryResource[defExtrakeys.Length];
 		SetupArray(ref extras, defExtrakeys, defExtrasEntries);
 	}
 
 
 
-	private void SetupArray(ref BiomeEntry[] arr, PIECEKEYS[] keys, string[] paths)
+	private void SetupArray(ref BiomeEntryResource[] arr, PIECEKEYS[] keys, string[] paths)
 	{
 		for (int i = 0; i < paths.Length; i++)
 		{
-			arr[i] = new BiomeEntry()
+			arr[i] = new BiomeEntryResource()
 			{
 				key = keys[i],
 				resources = new Resource[1]
@@ -164,7 +164,7 @@ public partial class BiomeResource : DungeonAddonResource
 		}
 	}
 
-	private void SetupArray(ref BiomeEntry[] arr, PIECEKEYS[] keys, string[][] variants)
+	private void SetupArray(ref BiomeEntryResource[] arr, PIECEKEYS[] keys, string[][] variants)
 	{
 		for (int i = 0; i < arr.Length; i++)
 		{
@@ -173,7 +173,7 @@ public partial class BiomeResource : DungeonAddonResource
 			{
 				resources[b] = ResourceLoader.Load(variants[i][b]);
 			}
-			arr[i] = new BiomeEntry()
+			arr[i] = new BiomeEntryResource()
 			{
 				key = keys[i],
 				resources = resources

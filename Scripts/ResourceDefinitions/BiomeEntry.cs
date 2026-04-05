@@ -2,8 +2,8 @@
 using Godot;
 namespace MDunGen.Resources;
 
-[GlobalClass, Tool, System.Obsolete("Rename this with suffix")]
-public partial class BiomeEntry : Resource
+[GlobalClass, Tool]
+public partial class BiomeEntryResource : Resource
 {
 	[Export] public PIECEKEYS key { get; set; } = PIECEKEYS.NONE;
 	/// <summary>

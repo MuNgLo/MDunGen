@@ -3,6 +3,7 @@ using Godot;
 using MDunGen.Commons;
 using MDunGen.Resources;
 using MDunGen.Sections;
+using MDunGen.Builder;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,14 +78,14 @@ public class MapData
     internal async Task GenerateMap(Action callback, bool doPathing)
     {
 		log.Invoke(new BuildLogEventArgument(){source = "MapData: GenerateMap()", message = "Generating map......"});
-        await builder.BuildFloorMapData(0, MapArgs.floorDef, doPathing); // TODO Will only do bottom floor
+        await builder.BuildFloor(0, MapArgs.floorDef, doPathing); // TODO Will only do bottom floor
         callback.Invoke();
     }
 	MapBuilder builder;
     internal async Task GenerateFloor(int floorIndex, FloorResource floorDef, Action callback, bool doPathing)
     {
 		log.Invoke(new BuildLogEventArgument(){source = "MapData: GenerateFloor()", message = "Generating floor......", levelIndex = floorIndex });
-        await builder.BuildFloorMapData(floorIndex, floorDef, doPathing);
+        await builder.BuildFloor(floorIndex, floorDef, doPathing);
         callback.Invoke();
     }
 
@@ -99,85 +100,6 @@ public class MapData
     {
         pieces[piece.Coord.x][piece.Coord.y][piece.Coord.z] = piece;
     }
-
-    /*
-	/// <summary>
-    /// TODO rework this
-    /// </summary>
-    /// <param name="floor"></param>
-    /// <param name="piece"></param>
-    /// <param name="dir"></param>
-    /// <returns></returns>
-    private bool GetRandomRandomEdgePiece(int floor, out MapPiece piece, out MAPDIRECTION dir)
-    {
-
-        int y = floor;
-        int x = -1;
-        int z = -1;
-
-        dir = MAPDIRECTION.NORTH;
-
-        // N or S
-        if (rng.Next(100) < 50)
-        {
-            x = rng.Next(5);
-            if (rng.Next(100) < 50)
-            {
-                z = 0;
-                dir = MAPDIRECTION.SOUTH;
-            }
-            else
-            {
-                z = 5 - 1;
-                dir = MAPDIRECTION.NORTH;
-            }
-        }
-        else // W or E
-        {
-            z = rng.Next(5);
-            if (rng.Next(100) < 50)
-            {
-                x = 0;
-                dir = MAPDIRECTION.EAST;
-            }
-            else
-            {
-                x = 5 - 1;
-                dir = MAPDIRECTION.WEST;
-            }
-        }
-
-        VerifyPiece(new MapCoordinate(x, y, z));
-        piece = pieces[x][y][z];
-        return true;
-    }
-	*/
-
-
-    /*internal ISection GetRandomRoom()
-    {
-        return sections[rng.Next(0, sections.Count)];
-    }*/
-
-
-
-    /*internal MapPiece GetRandomPiece()
-    {
-        int x = pieces.ElementAt(rng.Next(pieces.Keys.Count)).Key;
-        int y = pieces[x].ElementAt(rng.Next(pieces[x].Keys.Count)).Key;
-        int z = pieces[x][y].ElementAt(rng.Next(pieces[x][y].Keys.Count)).Key;
-        MapPiece pick = pieces[x][y][z];
-        while (pick.keyFloor.key != PIECEKEYS.F)
-        {
-            x = pieces.ElementAt(rng.Next(pieces.Keys.Count)).Key;
-            y = pieces[x].ElementAt(rng.Next(pieces[x].Keys.Count)).Key;
-            z = pieces[x][y].ElementAt(rng.Next(pieces[x][y].Keys.Count)).Key;
-            pick = pieces[x][y][z];
-        }
-        //ProcGenMKIII.Log("MapData", "GetRandomPiece", $"pieces.Keys.Count[{pieces.Keys.Count}] pieces.ElementAt(0)[{pieces.ElementAt(0)}]");
-        //ProcGenMKIII.Log("MapData", "GetRandomPiece", $"pieces.Keys.Count[{pieces[x].Keys.Count}] pieces[x].ElementAt(0)[{(pieces[x].ElementAt(0))}]");
-        return pick;
-    }*/
     internal MapPiece GetRandomPieceEditor()
     {
         ISection rngSection = Sections[GD.RandRange(0, Sections.Count - 1)];

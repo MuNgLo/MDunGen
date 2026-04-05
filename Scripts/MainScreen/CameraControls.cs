@@ -13,6 +13,14 @@ public partial class CameraControls : Node
 	[Export] float speed = 20.0f;
 	[Export] float maxSpeed = 200.0f;
 	[Export] float mouseSensitivity = 10.0f;
+	[Export] SubViewportContainer subV;
+
+	/// <summary>
+	/// Use this to only react to input if cursor is over screen
+	/// </summary>
+	public bool cursorIsInside = false;
+	Vector2 storedCursorPosition;
+
 	CAMERAMODE state = CAMERAMODE.LOCKED;
 	Vector2 mVel;
 	Vector3 inV;
@@ -31,6 +39,13 @@ public partial class CameraControls : Node
 	public override void _Ready()
 	{
 		mainScreen.Visualizer.OnMapBuildEnded += WhenNewMapBuilt;
+		subV.MouseEntered += WhenMouseEnterMain;
+		subV.MouseExited += WhenMouseExitMain;
+	}
+	public override void _ExitTree()
+	{
+		subV.MouseEntered -= WhenMouseEnterMain;
+		subV.MouseExited -= WhenMouseExitMain;
 	}
 
 	public override void _Input(InputEvent @event)
@@ -47,15 +62,15 @@ public partial class CameraControls : Node
 
 			if (b.ButtonIndex == MouseButton.Right)
 			{
-				if (b.Pressed) { GoFreeLook(); }
-				if (b.IsReleased()) { GoLocked(); }
+				if (b.Pressed && cursorIsInside && state == CAMERAMODE.LOCKED) { GoFreeLook(); }
+				if (b.IsReleased() && state == CAMERAMODE.FREELOOK) { GoLocked(); }
 			}
 
-			if (b.ButtonIndex == MouseButton.WheelUp)
+			if (b.ButtonIndex == MouseButton.WheelUp && cursorIsInside)
 			{
 				if (b.Pressed) { WheelUp(); }
 			}
-			if (b.ButtonIndex == MouseButton.WheelDown)
+			if (b.ButtonIndex == MouseButton.WheelDown && cursorIsInside)
 			{
 				if (b.Pressed) { WheelDown(); }
 			}
@@ -97,11 +112,7 @@ public partial class CameraControls : Node
 
 	}
 
-	void SnapCursorBack()
-	{
-		Input.WarpMouse(storedCursorPosition);
-		skipNextMouseMovement = true;
-	}
+
 
 
 	private void WhenNewMapBuilt(object sender, EventArgs e)
@@ -134,7 +145,6 @@ public partial class CameraControls : Node
 		if (state == CAMERAMODE.LOCKED) { inV = Vector3.Zero; return; }
 		inV = camera.ToGlobal(inputVector) - camera.ToGlobal(Vector3.Zero);
 	}
-	Vector2 storedCursorPosition;
 	void GoFreeLook()
 	{
 		state = CAMERAMODE.FREELOOK;
@@ -145,12 +155,21 @@ public partial class CameraControls : Node
 
 	void GoLocked()
 	{
-		CallDeferred(nameof(SnapCursorBack));
+		CallDeferred(nameof(SnapCursorToCenter));
 		mouseRelative = Vector2.Zero;
 		state = CAMERAMODE.LOCKED;
 		Input.MouseMode = Input.MouseModeEnum.Visible;
 	}
 
+	void SnapCursorToCenter()
+	{
+		Input.WarpMouse(storedCursorPosition);
+	}
+	void SnapCursorBack()
+	{
+		Input.WarpMouse(storedCursorPosition);
+		skipNextMouseMovement = true;
+	}
 	void WheelUp()
 	{
 		speed = Mathf.Clamp(speed + 5.0f, 2.0f, maxSpeed);
@@ -169,5 +188,15 @@ public partial class CameraControls : Node
 		camera.GlobalPosition = focusPoint + Vector3.Up * 30.0f;
 		camera.Rotation = ogRot;
 	}
+
+	private void WhenMouseEnterMain()
+	{
+		cursorIsInside = true;
+	}
+	private void WhenMouseExitMain()
+	{
+		cursorIsInside = false;
+	}
+
 }// EOF CLASS
 #endif

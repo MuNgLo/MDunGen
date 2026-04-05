@@ -14,10 +14,7 @@ namespace MDunGen.MS;
 [Tool, GlobalClass]
 public partial class MainScreen : Control
 {
-	/// <summary>
-	/// Use this to only react to input if cursor is over screen
-	/// </summary>
-	//public bool cursorIsInside = false;
+
 	public Dungeons addon;
 	private Selection.Manager selection;
 	private ScreenDungeonVisualizer dunVis;
@@ -29,7 +26,6 @@ public partial class MainScreen : Control
 	internal EventHandler OnMainScreenUIUpdate;
 	internal EventHandler<string> OnNotificationPushed;
 	internal EventHandler<Pathfinding.PathData> OnPathDataPushed;
-	//private SubViewportContainer subV;
 
 
 	internal Selection.Manager Selection => selection;
@@ -50,15 +46,9 @@ public partial class MainScreen : Control
 		}
 		SetDebugLayer(addon.Profile.showDebugLayer);
 		RaiseUpdateUI();
-		//subV = FindChild("SubViewportContainer") as SubViewportContainer;
-		//subV.MouseEntered += WhenMouseEnterMain;
-		//subV.MouseExited += WhenMouseExitMain;
+
 	}
-	public override void _ExitTree()
-	{
-		//subV.MouseEntered -= WhenMouseEnterMain;
-		//subV.MouseExited -= WhenMouseExitMain;
-	}
+
 	public override void _Process(double delta)
 	{
 		if (Visible && Input.IsMouseButtonPressed(MouseButton.Middle))
@@ -143,15 +133,6 @@ public partial class MainScreen : Control
 	}
 
 
-/*
-	private void WhenMouseEnterMain()
-	{
-		cursorIsInside = true;
-	}
-	private void WhenMouseExitMain()
-	{
-		cursorIsInside = false;
-	}
-*/
+
 }// EOF CLASS
 #endif
