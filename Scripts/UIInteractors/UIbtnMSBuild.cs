@@ -39,7 +39,7 @@ public partial class UIbtnMSBuild : Button
 
 				string sectionTypeName = sectionTypeSelector.GetItemText(sectionTypeSelector.Selected);
 				SectionResource sectionDef = sectionSelector.GetSelectedResource();
-				mainScreen.GenerateSection(0, sectionTypeName, sectionDef, mainScreen.addon.Profile.settings, mainScreen.addon.Profile.biome);
+				mainScreen.GenerateSection(0, sectionTypeName, sectionDef, mainScreen.addon.Profile.settings, mainScreen.addon.Profile.biome, true);
 				break;
 			default:
 			case VIEWERMODE.DUNGEON:

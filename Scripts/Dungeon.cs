@@ -1,5 +1,5 @@
 // Gone through at v1.3
-//#define MConsole
+//#define MConsole // If MConsole is in the project, comment this out to get log messages pushed to it
 using Godot;
 using MDunGen.Commons;
 using MDunGen.Resources;
@@ -24,9 +24,9 @@ public partial class Dungeon : Node
 	internal List<MapPiece> LockedPieces => map.GetPieces(MAPPIECESTATE.LOCKED);
 	internal MapData Map => map;
 
-	public event EventHandler<BuildLogEventArgument> OnMapBuildLog;
-
 	private MapData map;
+
+	public event EventHandler<BuildLogEventArgument> OnMapBuildLog;
 
 	public override void _Ready()
 	{
@@ -56,11 +56,16 @@ public partial class Dungeon : Node
 		map = new MapData(settings, RaiseBuildLogEvent);
 		await map.GenerateMap(callback, settings.calculatePathing);
 	}
-	[Obsolete("Use the build log instead")]
+	/// <summary>
+	/// This is how the addon logs build messages in runtime
+	/// </summary>
+	/// <param name="msg"></param>
 	private void Log(string msg)
 	{
 #if MConsole
 		MConsole.GameConsole.AddLine(msg);
+#else
+		GD.Print(msg);
 #endif
 	}
 

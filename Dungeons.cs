@@ -1,5 +1,6 @@
 // Gone through at v1.3
 #if TOOLS
+using System;
 using Godot;
 using MDunGen.Bottom;
 using MDunGen.MS;
@@ -153,10 +154,22 @@ public partial class Dungeons : EditorPlugin
 			OkButtonText = "Save"
 		};
 		popup.Confirmed += WhenExportConfirmed;
+		popup.WindowInput += WhenExportInput;
 		popup.Size = screen.GetViewport().GetWindow().Size / 2;
 		EditorInterface.Singleton.GetBaseControl().GetViewport().AddChild(popup);
 		popup.MoveToCenter();
 		popup.Show();
+	}
+
+	private void WhenExportInput(InputEvent @event)
+	{
+		if(@event is InputEventKey key)
+		{
+			if(key.Pressed && (key.Keycode == Key.Enter || key.Keycode == Key.KpEnter))
+			{
+				WhenExportConfirmed();
+			}
+		}
 	}
 	#region Listeners
 	/// <summary>
@@ -173,6 +186,10 @@ public partial class Dungeons : EditorPlugin
 		if (screen.CurrentDungeon.GetChildCount() < 1)
 		{
 			GD.PrintErr($"Dungeons::WhenExportConfirmed() CurrentDungeon Node has no children to export!");
+			return;
+		}
+		if(popup.GetLineEdit().Text.Length < 1)
+		{
 			return;
 		}
 		popup.Confirmed -= WhenExportConfirmed;

@@ -60,8 +60,6 @@ public partial class BuildLogTab : MarginContainer
 		logRichText.Clear();
 	}
 
-	List<BuildLogEventArgument> logArgs;
-
 	void AddEntry(BuildLogEventArgument args)
 	{
 		if(debug){ GD.Print($"BuildLogTab::AddEntry()"); }

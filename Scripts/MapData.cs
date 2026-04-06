@@ -89,10 +89,10 @@ public class MapData
         callback.Invoke();
     }
 
-	internal async Task GenerateSection(int levelIndex, string sectionTypeName, ulong[] seed, SectionResource sectionDef, Action callback)
+	internal async Task GenerateSection(int levelIndex, string sectionTypeName, ulong[] seed, SectionResource sectionDef, bool debug, Action callback)
     {
 		log.Invoke(new BuildLogEventArgument(){source = "MapData::GenerateSection()", message = $"Generation started..... defIsNull[{sectionDef is null}]"});
-        await builder.BuildSection(levelIndex, sectionTypeName, sectionDef, seed);
+        await builder.BuildSection(levelIndex, sectionTypeName, sectionDef, seed, debug);
         callback.Invoke();
     }
 
@@ -106,7 +106,7 @@ public class MapData
         return rngSection.GetRandomPiece();
     }
     /// <summary>
-    /// Uses piece verification and then return the piece.
+    /// Uses piece verification and then return the piece.<br/>
     /// Will create piece if needed.
     /// </summary>
     /// <param name="coord"></param>

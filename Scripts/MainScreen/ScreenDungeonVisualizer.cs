@@ -51,12 +51,11 @@ public partial class ScreenDungeonVisualizer : Node3D
 		this.settings = settings;
 		screen.RaiseNotification($"Generating:" + string.Format("{0:0}", 0) + "%");
 		await ToSignal(GetTree(), "process_frame");
-		//BuildData(biome, () => { ShowMap(null, null); }, settings.roomStart, settings.roomDefault);
 		BuildData(biome, () => { ReDrawMap(); }, floor);
 		await ToSignal(GetTree(), "process_frame");
 		OnMapBuildEnded?.Invoke(EventArgs.Empty, EventArgs.Empty);
 	}
-	public async void BuildSection(int levelIndex, string sectionTypeName, SectionResource sectionDef, ulong[] seed, GenerationSettingsResource settings, BiomeResource biome, Action callback)
+	public async void BuildSection(int levelIndex, string sectionTypeName, SectionResource sectionDef, ulong[] seed, GenerationSettingsResource settings, BiomeResource biome, bool debug, Action callback)
 	{
 		this.settings = settings;
 		screen.RaiseNotification($"Generating:" + string.Format("{0:0}", 0) + "%");
@@ -66,10 +65,11 @@ public partial class ScreenDungeonVisualizer : Node3D
 		this.biome = biome;
 
 		map = new MapData(settings, RaiseBuildLogEvent);
-		await map.GenerateSection(levelIndex, sectionTypeName, seed, sectionDef, callback);
+		await map.GenerateSection(levelIndex, sectionTypeName, seed, sectionDef, debug, callback);
+		OnMapBuildEnded?.Invoke(EventArgs.Empty, EventArgs.Empty);
 	}
 
-
+	[Obsolete("This shouldn't be used at all this way. use the builder stuff instead")]
 	private async void BuildData(BiomeResource biome, Action callback, FloorResource floor)
 	{
 		cacheKeyedPieces = new System.Collections.Generic.Dictionary<PIECEKEYS, System.Collections.Generic.Dictionary<int, Resource>>();
@@ -251,13 +251,10 @@ public partial class ScreenDungeonVisualizer : Node3D
 	{
 		if (section == null) { return; }
 		section.SectionContainer = new Node3D();
-		propContainer = new Node3D();
 		tileContainer = new Node3D();
 		section.SectionContainer.Name = "S" + string.Format("{0:000}", section.SectionIndex);
-		propContainer.Name = $"Props[{section.PropCount}]";
 		tileContainer.Name = $"Tiles[{section.Pieces.Count}]";
 		GetFloorContainer(section.Coord.y).AddChild(section.SectionContainer, true);
-		section.SectionContainer.AddChild(propContainer, true);
 		section.SectionContainer.AddChild(tileContainer, true);
 		// Section Tiles
 		int index = 0;
@@ -276,7 +273,6 @@ public partial class ScreenDungeonVisualizer : Node3D
 		// Add water
 		if (section.WaterMaterial is not null)
 		{
-			GD.Print("ScreenDungeonVisualizer::VisualizeSection() Trying to add water!");
 			DungeonUtils.BuildWaterPlane(section);
 		}
 	}

@@ -74,7 +74,7 @@ public class MapPiece
 	/// <summary>
 	/// Floor relative to the section's location
 	/// </summary>
-	internal int sectionfloor = -1;
+	internal int sectionFloor = -1;
 
 	#region Mesh keys
 	/// <summary>
@@ -124,7 +124,7 @@ public class MapPiece
 	}
 
 	/// <summary>
-	/// All Below needs goign through
+	/// All Below needs going through
 	/// </summary>
 	internal WATERAMOUNT water = WATERAMOUNT.NONE;
 
@@ -231,7 +231,7 @@ public class MapPiece
 		extras.Add(kData);
 	}
 	/// <summary>
-	/// Removes all mathching keys from props. Then add one
+	/// Removes all matching keys from props. Then add one
 	/// </summary>
 	/// <param name="kData"></param>
 	internal void AddDebug(KeyData kData)
@@ -264,7 +264,7 @@ public class MapPiece
 		}
 	}
 	/// <summary>
-	/// Removes keys from debug. Any direction results in all matching keys being removed. Wallflags has to match direction.
+	/// Removes keys from debug. Any direction results in all matching keys being removed. Wall flags has to match direction.
 	/// </summary>
 	/// <param name="kData"></param>
 	private void RemoveDebug(KeyData kData)
@@ -294,7 +294,7 @@ public class MapPiece
 		return true;
 	}
 	/// <summary>
-	/// Returns the neighbouring piece to the right relative to the orientation
+	/// Returns the neighboring piece to the right relative to the orientation
 	/// </summary>
 	/// <returns></returns>
 	public MapPiece NeighbourRight(bool createIfNeeded = false)
@@ -302,7 +302,7 @@ public class MapPiece
 		return Neighbour(DungeonUtils.TwistRight(orientation), createIfNeeded);
 	}
 	/// <summary>
-	/// Returns the neighbouring piece to the left relative to the orientation
+	/// Returns the neighboring piece to the left relative to the orientation
 	/// </summary>
 	/// <returns></returns>
 	public MapPiece NeighbourLeft(bool createIfNeeded = false)
@@ -310,7 +310,7 @@ public class MapPiece
 		return Neighbour(DungeonUtils.TwistLeft(orientation), createIfNeeded);
 	}
 	/// <summary>
-	/// Returns the neighbouring piece in direction
+	/// Returns the neighboring piece in direction
 	/// </summary>
 	/// <param name="dir"></param>
 	/// <returns></returns>
@@ -320,20 +320,20 @@ public class MapPiece
 		return map.GetExistingPiece(Coord + dir);
 	}
 	/// <summary>
-	/// Assign keydata to wall location. Also set the wall flag.
+	/// Assign key data to wall location. Also set the wall flag.
 	/// If the piece is NONE it leaves the wall flag clear.
 	/// </summary>
 	/// <param name="wallKey"></param>
-	internal void AssignWall(KeyData wallKey, bool overideLocked)// TODO MAYBE assign connection flag here to?
+	internal void AssignWall(KeyData wallKey, bool overrideLocked)// TODO MAYBE assign connection flag here to?
 	{
-		if (state == MAPPIECESTATE.LOCKED && !overideLocked)
+		if (state == MAPPIECESTATE.LOCKED && !overrideLocked)
 		{
-			GD.PrintErr($"MapPiece", "AssignWall", $"Attempting to write wall data to locked piece! [{CoordString}] override[{overideLocked}]");
+			GD.PrintErr($"MapPiece", "AssignWall", $"Attempting to write wall data to locked piece! [{CoordString}] override[{overrideLocked}]");
 			SetError(true);
 			return;
 		}
 		wallKeys[wallKey.dir] = wallKey;
-		// Update the wallflag
+		// Update the wall flag
 		WALLS flags = ResolveWallFlag(wallKey.dir);
 		if (wallKey.key == PIECEKEYS.NONE)
 		{

@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="BiomeResource" format=3 uid="uid://cs58xqyn4ofdy"]
 
 [ext_resource type="PackedScene" uid="uid://b0k5luvs28qyn" path="res://addons/MDunGen/Scenes/Standard/def_ceiling.tscn" id="1_jjr23"]
-[ext_resource type="Script" uid="uid://bexk71y5d2pt5" path="res://addons/MDunGen/Scripts/ResourceDefinitions/BiomeEntry.cs" id="2_jjr23"]
+[ext_resource type="Script" uid="uid://bexk71y5d2pt5" path="res://addons/MDunGen/Scripts/ResourceDefinitions/BiomeEntryResource.cs" id="2_jjr23"]
 [ext_resource type="ArrayMesh" uid="uid://d3o1e38vsdqs0" path="res://addons/MDunGen/Meshes/Standard/Standard_dbArrow.res" id="3_u2eaq"]
 [ext_resource type="ArrayMesh" uid="uid://bkhtgsky7tf8u" path="res://addons/MDunGen/Meshes/Standard/Standard_dbError.res" id="4_vu743"]
 [ext_resource type="ArrayMesh" uid="uid://jsyys7e6t7gu" path="res://addons/MDunGen/Meshes/Standard/Standard_dbFaulty.res" id="5_480td"]

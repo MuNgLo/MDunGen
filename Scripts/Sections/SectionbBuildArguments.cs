@@ -1,4 +1,5 @@
 ﻿// Gone through at v1.3
+using Godot;
 using MDunGen.Commons;
 using MDunGen.Resources;
 
@@ -12,6 +13,7 @@ public class SectionBuildArguments
 	public int sectionID;
 	public int levelIndex = -1;
 	public GenerationSettingsResource cfg;
+	public Material waterMaterial;
 	public ulong[] sectionSeed;
 	//public ulong[] Seed => sectionSeed is null ? cfg.Seed : sectionSeed;
 	public ulong[] Seed => sectionSeed;

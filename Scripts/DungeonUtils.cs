@@ -1,4 +1,5 @@
 ﻿// Gone through at v1.3
+using System.Linq;
 using Godot;
 using MDunGen.Commons;
 using MDunGen.Sections;
@@ -150,6 +151,23 @@ static internal class DungeonUtils
 		}
 		return rot;
 	}
+	internal static Vector3 GlobalDirection(MAPDIRECTION orientation)
+	{
+		switch (orientation)
+		{
+			case MAPDIRECTION.EAST:
+				return Vector3.Right;
+			case MAPDIRECTION.SOUTH:
+				return Vector3.Back;
+			case MAPDIRECTION.WEST:
+				return Vector3.Left;
+			case MAPDIRECTION.UP:
+				return Vector3.Up;
+			case MAPDIRECTION.DOWN:
+				return Vector3.Down;
+		}
+		return Vector3.Forward;
+	}
 
 	/// <summary>
 	/// TODO make this work better
@@ -181,19 +199,33 @@ static internal class DungeonUtils
 	/// <param name="section"></param>
 	internal static void BuildWaterPlane(ISection section)
 	{
+		// create the mesh visuals
 		MeshInstance3D surface = new MeshInstance3D();
 		PlaneMesh plane = new PlaneMesh();
 		surface.Mesh = plane;
+		// set the material
 		surface.MaterialOverride = section.WaterMaterial;
-		int sizeX = (section.MaxCoord.x - section.MinCoord.x) * 6 - 1;
-		int sizeZ = (section.MaxCoord.z - section.MinCoord.z) * 6 - 1;
-		plane.Size = new Vector2(sizeX, sizeZ);
-		plane.SubdivideWidth = sizeX;
-		plane.SubdivideDepth = sizeZ;
+
+		// Get orientation of section
+		MAPDIRECTION orientation = section.Orientation;
+
+		// set the size of the plane
+		int sizeDepth = Mathf.Abs(section.MaxCoord.x - section.MinCoord.x) * 6;
+		int sizeWidth = Mathf.Abs(section.MaxCoord.z - section.MinCoord.z) * 6;
+		plane.Size = new Vector2(sizeDepth, sizeWidth);
+
+		//plane.SubdivideWidth = sizeX;
+		//plane.SubdivideDepth = sizeZ;
+		
 		surface.Name = "Water";
 		section.SectionContainer.AddChild(surface);
-		surface.Position = Vector3.One * section.WaterLevel + Vector3.Left * plane.Size.X * 0.5f;
-		//GD.Print($"DungeonUtils::BuildWaterArea3D()  Size[{plane.Size}]");
+		
+		Vector3 height = Vector3.Up * section.WaterLevel;
+		Vector3 depth = GlobalDirection(orientation) * sizeDepth * 0.5f + GlobalDirection(orientation) * 9.0f;
+		Vector3 width = GlobalDirection(TwistLeft(orientation)) * -3.0f;
+		surface.Position = height + depth + width;
+
+		surface.Position += GlobalPosition(section.Coord);
 	}
 }// EOF CLASS
 

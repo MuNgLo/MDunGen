@@ -150,7 +150,7 @@ internal class Manager
     }
     internal void SelectFirstSection(bool runUpdates = true)
     {
-        GD.Print($"Selection.Manager::SelectFirstSection()");
+        //GD.Print($"Selection.Manager::SelectFirstSection()");
         ScreenDungeonVisualizer vis = MS.FindChild("Dungeon") as ScreenDungeonVisualizer;
         if (vis.Map.Sections.Count < 1) { return; }
         SelectSection(0);

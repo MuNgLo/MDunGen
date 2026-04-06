@@ -38,8 +38,9 @@ internal class FloorBuilder
 
 	GenerationSettingsResource Args => map.MapArgs;
 
-	internal FloorBuilder(MapData map, ulong[] seed, Action<BuildLogEventArgument> log)
+	internal FloorBuilder(int levelIndex, MapData map, ulong[] seed, Action<BuildLogEventArgument> log)
 	{
+		this.levelIndex = levelIndex;
 		this.log = log;
 		this.map = map;
 		this.seed = seed;
@@ -56,17 +57,17 @@ internal class FloorBuilder
 	}
 	#endregion
 
-
-
-
-	internal async Task BuildFloor(int levelIndex, FloorResource floor, bool doPathing)
+	internal async Task BuildFloor(FloorResource floor, bool doPathing)
 	{
-		this.levelIndex = levelIndex;
-
 		log.Invoke(new() { source = "FloorBuilder::BuildFloor()", message = "Starting build rules for floor.", levelIndex = levelIndex });
 
 		foreach (BuildRuleResource ruleResource in floor.rules)
 		{
+			if (ruleResource is null)
+			{
+				log.Invoke(new() { severity = BUILDLOGSEVERITY.WARNING, source = "FloorBuilder::BuildFloor()", message = "Rule is NULL", levelIndex = levelIndex });
+				continue;
+			}
 			switch (ruleResource.category)
 			{
 				case CATEGORYRULE.BUILD:
@@ -120,9 +121,9 @@ internal class FloorBuilder
 		}
 	}
 
-	
 
-	
+
+
 
 
 
@@ -225,7 +226,7 @@ internal class FloorBuilder
 		Assembly assembly = Assembly.GetExecutingAssembly();
 		Type type = assembly.GetTypes().First(t => t.Name == sectionDef.sectionType);
 
-		object instance = Activator.CreateInstance(type, new object[] { buildArgs });
+		object instance = Activator.CreateInstance(type, new object[] { buildArgs, false });
 
 		ISection section = instance as SectionBase;
 

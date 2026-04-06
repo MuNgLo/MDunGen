@@ -11,5 +11,4 @@ sizeWidthMax = 6
 sizeDepthMin = 4
 sizeDepthMax = 6
 nbFloorsMax = 1
-placers = []
 firstPieceDoor = false

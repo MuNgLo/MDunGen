@@ -117,7 +117,10 @@ public partial class CameraControls : Node
 
 	private void WhenNewMapBuilt(object sender, EventArgs e)
 	{
-		ResetCamera();
+		if (mainScreen.addon.MasterConfig.cameraResetOnBuild)
+		{
+			ResetCamera();
+		}
 	}
 
 	private void ResetCamera()
@@ -125,7 +128,12 @@ public partial class CameraControls : Node
 		camera.Position = ogPos;
 		camera.Rotation = ogRot;
 	}
-
+	internal void FocusOnMapCoordinate(MapCoordinate coord)
+	{
+		Vector3 focusPoint = DungeonUtils.GlobalPosition(coord);
+		camera.GlobalPosition = focusPoint + Vector3.Up * 30.0f;
+		camera.Rotation = ogRot;
+	}
 	void MouseMove()
 	{
 		if (state == CAMERAMODE.LOCKED) { return; }
@@ -182,12 +190,7 @@ public partial class CameraControls : Node
 		mainScreen.RaiseNotification($"Speed:" + string.Format("{0:0.0}", speed));
 	}
 
-	internal void FocusOnMapCoordinate(MapCoordinate coord)
-	{
-		Vector3 focusPoint = DungeonUtils.GlobalPosition(coord);
-		camera.GlobalPosition = focusPoint + Vector3.Up * 30.0f;
-		camera.Rotation = ogRot;
-	}
+
 
 	private void WhenMouseEnterMain()
 	{

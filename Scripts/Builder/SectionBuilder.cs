@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Godot;
 using MDunGen.Commons;
 using MDunGen.Resources;
 using MDunGen.Sections;
@@ -34,11 +35,21 @@ internal class SectionBuilder
 
 	GenerationSettingsResource Args => map.MapArgs;
 
+	internal SectionBuilder(int levelIndex, MapData map, ulong[] seed, Action<BuildLogEventArgument> log)
+	{
+		this.levelIndex = levelIndex;
+		this.log = log;
+		this.map = map;
+		this.seed = seed;
+		sectionRNG = new PRNGMarsenneTwister(this.seed);
+	}
 
-	internal async Task BuildSection(int levelIndex, string sectionTypeName, SectionResource sectionDef, ulong[] usedSeed)
+
+	internal async Task BuildSection(string sectionTypeName, SectionResource sectionDef, ulong[] usedSeed, bool debug)
 	{
 		MapPiece piece = map.GetPiece(MapCoordinate.Zero);
-		piece.Orientation = MAPDIRECTION.NORTH;
+		// Seems tpo be only for the debug generation of a section so use random direction
+		piece.Orientation = MAPDIRECTION.ANY;
 
 		SectionBuildArguments buildArgs = new SectionBuildArguments()
 		{
@@ -54,11 +65,9 @@ internal class SectionBuilder
 		Assembly assembly = Assembly.GetExecutingAssembly();
 		Type type = assembly.GetTypes().First(t => t.Name == sectionTypeName);
 
-		object instance = Activator.CreateInstance(type, new object[] { buildArgs });
+		object instance = Activator.CreateInstance(type, new object[] { buildArgs, debug});
 
 		ISection section = instance as SectionBase;
-
-		//GD.Print($"MapBuilder::BuildSection() [{section.GetType().Name}]");
 
 		section.Build(log);
 		map.Sections.Add(section);

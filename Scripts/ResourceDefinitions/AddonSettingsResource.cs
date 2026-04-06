@@ -38,4 +38,8 @@ public partial class AddonSettingsResource : DungeonAddonResource
 
 	[ExportGroup("Passes")]
 	[Export] public bool pathingPass = true;
+
+	[ExportGroup("CameraSettings")]
+	[Export] public bool cameraResetOnBuild = true;
+
 }// EOF CLASS

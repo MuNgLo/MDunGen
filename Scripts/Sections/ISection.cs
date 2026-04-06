@@ -1,9 +1,6 @@
 ﻿// Gone through at v1.3
 using Godot;
-using Godot.Collections;
 using MDunGen.Commons;
-using MDunGen.PropGrid;
-using MDunGen.Resources;
 using System;
 using System.Collections.Generic;
 
@@ -36,7 +33,8 @@ public interface ISection
 	/// <summary>
 	/// TODO decide if this is all props or just the section inner props
 	/// </summary>
-	public int PropCount { get; }
+	//public int PropCount { get; }
+
 	/// <summary>
 	/// All the pieces in the section
 	/// Should only be accessed when we create visuals
@@ -52,10 +50,6 @@ public interface ISection
 	/// </summary>
 	public void Build(Action<BuildLogEventArgument> log);
 
-	/// <summary>
-	/// Write all the section's pieces to the mapData instance
-	/// </summary>
-	public void Save();
 
 	public bool AddOpening(MapCoordinate coord, MAPDIRECTION dir, bool wide, bool overrideLocked, Action<BuildLogEventArgument> log);
 	/// <summary>
@@ -63,11 +57,10 @@ public interface ISection
 	/// </summary>
 	/// <param name="rp"></param>
 	/// <param name="pData"></param>
-	[Obsolete]
-	public void AddProp(SectionProp pData);
-	[Obsolete]
-	public bool AddPropOnRandomTile(KeyData keyData, out MapPiece pick);
-
+	//[Obsolete]
+	//public void AddProp(SectionProp pData);
+	//[Obsolete]
+	//public bool AddPropOnRandomTile(KeyData keyData, out MapPiece pick);
 
 
 	/// <summary>
@@ -80,10 +73,12 @@ public interface ISection
 
 	public List<int> Connections { get; }
 
-	public List<SectionProp> Props { get; }
+	//public List<SectionProp> Props { get; }
 	public MapPiece GetRandomPiece();
 	public MapPiece GetRandomFloor();
-	public void PunchBackDoor();
+
+	//public void PunchBackDoor();
+	public void PunchBackDoor() { }
 
 	public MapCoordinate Coord { get; }
 	public ROOMCONNECTIONRESPONCE defaultConnectionResponses { get; }
@@ -109,7 +104,9 @@ public interface ISection
 	/// </summary>
 	/// <param name="sectionDef"></param>
 	/// <param name="placersOverride"></param>
-	void AssignPlacer(SectionResource sectionDef, Array<PlacerEntryResource> placersOverride);
+	//void AssignPlacer(SectionResource sectionDef, Array<PlacerEntryResource> placersOverride);
+
+
 	/// <summary>
 	/// Removes piece from the section and assign sectionIndex -1 to it if not a new owner is given
 	/// Also remember it by adding the coord to the extraPieces
@@ -131,7 +128,9 @@ public interface ISection
 	public MapCoordinate MaxCoord { get; }
 	public MapCoordinate MinCoord { get; }
 	public PRNGMarsenneTwister RNG { get; }
-	public Array<PlacerEntryResource> Placers { get; }
+	//public Array<PlacerEntryResource> Placers { get; }
+
+	public MAPDIRECTION Orientation { get; }
 
 	public float WaterLevel { get; }
 	public float WaterDepth { get; }

@@ -1,0 +1,20 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://b0c3uoswh26nq"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_en7yn"]
+frequency = 0.0091
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_3ur0l"]
+noise = SubResource("FastNoiseLite_en7yn")
+seamless = true
+as_normal_map = true
+
+[resource]
+transparency = 1
+albedo_color = Color(0.18431373, 0.18039216, 0.42745098, 0.7764706)
+metallic_specular = 0.22
+roughness = 0.12
+normal_enabled = true
+normal_scale = 5.25
+normal_texture = SubResource("NoiseTexture2D_3ur0l")
+uv1_triplanar = true
+uv1_world_triplanar = true

@@ -58,13 +58,10 @@ public partial class DungeonVisualizer : Node3D
 	{
 		if (section == null) { return; }
 		section.SectionContainer = new Node3D();
-		propContainer = new Node3D();
 		tileContainer = new Node3D();
 		section.SectionContainer.Name = "S" + string.Format("{0:000}", section.SectionIndex);
-		propContainer.Name = $"Props[{section.PropCount}]";
 		tileContainer.Name = $"Tiles[{section.Pieces.Count}]";
 		GetFloorContainer(section.Coord.y).AddChild(section.SectionContainer, true);
-		section.SectionContainer.AddChild(propContainer, true);
 		section.SectionContainer.AddChild(tileContainer, true);
 		// Section Tiles
 		int index = 0;

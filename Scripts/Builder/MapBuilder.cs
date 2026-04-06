@@ -1,14 +1,8 @@
 ﻿// Gone through at v1.3
-using Godot;
 using MDunGen.Commons;
-using MDunGen.Sections;
 using MDunGen.Resources;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Reflection;
-using MDunGen.Pathfinding;
 
 namespace MDunGen.Builder;
 
@@ -31,8 +25,6 @@ internal class MapBuilder
 	/// The top RNG generator for the whole build process
 	/// </summary>
 	PRNGMarsenneTwister masterRNG;
-
-	PRNGMarsenneTwister floorRNG;
 	/// <summary>
 	/// Action for the builder to be able to push log messages
 	/// </summary>
@@ -57,14 +49,14 @@ internal class MapBuilder
 
 	internal async Task BuildFloor(int levelIndex, FloorResource floorDef, bool doPathing)
 	{
-		FloorBuilder floorBuilder = new(map, NewSeed(), log);
-		await floorBuilder.BuildFloor(levelIndex, floorDef, doPathing);
+		FloorBuilder floorBuilder = new(levelIndex, map, NewSeed(), log);
+		await floorBuilder.BuildFloor(floorDef, doPathing);
 	}
 
-	internal async Task BuildSection(int levelIndex, string sectionTypeName, SectionResource sectionDef, ulong[] seed)
+	internal async Task BuildSection(int levelIndex, string sectionTypeName, SectionResource sectionDef, ulong[] seed, bool debug)
 	{
-		SectionBuilder sectionBuilder = new();
-		await sectionBuilder.BuildSection(levelIndex, sectionTypeName, sectionDef, seed);
+		SectionBuilder sectionBuilder = new(levelIndex, map, NewSeed(), log);
+		await sectionBuilder.BuildSection(sectionTypeName, sectionDef, seed, debug);
 	}
 }// EOF CLASS
 

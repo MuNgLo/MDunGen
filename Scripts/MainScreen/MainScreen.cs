@@ -82,12 +82,10 @@ public partial class MainScreen : Control
 	{
 		await dunVis.BuildDungeon(settings, settings.floorDef, biome);
 	}
-	public void GenerateSection(int levelIndex, string sectionTypeName, SectionResource sectionDef, GenerationSettingsResource settings, BiomeResource biome)
+	public void GenerateSection(int levelIndex, string sectionTypeName, SectionResource sectionDef, GenerationSettingsResource settings, BiomeResource biome, bool debug)
 	{
 		RaiseNotification($"Building Section {sectionDef.sectionName}");
-		Array<PlacerEntryResource> placers = sectionDef.placers;
-		GD.Print($"MainScreen::GenerateSection() defIsNull[{sectionDef is null}] placers is Null[{placers is null}]");
-		dunVis.BuildSection(levelIndex, sectionTypeName, sectionDef, settings.MasterSeed, settings, biome, ReDrawDungeon);
+		dunVis.BuildSection(levelIndex, sectionTypeName, sectionDef, settings.MasterSeed, settings, biome, debug, ReDrawDungeon);
 	}
 	public void ReDrawDungeon()
 	{

@@ -21,6 +21,7 @@ public partial class UIobtnMSSectionType : OptionButton
 		{
 			if (type.Name.Contains("<>")) { continue; }
 			if (type.GetInterface(nameof(ISection)) == null) { continue; }
+			if (type.Name.Contains("SectionBase")) { continue; }
 			AddItem(type.Name);
 		}
 		Select(0); // SELECT 0 DEFAULT ONE for starters

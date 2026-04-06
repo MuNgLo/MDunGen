@@ -2,8 +2,9 @@
 
 [ext_resource type="Script" uid="uid://bhecvamptmrrg" path="res://addons/MDunGen/Scripts/ResourceDefinitions/BuildRuleResource.cs" id="1_v8uvr"]
 [ext_resource type="Resource" uid="uid://dk1ltui3mo7xj" path="res://addons/MDunGen/Config/Sections/RoomStart.tres" id="2_21l8d"]
-[ext_resource type="Resource" uid="uid://bi6wigkf4cpei" path="res://addons/MDunGen/Config/Sections/PathLongTangled.tres" id="3_ijhfp"]
-[ext_resource type="Resource" uid="uid://c7uncev2xr220" path="res://addons/MDunGen/Config/Sections/PathLong.tres" id="4_21l8d"]
+[ext_resource type="Resource" uid="uid://bfws7yk2wikiu" path="res://addons/MDunGen/Config/Sections/PathLongTangledWide.tres" id="3_ijhfp"]
+[ext_resource type="Resource" uid="uid://cpo4pr8osbhnk" path="res://addons/MDunGen/Config/Sections/RoomStandard.tres" id="4_ul5we"]
+[ext_resource type="Resource" uid="uid://bi6wigkf4cpei" path="res://addons/MDunGen/Config/Sections/PathLongTangled.tres" id="5_xpxpc"]
 [ext_resource type="Script" uid="uid://bbywsm7ndqlx2" path="res://addons/MDunGen/Scripts/ResourceDefinitions/FloorResource.cs" id="7_nn5bf"]
 
 [sub_resource type="Resource" id="Resource_v8uvr"]
@@ -18,24 +19,24 @@ script = ExtResource("1_v8uvr")
 category = 1
 location = 2
 section = ExtResource("3_ijhfp")
-amount = 3
 metadata/_custom_type_script = "uid://bhecvamptmrrg"
 
-[sub_resource type="Resource" id="Resource_ul5we"]
+[sub_resource type="Resource" id="Resource_ptpeo"]
 script = ExtResource("1_v8uvr")
 category = 1
 location = 2
-section = ExtResource("4_21l8d")
+section = ExtResource("4_ul5we")
+amount = 12
 metadata/_custom_type_script = "uid://bhecvamptmrrg"
 
-[sub_resource type="Resource" id="Resource_xpxpc"]
+[sub_resource type="Resource" id="Resource_842s6"]
 script = ExtResource("1_v8uvr")
 category = 1
 location = 2
-section = ExtResource("3_ijhfp")
+section = ExtResource("5_xpxpc")
 amount = 4
 metadata/_custom_type_script = "uid://bhecvamptmrrg"
 
 [resource]
 script = ExtResource("7_nn5bf")
-rules = [SubResource("Resource_v8uvr"), SubResource("Resource_21l8d"), SubResource("Resource_ul5we"), SubResource("Resource_xpxpc")]
+rules = [SubResource("Resource_v8uvr"), SubResource("Resource_21l8d"), SubResource("Resource_ptpeo"), SubResource("Resource_842s6")]

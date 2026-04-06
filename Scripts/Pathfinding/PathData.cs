@@ -3,7 +3,9 @@ using System.Collections.Generic;
 
 namespace MDunGen.Pathfinding;
 
-[System.Obsolete("Is this even used")]
+/// <summary>
+/// USed in bottom Dock for debug info from main screen pathing
+/// </summary>
 internal class PathData{
 
     internal List<PathLocation> path;

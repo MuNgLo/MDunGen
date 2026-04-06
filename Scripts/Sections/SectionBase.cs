@@ -1,13 +1,10 @@
 ﻿// Gone through at v1.3
 using Godot;
 using MDunGen.Commons;
-using MDunGen.PropGrid;
 using MDunGen.Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Godot.Collections;
-using MDunGen.Placers;
 
 namespace MDunGen.Sections;
 
@@ -18,6 +15,10 @@ public class SectionBase : ISection
 	/// The deterministic random number generator for this section
 	/// </summary>
 	private protected readonly PRNGMarsenneTwister rng;
+	/// <summary>
+	/// Set in constructor. Usually only used when using section debug mode.
+	/// </summary>
+	private protected readonly bool debug;
 	public PRNGMarsenneTwister RNG => rng;
 
 	/// <summary>
@@ -45,15 +46,17 @@ public class SectionBase : ISection
 	public List<int> Connections => connections;
 	public int ConnectionCount => connections.Count;
 
+	public MAPDIRECTION Orientation => orientation;
+
 
 	private protected List<MapPiece> pieces;
 	private protected List<MapCoordinate> extraPieces;
 
 
 
-	private SectionProps props;
-	internal SectionProps PropGrid => props;
-	public List<SectionProp> Props => props.props;
+	//private SectionProps props;
+	//internal SectionProps PropGrid => props;
+	//public List<SectionProp> Props => props.props;
 
 	private protected MapCoordinate coord;
 	private protected int MinY => minY;
@@ -61,8 +64,8 @@ public class SectionBase : ISection
 	public MapCoordinate Coord => coord;
 
 
-	private Array<PlacerEntryResource> placers;
-	public Array<PlacerEntryResource> Placers => placers;
+	//private Array<PlacerEntryResource> placers;
+	//public Array<PlacerEntryResource> Placers => placers;
 
 	#endregion
 
@@ -101,6 +104,15 @@ public class SectionBase : ISection
 	public MapCoordinate MinCoord => new MapCoordinate(minX, MinY, minZ);
 
 
+	/// <summary>
+	/// Section space width. As the section size perpendicular to the orientation.
+	/// </summary>
+	public int Width => orientation == MAPDIRECTION.NORTH || orientation == MAPDIRECTION.SOUTH ? sizeX : sizeZ;
+	/// <summary>
+	/// Section space depth. As the section size in the orientation.
+	/// </summary>
+	public int Depth => orientation == MAPDIRECTION.NORTH || orientation == MAPDIRECTION.SOUTH ? sizeZ : sizeX;
+
 	public int SectionIndex => sectionIndex;
 	public int LevelIndex => levelIndex;
 	public string SectionStyle => sectionStyle;
@@ -112,7 +124,7 @@ public class SectionBase : ISection
 	public Material WaterMaterial => waterMaterial;
 	public float WaterDepth => waterDepth;
 
-	public int PropCount => Props.Count;
+	//public int PropCount => Props.Count;
 
 	#endregion
 
@@ -122,73 +134,28 @@ public class SectionBase : ISection
 
 	public Node3D SectionContainer { get => sectionContainer; set => sectionContainer = value; }
 
-	/// <summary>
-	/// size overrides are in order of depth[max/min], width[max/min] and floor[max/min]. Use 0 to not override.
-	/// </summary>
-	/// <param name="args"></param>
-	/// <param name="sizeOverrides"></param>
-	/// <param name="adjustWidthDepth"></param>
-	/// <exception cref="ArgumentException"></exception>
-	public SectionBase(SectionBuildArguments args, int[] sizeOverrides, bool adjustWidthDepth = true)
+	public SectionBase(SectionBuildArguments args, bool debug)
 	{
 		if (args.sectionDefinition is null) { GD.PushError("Section definition was NULL"); return; }
-		if (sizeOverrides.Length != 6)
-		{
-			throw new ArgumentException("SectionBase::Constructor() SizeOverride Array has to be length of 4. Use 0 as a non override");
-		}
+
+		this.debug = debug;
+
 		pieces = new List<MapPiece>();
 		extraPieces = new List<MapCoordinate>();
 		connections = new List<int>();
 		rng = new PRNGMarsenneTwister(args.Seed);
-		props = new SectionProps(this, args.Seed);
-
-		if (args.sectionDefinition.waterMaterial is not null)
-		{
-			waterMaterial = args.sectionDefinition.waterMaterial;
-			waterLevel = args.sectionDefinition.waterLevel;
-			waterDepth = args.sectionDefinition.waterDepth;
-		}
+		//props = new SectionProps(this, args.Seed);
 
 		map = args.map;
 
 		sectionDefinition = args.sectionDefinition;
-		sectionIndex = args.sectionID;
 		levelIndex = args.levelIndex;
-		sectionStyle = sectionDefinition.sectionStyle;
-		sectionName = sectionDefinition.sectionName;
-		coord = args.piece.Coord;
-		defaultConnectionResponses = sectionDefinition.defaultResponses;
-
-		orientation = args.piece.Orientation;
-		if (orientation == MAPDIRECTION.ANY) { orientation = (MAPDIRECTION)rng.Next(1, 5); }
-
-		sizeX = rng.Next(sizeOverrides[1] == 0 ? sectionDefinition.sizeWidthMin : sizeOverrides[1], sizeOverrides[0] == 0 ? sectionDefinition.sizeWidthMax + 1 : sizeOverrides[0] + 1);
-		sizeZ = rng.Next(sizeOverrides[3] == 0 ? sectionDefinition.sizeDepthMin : sizeOverrides[3], sizeOverrides[2] == 0 ? sectionDefinition.sizeDepthMax + 1 : sizeOverrides[2] + 1);
-		sizeY = rng.Next(sizeOverrides[5] == 0 ? sectionDefinition.nbFloorsMin : sizeOverrides[5], sizeOverrides[4] == 0 ? sectionDefinition.nbFloorsMax + 1 : sizeOverrides[4] + 1);
-
-
-		sectionDefinition.VerifyValues();
-
-
-		if (adjustWidthDepth) { ResolveWidthDepth(); }
-		SetMinMaxCoord(coord);
-	}
-
-
-	public SectionBase(SectionBuildArguments args, bool adjustWidthDepth = true)
-	{
-		if (args.sectionDefinition is null) { GD.PushError("Section definition was NULL"); return; }
-
-		pieces = new List<MapPiece>();
-		extraPieces = new List<MapCoordinate>();
-		connections = new List<int>();
-		rng = new PRNGMarsenneTwister(args.Seed);
-		props = new SectionProps(this, args.Seed);
-
-		map = args.map;
-
-		sectionDefinition = args.sectionDefinition;
 		sectionIndex = args.sectionID;
+
+		waterMaterial = args.sectionDefinition.waterMaterial;
+		waterDepth = args.sectionDefinition.waterDepth;
+		waterLevel = args.sectionDefinition.waterLevel;
+
 		sectionStyle = sectionDefinition.sectionStyle;
 		sectionName = sectionDefinition.sectionName;
 		coord = args.piece.Coord;
@@ -202,17 +169,17 @@ public class SectionBase : ISection
 		sizeZ = rng.Next(sectionDefinition.sizeDepthMin, sectionDefinition.sizeDepthMax + 1);
 		sizeY = rng.Next(sectionDefinition.nbFloorsMin, sectionDefinition.nbFloorsMax + 1);
 
-		if (adjustWidthDepth) { ResolveWidthDepth(); }
+		ResolveWidthDepth();
 		SetMinMaxCoord(coord);
 
-		if (args.sectionDefinition.placers != null)
+		/*if (args.sectionDefinition.placers != null)
 		{
 			placers = args.sectionDefinition.placers;
 		}
 		else
 		{
 			placers = new Array<PlacerEntryResource>();
-		}
+		}*/
 	}
 
 	public virtual void Build(Action<BuildLogEventArgument> log)
@@ -228,7 +195,7 @@ public class SectionBase : ISection
 			log.Invoke(new()
 			{
 				source = "SectionBase::AddOpening()",
-				severity = BUILDLOGSEVERITY.ERROR, 
+				severity = BUILDLOGSEVERITY.ERROR,
 				message = $"no piece on coord({coord}) part of room[{sectionIndex}]",
 				mapLocations = [coord]
 			});
@@ -239,14 +206,14 @@ public class SectionBase : ISection
 			piece.AssignWall(new KeyData() { key = PIECEKEYS.WDW, dir = dir }, overrideLocked);
 			MapPiece nb = piece.Neighbour(DungeonUtils.TwistRight(dir), true);
 			nb.AssignWall(new KeyData() { key = PIECEKEYS.OCCUPIED, dir = dir }, overrideLocked);
-			if (!piece.hasFloor)
+			/*if (!piece.hasFloor)
 			{
 				StairPlacer stairCase = new StairPlacer(this, piece, dir);
 				if (stairCase.isValid)
 				{
 					stairCase.Build();
 				}
-			}
+			}*/
 		}
 		else
 		{
@@ -254,11 +221,11 @@ public class SectionBase : ISection
 			if (!piece.hasFloor)
 			{
 
-				StairPlacer stairCase = new StairPlacer(this, piece, dir);
+				/*StairPlacer stairCase = new StairPlacer(this, piece, dir);
 				if (stairCase.isValid)
 				{
 					stairCase.Build();
-				}
+				}*/
 
 
 			}
@@ -267,13 +234,6 @@ public class SectionBase : ISection
 		return true;
 	}
 
-	public void Save()
-	{
-		foreach (MapPiece piece in Pieces)
-		{
-			map.SavePiece(piece);
-		}
-	}
 	/// <summary>
 	/// Puts wall,floor and ceiling keys against other sections
 	/// Pass -1 to skip the category
@@ -317,11 +277,11 @@ public class SectionBase : ISection
 	public List<MapPiece> GetWallPieces(int floor, bool includeCorners = false)
 	{
 		// Confirmed
-		List<MapPiece> candidates = Pieces.FindAll(p => p.sectionfloor == floor && p.HasNorthWall);
+		List<MapPiece> candidates = Pieces.FindAll(p => p.sectionFloor == floor && p.HasNorthWall);
 
-		candidates.AddRange(Pieces.FindAll(p => p.sectionfloor == floor && p.HasEastWall && !p.HasNorthWall));
-		candidates.AddRange(Pieces.FindAll(p => p.sectionfloor == floor && p.HasSouthWall && !p.HasNorthWall && !p.HasEastWall));
-		candidates.AddRange(Pieces.FindAll(p => p.sectionfloor == floor && p.HasWestWall && !p.HasNorthWall && !p.HasEastWall && !p.HasSouthWall));
+		candidates.AddRange(Pieces.FindAll(p => p.sectionFloor == floor && p.HasEastWall && !p.HasNorthWall));
+		candidates.AddRange(Pieces.FindAll(p => p.sectionFloor == floor && p.HasSouthWall && !p.HasNorthWall && !p.HasEastWall));
+		candidates.AddRange(Pieces.FindAll(p => p.sectionFloor == floor && p.HasWestWall && !p.HasNorthWall && !p.HasEastWall && !p.HasSouthWall));
 		if (!includeCorners)
 		{
 			int count = 0;
@@ -355,10 +315,10 @@ public class SectionBase : ISection
 		return candidates;
 	}
 
-	public bool GetOuterWallFreeNeighbour(out MapPiece neighbour, out MAPDIRECTION dir, bool includeCorners = false, bool onlysSectionGroundFloor = true)
+	public bool GetOuterWallFreeNeighbour(out MapPiece neighbour, out MAPDIRECTION dir, bool includeCorners = false, bool onlySectionGroundFloor = true)
 	{
 		// Confirmed
-		List<MapPiece> candidates = onlysSectionGroundFloor ? GetOutsideWallsOnFloor(Coord.y) : GetOutsideWalls(includeCorners);
+		List<MapPiece> candidates = onlySectionGroundFloor ? GetOutsideWallsOnFloor(Coord.y) : GetOutsideWalls(includeCorners);
 		dir = MAPDIRECTION.ANY;
 		int breaker = 20;
 		while (breaker > 0 && candidates.Count > 0)
@@ -375,35 +335,35 @@ public class SectionBase : ISection
 
 	private protected void SetMinMaxCoord(MapCoordinate center)
 	{
-		int Xoffset = 0;
-		int Zoffset = 0;
-		if (sizeX % 2 != 0) { Xoffset = 1; }
-		if (sizeZ % 2 != 0) { Zoffset = 1; }
+		int XOffset = 0;
+		int ZOffset = 0;
+		if (sizeX % 2 != 0) { XOffset = 1; }
+		if (sizeZ % 2 != 0) { ZOffset = 1; }
 		switch (orientation)
 		{
 			case MAPDIRECTION.NORTH:
-				minX = center.x - (int)(sizeX * 0.5f) + 1 - Xoffset;
+				minX = center.x - (int)(sizeX * 0.5f) + 1 - XOffset;
 				maxX = center.x + (int)(sizeX * 0.5f);
 				minZ = center.z - sizeZ + 1;
 				maxZ = center.z;
 				break;
 			case MAPDIRECTION.SOUTH:
-				minX = center.x - (int)(sizeZ * 0.5f);
-				maxX = center.x + (int)(sizeZ * 0.5f) - 1 + Xoffset;
+				minX = center.x - (int)(sizeX * 0.5f) + XOffset;
+				maxX = center.x + (int)(sizeX * 0.5f);
 				minZ = center.z;
 				maxZ = center.z + sizeZ - 1;
 				break;
 			case MAPDIRECTION.EAST:
 				minX = center.x;
 				maxX = center.x + sizeX - 1;
-				minZ = center.z - (int)(sizeZ * 0.5f) + 1 - Zoffset;
+				minZ = center.z - (int)(sizeZ * 0.5f) + 1 - ZOffset;
 				maxZ = center.z + (int)(sizeZ * 0.5f);
 				break;
 			case MAPDIRECTION.WEST:
 				minX = center.x - sizeX + 1;
 				maxX = center.x;
-				minZ = center.z - (int)(sizeZ * 0.5f) + 1 - Zoffset;
-				maxZ = center.z + (int)(sizeZ * 0.5f);
+				minZ = center.z - (int)(sizeZ * 0.5f) - ZOffset;
+				maxZ = center.z + (int)(sizeZ * 0.5f) - 1;
 				break;
 		}
 		minY = center.y;
@@ -462,7 +422,7 @@ public class SectionBase : ISection
 	}
 
 
-	public virtual void AddProp(SectionProp pData)
+	/*public virtual void AddProp(SectionProp pData)
 	{
 		Props.Add(pData);
 	}
@@ -471,6 +431,7 @@ public class SectionBase : ISection
 	{
 		throw new NotImplementedException();
 	}
+	*/
 
 	public virtual MapPiece GetRandomPiece()
 	{
@@ -489,10 +450,7 @@ public class SectionBase : ISection
 		return pick;
 	}
 
-	public virtual void PunchBackDoor()
-	{
 
-	}
 
 	public virtual bool IsInside(Vector3 worldPosition)
 	{
@@ -544,31 +502,6 @@ public class SectionBase : ISection
 		return -1;
 	}
 
-
-
-
-
-
-	public void AssignPlacer(SectionResource sectionDef, Array<PlacerEntryResource> placers)
-	{
-		if (sectionDef == null && placers == null)
-		{
-			GD.PushError("SectionBase::AssignPlacer(NULL,NULL) Trying to assign placers to a section but both options are NULL!");
-			return;
-		}
-
-		if (sectionDef != null)
-		{
-			if (sectionDef.placers != null && sectionDef.placers.Count > 0)
-			{
-				this.placers = sectionDef.placers;
-			}
-		}
-		if (placers == null) { return; }
-		if (placers.Count < 1) { return; }
-		this.placers = placers;
-	}
-
 	/// <summary>
 	/// Make depth and width consistent relative to section orientation
 	/// </summary>
@@ -582,11 +515,11 @@ public class SectionBase : ISection
 		}
 	}
 
-	public virtual void RemovePiece(MapCoordinate coord, int newsectionOwner = -1)
+	public virtual void RemovePiece(MapCoordinate coord, int newSectionOwner = -1)
 	{
 		MapPiece mp = map.GetExistingPiece(coord);
 		pieces.Remove(mp);
-		mp.SectionIndex = newsectionOwner;
+		mp.SectionIndex = newSectionOwner;
 		extraPieces.Add(coord);
 	}
 

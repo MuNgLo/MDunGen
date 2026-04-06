@@ -27,7 +27,7 @@ public class PathSection : SectionBase
 	private int corMinStraight = 2;
 	private bool nextTurnIsRight = false;
 
-	public PathSection(SectionBuildArguments args) : base(args, false)
+	public PathSection(SectionBuildArguments args, bool debug) : base(args, debug)
 	{
 		PathResource pathRes = args.sectionDefinition as PathResource;
 		corMaxTotal = pathRes.corMaxTotal;
@@ -48,16 +48,16 @@ public class PathSection : SectionBase
 		//VerifyWidth(step);
 		SetupLines(step);
 		int breaker = corMaxTotal * 2 + 5;
-		int turntimer = RollTurn();
+		int turnTimer = RollTurn();
 
 		while (!isFinished)
 		{
-			turntimer--;
+			turnTimer--;
 			// Either add a step or make a turn
-			if (turntimer < 1 && lines[0].Last.isBridge == false)
+			if (turnTimer < 1 && lines[0].Last.isBridge == false)
 			{
 				if (nextTurnIsRight) { TurnRight(); } else { TurnLeft(); }
-				turntimer = RollTurn();
+				turnTimer = RollTurn();
 			}
 			else
 			{
@@ -68,7 +68,7 @@ public class PathSection : SectionBase
 			if (breaker < 0)
 			{
 				isFinished = true;
-				GD.PrintErr($"PathSection", "Build", "Addstep loop hit BREAKER!");
+				GD.PrintErr($"PathSection", "Build", "Add step loop hit BREAKER!");
 			}
 			if (LeftSide.Count >= corMaxTotal) { isFinished = true; }
 		}
@@ -178,47 +178,47 @@ public class PathSection : SectionBase
 			return RightSide.GetRandomAlongPath(out dir, false, true);
 		}
 	}
-	private void BuildStartConnection(MapPiece startpiece, MAPDIRECTION dir)
+	private void BuildStartConnection(MapPiece startPiece, MAPDIRECTION dir)
 	{
-		MapPiece startpieceConnection = startpiece.Neighbour(dir, false);
+		MapPiece startPieceConnection = startPiece.Neighbour(dir, false);
 		ISection otherSection;
-		if (startpieceConnection.SectionIndex > -1 && startpieceConnection.SectionIndex < map.Sections.Count)
+		if (startPieceConnection.SectionIndex > -1 && startPieceConnection.SectionIndex < map.Sections.Count)
 		{
-			otherSection = map.Sections[startpieceConnection.SectionIndex];
+			otherSection = map.Sections[startPieceConnection.SectionIndex];
 			int conn1 = AddConnection(
 				dir,
-				map.Sections[startpieceConnection.SectionIndex],
-				startpiece.Coord,
-				startpieceConnection.Coord,
+				map.Sections[startPieceConnection.SectionIndex],
+				startPiece.Coord,
+				startPieceConnection.Coord,
 				true
 				);
-			int conn2 = otherSection.AddConnection(DungeonUtils.Flip(dir), this, startpieceConnection.Coord, startpiece.Coord, true);
+			int conn2 = otherSection.AddConnection(DungeonUtils.Flip(dir), this, startPieceConnection.Coord, startPiece.Coord, true);
 			map.Connections[conn1].connectedToConnectionID = conn2;
 			map.Connections[conn2].connectedToConnectionID = conn1;
 		}
 	}
 	private void BuildEndCap()
 	{
-		MapPiece endpieceConnection = LeftSide.Last.Neighbour(LeftSide.Last.Orientation, true);
+		MapPiece endPieceConnection = LeftSide.Last.Neighbour(LeftSide.Last.Orientation, true);
 
 		if (sectionDefinition.sizeWidthMax < 2)
 		{
 			CapLineEndsWithWalls();
-			if (endpieceConnection.State == MAPPIECESTATE.PENDING && endpieceConnection.SectionIndex >= 0 && endpieceConnection.SectionIndex != sectionIndex)
+			if (endPieceConnection.State == MAPPIECESTATE.PENDING && endPieceConnection.SectionIndex >= 0 && endPieceConnection.SectionIndex != sectionIndex)
 			{
 				AddConnection(
 					LeftSide.Last.Orientation,
-					map.Sections[endpieceConnection.SectionIndex],
+					map.Sections[endPieceConnection.SectionIndex],
 					LeftSide.Last.Coord,
-					endpieceConnection.Coord,
+					endPieceConnection.Coord,
 					true
 					);
 			}
 			return;
 		}
-		MapPiece endpieceConnection2 = RightSide.Last.Neighbour(RightSide.Last.Orientation, true);
+		MapPiece endPieceConnection2 = RightSide.Last.Neighbour(RightSide.Last.Orientation, true);
 
-		if (endpieceConnection.State == MAPPIECESTATE.PENDING && endpieceConnection2.State == MAPPIECESTATE.PENDING)
+		if (endPieceConnection.State == MAPPIECESTATE.PENDING && endPieceConnection2.State == MAPPIECESTATE.PENDING)
 		{
 			// Avoid messing with start connection if path is only 1 tile long
 			if (LeftSide.Count > 1)
@@ -249,15 +249,15 @@ public class PathSection : SectionBase
 		else
 		{
 			CapLineEndsWithWalls();
-			if (!endpieceConnection.isEmpty && endpieceConnection2.isEmpty && endpieceConnection.SectionIndex >= 0 && endpieceConnection.SectionIndex != sectionIndex)
+			if (!endPieceConnection.isEmpty && endPieceConnection2.isEmpty && endPieceConnection.SectionIndex >= 0 && endPieceConnection.SectionIndex != sectionIndex)
 			{
 				// Add a single door to connect corridors on left side
-				AddConnection(LeftSide.Last.Orientation, map.Sections[endpieceConnection.SectionIndex], LeftSide.Last.Coord, endpieceConnection.Coord, true);
+				AddConnection(LeftSide.Last.Orientation, map.Sections[endPieceConnection.SectionIndex], LeftSide.Last.Coord, endPieceConnection.Coord, true);
 			}
-			else if (endpieceConnection.isEmpty && !endpieceConnection2.isEmpty && endpieceConnection2.SectionIndex >= 0 && endpieceConnection2.SectionIndex != sectionIndex)
+			else if (endPieceConnection.isEmpty && !endPieceConnection2.isEmpty && endPieceConnection2.SectionIndex >= 0 && endPieceConnection2.SectionIndex != sectionIndex)
 			{
 				// Add a single door to connect corridors on right side
-				AddConnection(RightSide.Last.Orientation, map.Sections[endpieceConnection.SectionIndex], RightSide.Last.Coord, endpieceConnection.Coord, true);
+				AddConnection(RightSide.Last.Orientation, map.Sections[endPieceConnection.SectionIndex], RightSide.Last.Coord, endPieceConnection.Coord, true);
 			}
 		}
 	}
@@ -299,7 +299,6 @@ public class PathSection : SectionBase
 	{
 		MAPDIRECTION newDir = DungeonUtils.TwistRight(lines[0].Last.Orientation);
 		MapPiece[] turners = RightSide.GetTurners(sizeX, newDir);
-		//ProcGenMKIII.Log("Path", "TurnRight", $"turners.Length[{turners.Length}]");
 		if (TurnNotBlocked(turners))
 		{
 			for (int i = 0; i < turners.Length; i++)
@@ -316,8 +315,6 @@ public class PathSection : SectionBase
 	{
 		MAPDIRECTION newDir = DungeonUtils.TwistLeft(lines[0].Last.Orientation);
 		MapPiece[] turners = LeftSide.GetTurners(sizeX, newDir, true);
-		//ProcGenMKIII.Log("Path", "TurnLeft", $"turners.Length[{turners.Length}]");
-
 		if (TurnNotBlocked(turners))
 		{
 			for (int i = 0; i < turners.Length; i++)
@@ -361,11 +358,9 @@ public class PathSection : SectionBase
 
 	private void SetupLines(MapPiece step)
 	{
-		//GD.Print($"PathSection::SetupLines() SectionName[{SectionName}]  sectionStyle[{SectionStyle}] sizeX[{sizeX}]");
 		lines = new Line[sizeX];
 		step.SectionIndex = sectionIndex;
 		step.State = MAPPIECESTATE.PENDING;
-
 		lines[0] = new Line(map, this, step, rng);
 		if (lines.Length > 1)
 		{
@@ -394,14 +389,14 @@ public class PathSection : SectionBase
 		}
 		sizeX = cleared;
 	}
-	public override void RemovePiece(MapCoordinate coord, int newsectionOwner = -1)
+	public override void RemovePiece(MapCoordinate coord, int newSectionOwner = -1)
 	{
 		MapPiece mp = map.GetExistingPiece(coord);
 		for (int i = 0; i < lines.Length; i++)
 		{
 			lines[i].Remove(coord);
 		}
-		mp.SectionIndex = newsectionOwner;
+		mp.SectionIndex = newSectionOwner;
 		extraPieces.Add(coord);
 	}
 }// EOF CLASS

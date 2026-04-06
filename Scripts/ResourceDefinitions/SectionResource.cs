@@ -12,7 +12,7 @@ public partial class SectionResource : DungeonAddonResource
 	[Export] public string sectionStyle = string.Empty;
 	[Export] public ROOMCONNECTIONRESPONCE defaultResponses = (ROOMCONNECTIONRESPONCE)15;
 	[ExportGroup("General")]
-	[Export] public int sizeWidthMin { get; set; } = 3;
+	[Export] public int sizeWidthMin = 3; // Used to have blank get/set. Dunno why
 	[Export] public int sizeWidthMax = 5;
 	[Export] public int sizeDepthMin = 3;
 	[Export] public int sizeDepthMax = 5;
@@ -32,7 +32,7 @@ public partial class SectionResource : DungeonAddonResource
 	[Export] public int nbDoorsPerFloorMax = 0;
 
 	[ExportGroup("WiP")]
-	[Export] public Array<PlacerEntryResource> placers;
+	//[Export] public Array<PlacerEntryResource> placers;
 	[Export] public bool centerSpiralStairs = false;
 	[Export] public bool firstPieceDoor = true;
 	[Export] public int backDoorChance = 30;

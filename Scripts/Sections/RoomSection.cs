@@ -9,7 +9,7 @@ namespace MDunGen.Sections;
 
 public class RoomSection : SectionBase
 {
-	public RoomSection(SectionBuildArguments args) : base(args) { }
+	public RoomSection(SectionBuildArguments args, bool debug) : base(args, debug) { }
 
 	#region ISection methods
 	public override void Build(Action<BuildLogEventArgument> log)
@@ -17,6 +17,7 @@ public class RoomSection : SectionBase
 		log.Invoke(new() { source = "RoomSection::Build()", message = "Building Room section", sectionIndex = sectionIndex, levelIndex = levelIndex, mapLocations = [coord] });
 
 		MapPiece start = map.GetPiece(coord);
+
 		start.State = MAPPIECESTATE.PENDING;
 		start.keyFloor = new KeyData() { key = PIECEKEYS.F, dir = orientation, variantID = 0 };
 		pieces.Add(start);
@@ -25,30 +26,35 @@ public class RoomSection : SectionBase
 		MapPiece parent = map.GetExistingPiece(coord + DungeonUtils.Flip(orientation));
 		if (parent is not null)
 		{
-			//AddConnection(Dungeon.Flip(orientation), map.Sections[parent.SectionIndex], start.Coord, parent.Coord, true);
-
 			ISection parentSection = map.Sections[parent.SectionIndex];
 			int c1 = AddConnection(DungeonUtils.Flip(orientation), parentSection, start.Coord, parent.Coord, true);
 			int c2 = parentSection.AddConnection(orientation, this, parent.Coord, start.Coord, true);
 			map.Connections[c1].connectedToConnectionID = c2;
 			map.Connections[c2].connectedToConnectionID = c1;
-
-
 		}
 
-		//ProcGenMKIII.Log("RoomBase", $"BuildRoom", $"Loc{coord}  Size({sizeX}.{sizeY}.{sizeZ}) minX({minX}) maxX({maxX})");
+
+		// Loop over pieces and process them. Adding neighbors and growing the section
 		int breaker = 0;
 		while (pieces.Exists(p => p.State == MAPPIECESTATE.PENDING))
 		{
-			ProcessPiece(pieces.Find(p => p.State == MAPPIECESTATE.PENDING));
+			MapPiece piece = pieces.Find(p => p.State == MAPPIECESTATE.PENDING);
+			ProcessPiece(piece);
 			breaker++;
 			if (breaker > 1000)
 			{
-				GD.PrintErr($"RoomBase", $"BuildRoom", $"ProcessPiece loop hit breaker!");
+				log.Invoke(new()
+				{
+					severity = BUILDLOGSEVERITY.WARNING,
+					source = "RoomSection::Build()",
+					message = "ProcessPiece loop hit breaker!",
+					sectionIndex = sectionIndex,
+					levelIndex = levelIndex,
+					mapLocations = [piece.Coord]
+				});
 				break;
 			}
 		}
-
 
 		SealSection();
 
@@ -77,12 +83,12 @@ public class RoomSection : SectionBase
 			MapPiece nb = rp.Neighbour(processingDirection, true);
 			if (nb.State == MAPPIECESTATE.UNUSED)
 			{
-				if ((nb.Coord.x >= minX && nb.Coord.x <= maxX
+				if (nb.Coord.x >= minX && nb.Coord.x <= maxX
 					&& nb.Coord.y >= MinY && nb.Coord.y < MaxY
-					&& nb.Coord.z >= minZ && nb.Coord.z <= maxZ)
+					&& nb.Coord.z >= minZ && nb.Coord.z <= maxZ
 					)
 				{
-					// Not bottomfloor so have to have same sectionindex underneath
+					// Not bottom floor so have to have same section index underneath
 					if (nb.Coord.y > MinY && !pieces.Exists(p => p.Coord == nb.Coord + MAPDIRECTION.DOWN))
 					{
 						// blocked by piece no part of room so wall it
@@ -95,9 +101,9 @@ public class RoomSection : SectionBase
 					// Expand room to tile if within limits
 					nb.State = MAPPIECESTATE.PENDING;
 					nb.SectionIndex = sectionIndex;
-					nb.sectionfloor = Math.Abs(nb.Coord.y - pieces.First().Coord.y);
+					nb.sectionFloor = Math.Abs(nb.Coord.y - pieces.First().Coord.y);
 
-					if (nb.sectionfloor == 0 || (sectionDefinition.allFloor && !nb.hasFloor && nb.sectionfloor < sizeY - 1))
+					if (nb.sectionFloor == 0 || (sectionDefinition.allFloor && !nb.hasFloor && nb.sectionFloor < sizeY - 1))
 					{
 						//nb.keyFloor = new KeyData() { key = PIECEKEYS.F, dir = orientation, variantID = 0 };
 					}
@@ -128,24 +134,7 @@ public class RoomSection : SectionBase
 		map.SavePiece(rp);
 	}
 
-
-	public override bool AddPropOnRandomTile(KeyData keyData, out MapPiece pick)
-	{
-		pick = null;
-		if (pieces.Count < 3)
-		{
-			return false;
-		}
-		pick = pieces[rng.Next(pieces.Count - 1) + 1];
-		while (pick.keyFloor.key == PIECEKEYS.NONE)
-		{
-			pick = pieces[rng.Next(pieces.Count - 1) + 1];
-		}
-		//ProcGenMKIII.Log("RoomBase", "AddPropOnRandomTile", $"Adding [{keyData.key}] to [{pick}] in room[{roomIndex}]");
-		pick.AddExtra(keyData);
-		return true;
-	}
-	public override void PunchBackDoor()
+	public void PunchBackDoor()
 	{
 		if (sectionDefinition.backDoorChance < 1 || rng.Next(100) > sectionDefinition.backDoorChance)
 		{

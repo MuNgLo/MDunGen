@@ -6,8 +6,7 @@
 script = ExtResource("1_66q4r")
 sectionName = "Standard"
 sectionType = "RoomSection"
-sizeWidthMax = 7
-sizeDepthMax = 7
+nbFloorsMax = 1
 arches = false
-placers = []
+waterLevel = 2.14
 firstPieceDoor = false
