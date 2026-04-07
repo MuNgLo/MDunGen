@@ -24,12 +24,12 @@ internal static class BuildUtils
 
 	internal static void AddDebugKeys(MapPiece piece)
 	{
+		// TODO get wall debug as variants under the debug key
 		piece.AddDebug(new KeyData() { key = PIECEKEYS.DEBUG, dir = piece.Orientation });
-
-		if (piece.HasNorthWall) { piece.AddDebug(new KeyData() { key = PIECEKEYS.WFRED, dir = MAPDIRECTION.NORTH }); }
-		if (piece.HasEastWall) { piece.AddDebug(new KeyData() { key = PIECEKEYS.WFRED, dir = MAPDIRECTION.EAST }); }
-		if (piece.HasSouthWall) { piece.AddDebug(new KeyData() { key = PIECEKEYS.WFRED, dir = MAPDIRECTION.SOUTH }); }
-		if (piece.HasWestWall) { piece.AddDebug(new KeyData() { key = PIECEKEYS.WFRED, dir = MAPDIRECTION.WEST }); }
+		if (piece.HasNorthWall) { piece.AddDebug(new KeyData() { key = PIECEKEYS.DEBUG, dir = MAPDIRECTION.NORTH }); }
+		if (piece.HasEastWall) { piece.AddDebug(new KeyData() { key = PIECEKEYS.DEBUG, dir = MAPDIRECTION.EAST }); }
+		if (piece.HasSouthWall) { piece.AddDebug(new KeyData() { key = PIECEKEYS.DEBUG, dir = MAPDIRECTION.SOUTH }); }
+		if (piece.HasWestWall) { piece.AddDebug(new KeyData() { key = PIECEKEYS.DEBUG, dir = MAPDIRECTION.WEST }); }
 	}
 
 

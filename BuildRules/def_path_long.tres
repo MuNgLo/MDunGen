@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="BuildRuleResource" format=3 uid="uid://lxh6dy7vufp7"]
+
+[ext_resource type="Script" uid="uid://bhecvamptmrrg" path="res://addons/MDunGen/Scripts/ResourceDefinitions/BuildRuleResource.cs" id="1_fs74r"]
+[ext_resource type="Resource" uid="uid://c7uncev2xr220" path="res://addons/MDunGen/Config/Sections/PathLong.tres" id="2_xcoue"]
+
+[resource]
+script = ExtResource("1_fs74r")
+category = 1
+location = 2
+section = ExtResource("2_xcoue")
+amount = 2
+metadata/_custom_type_script = "uid://bhecvamptmrrg"

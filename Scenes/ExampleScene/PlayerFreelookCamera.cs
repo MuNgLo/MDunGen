@@ -20,9 +20,8 @@ public partial class PlayerFreelookCamera : Camera3D
 	}
 	public override void _Input(InputEvent @event)
 	{
-		if (@event is InputEventMouseMotion)
+		if (@event is InputEventMouseMotion m && Input.MouseMode == Input.MouseModeEnum.Captured)
 		{
-			InputEventMouseMotion m = (InputEventMouseMotion)@event;
 			mouseRelative += m.Relative;
 		}
 	}

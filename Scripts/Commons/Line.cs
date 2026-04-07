@@ -42,7 +42,7 @@ internal class Line
 	{
 		foreach (MapPiece step in steps)
 		{
-			if (!step.isBridge && step.SectionIndex < 0)
+			if (step.SectionIndex < 0)
 			{
 				step.keyFloor = new KeyData() { key = PIECEKEYS.F, dir = step.Orientation, variantID = 0 };
 				step.keyCeiling = new KeyData() { key = PIECEKEYS.C, dir = step.Orientation, variantID = 0 };
@@ -53,7 +53,7 @@ internal class Line
 	internal void Walk(int maxSteps, bool mainline)
 	{
 		if (steps.Count < 1) { return; }
-		if (Last.isBridge) { WalkBridge(maxSteps, mainline); return; }
+		//if (Last.isBridge) { WalkBridge(maxSteps, mainline); return; }
 		WalkNormal(maxSteps, mainline);
 	}
 	internal void WalkNormal(int maxSteps, bool mainline)
@@ -150,7 +150,7 @@ internal class Line
 	/// </summary>
 	/// <param name="maxSteps"></param>
 	/// <param name="mainline"></param>
-	internal void WalkBridge(int maxSteps, bool mainline)
+	/*internal void WalkBridge(int maxSteps, bool mainline)
 	{
 		MapPiece nextStep = Last.Neighbour(Last.Orientation, true);
 
@@ -194,7 +194,7 @@ internal class Line
 				return;
 			}
 		}
-	}
+	}*/
 
 	internal MapPiece[] GetTurners(int width, MAPDIRECTION dir, bool reversed = false)
 	{

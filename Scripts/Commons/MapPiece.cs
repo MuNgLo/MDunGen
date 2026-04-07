@@ -12,20 +12,14 @@ namespace MDunGen.Commons;
 public class MapPiece
 {
 	#region fixed never change fields and properties
+	/// <summary>
+	/// The map data this piece is part of
+	/// </summary>
 	private protected MapData map;
 	private MAPPIECESTATE state = MAPPIECESTATE.UNUSED;
 	private MAPDIRECTION orientation = MAPDIRECTION.ANY;
-	internal MAPDIRECTION Orientation { get => orientation; set => SetOrientation(value); }
+	internal MAPDIRECTION Orientation { get => orientation; set {orientation = value;}}
 	internal MAPPIECESTATE State { get => state; set => state = value; }
-	public bool hasStairs = false;
-	public bool isBridge = false;
-	/*internal MapPiece NeighbourNorth => map.GetPiece(Coord.StepNorth);
-	internal MapPiece NeighbourEast => map.GetPiece(Coord.StepEast);
-	internal MapPiece NeighbourSouth => map.GetPiece(Coord.StepSouth);
-	internal MapPiece NeighbourWest => map.GetPiece(Coord.StepWest);
-	internal MapPiece NeighbourUp => map.GetPiece(Coord.StepUp);
-	internal MapPiece NeighbourDown => map.GetPiece(Coord.StepDown);
-*/
 	private protected int sectionIndex = -1;
 	internal int SectionIndex { get => sectionIndex; set => sectionIndex = value; }
 	/// <summary>
@@ -41,6 +35,7 @@ public class MapPiece
 				{
 					severity = BUILDLOGSEVERITY.ERROR,
 					source = "MapPiece::Section:Get=>",
+					sectionIndex = sectionIndex,
 					message = "has unset sectionIndex! Defaulting to 0 but this need fixing!",
 					mapLocations = [coord]
 				});
@@ -53,6 +48,7 @@ public class MapPiece
 				{
 					severity = BUILDLOGSEVERITY.ERROR,
 					source = "MapPiece::Section:Get=>",
+					sectionIndex = sectionIndex,
 					message = $"sectionIndex[{sectionIndex}] to high! Count[{map.Sections.Count}] Defaulting to last section but this need fixing!",
 					mapLocations = [coord]
 				});
@@ -76,14 +72,14 @@ public class MapPiece
 	/// </summary>
 	internal int sectionFloor = -1;
 
-	#region Mesh keys
+	#region Layout Keys
 	/// <summary>
-	/// Floor mesh
+	/// Floor KeyData for biome decoding
 	/// </summary>
 	internal KeyData keyFloor = new() { key = PIECEKEYS.NONE, dir = MAPDIRECTION.ANY };
 
 	/// <summary>
-	/// Ceiling mesh
+	/// Ceiling KeyData for biome decoding
 	/// </summary>
 	internal KeyData keyCeiling = new() { key = PIECEKEYS.NONE, dir = MAPDIRECTION.ANY };
 	/// <summary>
@@ -118,32 +114,17 @@ public class MapPiece
 	public bool hasFloor => keyFloor.key != PIECEKEYS.NONE;
 	#endregion
 
-	private void SetOrientation(MAPDIRECTION value)
-	{
-		orientation = value;
-	}
-
-	/// <summary>
-	/// All Below needs going through
-	/// </summary>
-	internal WATERAMOUNT water = WATERAMOUNT.NONE;
-
 
 
 	private protected MapCoordinate coord;
-	internal string CoordString => CoordStringer();
+	/// <summary>
+	/// Will return the format [{X}.{Y}.{Z}]
+	/// </summary>
+	/// <returns></returns>
+	internal string CoordString => $"[{Coord.x}.{Coord.y}.{Coord.z}]";
 	internal MapCoordinate Coord => coord;
 
-	#region Constructors
-	/*public MapPiece(MapData mapData, MapCoordinate coordinates, MAPDIRECTION dir, MAPPIECESTATE s)
-	{
-		map = mapData;
-		coord = coordinates;
-		state = s;
-		orientation = dir;
-		walls = new WALLS();
-		extras = new List<KeyData>();
-	}*/
+	#region Constructor
 	public MapPiece(MapData mapData, MapCoordinate coordinates)
 	{
 		map = mapData;
@@ -152,14 +133,6 @@ public class MapPiece
 		walls = new WALLS();
 		extras = new List<KeyData>();
 	}
-	/*public MapPiece(MapData mapData)
-	{
-		map = mapData;
-		coord = MapCoordinate.Down * 10;
-		state = MAPPIECESTATE.ERROR;
-		walls = new WALLS();
-		extras = new List<KeyData>();
-	}*/
 	#endregion
 
 	internal bool HasWall(MAPDIRECTION dir)
@@ -212,14 +185,8 @@ public class MapPiece
 
 
 	#region Fixed and completed Commented up and done
-	/// <summary>
-	/// Will return the format [{X}.{Y}.{Z}]
-	/// </summary>
-	/// <returns></returns>
-	private string CoordStringer()
-	{
-		return $"[{Coord.x}.{Coord.y}.{Coord.z}]";
-	}
+	
+	
 
 	/// <summary>
 	/// Removes all matching key && dir from the extra keys. Then add one
@@ -240,18 +207,6 @@ public class MapPiece
 		debug.Add(kData);
 	}
 	/// <summary>
-	/// set or removes the faulty key from debug keys
-	/// </summary>
-	/// <param name="isError"></param>
-	internal void SetFaulty(bool isFaulty)
-	{
-		RemoveDebug(new KeyData() { key = PIECEKEYS.FAULTY, dir = MAPDIRECTION.ANY });
-		if (isFaulty)
-		{
-			AddDebug(new KeyData() { key = PIECEKEYS.FAULTY, dir = Orientation });
-		}
-	}
-	/// <summary>
 	/// set or removes the error key from debug keys
 	/// </summary>
 	/// <param name="isError"></param>
@@ -269,11 +224,6 @@ public class MapPiece
 	/// <param name="kData"></param>
 	private void RemoveDebug(KeyData kData)
 	{
-		if (kData.key == PIECEKEYS.WFGREEN || kData.key == PIECEKEYS.WFRED)
-		{
-			debug.RemoveAll(p => p.key == kData.key && p.dir == kData.dir);
-			return;
-		}
 		if (kData.dir == MAPDIRECTION.ANY)
 		{
 			debug.RemoveAll(p => p.key == kData.key);
@@ -299,7 +249,7 @@ public class MapPiece
 	/// <returns></returns>
 	public MapPiece NeighbourRight(bool createIfNeeded = false)
 	{
-		return Neighbour(DungeonUtils.TwistRight(orientation), createIfNeeded);
+		return Neighbour(DungeonUtils.TwistRight(Orientation), createIfNeeded);
 	}
 	/// <summary>
 	/// Returns the neighboring piece to the left relative to the orientation
@@ -307,7 +257,7 @@ public class MapPiece
 	/// <returns></returns>
 	public MapPiece NeighbourLeft(bool createIfNeeded = false)
 	{
-		return Neighbour(DungeonUtils.TwistLeft(orientation), createIfNeeded);
+		return Neighbour(DungeonUtils.TwistLeft(Orientation), createIfNeeded);
 	}
 	/// <summary>
 	/// Returns the neighboring piece in direction
@@ -326,7 +276,7 @@ public class MapPiece
 	/// <param name="wallKey"></param>
 	internal void AssignWall(KeyData wallKey, bool overrideLocked)// TODO MAYBE assign connection flag here to?
 	{
-		if (state == MAPPIECESTATE.LOCKED && !overrideLocked)
+		if (State == MAPPIECESTATE.LOCKED && !overrideLocked)
 		{
 			GD.PrintErr($"MapPiece", "AssignWall", $"Attempting to write wall data to locked piece! [{CoordString}] override[{overrideLocked}]");
 			SetError(true);
@@ -416,7 +366,7 @@ public class MapPiece
 	/// <returns></returns>
 	public override string ToString()
 	{
-		return $"Piece[{Coord.x}.{Coord.y}.{Coord.z}][{state}]";
+		return $"Piece[{Coord.x}.{Coord.y}.{Coord.z}][{State}]";
 	}
 	public override int GetHashCode()
 	{

@@ -4,9 +4,56 @@
 [ext_resource type="Script" uid="uid://b7u4r0l81go1u" path="res://addons/MDunGen/Scripts/BottomScreen/PathInfo.cs" id="2_sxobj"]
 [ext_resource type="Script" uid="uid://dvrh5eadrf1hw" path="res://addons/MDunGen/Scripts/BottomScreen/BuildLogTab.cs" id="3_82ax6"]
 [ext_resource type="PackedScene" uid="uid://bhdgi2espykeo" path="res://addons/MDunGen/Scenes/BuildLogEntry.tscn" id="4_iq0wc"]
+[ext_resource type="Script" uid="uid://ba6saoarsbvv3" path="res://addons/MDunGen/Scripts/UIInteractors/UIbtnBSClearLog.cs" id="6_5thb6"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iq0wc"]
 bg_color = Color(0.056291588, 0.05629161, 0.05629155, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lyjaj"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5thb6"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0, 0, 0, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_veqwb"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.225, 0.225, 0.225, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="DPITexture" id="DPITexture_lyjaj"]
+_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><path fill=\"#e0e0e0\" d=\"m8 1a1 1 0 0 0 -1 1v5h-2c-1.108 0-2 .892-2 2v1h10v-1c0-1.108-.892-2-2-2h-2v-5a1 1 0 0 0 -1-1zm-5 10v4l10-1v-3z\"/></svg>
+"
+saturation = 2.0
+color_map = {
+Color(1, 0.37254903, 0.37254903, 1): Color(1, 0.47, 0.42, 1),
+Color(0.37254903, 1, 0.5921569, 1): Color(0.45, 0.95, 0.5, 1),
+Color(1, 0.8666667, 0.39607844, 1): Color(0.83, 0.78, 0.62, 1)
+}
 
 [node name="dungeonBottom" type="TabContainer" unique_id=396926737 node_paths=PackedStringArray("sectionInfo", "mapPieceInfo", "connectionInfo")]
 custom_minimum_size = Vector2(0, 220)
@@ -103,7 +150,7 @@ layout_mode = 2
 script = ExtResource("3_82ax6")
 BS = NodePath("..")
 prefabLogEntry = ExtResource("4_iq0wc")
-logRichText = NodePath("GridContainer/MarginContainer2/ScrollContainer/LogRichText")
+logRichText = NodePath("GridContainer/MarginContainer2/GridContainer/ScrollContainer/LogRichText")
 leFilter = NodePath("GridContainer/MarginContainer/buildLogFooter/leFilter")
 cbShowSource = NodePath("GridContainer/MarginContainer/buildLogFooter/cbShowSource")
 metadata/_tab_index = 4
@@ -120,13 +167,19 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 8
 
-[node name="ScrollContainer" type="ScrollContainer" parent="BuildLog/GridContainer/MarginContainer2" unique_id=2061611249]
+[node name="GridContainer" type="GridContainer" parent="BuildLog/GridContainer/MarginContainer2" unique_id=1165664485]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="BuildLog/GridContainer/MarginContainer2/GridContainer" unique_id=2061611249]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_iq0wc")
 
-[node name="LogRichText" type="RichTextLabel" parent="BuildLog/GridContainer/MarginContainer2/ScrollContainer" unique_id=1152818480]
+[node name="LogRichText" type="RichTextLabel" parent="BuildLog/GridContainer/MarginContainer2/GridContainer/ScrollContainer" unique_id=1152818480]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -135,6 +188,26 @@ bbcode_enabled = true
 fit_content = true
 selection_enabled = true
 drag_and_drop_selection_enabled = false
+
+[node name="PanelContainer" type="PanelContainer" parent="BuildLog/GridContainer/MarginContainer2/GridContainer" unique_id=518903041]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BuildLog/GridContainer/MarginContainer2/GridContainer/PanelContainer" unique_id=1375641894]
+layout_mode = 2
+
+[node name="btnBuildLogClear" type="Button" parent="BuildLog/GridContainer/MarginContainer2/GridContainer/PanelContainer/VBoxContainer" unique_id=1354872843 node_paths=PackedStringArray("buildLog")]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+tooltip_text = "Clear Build Log"
+theme_override_constants/outline_size = 0
+theme_override_constants/icon_max_width = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_lyjaj")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_5thb6")
+theme_override_styles/hover = SubResource("StyleBoxFlat_veqwb")
+icon = SubResource("DPITexture_lyjaj")
+expand_icon = true
+script = ExtResource("6_5thb6")
+buildLog = NodePath("../../../../../..")
 
 [node name="MarginContainer" type="MarginContainer" parent="BuildLog/GridContainer" unique_id=2114811054]
 layout_mode = 2

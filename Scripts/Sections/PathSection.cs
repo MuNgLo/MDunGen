@@ -54,7 +54,7 @@ public class PathSection : SectionBase
 		{
 			turnTimer--;
 			// Either add a step or make a turn
-			if (turnTimer < 1 && lines[0].Last.isBridge == false)
+			if (turnTimer < 1)
 			{
 				if (nextTurnIsRight) { TurnRight(); } else { TurnLeft(); }
 				turnTimer = RollTurn();
@@ -224,28 +224,17 @@ public class PathSection : SectionBase
 			// Avoid messing with start connection if path is only 1 tile long
 			if (LeftSide.Count > 1)
 			{
-				if (LeftSide.Last.isBridge)
-				{
-					LeftSide.Last.AssignWall(new KeyData() { key = PIECEKEYS.WD, dir = LeftSide.Last.Orientation }, true);
-				}
-				else
-				{
-					LeftSide.Last.AssignWall(new KeyData() { key = PIECEKEYS.NONE, dir = LeftSide.Last.Orientation }, true);
-				}
+
+				LeftSide.Last.AssignWall(new KeyData() { key = PIECEKEYS.NONE, dir = LeftSide.Last.Orientation }, true);
+
 				if (!RightSide.Last.isEmpty)
 				{
 					RightSide.Last.AssignWall(new KeyData() { key = PIECEKEYS.NONE, dir = DungeonUtils.Flip(RightSide.Last.Orientation) }, true);
 				}
 			}
-			if (LeftSide.Last.isBridge)
-			{
-				LeftSide.Last.Neighbour(LeftSide.Last.Orientation, true).AssignWall(new KeyData() { key = PIECEKEYS.WD, dir = DungeonUtils.Flip(LeftSide.Last.Orientation) }, true);
-			}
-			else
-			{
-				LeftSide.Last.Neighbour(LeftSide.Last.Orientation, true).AssignWall(new KeyData() { key = PIECEKEYS.NONE, dir = DungeonUtils.Flip(LeftSide.Last.Orientation) }, true);
-				RightSide.Last.Neighbour(LeftSide.Last.Orientation, true).AssignWall(new KeyData() { key = PIECEKEYS.NONE, dir = DungeonUtils.Flip(RightSide.Last.Orientation) }, true);
-			}
+
+			LeftSide.Last.Neighbour(LeftSide.Last.Orientation, true).AssignWall(new KeyData() { key = PIECEKEYS.NONE, dir = DungeonUtils.Flip(LeftSide.Last.Orientation) }, true);
+			RightSide.Last.Neighbour(LeftSide.Last.Orientation, true).AssignWall(new KeyData() { key = PIECEKEYS.NONE, dir = DungeonUtils.Flip(RightSide.Last.Orientation) }, true);
 		}
 		else
 		{

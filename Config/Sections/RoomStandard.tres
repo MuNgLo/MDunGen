@@ -8,5 +8,5 @@ sectionName = "Standard"
 sectionType = "RoomSection"
 nbFloorsMax = 1
 arches = false
-waterLevel = 0.1
+waterLevel = 0.97
 firstPieceDoor = false

@@ -42,8 +42,8 @@ public class MapData
     {
 		this.log=log;
         sections = new List<ISection>();
-        connections = new System.Collections.Generic.Dictionary<int, SectionConnection>();
-        pieces = new System.Collections.Generic.Dictionary<int, System.Collections.Generic.Dictionary<int, System.Collections.Generic.Dictionary<int, MapPiece>>>();
+        connections = new Dictionary<int, SectionConnection>();
+        pieces = new Dictionary<int, Dictionary<int, Dictionary<int, MapPiece>>>();
         mapArgs = args;
         builder = new MapBuilder(this, MapArgs.MasterSeed, log);
     }

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 
 namespace MDunGen.Bottom;
-[Tool]
+[Tool, GlobalClass]
 public partial class BuildLogTab : MarginContainer
 {
 	[Export] bool debug = false;
@@ -54,6 +54,10 @@ public partial class BuildLogTab : MarginContainer
 	}
 
 	void ClearLog(object sender, EventArgs args)
+	{
+		ClearLog();
+	}
+	internal void ClearLog()
 	{
 		if(debug){ GD.Print($"BuildLogTab::ClearLog()"); }
 		logRichText.Text = string.Empty;

@@ -1,42 +1,19 @@
 [gd_resource type="Resource" script_class="FloorResource" format=3 uid="uid://b0etk4whx01gn"]
 
-[ext_resource type="Script" uid="uid://bhecvamptmrrg" path="res://addons/MDunGen/Scripts/ResourceDefinitions/BuildRuleResource.cs" id="1_v8uvr"]
-[ext_resource type="Resource" uid="uid://dk1ltui3mo7xj" path="res://addons/MDunGen/Config/Sections/RoomStart.tres" id="2_21l8d"]
-[ext_resource type="Resource" uid="uid://bfws7yk2wikiu" path="res://addons/MDunGen/Config/Sections/PathLongTangledWide.tres" id="3_ijhfp"]
-[ext_resource type="Resource" uid="uid://cpo4pr8osbhnk" path="res://addons/MDunGen/Config/Sections/RoomStandard.tres" id="4_ul5we"]
-[ext_resource type="Resource" uid="uid://bi6wigkf4cpei" path="res://addons/MDunGen/Config/Sections/PathLongTangled.tres" id="5_xpxpc"]
+[ext_resource type="Resource" uid="uid://dg0w61b2jui7q" path="res://addons/MDunGen/BuildRules/def_start_room.tres" id="1_v8uvr"]
+[ext_resource type="Script" uid="uid://bhecvamptmrrg" path="res://addons/MDunGen/Scripts/ResourceDefinitions/BuildRuleResource.cs" id="2_ijhfp"]
+[ext_resource type="Resource" uid="uid://bi6wigkf4cpei" path="res://addons/MDunGen/Config/Sections/PathLongTangled.tres" id="3_21l8d"]
+[ext_resource type="Resource" uid="uid://bnfoxiywt0nfb" path="res://addons/MDunGen/BuildRules/def_rooms_50_standard.tres" id="4_ul5we"]
 [ext_resource type="Script" uid="uid://bbywsm7ndqlx2" path="res://addons/MDunGen/Scripts/ResourceDefinitions/FloorResource.cs" id="7_nn5bf"]
 
-[sub_resource type="Resource" id="Resource_v8uvr"]
-script = ExtResource("1_v8uvr")
-category = 1
-location = 1
-section = ExtResource("2_21l8d")
-metadata/_custom_type_script = "uid://bhecvamptmrrg"
-
-[sub_resource type="Resource" id="Resource_21l8d"]
-script = ExtResource("1_v8uvr")
+[sub_resource type="Resource" id="Resource_ul5we"]
+script = ExtResource("2_ijhfp")
 category = 1
 location = 2
-section = ExtResource("3_ijhfp")
-metadata/_custom_type_script = "uid://bhecvamptmrrg"
-
-[sub_resource type="Resource" id="Resource_ptpeo"]
-script = ExtResource("1_v8uvr")
-category = 1
-location = 2
-section = ExtResource("4_ul5we")
-amount = 12
-metadata/_custom_type_script = "uid://bhecvamptmrrg"
-
-[sub_resource type="Resource" id="Resource_842s6"]
-script = ExtResource("1_v8uvr")
-category = 1
-location = 2
-section = ExtResource("5_xpxpc")
-amount = 4
+section = ExtResource("3_21l8d")
+amount = 2
 metadata/_custom_type_script = "uid://bhecvamptmrrg"
 
 [resource]
 script = ExtResource("7_nn5bf")
-rules = [SubResource("Resource_v8uvr"), SubResource("Resource_21l8d"), SubResource("Resource_ptpeo"), SubResource("Resource_842s6")]
+rules = [ExtResource("1_v8uvr"), SubResource("Resource_ul5we"), ExtResource("4_ul5we")]

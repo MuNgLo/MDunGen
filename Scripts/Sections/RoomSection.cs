@@ -157,8 +157,8 @@ public class RoomSection : SectionBase
 			if (nb.isEmpty) { continue; }
 			if (nb.WallKey(DungeonUtils.Flip(dir)).key != PIECEKEYS.W) { continue; }
 
-			pick.SetFaulty(true);
-			nb.SetFaulty(true);
+			pick.SetError(true);
+			nb.SetError(true);
 
 			if (nb.SectionIndex != sectionIndex)
 			{

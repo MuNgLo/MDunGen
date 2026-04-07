@@ -265,6 +265,13 @@ public class SectionBase : ISection
 			}
 		}
 	}
+	/// <summary>
+	/// Gets and returns the pieces that have walls on the given floor<br/>
+	/// Note that floor is the internal section relative floor
+	/// </summary>
+	/// <param name="floor"></param>
+	/// <param name="includeCorners"></param>
+	/// <returns></returns>
 	public List<MapPiece> GetWallPieces(int floor, bool includeCorners = false)
 	{
 		// Confirmed

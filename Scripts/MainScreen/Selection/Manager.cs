@@ -112,24 +112,6 @@ internal class Manager
         // Insert section gizmos
         if (selectedSection is not null)
         {
-            // Add bridge flag gizmos
-            foreach (MapPiece piece in selectedSection.Pieces)
-            {
-                if (piece.isBridge)
-                {
-                    SegmentedGizmo d = gizmoSegmented.Instantiate() as SegmentedGizmo;
-
-                    d.pathScale = 0.5f;
-                    d.offset = Vector3.Up * 0.5f;
-                    d.ClearSegments();
-                    d.AddSegments(GizmoShapes.Bridge);
-
-
-                    MS.Gizmos.AddChild(d);
-                    d.Position = DungeonUtils.GlobalPosition(piece.Coord);
-                    d.GlobalRotationDegrees = DungeonUtils.ResolveRotation(piece.Orientation);
-                }
-            }
             AddGizmoForSectionConnections(selectedSection);
             if (selectedSection.SectionStyle == "Connector")
             {

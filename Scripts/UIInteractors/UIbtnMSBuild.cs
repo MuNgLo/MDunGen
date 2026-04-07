@@ -29,6 +29,7 @@ public partial class UIbtnMSBuild : Button
 			mainScreen.addon.Profile.settings.seed2 = GD.RandRange(1111, 9999);
 			mainScreen.addon.Profile.settings.seed3 = GD.RandRange(1111, 9999);
 			mainScreen.addon.Profile.settings.seed4 = GD.RandRange(1111, 9999);
+			ResourceSaver.Save(mainScreen.addon.Profile.settings);
 		}
 
 		DungeonUtils.globalOffset = mainScreen.addon.Profile.globalOffset;

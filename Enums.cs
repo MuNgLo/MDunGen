@@ -8,20 +8,10 @@ namespace MDunGen;
 public enum VIEWERMODE { DUNGEON, SECTION }
 /// <summary>
 /// Unused has noting in it<br></br>
-/// Error something went wrong<br></br>
-/// Faulty don't fit right yet<br></br>
 /// Pending has things but is open to change<br></br>
 /// Locked can't be changed (Goal is to have all piece data locked by end of generation)
 /// </summary>
-public enum MAPPIECESTATE { UNUSED, ERROR, FAULTY, PENDING, LOCKED }
-/// <summary>
-/// Does the piece have any water
-/// </summary>
-public enum WATERAMOUNT { NONE, SMALL, MEDIUM, LARGE }
-/// <summary>
-/// If piece is part of a path, what size the path is
-/// </summary>
-public enum PATHSIZE { NONE, SMALL, MEDIUM, LARGE }
+public enum MAPPIECESTATE { UNUSED, PENDING, LOCKED }
 /// <summary>
 /// Direction in map.
 /// </summary>
@@ -30,8 +20,17 @@ public enum MAPDIRECTION { ANY, NORTH, EAST, SOUTH, WEST, UP, DOWN }
 public enum WALLS { N = 1, E = 2, S = 4, W = 8 }
 public enum PIECEKEYS
 {
-    NONE, ERROR, FAULTY, DEBUG, WFGREEN, WFRED, OCCUPIED, F, FWSS, C, CWS, W, WD,
-    WDW, WCI, ARCH, STAIR, BRIDGE
+    NONE = 0,
+	ERROR = 1,
+	DEBUG = 3,
+	OCCUPIED = 6,
+	F = 7,
+	C = 9,
+	W = 11,
+	WD = 12,
+    WDW = 13,
+	WCI = 14,
+	ARCH = 15
 }
 
 
@@ -39,7 +38,6 @@ public enum PIECEKEYS
 public enum ROOMCONNECTIONRESPONCE { DOOR = 1, BALCONY = 2, BRIDGE = 4, STAIR = 8 }
 
 // Build rule ENUMS
-
 public enum CATEGORYRULE { NONE, BUILD }
 public enum STARTLOCATIONRULE { NONE, CENTER, ATTACHEDTOPREVIOUS }
 

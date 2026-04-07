@@ -4,17 +4,16 @@
 
 [resource]
 script = ExtResource("1_8nt58")
-corMaxTotal = 132
-corMaxStraight = 16
-corMinStraight = 8
+corMaxTotal = 100
+corMaxStraight = 6
+corMinStraight = 11
 sectionName = "Long"
 sectionType = "PathSection"
 sectionStyle = "Connector"
 sizeWidthMin = 1
-sizeWidthMax = 1
+sizeWidthMax = 2
 sizeDepthMin = 1
 sizeDepthMax = 1
-nbFloorsMin = 5
-nbFloorsMax = 5
+nbFloorsMax = 1
 arches = false
 waterLevel = 7.77

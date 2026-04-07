@@ -66,18 +66,12 @@ public partial class BiomeResource : DungeonAddonResource
 		PIECEKEYS[] defDebugKeys = new PIECEKEYS[]
 		{
 				PIECEKEYS.DEBUG,
-				PIECEKEYS.ERROR,
-				PIECEKEYS.FAULTY,
-				PIECEKEYS.WFGREEN,
-				PIECEKEYS.WFRED
+				PIECEKEYS.ERROR
 		};
 		string[] defDebugEntries = new string[]
 		{
 				standardMeshPath + "dbArrow.res",
-				standardMeshPath + "dbError.res",
-				standardMeshPath + "dbFaulty.res",
-				standardMeshPath + "dbWallFlagGreen.res",
-				standardMeshPath + "dbWallFlagRed.res"
+				standardMeshPath + "dbError.res"
 		};
 		debug = new BiomeEntryResource[defDebugKeys.Length];
 		SetupArray(ref debug, defDebugKeys, defDebugEntries);

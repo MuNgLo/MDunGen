@@ -1,12 +1,9 @@
-[gd_resource type="Resource" script_class="BiomeResource" format=3 uid="uid://cs58xqyn4ofdy"]
+[gd_resource type="Resource" script_class="BiomeResource" format=3 uid="uid://bhgrrx5ofosms"]
 
 [ext_resource type="PackedScene" uid="uid://b0k5luvs28qyn" path="res://addons/MDunGen/Scenes/Standard/def_ceiling.tscn" id="1_jjr23"]
 [ext_resource type="Script" uid="uid://bexk71y5d2pt5" path="res://addons/MDunGen/Scripts/ResourceDefinitions/BiomeEntryResource.cs" id="2_jjr23"]
 [ext_resource type="ArrayMesh" uid="uid://d3o1e38vsdqs0" path="res://addons/MDunGen/Meshes/Standard/Standard_dbArrow.res" id="3_u2eaq"]
 [ext_resource type="ArrayMesh" uid="uid://bkhtgsky7tf8u" path="res://addons/MDunGen/Meshes/Standard/Standard_dbError.res" id="4_vu743"]
-[ext_resource type="ArrayMesh" uid="uid://jsyys7e6t7gu" path="res://addons/MDunGen/Meshes/Standard/Standard_dbFaulty.res" id="5_480td"]
-[ext_resource type="ArrayMesh" uid="uid://32364sg0a66v" path="res://addons/MDunGen/Meshes/Standard/Standard_dbWallFlagGreen.res" id="6_wg6cx"]
-[ext_resource type="ArrayMesh" uid="uid://dlwyd7wcgkmc7" path="res://addons/MDunGen/Meshes/Standard/Standard_dbWallFlagRed.res" id="7_uhk14"]
 [ext_resource type="PackedScene" uid="uid://b1jc4ww05tw32" path="res://addons/MDunGen/Scenes/Standard/def_arch.tscn" id="8_c3sh7"]
 [ext_resource type="PackedScene" uid="uid://c47pckvep6emk" path="res://addons/MDunGen/Scenes/Standard/def_archcorner.tscn" id="9_to0q5"]
 [ext_resource type="PackedScene" uid="uid://ctq3ly115qcft" path="res://addons/MDunGen/Scenes/Standard/def_hallwayarch01.tscn" id="10_hytc7"]
@@ -24,73 +21,59 @@
 [ext_resource type="PackedScene" uid="uid://be4l3oub5omjw" path="res://addons/MDunGen/Scenes/Standard/def_wallopeningwide.tscn" id="22_64qie"]
 [ext_resource type="PackedScene" uid="uid://dyruxrgt241g7" path="res://addons/MDunGen/Scenes/Standard/def_wallcorner.tscn" id="23_gp6gk"]
 
-[sub_resource type="Resource" id="Resource_ei6xj"]
+[sub_resource type="Resource" id="Resource_3ehfi"]
 script = ExtResource("2_jjr23")
 key = 9
 resources = [ExtResource("1_jjr23")]
 
-[sub_resource type="Resource" id="Resource_u2eaq"]
+[sub_resource type="Resource" id="Resource_klja8"]
 script = ExtResource("2_jjr23")
 key = 3
 resources = [ExtResource("3_u2eaq")]
 
-[sub_resource type="Resource" id="Resource_vu743"]
+[sub_resource type="Resource" id="Resource_gdugv"]
 script = ExtResource("2_jjr23")
 key = 1
 resources = [ExtResource("4_vu743")]
 
-[sub_resource type="Resource" id="Resource_480td"]
-script = ExtResource("2_jjr23")
-key = 2
-resources = [ExtResource("5_480td")]
-
-[sub_resource type="Resource" id="Resource_wg6cx"]
-script = ExtResource("2_jjr23")
-key = 4
-resources = [ExtResource("6_wg6cx")]
-
-[sub_resource type="Resource" id="Resource_uhk14"]
-script = ExtResource("2_jjr23")
-key = 5
-resources = [ExtResource("7_uhk14")]
-
-[sub_resource type="Resource" id="Resource_c3sh7"]
+[sub_resource type="Resource" id="Resource_c1uvy"]
 script = ExtResource("2_jjr23")
 key = 15
 resources = [ExtResource("8_c3sh7"), ExtResource("9_to0q5"), ExtResource("10_hytc7")]
 
-[sub_resource type="Resource" id="Resource_to0q5"]
+[sub_resource type="Resource" id="Resource_k2o1c"]
 script = ExtResource("2_jjr23")
 key = 7
 resources = [ExtResource("11_kbl5j"), ExtResource("12_xjl7o"), ExtResource("13_guq6r"), ExtResource("14_k3g1e"), ExtResource("15_g4srk")]
 
-[sub_resource type="Resource" id="Resource_hytc7"]
+[sub_resource type="Resource" id="Resource_wlmcw"]
 script = ExtResource("2_jjr23")
 key = 11
 resources = [ExtResource("17_p7b47"), ExtResource("18_08lf2"), ExtResource("19_prw1t")]
 
-[sub_resource type="Resource" id="Resource_kbl5j"]
+[sub_resource type="Resource" id="Resource_b7v8c"]
 script = ExtResource("2_jjr23")
 key = 12
 resources = [ExtResource("20_dxe22"), ExtResource("21_ncyry")]
 
-[sub_resource type="Resource" id="Resource_xjl7o"]
+[sub_resource type="Resource" id="Resource_le6fu"]
 script = ExtResource("2_jjr23")
 key = 13
 resources = [ExtResource("22_64qie")]
 
-[sub_resource type="Resource" id="Resource_guq6r"]
+[sub_resource type="Resource" id="Resource_64x3h"]
 script = ExtResource("2_jjr23")
 key = 14
 resources = [ExtResource("23_gp6gk")]
 
 [resource]
 script = ExtResource("16_41rgj")
-debug = [SubResource("Resource_u2eaq"), SubResource("Resource_vu743"), SubResource("Resource_480td"), SubResource("Resource_wg6cx"), SubResource("Resource_uhk14")]
-wallMaterials = []
-walls = [SubResource("Resource_hytc7"), SubResource("Resource_kbl5j"), SubResource("Resource_xjl7o"), SubResource("Resource_guq6r")]
-floorMaterials = []
-floors = [SubResource("Resource_to0q5")]
-ceilingMaterials = []
-ceilings = [SubResource("Resource_ei6xj")]
-extras = [SubResource("Resource_c3sh7")]
+debug = [SubResource("Resource_klja8"), SubResource("Resource_gdugv")]
+wallMaterials = null
+walls = [SubResource("Resource_wlmcw"), SubResource("Resource_b7v8c"), SubResource("Resource_le6fu"), SubResource("Resource_64x3h")]
+floorMaterials = null
+floors = [SubResource("Resource_k2o1c")]
+ceilingMaterials = null
+ceilings = [SubResource("Resource_3ehfi")]
+extras = [SubResource("Resource_c1uvy")]
+metadata/_custom_type_script = "uid://c3jmyg31j7sts"
