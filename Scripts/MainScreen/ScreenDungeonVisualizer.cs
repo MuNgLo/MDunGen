@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace MDunGen.MS;
 
 /// <summary>
-/// The class that builds and updates the visual representation of the map data in the Dungeon Viewer
+/// The class that builds and updates the visual representation of the map data in the Dungeon Viewer main screen dock
 /// </summary>
 [Tool, GlobalClass]
 public partial class ScreenDungeonVisualizer : Node3D
@@ -270,6 +270,7 @@ public partial class ScreenDungeonVisualizer : Node3D
 				index++;
 			}
 		}
+		//GD.Print($"ScreenVis::VisualizeSection() section.WaterMaterial is null[{section.WaterMaterial is null}]");
 		// Add water
 		if (section.WaterMaterial is not null)
 		{

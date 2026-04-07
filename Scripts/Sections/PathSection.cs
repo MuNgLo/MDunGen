@@ -94,6 +94,7 @@ public class PathSection : SectionBase
 		BuildEndCap();
 		if (sectionDefinition.arches) { FitSmallArches(); }
 		IsValid = true;
+		SetMinMaxCoord();
 	}
 
 	private void MakeSureStartPieceIsFirstPieceAndFixTheOrientation(MAPDIRECTION dir)

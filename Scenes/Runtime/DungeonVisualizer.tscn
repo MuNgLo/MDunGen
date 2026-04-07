@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://x0gfht324fhs"]
-
-[ext_resource type="Script" uid="uid://bd8yphupvwyge" path="res://addons/MDunGen/Scripts/DungeonVisualizer.cs" id="1_hgflk"]
-
-[node name="DungeonVisualizer" type="Node3D" unique_id=597952167]
-script = ExtResource("1_hgflk")

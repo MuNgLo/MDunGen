@@ -5,7 +5,7 @@
 
 [resource]
 script = ExtResource("1_y5hpc")
-corMaxTotal = 24
+corMaxTotal = 11
 corMaxStraight = 24
 corMinStraight = 24
 sectionName = "Hallway Mid"

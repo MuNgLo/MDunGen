@@ -171,7 +171,7 @@ internal class Manager
     {
         if(randomSelectionTimestamp > Time.GetTicksMsec()) {return;}
         randomSelectionTimestamp = Time.GetTicksMsec() + timeRandomSelectionIsBlocked * 1000.0;
-        MapPiece mp1 = MS.Map.GetRandomPieceEditor();
+		MapPiece mp1 = MS.Map.GetRandomPieceEditor();
         MapPiece mp2 = MS.Map.GetRandomPieceEditor();
         SelectMapPiece(mp1,false);
         SelectPathTargetMapPiece(mp2);

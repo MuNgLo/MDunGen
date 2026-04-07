@@ -162,7 +162,7 @@ public class SectionBase : ISection
 		defaultConnectionResponses = sectionDefinition.defaultResponses;
 
 		orientation = args.piece.Orientation;
-		if (orientation == MAPDIRECTION.ANY) { orientation = (MAPDIRECTION)rng.Next(1, 5); }
+		if (orientation == MAPDIRECTION.ANY) { orientation = (MAPDIRECTION)rng.Next(1, 5); args.piece.Orientation = orientation; }
 
 		sectionDefinition.VerifyValues();
 		sizeX = rng.Next(sectionDefinition.sizeWidthMin, sectionDefinition.sizeWidthMax + 1);
@@ -171,15 +171,6 @@ public class SectionBase : ISection
 
 		ResolveWidthDepth();
 		SetMinMaxCoord(coord);
-
-		/*if (args.sectionDefinition.placers != null)
-		{
-			placers = args.sectionDefinition.placers;
-		}
-		else
-		{
-			placers = new Array<PlacerEntryResource>();
-		}*/
 	}
 
 	public virtual void Build(Action<BuildLogEventArgument> log)
@@ -332,7 +323,10 @@ public class SectionBase : ISection
 		return false;
 	}
 
-
+	/// <summary>
+	/// Set min max based on arguments
+	/// </summary>
+	/// <param name="center"></param>
 	private protected void SetMinMaxCoord(MapCoordinate center)
 	{
 		int XOffset = 0;
@@ -349,7 +343,7 @@ public class SectionBase : ISection
 				break;
 			case MAPDIRECTION.SOUTH:
 				minX = center.x - (int)(sizeX * 0.5f) + XOffset;
-				maxX = center.x + (int)(sizeX * 0.5f);
+				maxX = center.x + (int)(sizeX * 0.5f) - 1;
 				minZ = center.z;
 				maxZ = center.z + sizeZ - 1;
 				break;
@@ -369,6 +363,34 @@ public class SectionBase : ISection
 		minY = center.y;
 		maxY = center.y + sizeY;
 	}
+	/// <summary>
+	/// Finds the furthest pieces to describe a square that the section covers<br/>
+	/// Make sure to do this after build to get correct values
+	/// </summary>
+	private protected void SetMinMaxCoord()
+	{
+		MapPiece startPiece = Pieces.First();
+
+		minX = startPiece.Coord.x;
+		maxX = startPiece.Coord.x;
+		minZ = startPiece.Coord.z;
+		maxZ = startPiece.Coord.z;
+		minY = startPiece.Coord.y;
+		maxY = startPiece.Coord.y;
+
+		foreach (MapPiece piece in Pieces)
+		{
+			if(piece.Coord.x < minX) { minX = piece.Coord.x; }
+			if(piece.Coord.x > maxX) { maxX = piece.Coord.x; }
+
+			if(piece.Coord.z < minZ) { minZ = piece.Coord.z; }
+			if(piece.Coord.z > maxZ) { maxZ = piece.Coord.z; }
+
+			if(piece.Coord.y < minY) { minY = piece.Coord.y; }
+			if(piece.Coord.y > maxY) { maxY = piece.Coord.y; }
+		}
+	}
+
 	/// <summary>
 	/// Todo rewrite this so it finds the furthest corner pieces and calculates which ones is closest to the center of them all
 	/// Also add parameter so it can be done per section floor

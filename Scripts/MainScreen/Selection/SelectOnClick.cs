@@ -23,6 +23,7 @@ public partial class SelectOnClick : SubViewportContainer
 	{
 		actionToCall = act;
 		Vector2 position2D = subViewPort.GetMousePosition();
+		if(debug) { GD.Print($"SelectOnClick::RayCastToMapPiece() position2D[{position2D}]"); }
 		Vector3 cursorWorldPos = camera.ProjectRayOrigin(position2D);
 		Vector3 rayDir = camera.ProjectRayNormal(position2D);
 		World3D world = visualizer.GetWorld3D();
@@ -31,6 +32,7 @@ public partial class SelectOnClick : SubViewportContainer
 
 	public void TryToHit(Vector3 startPoint, Vector3 dir, World3D world)
 	{
+		if(debug) { GD.Print($"SelectOnClick::TryToHit() startPoint[{startPoint}] dir[{dir}]"); }
 		point = Vector3.Zero;
 		hit = null;
 		Vector3 endPos = startPoint + dir * 1000.0f;
@@ -40,6 +42,8 @@ public partial class SelectOnClick : SubViewportContainer
 	}
 	private void CastDeferredRay(PhysicsRayQueryParameters3D query, World3D world)
 	{
+		if(debug) { GD.Print($"SelectOnClick::CastDeferredRay()"); }
+
 		PhysicsDirectSpaceState3D spaceState = PhysicsServer3D.SpaceGetDirectState(world.Space);
 		Godot.Collections.Dictionary results = spaceState.IntersectRay(query);
 		if (results.Keys.Count > 0)

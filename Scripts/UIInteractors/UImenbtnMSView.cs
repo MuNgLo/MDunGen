@@ -40,10 +40,6 @@ public partial class UImenbtnMSView : MenuButton
 				mainScreen.addon.MasterConfig.showCeilings = pop.IsItemChecked(index);
 				ResourceSaver.Save(mainScreen.addon.MasterConfig);
 				break;
-			case 4:
-				mainScreen.addon.MasterConfig.pathingPass = pop.IsItemChecked(index);
-				ResourceSaver.Save(mainScreen.addon.MasterConfig);
-				break;
 			case 5:
 				mainScreen.addon.MasterConfig.showExtras = pop.IsItemChecked(index);
 				ResourceSaver.Save(mainScreen.addon.MasterConfig);
@@ -69,8 +65,7 @@ public partial class UImenbtnMSView : MenuButton
 		pop.SetItemChecked(0, mainScreen.addon.MasterConfig.showFloors);
 		pop.SetItemChecked(1, mainScreen.addon.MasterConfig.showWalls);
 		pop.SetItemChecked(2, mainScreen.addon.MasterConfig.showCeilings);
-		pop.SetItemChecked(3, mainScreen.addon.MasterConfig.pathingPass);
-		pop.SetItemChecked(4, mainScreen.addon.MasterConfig.showExtras);
-		pop.SetItemChecked(5, mainScreen.addon.MasterConfig.showDebug);
+		pop.SetItemChecked(3, mainScreen.addon.MasterConfig.showExtras);
+		pop.SetItemChecked(4, mainScreen.addon.MasterConfig.showDebug);
 	}
 }// EOF CLASS

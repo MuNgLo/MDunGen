@@ -210,8 +210,8 @@ static internal class DungeonUtils
 		MAPDIRECTION orientation = section.Orientation;
 
 		// set the size of the plane
-		int sizeDepth = Mathf.Abs(section.MaxCoord.x - section.MinCoord.x) * 6;
-		int sizeWidth = Mathf.Abs(section.MaxCoord.z - section.MinCoord.z) * 6;
+		int sizeDepth = Mathf.Abs(section.MaxCoord.x - section.MinCoord.x) * 6 + 6;
+		int sizeWidth = Mathf.Abs(section.MaxCoord.z - section.MinCoord.z) * 6 + 6;
 		plane.Size = new Vector2(sizeDepth, sizeWidth);
 
 		//plane.SubdivideWidth = sizeX;
@@ -221,11 +221,20 @@ static internal class DungeonUtils
 		section.SectionContainer.AddChild(surface);
 		
 		Vector3 height = Vector3.Up * section.WaterLevel;
-		Vector3 depth = GlobalDirection(orientation) * sizeDepth * 0.5f + GlobalDirection(orientation) * 9.0f;
-		Vector3 width = GlobalDirection(TwistLeft(orientation)) * -3.0f;
-		surface.Position = height + depth + width;
+		//Vector3 depth = GlobalDirection(orientation) * sizeDepth * 0.5f + GlobalDirection(orientation) * 9.0f;
+		//Vector3 width = GlobalDirection(TwistLeft(orientation)) * -3.0f;
+		//surface.Position = height + depth + width;
 
-		surface.Position += GlobalPosition(section.Coord);
+		//surface.Position += GlobalPosition(section.Coord);
+		surface.GlobalPosition = SectionWorldCenter(section) + height;
+	}
+
+	internal static Vector3 SectionWorldCenter(ISection section)
+	{
+		Vector3 min = GlobalPosition(section.MinCoord);
+		Vector3 max = GlobalPosition(section.MaxCoord);
+		Vector3 center = (max - min)*0.5f + min;
+		return center;
 	}
 }// EOF CLASS
 

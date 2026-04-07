@@ -113,30 +113,6 @@ public partial class Dungeons : EditorPlugin
 			screen.Visible = visible;
 		}
 	}
-
-	public override void _Input(InputEvent @event)
-	{
-		if (@event is InputEventMouseButton)
-		{
-			InputEventMouseButton b = (InputEventMouseButton)@event;
-
-			if (b.ButtonIndex == MouseButton.Left && b.IsPressed())
-			{
-				SubViewportContainer cont = screen.GetNode<SubViewportContainer>("SubViewportContainer");
-
-
-				if (Input.IsKeyPressed(Key.Shift))
-				{
-					(cont as SelectOnClick).RayCastToMapPiece((mp) => { MS.Selection.SelectPathTargetMapPiece(mp); });
-				}
-				else
-				{
-					(cont as SelectOnClick).RayCastToMapPiece((mp) => { MS.Selection.SelectMapPiece(mp); });
-				}
-
-			}
-		}
-	}
 	#endregion
 
 	/// <summary>

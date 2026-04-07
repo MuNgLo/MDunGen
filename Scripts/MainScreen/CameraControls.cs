@@ -1,10 +1,11 @@
 #if TOOLS
 using Godot;
 using MDunGen.Commons;
+using MDunGen.MS.Selection;
 using System;
 namespace MDunGen.MS;
 
-[Tool]
+[Tool, GlobalClass]
 public partial class CameraControls : Node
 {
 	public enum CAMERAMODE { LOCKED, FREELOOK }
@@ -56,10 +57,8 @@ public partial class CameraControls : Node
 			InputEventMouseMotion m = (InputEventMouseMotion)@event;
 			mouseRelative += m.Relative;
 		}
-		if (@event is InputEventMouseButton)
+		if (@event is InputEventMouseButton b)
 		{
-			InputEventMouseButton b = (InputEventMouseButton)@event;
-
 			if (b.ButtonIndex == MouseButton.Right)
 			{
 				if (b.Pressed && cursorIsInside && state == CAMERAMODE.LOCKED) { GoFreeLook(); }
@@ -74,10 +73,31 @@ public partial class CameraControls : Node
 			{
 				if (b.Pressed) { WheelDown(); }
 			}
+
+			// Selection
+			if (cursorIsInside && b.ButtonIndex == MouseButton.Left && b.IsPressed())
+			{
+				SubViewportContainer cont = mainScreen.GetNode<SubViewportContainer>("SubViewportContainer");
+				if (Input.IsKeyPressed(Key.Shift))
+				{
+					(cont as SelectOnClick).RayCastToMapPiece((mp) => { mainScreen.Selection.SelectPathTargetMapPiece(mp); });
+				}
+				else
+				{
+					(cont as SelectOnClick).RayCastToMapPiece((mp) => { mainScreen.Selection.SelectMapPiece(mp); });
+				}
+
+			}
 		}
 	}
 	public override void _Process(double delta)
 	{
+		if (cursorIsInside && Input.IsMouseButtonPressed(MouseButton.Middle))
+		{
+			mainScreen.Selection.SelectRandomPiecesForPathing(0.05f);
+		}
+
+
 		if (state != CAMERAMODE.FREELOOK) { return; }
 
 		if (skipNextMouseMovement)
@@ -110,6 +130,7 @@ public partial class CameraControls : Node
 		inV = Vector3.Zero;
 
 
+
 	}
 
 
@@ -123,7 +144,7 @@ public partial class CameraControls : Node
 		}
 	}
 
-	private void ResetCamera()
+	internal void ResetCamera()
 	{
 		camera.Position = ogPos;
 		camera.Rotation = ogRot;

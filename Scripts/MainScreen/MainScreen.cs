@@ -14,7 +14,6 @@ namespace MDunGen.MS;
 [Tool, GlobalClass]
 public partial class MainScreen : Control
 {
-
 	public Dungeons addon;
 	private Selection.Manager selection;
 	private ScreenDungeonVisualizer dunVis;
@@ -46,16 +45,8 @@ public partial class MainScreen : Control
 		}
 		SetDebugLayer(addon.Profile.showDebugLayer);
 		RaiseUpdateUI();
-
 	}
 
-	public override void _Process(double delta)
-	{
-		if (Visible && Input.IsMouseButtonPressed(MouseButton.Middle))
-		{
-			Selection.SelectRandomPiecesForPathing(0.05f);
-		}
-	}
 	public void PopupInitialSettingsDialogue()
 	{
 		PackedScene pScn = ResourceLoader.Load("res://addons/MDunGen/Scenes/InitialPopup.tscn") as PackedScene;

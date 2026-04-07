@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://dedtciwwk6abt"]
+
+[ext_resource type="Script" uid="uid://cch0xcj1of5b4" path="res://addons/MDunGen/Scripts/Dungeon.cs" id="1_qur3q"]
+[ext_resource type="Resource" uid="uid://6su0i5s3ukgo" path="res://addons/MDunGen/Config/def_settings.tres" id="2_ky8bs"]
+[ext_resource type="Script" uid="uid://bd8yphupvwyge" path="res://addons/MDunGen/Scripts/DungeonVisualizer.cs" id="3_0yk27"]
+[ext_resource type="Resource" uid="uid://cs58xqyn4ofdy" path="res://addons/MDunGen/Config/Biomes/def_biome.tres" id="4_o3w0q"]
+[ext_resource type="Script" uid="uid://wikpf35ca1av" path="res://addons/MDunGen/Scenes/ExampleScene/PlayerFreelookCamera.cs" id="5_x57yw"]
+
+[node name="DungeonRuntimeExample" type="Node3D" unique_id=1816475462]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1001202141]
+transform = Transform3D(1, 0, 0, 0, 0.17007196, 0.9854317, 0, -0.9854317, 0.17007196, 0, 2.9867728, 0)
+shadow_enabled = true
+
+[node name="Dungeon" type="Node" parent="." unique_id=1917805050 node_paths=PackedStringArray("visualizer")]
+script = ExtResource("1_qur3q")
+spawnInOnLaunch = true
+dunSettings = ExtResource("2_ky8bs")
+visualizer = NodePath("../DungeonVisualizer")
+
+[node name="DungeonVisualizer" type="Node3D" parent="." unique_id=1199063606 node_paths=PackedStringArray("dungeon")]
+script = ExtResource("3_0yk27")
+biome = ExtResource("4_o3w0q")
+dungeon = NodePath("../Dungeon")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=160346517]
+transform = Transform3D(0.881733, -0.304166, 0.360597, 0, 0.764383, 0.644763, -0.471749, -0.568509, 0.673981, 2.88932, 3.87125, 4.72137)
+script = ExtResource("5_x57yw")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Camera3D" unique_id=1852353608]
+shadow_enabled = true
+omni_range = 15.0

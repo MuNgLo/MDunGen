@@ -15,7 +15,7 @@ namespace MDunGen;
 public partial class DungeonVisualizer : Node3D
 {
 	public static EventHandler<ISection> OnSectionVisualized;
-	[Export] private BiomeResource biome; // TODO refactor biome into sectionbase
+	[Export] private BiomeResource biome; // TODO refactor biome into sectionBase
 	/// <summary>
 	/// The runtime project dungeon node that generates and holds the dungeon map data
 	/// </summary>
@@ -56,6 +56,7 @@ public partial class DungeonVisualizer : Node3D
 	}
 	private async Task VisualizeSection(ISection section)
 	{
+		//GD.Print($"DungeonVis::VisualizeSection()");
 		if (section == null) { return; }
 		section.SectionContainer = new Node3D();
 		tileContainer = new Node3D();

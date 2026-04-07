@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_8nt58")
-corMaxTotal = 40
+corMaxTotal = 132
 corMaxStraight = 16
 corMinStraight = 8
 sectionName = "Long"
@@ -17,4 +17,4 @@ sizeDepthMax = 1
 nbFloorsMin = 5
 nbFloorsMax = 5
 arches = false
-waterLevel = 0.88
+waterLevel = 7.77
