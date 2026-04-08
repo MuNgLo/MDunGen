@@ -53,7 +53,7 @@ internal class Manager
     private void RaiseSelectionChanged()
     {
         // If selected map piece is part of a connection. Also debug that
-        if (selectedMapPiece is not null && addon.MS.Map.GetConnection(SelectedMapPiece.SectionIndex, SelectedMapPiece.Coord, out SectionConnection conn))
+        if (selectedMapPiece is not null && addon.MS.Map.GetConnection(SelectedMapPiece.MainSection, SelectedMapPiece.Coord, out SectionConnection conn))
         {
             if (conn.connectionID != -1) { SelectConnection(conn); }
         }
@@ -162,8 +162,8 @@ internal class Manager
     {
         if (mapPiece == null) { return; }
         selectedMapPiece = mapPiece;
-        selectedMapPiece2nd = null; // NOTE Do we haff to?
-        SelectSection(mapPiece.SectionIndex, false);
+        selectedMapPiece2nd = null; // NOTE Do we have to?
+        SelectSection(mapPiece.MainSection, false);
         if (runUpdates)
         {
             RaiseSelectionChanged();

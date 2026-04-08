@@ -1,5 +1,6 @@
 ﻿// Gone through at v1.3
 using Godot;
+using MDunGen.Commons;
 
 namespace MDunGen.Resources;
 

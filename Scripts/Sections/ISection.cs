@@ -41,11 +41,6 @@ public interface ISection
 	/// </summary>
 	public List<MapPiece> Pieces { get; }
 	/// <summary>
-	/// Coordinates of pieces that was previously part of this section
-	/// Used for pathing
-	/// </summary>
-	public List<MapCoordinate> ExtraPieces { get; }
-	/// <summary>
 	/// Grows the section into the current MapData
 	/// </summary>
 	public void Build(Action<BuildLogEventArgument> log);
@@ -108,11 +103,13 @@ public interface ISection
 
 
 	/// <summary>
-	/// Removes piece from the section and assign sectionIndex -1 to it if not a new owner is given
-	/// Also remember it by adding the coord to the extraPieces
+	/// Removes the piece from section.<br/>
+	/// Should basically never happen
 	/// </summary>
 	/// <param name="coord"></param>
-	void RemovePiece(MapCoordinate coord, int newSectionOwner = -1);
+	/// <returns></returns>
+	MapPiece RemovePiece(MapCoordinate coord);
+
 	/// <summary>
 	/// Checks both owned and extra pieces for the given coordinate. If it exist, returns true;
 	/// </summary>

@@ -1,79 +1,78 @@
-[gd_resource type="Resource" script_class="BiomeResource" format=3 uid="uid://bhgrrx5ofosms"]
+[gd_resource type="Resource" script_class="BiomeResource" format=3 uid="uid://de3h6je3yyg37"]
 
-[ext_resource type="PackedScene" uid="uid://b0k5luvs28qyn" path="res://addons/MDunGen/Scenes/Standard/def_ceiling.tscn" id="1_jjr23"]
-[ext_resource type="Script" uid="uid://bexk71y5d2pt5" path="res://addons/MDunGen/Scripts/ResourceDefinitions/BiomeEntryResource.cs" id="2_jjr23"]
-[ext_resource type="ArrayMesh" uid="uid://d3o1e38vsdqs0" path="res://addons/MDunGen/Meshes/Standard/Standard_dbArrow.res" id="3_u2eaq"]
-[ext_resource type="ArrayMesh" uid="uid://bkhtgsky7tf8u" path="res://addons/MDunGen/Meshes/Standard/Standard_dbError.res" id="4_vu743"]
-[ext_resource type="PackedScene" uid="uid://b1jc4ww05tw32" path="res://addons/MDunGen/Scenes/Standard/def_arch.tscn" id="8_c3sh7"]
-[ext_resource type="PackedScene" uid="uid://c47pckvep6emk" path="res://addons/MDunGen/Scenes/Standard/def_archcorner.tscn" id="9_to0q5"]
-[ext_resource type="PackedScene" uid="uid://ctq3ly115qcft" path="res://addons/MDunGen/Scenes/Standard/def_hallwayarch01.tscn" id="10_hytc7"]
-[ext_resource type="PackedScene" uid="uid://bo1vvej54i8o" path="res://addons/MDunGen/Scenes/Standard/def_floor01.tscn" id="11_kbl5j"]
-[ext_resource type="PackedScene" uid="uid://bsedxwapwcs7g" path="res://addons/MDunGen/Scenes/Standard/def_floor02.tscn" id="12_xjl7o"]
-[ext_resource type="PackedScene" uid="uid://bkoxwnfj3xk1g" path="res://addons/MDunGen/Scenes/Standard/def_floor03.tscn" id="13_guq6r"]
-[ext_resource type="PackedScene" uid="uid://digcfyvxwb5hd" path="res://addons/MDunGen/Scenes/Standard/def_hallwayfloor01.tscn" id="14_k3g1e"]
-[ext_resource type="PackedScene" uid="uid://1b4yyt8ynq8u" path="res://addons/MDunGen/Scenes/Standard/def_hallwayfloor02.tscn" id="15_g4srk"]
-[ext_resource type="Script" uid="uid://c3jmyg31j7sts" path="res://addons/MDunGen/Scripts/ResourceDefinitions/BiomeResource.cs" id="16_41rgj"]
-[ext_resource type="PackedScene" uid="uid://b8cjyfjwaqgea" path="res://addons/MDunGen/Scenes/Standard/def_wall01.tscn" id="17_p7b47"]
-[ext_resource type="PackedScene" uid="uid://bv6l13mlr0w6b" path="res://addons/MDunGen/Scenes/Standard/def_wall02.tscn" id="18_08lf2"]
-[ext_resource type="PackedScene" uid="uid://bel2njfu1ge0j" path="res://addons/MDunGen/Scenes/Standard/def_wall03.tscn" id="19_prw1t"]
-[ext_resource type="PackedScene" uid="uid://c8jxalblikoj6" path="res://addons/MDunGen/Scenes/Standard/def_wallopening01.tscn" id="20_dxe22"]
-[ext_resource type="PackedScene" uid="uid://dp58p4c4wawlc" path="res://addons/MDunGen/Scenes/Standard/def_wallopening02.tscn" id="21_ncyry"]
-[ext_resource type="PackedScene" uid="uid://be4l3oub5omjw" path="res://addons/MDunGen/Scenes/Standard/def_wallopeningwide.tscn" id="22_64qie"]
-[ext_resource type="PackedScene" uid="uid://dyruxrgt241g7" path="res://addons/MDunGen/Scenes/Standard/def_wallcorner.tscn" id="23_gp6gk"]
+[ext_resource type="PackedScene" uid="uid://b0k5luvs28qyn" path="res://addons/MDunGen/Scenes/Standard/def_ceiling.tscn" id="1_ei6xj"]
+[ext_resource type="Script" uid="uid://bexk71y5d2pt5" path="res://addons/MDunGen/Scripts/ResourceDefinitions/BiomeEntryResource.cs" id="2_u2eaq"]
+[ext_resource type="ArrayMesh" uid="uid://bkhtgsky7tf8u" path="res://addons/MDunGen/Meshes/Standard/Standard_dbError.res" id="3_vu743"]
+[ext_resource type="ArrayMesh" uid="uid://d3o1e38vsdqs0" path="res://addons/MDunGen/Meshes/Standard/Standard_dbArrow.res" id="4_480td"]
+[ext_resource type="ArrayMesh" uid="uid://32364sg0a66v" path="res://addons/MDunGen/Meshes/Standard/Standard_dbWallFlagGreen.res" id="5_wg6cx"]
+[ext_resource type="ArrayMesh" uid="uid://dlwyd7wcgkmc7" path="res://addons/MDunGen/Meshes/Standard/Standard_dbWallFlagRed.res" id="6_uhk14"]
+[ext_resource type="ArrayMesh" uid="uid://jsyys7e6t7gu" path="res://addons/MDunGen/Meshes/Standard/Standard_dbFaulty.res" id="7_c3sh7"]
+[ext_resource type="ArrayMesh" uid="uid://c1p8ru46pg8v6" path="res://addons/MDunGen/Meshes/Standard/Standard_dbEnd.res" id="8_to0q5"]
+[ext_resource type="PackedScene" uid="uid://b1jc4ww05tw32" path="res://addons/MDunGen/Scenes/Standard/def_arch.tscn" id="9_hytc7"]
+[ext_resource type="PackedScene" uid="uid://c47pckvep6emk" path="res://addons/MDunGen/Scenes/Standard/def_archcorner.tscn" id="10_kbl5j"]
+[ext_resource type="PackedScene" uid="uid://ctq3ly115qcft" path="res://addons/MDunGen/Scenes/Standard/def_hallwayarch01.tscn" id="11_xjl7o"]
+[ext_resource type="PackedScene" uid="uid://bo1vvej54i8o" path="res://addons/MDunGen/Scenes/Standard/def_floor01.tscn" id="12_guq6r"]
+[ext_resource type="PackedScene" uid="uid://bsedxwapwcs7g" path="res://addons/MDunGen/Scenes/Standard/def_floor02.tscn" id="13_k3g1e"]
+[ext_resource type="PackedScene" uid="uid://bkoxwnfj3xk1g" path="res://addons/MDunGen/Scenes/Standard/def_floor03.tscn" id="14_g4srk"]
+[ext_resource type="PackedScene" uid="uid://digcfyvxwb5hd" path="res://addons/MDunGen/Scenes/Standard/def_hallwayfloor01.tscn" id="15_41rgj"]
+[ext_resource type="PackedScene" uid="uid://1b4yyt8ynq8u" path="res://addons/MDunGen/Scenes/Standard/def_hallwayfloor02.tscn" id="16_p7b47"]
+[ext_resource type="Script" uid="uid://c3jmyg31j7sts" path="res://addons/MDunGen/Scripts/ResourceDefinitions/BiomeResource.cs" id="17_08lf2"]
+[ext_resource type="PackedScene" uid="uid://b8cjyfjwaqgea" path="res://addons/MDunGen/Scenes/Standard/def_wall01.tscn" id="18_prw1t"]
+[ext_resource type="PackedScene" uid="uid://bv6l13mlr0w6b" path="res://addons/MDunGen/Scenes/Standard/def_wall02.tscn" id="19_dxe22"]
+[ext_resource type="PackedScene" uid="uid://bel2njfu1ge0j" path="res://addons/MDunGen/Scenes/Standard/def_wall03.tscn" id="20_ncyry"]
+[ext_resource type="PackedScene" uid="uid://c8jxalblikoj6" path="res://addons/MDunGen/Scenes/Standard/def_wallopening01.tscn" id="21_64qie"]
+[ext_resource type="PackedScene" uid="uid://dp58p4c4wawlc" path="res://addons/MDunGen/Scenes/Standard/def_wallopening02.tscn" id="22_gp6gk"]
+[ext_resource type="PackedScene" uid="uid://be4l3oub5omjw" path="res://addons/MDunGen/Scenes/Standard/def_wallopeningwide.tscn" id="23_mch10"]
+[ext_resource type="PackedScene" uid="uid://dyruxrgt241g7" path="res://addons/MDunGen/Scenes/Standard/def_wallcorner.tscn" id="24_nc63f"]
 
-[sub_resource type="Resource" id="Resource_3ehfi"]
-script = ExtResource("2_jjr23")
+[sub_resource type="Resource" id="Resource_p06t7"]
+script = ExtResource("2_u2eaq")
 key = 9
-resources = [ExtResource("1_jjr23")]
+resources = [ExtResource("1_ei6xj")]
 
-[sub_resource type="Resource" id="Resource_klja8"]
-script = ExtResource("2_jjr23")
+[sub_resource type="Resource" id="Resource_ofac7"]
+script = ExtResource("2_u2eaq")
 key = 3
-resources = [ExtResource("3_u2eaq")]
+resources = [ExtResource("3_vu743"), ExtResource("4_480td"), ExtResource("5_wg6cx"), ExtResource("6_uhk14"), ExtResource("7_c3sh7"), ExtResource("8_to0q5")]
 
-[sub_resource type="Resource" id="Resource_gdugv"]
-script = ExtResource("2_jjr23")
-key = 1
-resources = [ExtResource("4_vu743")]
-
-[sub_resource type="Resource" id="Resource_c1uvy"]
-script = ExtResource("2_jjr23")
+[sub_resource type="Resource" id="Resource_b5faw"]
+script = ExtResource("2_u2eaq")
 key = 15
-resources = [ExtResource("8_c3sh7"), ExtResource("9_to0q5"), ExtResource("10_hytc7")]
+resources = [ExtResource("9_hytc7"), ExtResource("10_kbl5j"), ExtResource("11_xjl7o")]
 
-[sub_resource type="Resource" id="Resource_k2o1c"]
-script = ExtResource("2_jjr23")
+[sub_resource type="Resource" id="Resource_sqnh8"]
+script = ExtResource("2_u2eaq")
 key = 7
-resources = [ExtResource("11_kbl5j"), ExtResource("12_xjl7o"), ExtResource("13_guq6r"), ExtResource("14_k3g1e"), ExtResource("15_g4srk")]
+resources = [ExtResource("12_guq6r"), ExtResource("13_k3g1e"), ExtResource("14_g4srk"), ExtResource("15_41rgj"), ExtResource("16_p7b47")]
 
-[sub_resource type="Resource" id="Resource_wlmcw"]
-script = ExtResource("2_jjr23")
+[sub_resource type="Resource" id="Resource_6cc41"]
+script = ExtResource("2_u2eaq")
 key = 11
-resources = [ExtResource("17_p7b47"), ExtResource("18_08lf2"), ExtResource("19_prw1t")]
+resources = [ExtResource("18_prw1t"), ExtResource("19_dxe22"), ExtResource("20_ncyry")]
 
-[sub_resource type="Resource" id="Resource_b7v8c"]
-script = ExtResource("2_jjr23")
+[sub_resource type="Resource" id="Resource_bbhx8"]
+script = ExtResource("2_u2eaq")
 key = 12
-resources = [ExtResource("20_dxe22"), ExtResource("21_ncyry")]
+resources = [ExtResource("21_64qie"), ExtResource("22_gp6gk")]
 
-[sub_resource type="Resource" id="Resource_le6fu"]
-script = ExtResource("2_jjr23")
+[sub_resource type="Resource" id="Resource_numd5"]
+script = ExtResource("2_u2eaq")
 key = 13
-resources = [ExtResource("22_64qie")]
+resources = [ExtResource("23_mch10")]
 
-[sub_resource type="Resource" id="Resource_64x3h"]
-script = ExtResource("2_jjr23")
+[sub_resource type="Resource" id="Resource_t5kn0"]
+script = ExtResource("2_u2eaq")
 key = 14
-resources = [ExtResource("23_gp6gk")]
+resources = [ExtResource("24_nc63f")]
 
 [resource]
-script = ExtResource("16_41rgj")
-debug = [SubResource("Resource_klja8"), SubResource("Resource_gdugv")]
+script = ExtResource("17_08lf2")
+debug = [SubResource("Resource_ofac7")]
 wallMaterials = null
-walls = [SubResource("Resource_wlmcw"), SubResource("Resource_b7v8c"), SubResource("Resource_le6fu"), SubResource("Resource_64x3h")]
+walls = [SubResource("Resource_6cc41"), SubResource("Resource_bbhx8"), SubResource("Resource_numd5"), SubResource("Resource_t5kn0")]
 floorMaterials = null
-floors = [SubResource("Resource_k2o1c")]
+floors = [SubResource("Resource_sqnh8")]
 ceilingMaterials = null
-ceilings = [SubResource("Resource_3ehfi")]
-extras = [SubResource("Resource_c1uvy")]
+ceilings = [SubResource("Resource_p06t7")]
+extras = [SubResource("Resource_b5faw")]
 metadata/_custom_type_script = "uid://c3jmyg31j7sts"

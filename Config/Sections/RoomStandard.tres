@@ -6,6 +6,9 @@
 script = ExtResource("1_66q4r")
 sectionName = "Standard"
 sectionType = "RoomSection"
+sizeWidthMin = 2
+sizeWidthMax = 6
+sizeDepthMax = 6
 nbFloorsMax = 1
 arches = false
 waterLevel = 0.97

@@ -2,6 +2,7 @@
 #if TOOLS
 using Godot;
 using Godot.Collections;
+using MDunGen.Commons;
 using MDunGen.Resources;
 using System;
 using System.Threading.Tasks;

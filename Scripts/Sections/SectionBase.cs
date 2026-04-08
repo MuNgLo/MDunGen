@@ -50,7 +50,6 @@ public class SectionBase : ISection
 
 
 	private protected List<MapPiece> pieces;
-	private protected List<MapCoordinate> extraPieces;
 
 
 
@@ -119,7 +118,6 @@ public class SectionBase : ISection
 	public string SectionName => sectionName;
 	public virtual int TileCount => Pieces.Count;
 	public virtual List<MapPiece> Pieces => pieces;
-	public virtual List<MapCoordinate> ExtraPieces => extraPieces;
 	public float WaterLevel => waterLevel;
 	public Material WaterMaterial => waterMaterial;
 	public float WaterDepth => waterDepth;
@@ -141,7 +139,6 @@ public class SectionBase : ISection
 		this.debug = debug;
 
 		pieces = new List<MapPiece>();
-		extraPieces = new List<MapCoordinate>();
 		connections = new List<int>();
 		rng = new PRNGMarsenneTwister(args.Seed);
 		//props = new SectionProps(this, args.Seed);
@@ -498,6 +495,7 @@ public class SectionBase : ISection
 	{
 		if (id < 1)
 		{
+			
 			GD.PushError($"SectionBase::AddConnection({id}) INVALID ID!\n{System.Environment.StackTrace}");
 		}
 
@@ -544,17 +542,16 @@ public class SectionBase : ISection
 		}
 	}
 
-	public virtual void RemovePiece(MapCoordinate coord, int newSectionOwner = -1)
+	public virtual MapPiece RemovePiece(MapCoordinate coord)
 	{
 		MapPiece mp = map.GetExistingPiece(coord);
 		pieces.Remove(mp);
-		mp.SectionIndex = newSectionOwner;
-		extraPieces.Add(coord);
+		mp.RemoveSection(sectionIndex);
+		return mp;
 	}
 
 	public bool ContainsPiece(MapCoordinate coord)
 	{
-		if (ExtraPieces.Contains(coord)) { return true; }
 		if (Pieces.Exists(p => p.Coord == coord)) { return true; }
 		return false;
 	}

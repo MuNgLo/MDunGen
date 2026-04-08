@@ -82,11 +82,11 @@ public class PathSection : SectionBase
 
 		foreach (MapPiece piece in Pieces)
 		{
-			if (sectionIndex != piece.SectionIndex)
-			{
-				//GD.Print($"PathSection::Build() Foreign Piece! coord[{piece.Coord}]");
-				//map.MovePieceOwnershipToSection(piece, sectionIndex);
-			}
+			//if (sectionIndex != piece.SectionIndex)
+			//{
+			//	//GD.Print($"PathSection::Build() Foreign Piece! coord[{piece.Coord}]");
+			//	//map.MovePieceOwnershipToSection(piece, sectionIndex);
+			//}
 		}
 		MakeSureStartPieceIsFirstPieceAndFixTheOrientation(startDir);
 
@@ -179,16 +179,17 @@ public class PathSection : SectionBase
 			return RightSide.GetRandomAlongPath(out dir, false, true);
 		}
 	}
+	[Obsolete("NEeds rewrite and fixing")]
 	private void BuildStartConnection(MapPiece startPiece, MAPDIRECTION dir)
 	{
 		MapPiece startPieceConnection = startPiece.Neighbour(dir, false);
 		ISection otherSection;
-		if (startPieceConnection.SectionIndex > -1 && startPieceConnection.SectionIndex < map.Sections.Count)
+		if (startPieceConnection.MainSection > -1 && startPieceConnection.MainSection < map.Sections.Count)
 		{
-			otherSection = map.Sections[startPieceConnection.SectionIndex];
+			otherSection = map.Sections[startPieceConnection.MainSection];
 			int conn1 = AddConnection(
 				dir,
-				map.Sections[startPieceConnection.SectionIndex],
+				map.Sections[startPieceConnection.MainSection],
 				startPiece.Coord,
 				startPieceConnection.Coord,
 				true
@@ -205,11 +206,11 @@ public class PathSection : SectionBase
 		if (sectionDefinition.sizeWidthMax < 2)
 		{
 			CapLineEndsWithWalls();
-			if (endPieceConnection.State == MAPPIECESTATE.PENDING && endPieceConnection.SectionIndex >= 0 && endPieceConnection.SectionIndex != sectionIndex)
+			if (endPieceConnection.State == MAPPIECESTATE.PENDING && endPieceConnection.MainSection >= 0 && !endPieceConnection.IsPartOfSection(sectionIndex))
 			{
 				AddConnection(
 					LeftSide.Last.Orientation,
-					map.Sections[endPieceConnection.SectionIndex],
+					map.Sections[endPieceConnection.MainSection],
 					LeftSide.Last.Coord,
 					endPieceConnection.Coord,
 					true
@@ -239,15 +240,15 @@ public class PathSection : SectionBase
 		else
 		{
 			CapLineEndsWithWalls();
-			if (!endPieceConnection.isEmpty && endPieceConnection2.isEmpty && endPieceConnection.SectionIndex >= 0 && endPieceConnection.SectionIndex != sectionIndex)
+			if (!endPieceConnection.isEmpty && endPieceConnection2.isEmpty && endPieceConnection.MainSection >= 0 && !endPieceConnection.IsPartOfSection(sectionIndex))
 			{
 				// Add a single door to connect corridors on left side
-				AddConnection(LeftSide.Last.Orientation, map.Sections[endPieceConnection.SectionIndex], LeftSide.Last.Coord, endPieceConnection.Coord, true);
+				AddConnection(LeftSide.Last.Orientation, map.Sections[endPieceConnection.MainSection], LeftSide.Last.Coord, endPieceConnection.Coord, true);
 			}
-			else if (endPieceConnection.isEmpty && !endPieceConnection2.isEmpty && endPieceConnection2.SectionIndex >= 0 && endPieceConnection2.SectionIndex != sectionIndex)
+			else if (endPieceConnection.isEmpty && !endPieceConnection2.isEmpty && endPieceConnection2.MainSection >= 0 && !endPieceConnection2.IsPartOfSection(sectionIndex))
 			{
 				// Add a single door to connect corridors on right side
-				AddConnection(RightSide.Last.Orientation, map.Sections[endPieceConnection.SectionIndex], RightSide.Last.Coord, endPieceConnection.Coord, true);
+				AddConnection(RightSide.Last.Orientation, map.Sections[endPieceConnection.MainSection], RightSide.Last.Coord, endPieceConnection.Coord, true);
 			}
 		}
 	}
@@ -257,7 +258,7 @@ public class PathSection : SectionBase
 		{
 			MAPDIRECTION dir = lines[i].Last.Orientation;
 			MapPiece next = lines[i].Last.Neighbour(dir, true);
-			if (next.isEmpty && next.SectionIndex < 0)
+			if (next.isEmpty && next.MainSection < 0)
 			{
 				lines[i].Last.AssignWall(new KeyData() { key = PIECEKEYS.W, dir = lines[i].Last.Orientation }, true);
 			}
@@ -293,10 +294,10 @@ public class PathSection : SectionBase
 		{
 			for (int i = 0; i < turners.Length; i++)
 			{
-				turners[i].SectionIndex = sectionIndex;
+				turners[i].AddSection(sectionIndex);
 				turners[i].Orientation = newDir;
 				turners[i].State = MAPPIECESTATE.PENDING;
-				lines[i].Add(turners[i]);
+				lines[i].AddStep(turners[i], true);
 				turners[i].Save();
 			}
 		}
@@ -309,10 +310,10 @@ public class PathSection : SectionBase
 		{
 			for (int i = 0; i < turners.Length; i++)
 			{
-				turners[i].SectionIndex = sectionIndex;
+				turners[i].AddSection(sectionIndex);
 				turners[i].Orientation = newDir;
 				turners[i].State = MAPPIECESTATE.PENDING;
-				lines[i].Add(turners[i]);
+				lines[i].AddStep(turners[i], true);
 				turners[i].Save();
 			}
 		}
@@ -349,7 +350,7 @@ public class PathSection : SectionBase
 	private void SetupLines(MapPiece step)
 	{
 		lines = new Line[sizeX];
-		step.SectionIndex = sectionIndex;
+		step.AddSection(sectionIndex);
 		step.State = MAPPIECESTATE.PENDING;
 		lines[0] = new Line(map, this, step, rng);
 		if (lines.Length > 1)
@@ -378,15 +379,5 @@ public class PathSection : SectionBase
 			step = step.Neighbour(dir, true);
 		}
 		sizeX = cleared;
-	}
-	public override void RemovePiece(MapCoordinate coord, int newSectionOwner = -1)
-	{
-		MapPiece mp = map.GetExistingPiece(coord);
-		for (int i = 0; i < lines.Length; i++)
-		{
-			lines[i].Remove(coord);
-		}
-		mp.SectionIndex = newSectionOwner;
-		extraPieces.Add(coord);
 	}
 }// EOF CLASS

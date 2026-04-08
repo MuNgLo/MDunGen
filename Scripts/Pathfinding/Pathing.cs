@@ -20,7 +20,7 @@ internal static class Pathing
         else
         {
             PathAnswer answer = new PathAnswer(query);
-            answer.path = RunPathing(query.StartSection, query.startLocation, query.endLocation, query.Extras);
+            answer.path = RunPathing(query.StartSection, query.startLocation, query.endLocation);
             callback.Invoke(answer);
         }
     }
@@ -34,15 +34,15 @@ internal static class Pathing
         else
         {
             answer = new PathAnswer(query);
-            answer.path = RunPathing(query.StartSection, query.startLocation, query.endLocation, query.Extras);
+            answer.path = RunPathing(query.StartSection, query.startLocation, query.endLocation);
         }
         if (answer.path.Count > 0 || answer.connectionPath.Count > 0) { return true; }
         return false;
     }
 
-    private static List<PathLocation> RunPathing(ISection section, MapCoordinate from, MapCoordinate to, List<MapPiece> extras)
+    private static List<PathLocation> RunPathing(ISection section, MapCoordinate from, MapCoordinate to)
     {
-        Map map = new Map(section, extras);
+        Map map = new Map(section);
         map.SetNeighbours();
         PathLocation start = new PathLocation(section.Pieces.Find(p => p.Coord == from));
         start.SetNeighbours(map); // TODO try without this?
@@ -161,17 +161,16 @@ internal static class Pathing
     /// ################################################################################################################################################
 
     /// <summary>
-    /// ONLY use this in pathquery constructor and MapBuilder pathing pass
+    /// ONLY use this in path query constructor and MapBuilder pathing pass
     /// </summary>
     /// <param name="section"></param>
     /// <param name="from"></param>
     /// <param name="to"></param>
-    /// <param name="extras"></param>
     /// <param name="path"></param>
     /// <returns></returns>
     private static bool FindPathForQuery(ISection section, MapPiece from, MapPiece to, List<MapPiece> extras, out List<PathLocation> path)
     {
-        Map map = new Map(section, extras);
+        Map map = new Map(section);
         map.SetNeighbours();
         PathLocation start = new PathLocation(from);
         start.SetNeighbours(map); // TODO try without this?

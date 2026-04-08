@@ -6,9 +6,7 @@
 script = ExtResource("1_vrlku")
 sectionName = "Start"
 sectionType = "RoomSection"
-sizeWidthMin = 4
-sizeWidthMax = 6
-sizeDepthMin = 4
-sizeDepthMax = 6
+sizeWidthMin = 5
+sizeDepthMin = 5
 nbFloorsMax = 1
 firstPieceDoor = false

@@ -25,51 +25,49 @@ internal class Line
 		this.map = map;
 		this.section = section;
 		steps = new List<MapPiece>();
+		startPiece.State = MAPPIECESTATE.PENDING;
+		startPiece.AddSection(SectionIndex);
 		steps.Add(startPiece);
 		this.rng = rng;
 	}
 	internal MapPiece First => steps.First();
 	internal MapPiece Last => steps.Last();
 	internal List<MapPiece> Steps => steps;
-	internal MAPDIRECTION Orientation { get => steps.Last().Orientation; set => steps.Last().Orientation = value; }
+	//internal MAPDIRECTION Orientation { get => steps.Last().Orientation; set => steps.Last().Orientation = value; }
 	private PRNGMarsenneTwister rng;
 
-	internal void Add(MapPiece step)
+	/// <summary>
+	/// Adds the mapPiece to the line and section
+	/// </summary>
+	/// <param name="step"></param>
+	internal void AddStep(MapPiece step, bool skipOrientation = false)
 	{
+		if(!skipOrientation){ step.Orientation = Last.Orientation; }
+		step.State = MAPPIECESTATE.PENDING;
+		step.AddSection(SectionIndex);
 		steps.Add(step);
-	}
-	internal void AddFloorAndCeilingKeys(bool mainLine)
-	{
-		foreach (MapPiece step in steps)
-		{
-			if (step.SectionIndex < 0)
-			{
-				step.keyFloor = new KeyData() { key = PIECEKEYS.F, dir = step.Orientation, variantID = 0 };
-				step.keyCeiling = new KeyData() { key = PIECEKEYS.C, dir = step.Orientation, variantID = 0 };
-			}
-		}
+		step.Save();
 	}
 
 	internal void Walk(int maxSteps, bool mainline)
 	{
 		if (steps.Count < 1) { return; }
-		//if (Last.isBridge) { WalkBridge(maxSteps, mainline); return; }
 		WalkNormal(maxSteps, mainline);
 	}
 	internal void WalkNormal(int maxSteps, bool mainline)
 	{
 		MapPiece nextStep = Last.Neighbour(Last.Orientation, true);
-
-		if (nextStep.SectionIndex >= 0)
+		// Check if the next piece has a section assigned
+		if (nextStep.MainSection >= 0)
 		{
-			if (nextStep.SectionIndex != Last.SectionIndex)
+			if (!nextStep.IsPartOfSection(SectionIndex) && !nextStep.IsPartOfSection(Last.MainSection))
 			{
 				// First step into other section
-				if (nextStep.Section.BridgeAllowed && maxSteps > steps.Count)
+				if (maxSteps > steps.Count)
 				{
 					if (mainline)
 					{
-						ISection nextSection = map.Sections[nextStep.SectionIndex];
+						ISection nextSection = map.Sections[nextStep.MainSection];
 						// Works
 						int c1 = section.AddConnection(Last.Orientation, nextSection, Last.Coord, nextStep.Coord, true);
 						int c2 = nextSection.AddConnection(DungeonUtils.Flip(Last.Orientation), section, nextStep.Coord, Last.Coord, true);
@@ -78,34 +76,24 @@ internal class Line
 
 						// Right side special connection
 						MapPiece nextStepRightNB = nextStep.Neighbour(DungeonUtils.TwistRight(Last.Orientation), false);
-						if (nextStepRightNB is not null && nextStepRightNB.SectionIndex == nextSection.SectionIndex && !nextStepRightNB.HasWall(DungeonUtils.TwistLeft(Last.Orientation)))
+						if (nextStepRightNB is not null && nextStepRightNB.IsPartOfSection(nextSection.SectionIndex) && !nextStepRightNB.HasWall(DungeonUtils.TwistLeft(Last.Orientation)))
 						{
-							int cR1 = section.AddConnection(DungeonUtils.TwistRight(Last.Orientation), map.Sections[nextStepRightNB.SectionIndex], nextStep.Coord, nextStepRightNB.Coord, true);
-							int cR2 = map.Sections[nextStepRightNB.SectionIndex].AddConnection(DungeonUtils.TwistLeft(Last.Orientation), section, nextStepRightNB.Coord, nextStep.Coord, true);
+							int cR1 = section.AddConnection(DungeonUtils.TwistRight(Last.Orientation), map.Sections[nextStepRightNB.MainSection], nextStep.Coord, nextStepRightNB.Coord, true);
+							int cR2 = map.Sections[nextStepRightNB.MainSection].AddConnection(DungeonUtils.TwistLeft(Last.Orientation), section, nextStepRightNB.Coord, nextStep.Coord, true);
 							map.Connections[cR1].connectedToConnectionID = cR2;
 							map.Connections[cR2].connectedToConnectionID = cR1;
 						}
 
 						// Left side special connection
 						MapPiece nextStepLeftNB = nextStep.Neighbour(DungeonUtils.TwistLeft(Last.Orientation), false);
-						if (nextStepLeftNB is not null && nextStepLeftNB.SectionIndex == nextSection.SectionIndex && !nextStepLeftNB.HasWall(DungeonUtils.TwistRight(Last.Orientation)))
+						if (nextStepLeftNB is not null && nextStepLeftNB.IsPartOfSection(nextSection.SectionIndex) && !nextStepLeftNB.HasWall(DungeonUtils.TwistRight(Last.Orientation)))
 						{
-							int cL1 = section.AddConnection(
-								DungeonUtils.TwistLeft(Last.Orientation),
-								map.Sections[nextStepLeftNB.SectionIndex],
-								nextStep.Coord,
-								nextStepLeftNB.Coord,
-								false);
-							int cL2 = map.Sections[nextStepLeftNB.SectionIndex].AddConnection(DungeonUtils.TwistRight(Last.Orientation), section, nextStepLeftNB.Coord, nextStep.Coord, true);
+							int cL1 = section.AddConnection(DungeonUtils.TwistLeft(Last.Orientation), map.Sections[nextStepLeftNB.MainSection], nextStep.Coord, nextStepLeftNB.Coord, false);
+							int cL2 = map.Sections[nextStepLeftNB.MainSection].AddConnection(DungeonUtils.TwistRight(Last.Orientation), section, nextStepLeftNB.Coord, nextStep.Coord, true);
 							map.Connections[cL1].connectedToConnectionID = cL2;
 							map.Connections[cL2].connectedToConnectionID = cL1;
 						}
-
-
-						//nextStep.isBridge = true;
-						nextStep.Orientation = Last.Orientation;
-						nextStep.State = MAPPIECESTATE.PENDING;
-						steps.Add(nextStep);
+						AddStep(nextStep);
 						return;
 					}
 				}
@@ -115,86 +103,29 @@ internal class Line
 					return;
 				}
 			}
-			else if (nextStep.SectionIndex == SectionIndex)
+			else if (nextStep.IsPartOfSection(SectionIndex))
 			{
 				steps.RemoveAll(p => p.Coord == nextStep.Coord);
-				nextStep.Orientation = Last.Orientation;
-				nextStep.State = MAPPIECESTATE.PENDING;
-				steps.Add(nextStep);
+				AddStep(nextStep);
 				return;
 			}
 			// Proceed to walk Line through other section
-			nextStep.Orientation = Last.Orientation;
-			nextStep.State = MAPPIECESTATE.PENDING;
-			steps.Add(nextStep);
+			AddStep(nextStep);
 			return;
 		}
-		else if (Last.SectionIndex >= 0 && Last.SectionIndex != SectionIndex)
+		/*else if (Last.MainSection >= 0 && !Last.IsPartOfSection(SectionIndex))
 		{
-			int nextSectionIndex = nextStep.SectionIndex;
+			int nextSectionIndex = nextStep.MainSection;
 			if (nextSectionIndex < 0) { nextSectionIndex = SectionIndex; }
 			// Works
-			int c1b = section.AddConnection(DungeonUtils.Flip(Last.Orientation), map.Sections[Last.SectionIndex], nextStep.Coord, Last.Coord, true);
-			int c2b = map.Sections[Last.SectionIndex].AddConnection(Last.Orientation, section, Last.Coord, nextStep.Coord, true);
+			int c1b = section.AddConnection(DungeonUtils.Flip(Last.Orientation), map.Sections[Last.MainSection], nextStep.Coord, Last.Coord, true);
+			int c2b = map.Sections[Last.MainSection].AddConnection(Last.Orientation, section, Last.Coord, nextStep.Coord, true);
 			map.Connections[c1b].connectedToConnectionID = c2b;
 			map.Connections[c2b].connectedToConnectionID = c1b;
-		}
-		nextStep.SectionIndex = SectionIndex;
-		nextStep.Orientation = Last.Orientation;
-		nextStep.State = MAPPIECESTATE.PENDING;
-		steps.Add(nextStep);
+		}*/
+		AddStep(nextStep);
 		nextStep.Save();
 	}
-	/// <summary>
-	///  Previous step was a bridge so keep that in mind
-	/// </summary>
-	/// <param name="maxSteps"></param>
-	/// <param name="mainline"></param>
-	/*internal void WalkBridge(int maxSteps, bool mainline)
-	{
-		MapPiece nextStep = Last.Neighbour(Last.Orientation, true);
-
-		if (nextStep.SectionIndex < 0)
-		{
-			// Blank
-			section.AddConnection(Last.Orientation, map.Sections[nextStep.SectionIndex], Last.Coord, nextStep.Coord, true);
-			nextStep.SectionIndex = SectionIndex;
-			nextStep.Orientation = Last.Orientation;
-			nextStep.State = MAPPIECESTATE.PENDING;
-			steps.Add(nextStep);
-			nextStep.Save();
-			return;
-		}
-		else if (Last.SectionIndex == nextStep.SectionIndex)
-		{
-			// same section
-			nextStep.isBridge = true;
-			nextStep.Orientation = Last.Orientation;
-			nextStep.State = MAPPIECESTATE.PENDING;
-			steps.Add(nextStep);
-			nextStep.Save();
-			return;
-		}
-		else
-		{
-			// different section
-			if (maxSteps < steps.Count || !nextStep.Section.BridgeAllowed)
-			{
-				isBlocked = true;
-				return;
-			}
-			else
-			{
-				section.AddConnection(Last.Orientation, map.Sections[nextStep.SectionIndex], Last.Coord, nextStep.Coord, true);
-				nextStep.isBridge = true;
-				nextStep.Orientation = Last.Orientation;
-				nextStep.State = MAPPIECESTATE.PENDING;
-				steps.Add(nextStep);
-				nextStep.Save();
-				return;
-			}
-		}
-	}*/
 
 	internal MapPiece[] GetTurners(int width, MAPDIRECTION dir, bool reversed = false)
 	{
@@ -265,10 +196,10 @@ internal class Line
 	{
 		steps.RemoveAll(p => p.Coord == coord);
 	}
-	internal void FilterBySectionID(int id)
-	{
-		steps.RemoveAll(p => p.SectionIndex == id);
-	}
+	//internal void FilterBySectionID(int id)
+	//{
+	//	steps.RemoveAll(p => p.SectionIndex == id);
+	//}
 	internal void InsertAsFirst(MapPiece mapPiece)
 	{
 		List<MapPiece> newList = new() { mapPiece };

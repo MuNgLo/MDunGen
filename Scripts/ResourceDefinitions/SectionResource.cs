@@ -1,6 +1,7 @@
 // Gone through at v1.3
 using Godot;
 using Godot.Collections;
+using MDunGen.Commons;
 
 namespace MDunGen.Resources;
 

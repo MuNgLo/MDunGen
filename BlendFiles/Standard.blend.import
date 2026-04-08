@@ -1,0 +1,269 @@
+[remap]
+
+importer="scene"
+importer_version=1
+type="PackedScene"
+uid="uid://ccj22m5i5qvmg"
+path="res://.godot/imported/Standard.blend-298891b72b4194864df2344ef90c2fca.scn"
+
+[deps]
+
+source_file="res://addons/MDunGen/BlendFiles/Standard.blend"
+dest_files=["res://.godot/imported/Standard.blend-298891b72b4194864df2344ef90c2fca.scn"]
+
+[params]
+
+nodes/root_type=""
+nodes/root_name=""
+nodes/root_script=null
+nodes/apply_root_scale=true
+nodes/root_scale=1.0
+nodes/import_as_skeleton_bones=false
+nodes/use_name_suffixes=true
+nodes/use_node_type_suffixes=true
+meshes/ensure_tangents=true
+meshes/generate_lods=true
+meshes/create_shadow_meshes=true
+meshes/light_baking=1
+meshes/lightmap_texel_size=0.2
+meshes/force_disable_compression=false
+skins/use_named_skins=true
+animation/import=true
+animation/fps=30
+animation/trimming=false
+animation/remove_immutable_tracks=true
+animation/import_rest_as_RESET=false
+import_script/path=""
+materials/extract=0
+materials/extract_format=0
+materials/extract_path=""
+_subresources={
+"materials": {
+"bCieling": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://addons/MDunGen/Materials/defCeilingMaterial.tres",
+"use_external/path": "uid://b0pphjs1lefh6"
+},
+"bFloor": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://addons/MDunGen/Materials/defFloorMaterial.tres",
+"use_external/path": "uid://dkj4wkj6kfoti"
+},
+"bWall": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://addons/MDunGen/Materials/defWallMaterial.tres",
+"use_external/path": "uid://kfgeyarnq0v6"
+}
+},
+"meshes": {
+"Standard_Arch": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Standard/Standard_Arch.res",
+"save_to_file/path": "uid://co3gfiomcwbnw"
+},
+"Standard_ArchCorner": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Standard/Standard_ArchCorner.res",
+"save_to_file/path": "uid://b0y4cqgvjchsn"
+},
+"Standard_Ceiling": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Standard/Standard_Ceiling.res",
+"save_to_file/path": "uid://b50kwq287keph"
+},
+"Standard_DoorWideTrimMESH": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Standard/Standard_DoorWideTrimMESH.res",
+"save_to_file/path": "uid://drxxhji4460ik"
+},
+"Standard_Floor01": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Standard/Standard_Floor01.res",
+"save_to_file/path": "uid://bu1r35hoogy73"
+},
+"Standard_Floor02": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Standard/Standard_Floor02.res",
+"save_to_file/path": "uid://6hgjgss5a3eo"
+},
+"Standard_Floor03": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Standard/Standard_Floor03.res",
+"save_to_file/path": "uid://dw204lqdmh624"
+},
+"Standard_Wall01": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Standard/Standard_Wall01.res",
+"save_to_file/path": "uid://b4o3uw8il162a"
+},
+"Standard_Wall02": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Standard/Standard_Wall02.res",
+"save_to_file/path": "uid://bykaa31yjo7eu"
+},
+"Standard_Wall03": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Standard/Standard_Wall03.res",
+"save_to_file/path": "uid://dl4a6qcweutrf"
+},
+"Standard_Wall03Trim": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Standard/Standard_Wall03Trim.res",
+"save_to_file/path": "uid://cla0uioscr84f"
+},
+"Standard_WallCorner": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Standard/Standard_WallCorner.res",
+"save_to_file/path": "uid://dy5k7ipwnhhwa"
+},
+"Standard_WallOpening01": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Standard/Standard_WallOpening01.res",
+"save_to_file/path": "uid://bp00da4sfjh77"
+},
+"Standard_WallOpening02": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Standard/Standard_WallOpening02.res",
+"save_to_file/path": "uid://bvrwry0tjc4wu"
+},
+"Standard_WallOpeningWide": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Standard/Standard_WallOpeningWide.res",
+"save_to_file/path": "uid://dos3ottxabbyx"
+},
+"Standard_dbArrow": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Standard/Standard_dbArrow.res",
+"save_to_file/path": "uid://d3o1e38vsdqs0"
+},
+"Standard_dbEnd": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Standard/Standard_dbEnd.res",
+"save_to_file/path": "uid://c1p8ru46pg8v6"
+},
+"Standard_dbError": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Standard/Standard_dbError.res",
+"save_to_file/path": "uid://bkhtgsky7tf8u"
+},
+"Standard_dbFaulty": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Standard/Standard_dbFaulty.res",
+"save_to_file/path": "uid://jsyys7e6t7gu"
+},
+"Standard_dbWallFlagGreen": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Standard/Standard_dbWallFlagGreen.res",
+"save_to_file/path": "uid://32364sg0a66v"
+},
+"Standard_dbWallFlagRed": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Standard/Standard_dbWallFlagRed.res",
+"save_to_file/path": "uid://dlwyd7wcgkmc7"
+}
+}
+}
+blender/nodes/visible=2
+blender/nodes/active_collection_only=false
+blender/nodes/punctual_lights=true
+blender/nodes/cameras=true
+blender/nodes/custom_properties=true
+blender/nodes/modifiers=1
+blender/meshes/colors=false
+blender/meshes/uvs=true
+blender/meshes/normals=true
+blender/meshes/export_geometry_nodes_instances=false
+blender/meshes/gpu_instances=false
+blender/meshes/tangents=true
+blender/meshes/skins=2
+blender/meshes/export_bones_deforming_mesh_only=false
+blender/materials/unpack_enabled=true
+blender/materials/export_materials=1
+blender/animation/limit_playback=true
+blender/animation/always_sample=true
+blender/animation/group_tracks=true
+gltf/naming_version=2

@@ -29,7 +29,7 @@ public partial class BottomScreen : Control
         SectionConnection sc = addon.MS.Selection.SelectedConnection;
         if (mp is not null)
         {
-            mapPieceInfo.Text = $"MapPiece Info:\n MapPiece[{mp.Coord}] section[{mp.SectionIndex}] floor[{mp.hasFloor}]";
+            mapPieceInfo.Text = $"MapPiece Info:\n MapPiece[{mp.Coord}] MainSection[{mp.MainSection}] floor[{mp.hasFloor}]{System.Environment.NewLine}Sections:{string.Join(',', mp.Sections)}";
         }
         if (ss is not null)
         {

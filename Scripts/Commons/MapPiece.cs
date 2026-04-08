@@ -1,8 +1,10 @@
 ﻿// Gone through at v1.3
 using Godot;
 using MDunGen.Sections;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace MDunGen.Commons;
 
@@ -20,44 +22,8 @@ public class MapPiece
 	private MAPDIRECTION orientation = MAPDIRECTION.ANY;
 	internal MAPDIRECTION Orientation { get => orientation; set {orientation = value;}}
 	internal MAPPIECESTATE State { get => state; set => state = value; }
-	private protected int sectionIndex = -1;
-	internal int SectionIndex { get => sectionIndex; set => sectionIndex = value; }
-	/// <summary>
-	/// The Section instance the piece is part of
-	/// </summary>
-	public ISection Section
-	{
-		get
-		{
-			if (sectionIndex < 0)
-			{
-				map.LogBuildEventArgs(new BuildLogEventArgument()
-				{
-					severity = BUILDLOGSEVERITY.ERROR,
-					source = "MapPiece::Section:Get=>",
-					sectionIndex = sectionIndex,
-					message = "has unset sectionIndex! Defaulting to 0 but this need fixing!",
-					mapLocations = [coord]
-				});
-				SetError(true);
-				sectionIndex = 0;
-			}
-			if (sectionIndex >= map.Sections.Count)
-			{
-				map.LogBuildEventArgs(new BuildLogEventArgument()
-				{
-					severity = BUILDLOGSEVERITY.ERROR,
-					source = "MapPiece::Section:Get=>",
-					sectionIndex = sectionIndex,
-					message = $"sectionIndex[{sectionIndex}] to high! Count[{map.Sections.Count}] Defaulting to last section but this need fixing!",
-					mapLocations = [coord]
-				});
-				SetError(true);
-				sectionIndex = map.Sections.Count - 1;
-			}
-			return map.Sections[sectionIndex];
-		}
-	}
+	
+	
 	#region Wall Flags
 	private protected WALLS walls = new WALLS();
 	internal WALLS Walls => walls;
@@ -212,10 +178,10 @@ public class MapPiece
 	/// <param name="isError"></param>
 	internal void SetError(bool isError)
 	{
-		RemoveDebug(new KeyData() { key = PIECEKEYS.ERROR, dir = MAPDIRECTION.ANY });
+		RemoveDebug(new KeyData() { key = PIECEKEYS.DEBUG, dir = MAPDIRECTION.ANY, variantID = (int)DEBUGVARIANTS.ERROR });
 		if (isError)
 		{
-			AddDebug(new KeyData() { key = PIECEKEYS.ERROR, dir = Orientation });
+			AddDebug(new KeyData() { key = PIECEKEYS.DEBUG, dir = Orientation, variantID = (int)DEBUGVARIANTS.ERROR });
 		}
 	}
 	/// <summary>
@@ -226,10 +192,10 @@ public class MapPiece
 	{
 		if (kData.dir == MAPDIRECTION.ANY)
 		{
-			debug.RemoveAll(p => p.key == kData.key);
+			debug.RemoveAll(p => p.key == kData.key && p.variantID == kData.variantID);
 			return;
 		}
-		debug.RemoveAll(p => p.key == kData.key && p.dir == kData.dir);
+		debug.RemoveAll(p => p.key == kData.key && p.dir == kData.dir && p.variantID == kData.variantID);
 	}
 	/// <summary>
 	/// floor, ceiling and walls. The floor check can be excluded.
@@ -377,4 +343,36 @@ public class MapPiece
 	{
 		map.SavePiece(this);
 	}
+
+
+
+	#region new as hell
+
+	//internal int SectionIndex { get => sectionIndex; set => sectionIndex = value; }
+
+	internal int MainSection => sectionIndexes.Count > 0 ? sectionIndexes.First() : -1;
+	internal HashSet<int> Sections => sectionIndexes;
+
+	private protected HashSet<int> sectionIndexes = new HashSet<int>();
+
+	internal void RemoveSection(int sectionIndex)
+	{
+		if (sectionIndexes.Contains(sectionIndex))
+		{
+			sectionIndexes.Remove(sectionIndex);
+		}
+	}
+	internal void AddSection(int sectionIndex)
+	{
+		if (!sectionIndexes.Contains(sectionIndex))
+		{
+			sectionIndexes.Add(sectionIndex);
+		}
+	}
+	internal bool IsPartOfSection(int sectionIndex)
+	{
+		return sectionIndexes.Contains(sectionIndex);
+	}
+
+	#endregion
 }// EOF CLASS

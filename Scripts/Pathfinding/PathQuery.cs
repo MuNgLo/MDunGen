@@ -23,13 +23,13 @@ internal class PathQuery
     internal ISection EndSection => map.Sections[endSection];
     internal int EndSectionIndex => map.Sections[endSection].SectionIndex;
 
-    internal List<MapPiece> Extras => BuildExtras();
+    //internal List<MapPiece> Extras => BuildExtras();
 
     internal PathQuery(MapData mapData, MapPiece mpStart, MapPiece mpEnd)
     {
         map = mapData;
-        startSection = mpStart.SectionIndex;
-        endSection = mpEnd.SectionIndex;
+        startSection = mpStart.MainSection;
+        endSection = mpEnd.MainSection;
         startLocation = mpStart.Coord;
         endLocation = mpEnd.Coord;
         if (startSection != endSection)
@@ -68,6 +68,7 @@ internal class PathQuery
             map.Connections[tempConn.connectionID] = tempConn;
             return tempConn;
     }
+	/*
     private List<MapPiece> BuildExtras()
     {
         List<MapPiece> extras = new List<MapPiece>();
@@ -78,7 +79,7 @@ internal class PathQuery
             if (mp is not null) { extras.Add(mp); }
         }
         return extras;
-    }
+    }*/
 
     internal void OverrideSections(int start, int end)
     {

@@ -26,7 +26,7 @@ public class RoomSection : SectionBase
 		MapPiece parent = map.GetExistingPiece(coord + DungeonUtils.Flip(orientation));
 		if (parent is not null)
 		{
-			ISection parentSection = map.Sections[parent.SectionIndex];
+			ISection parentSection = map.Sections[parent.MainSection]; // TODO this should be very broken??
 			int c1 = AddConnection(DungeonUtils.Flip(orientation), parentSection, start.Coord, parent.Coord, true);
 			int c2 = parentSection.AddConnection(orientation, this, parent.Coord, start.Coord, true);
 			map.Connections[c1].connectedToConnectionID = c2;
@@ -67,20 +67,20 @@ public class RoomSection : SectionBase
 		if (sectionDefinition.arches) { FitSmallArches(); }
 	}
 
-	private void ProcessPiece(MapPiece rp)
+	private void ProcessPiece(MapPiece mp)
 	{
-		if (rp.State != MAPPIECESTATE.PENDING)
+		if (mp.State != MAPPIECESTATE.PENDING)
 		{
 			return;
 		}
-		rp.Orientation = orientation;
-		rp.SectionIndex = sectionIndex;
+		mp.Orientation = orientation;
+		mp.AddSection(sectionIndex);
 
 		// Do all MAPDIRECTIONs
 		for (int i = 1; i < 7; i++)
 		{
 			MAPDIRECTION processingDirection = (MAPDIRECTION)i;
-			MapPiece nb = rp.Neighbour(processingDirection, true);
+			MapPiece nb = mp.Neighbour(processingDirection, true);
 			if (nb.State == MAPPIECESTATE.UNUSED)
 			{
 				if (nb.Coord.x >= minX && nb.Coord.x <= maxX
@@ -93,14 +93,14 @@ public class RoomSection : SectionBase
 					{
 						// blocked by piece no part of room so wall it
 						//rp.AssignWall(new KeyData() { key = PIECEKEYS.W, dir = processingDirection }, false);
-						rp.State = MAPPIECESTATE.LOCKED;
-						map.SavePiece(rp);
+						mp.State = MAPPIECESTATE.LOCKED;
+						map.SavePiece(mp);
 						return;
 					}
 
 					// Expand room to tile if within limits
 					nb.State = MAPPIECESTATE.PENDING;
-					nb.SectionIndex = sectionIndex;
+					nb.AddSection(sectionIndex);
 					nb.sectionFloor = Math.Abs(nb.Coord.y - pieces.First().Coord.y);
 
 					if (nb.sectionFloor == 0 || (sectionDefinition.allFloor && !nb.hasFloor && nb.sectionFloor < sizeY - 1))
@@ -113,7 +113,7 @@ public class RoomSection : SectionBase
 				}
 				else
 				{
-					if (rp.Coord + MAPDIRECTION.UP == nb.Coord)
+					if (mp.Coord + MAPDIRECTION.UP == nb.Coord)
 					{
 						//rp.keyCeiling = new KeyData() { key = PIECEKEYS.C, dir = processingDirection };
 					}
@@ -130,8 +130,8 @@ public class RoomSection : SectionBase
 				}
 			}
 		}
-		rp.State = MAPPIECESTATE.LOCKED;
-		map.SavePiece(rp);
+		mp.State = MAPPIECESTATE.LOCKED;
+		map.SavePiece(mp);
 	}
 
 	public void PunchBackDoor()
@@ -160,10 +160,10 @@ public class RoomSection : SectionBase
 			pick.SetError(true);
 			nb.SetError(true);
 
-			if (nb.SectionIndex != sectionIndex)
+			if (!nb.IsPartOfSection(sectionIndex))
 			{
 				// TODO Here the nb.SectionIndex been outside valid values
-				AddConnection(dir, map.Sections[nb.SectionIndex], pick.Coord, nb.Coord, true);
+				AddConnection(dir, map.Sections[nb.MainSection], pick.Coord, nb.Coord, true);
 				return;
 			}
 

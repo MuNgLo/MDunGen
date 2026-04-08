@@ -38,7 +38,7 @@ public class HallwaySection : SectionBase
 		SealSection(0, -1, 0);
 		foreach (MapPiece mapPiece in pieces)
 		{
-			mapPiece.SectionIndex = sectionIndex;
+			mapPiece.AddSection(sectionIndex);
 			map.SavePiece(mapPiece);
 		}
 

@@ -1,5 +1,3 @@
-
-
 using System.Collections.Generic;
 using MDunGen.Commons;
 using MDunGen.Sections;
@@ -24,12 +22,11 @@ internal static class BuildUtils
 
 	internal static void AddDebugKeys(MapPiece piece)
 	{
-		// TODO get wall debug as variants under the debug key
-		piece.AddDebug(new KeyData() { key = PIECEKEYS.DEBUG, dir = piece.Orientation });
-		if (piece.HasNorthWall) { piece.AddDebug(new KeyData() { key = PIECEKEYS.DEBUG, dir = MAPDIRECTION.NORTH }); }
-		if (piece.HasEastWall) { piece.AddDebug(new KeyData() { key = PIECEKEYS.DEBUG, dir = MAPDIRECTION.EAST }); }
-		if (piece.HasSouthWall) { piece.AddDebug(new KeyData() { key = PIECEKEYS.DEBUG, dir = MAPDIRECTION.SOUTH }); }
-		if (piece.HasWestWall) { piece.AddDebug(new KeyData() { key = PIECEKEYS.DEBUG, dir = MAPDIRECTION.WEST }); }
+		piece.AddDebug(new KeyData() { key = PIECEKEYS.DEBUG, dir = piece.Orientation, variantID = 1 });
+		if (piece.HasNorthWall) { piece.AddDebug(new KeyData() { key = PIECEKEYS.DEBUG, dir = MAPDIRECTION.NORTH, variantID = 2 }); }
+		if (piece.HasEastWall) { piece.AddDebug(new KeyData() { key = PIECEKEYS.DEBUG, dir = MAPDIRECTION.EAST, variantID = 2 }); }
+		if (piece.HasSouthWall) { piece.AddDebug(new KeyData() { key = PIECEKEYS.DEBUG, dir = MAPDIRECTION.SOUTH, variantID = 2 }); }
+		if (piece.HasWestWall) { piece.AddDebug(new KeyData() { key = PIECEKEYS.DEBUG, dir = MAPDIRECTION.WEST, variantID = 2 }); }
 	}
 
 
@@ -105,13 +102,12 @@ internal static class BuildUtils
 
 				}
 			}
-		}
-
+		}      
 		// add the keys
 		if (NE)
 		{
 			piece.AssignWall(new KeyData() { key = PIECEKEYS.WCI, dir = MAPDIRECTION.NORTH }, true);
-			if (piece.hasCeiling && piece.Section.PlaceArches)
+			if (piece.hasCeiling && map.Sections[piece.MainSection].PlaceArches)
 			{
 				piece.AddExtra(new KeyData() { key = PIECEKEYS.ARCH, dir = MAPDIRECTION.NORTH, variantID = 1 });
 			}
@@ -119,7 +115,7 @@ internal static class BuildUtils
 		if (SE)
 		{
 			piece.AssignWall(new KeyData() { key = PIECEKEYS.WCI, dir = MAPDIRECTION.EAST }, true);
-			if (piece.hasCeiling && piece.Section.PlaceArches)
+			if (piece.hasCeiling && map.Sections[piece.MainSection].PlaceArches)
 			{
 				piece.AddExtra(new KeyData() { key = PIECEKEYS.ARCH, dir = MAPDIRECTION.EAST, variantID = 1 });
 			}
@@ -127,7 +123,7 @@ internal static class BuildUtils
 		if (SW)
 		{
 			piece.AssignWall(new KeyData() { key = PIECEKEYS.WCI, dir = MAPDIRECTION.SOUTH }, true);
-			if (piece.hasCeiling && piece.Section.PlaceArches)
+			if (piece.hasCeiling && map.Sections[piece.MainSection].PlaceArches)
 			{
 				piece.AddExtra(new KeyData() { key = PIECEKEYS.ARCH, dir = MAPDIRECTION.SOUTH, variantID = 1 });
 			}
@@ -137,7 +133,7 @@ internal static class BuildUtils
 			if (adjacentN.HasWestWall && adjacentW.HasNorthWall)
 			{
 				piece.AssignWall(new KeyData() { key = PIECEKEYS.WCI, dir = MAPDIRECTION.WEST }, true);
-				if (piece.hasCeiling && piece.Section.PlaceArches)
+				if (piece.hasCeiling && map.Sections[piece.MainSection].PlaceArches)
 				{
 					piece.AddExtra(new KeyData() { key = PIECEKEYS.ARCH, dir = MAPDIRECTION.WEST, variantID = 1 });
 				}

@@ -225,11 +225,11 @@ public class MapData
         piece1.Neighbour(DungeonUtils.Flip(piece1.Orientation), true).AssignWall(new KeyData() { key = PIECEKEYS.WDW, dir = piece1.Orientation }, overrideLocked);
         piece2.Neighbour(DungeonUtils.Flip(piece1.Orientation), true).AssignWall(new KeyData() { key = PIECEKEYS.OCCUPIED, dir = piece1.Orientation }, overrideLocked);
     }
-    internal void MovePieceOwnershipToSection(MapPiece piece, int newOwnerSection)
-    {
-        ISection oldOwner = sections[piece.SectionIndex];
-        oldOwner.RemovePiece(piece.Coord, newOwnerSection);
-    }
+    //internal void MovePieceOwnershipToSection(MapPiece piece, int newOwnerSection)
+    //{
+    //    ISection oldOwner = sections[piece.SectionIndex];
+    //    oldOwner.RemovePiece(piece.Coord, newOwnerSection);
+    //}
     #endregion
 
 
@@ -264,7 +264,7 @@ public class MapData
     internal void AddOpeningBetweenSections(SectionConnection connection, bool overrideLocked)
     {
         MapPiece p1 = GetExistingPiece(connection.coord);
-        sections[p1.SectionIndex].AddOpening(p1.Coord, connection.Dir, false, overrideLocked, log);
+        sections[p1.MainSection].AddOpening(p1.Coord, connection.Dir, false, overrideLocked, log);
     }
 
 

@@ -1,6 +1,7 @@
 // Gone through at v1.3
 #if TOOLS
 using Godot;
+using MDunGen.Commons;
 using MDunGen.Resources;
 using MDunGen.UI;
 using System;

@@ -1,5 +1,6 @@
 // Gone through at v1.3
 using Godot;
+using MDunGen.Commons;
 using System;
 using System.Linq;
 
@@ -37,7 +38,7 @@ public partial class BiomeResource : DungeonAddonResource
 		if (entry is null) { return false; }
 		if (entry.resources.Length < 1)
 		{
-			GD.PrintErr($"BiomeDefinition::GetResouce({key}, {variantID}) No resources setup under that key!");
+			GD.PrintErr($"BiomeDefinition::GetResource({key}, {variantID}) No resources setup under that key!");
 			return false;
 		}
 
@@ -65,13 +66,16 @@ public partial class BiomeResource : DungeonAddonResource
 		//debug defaults
 		PIECEKEYS[] defDebugKeys = new PIECEKEYS[]
 		{
-				PIECEKEYS.DEBUG,
-				PIECEKEYS.ERROR
+				PIECEKEYS.DEBUG
 		};
-		string[] defDebugEntries = new string[]
+		string[][] defDebugEntries = new string[][]
 		{
-				standardMeshPath + "dbArrow.res",
-				standardMeshPath + "dbError.res"
+				[standardMeshPath + "dbError.res",
+				 standardMeshPath + "dbArrow.res",
+				 standardMeshPath + "dbWallFlagGreen.res",
+				 standardMeshPath + "dbWallFlagRed.res",
+				 standardMeshPath + "dbFaulty.res",
+				 standardMeshPath + "dbEnd.res"]
 		};
 		debug = new BiomeEntryResource[defDebugKeys.Length];
 		SetupArray(ref debug, defDebugKeys, defDebugEntries);
@@ -142,22 +146,6 @@ public partial class BiomeResource : DungeonAddonResource
 
 
 
-	private void SetupArray(ref BiomeEntryResource[] arr, PIECEKEYS[] keys, string[] paths)
-	{
-		for (int i = 0; i < paths.Length; i++)
-		{
-			arr[i] = new BiomeEntryResource()
-			{
-				key = keys[i],
-				resources = new Resource[1]
-				{
-						ResourceLoader.Load(paths[i])
-				}
-			};
-
-		}
-	}
-
 	private void SetupArray(ref BiomeEntryResource[] arr, PIECEKEYS[] keys, string[][] variants)
 	{
 		for (int i = 0; i < arr.Length; i++)
@@ -175,8 +163,4 @@ public partial class BiomeResource : DungeonAddonResource
 
 		}
 	}
-
-
-
-
 }// EOF CLASS
