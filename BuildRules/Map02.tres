@@ -9,18 +9,17 @@
 
 [sub_resource type="Resource" id="Resource_000ex"]
 script = ExtResource("5_sddi7")
-loop = 5
+loop = 4
 metadata/_custom_type_script = "uid://bjvp5xjwrs50t"
 
 [sub_resource type="Resource" id="Resource_j6i1r"]
 script = ExtResource("5_sddi7")
 loop = 3
-stepBack = 3
+stepBack = 2
 metadata/_custom_type_script = "uid://bjvp5xjwrs50t"
 
 [resource]
 script = ExtResource("1_gmbim")
-nbOfLevel = 1
 defaultBiome = ExtResource("1_ckoh0")
 designRules/entry_0 = ExtResource("2_fwmfe")
 designRules/entry_1 = ExtResource("3_tw4m1")

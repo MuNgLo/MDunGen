@@ -90,19 +90,26 @@ public partial class MainScreen : Control
 	}
 
 
-	public void GenerateSection(int levelIndex, string sectionTypeName, SectionResource sectionDef, ulong[] seed, BiomeResource biome, bool debug)
+	public async void GenerateSection(int levelIndex, string sectionTypeName, SectionResource sectionDef, ulong[] seed, BiomeResource biome, bool debug)
 	{
 		RaiseNotification($"Building Section {sectionDef.sectionName}");
-		BuildSection(levelIndex, sectionTypeName, sectionDef, seed, biome, debug, ReDrawDungeon);
-	}
-	public async void BuildSection(int levelIndex, string sectionTypeName, SectionResource sectionDef, ulong[] seed, BiomeResource biome, bool debug, Action callback)
-	{
 		this.design = null;
 		RaiseNotification($"Generating:" + string.Format("{0:0}", 0) + "%");
 		await ToSignal(GetTree(), "process_frame");
-		map = new MapData(design, seed, RaiseBuildLogEvent);
 		// TODO fix this so section mode uses the design approach
-		//await map.GenerateSection(levelIndex, sectionTypeName, seed, sectionDef, debug, callback);
+
+		BuildSection design = new BuildSection()
+		{
+			location = LOCATION.CENTER,
+			section = sectionDef
+		};
+
+		MapDesignResource mapDesign = new MapDesignResource();
+		mapDesign.SetSingleSectionDesign(design);
+
+		map = new MapData(mapDesign, seed, RaiseBuildLogEvent);
+		await map.GenerateMap(() => { dunVis.ReDrawMap();}, true);
+
 		OnMapDataGenerationEnded?.Invoke(EventArgs.Empty, EventArgs.Empty);
 	}
 	private MapData map;

@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="MapDesignResource" format=3 uid="uid://dyo35jmwmxmvm"]
+
+[ext_resource type="Script" uid="uid://dw0wm35agoew6" path="res://addons/MDunGen/Scripts/Design/MapDesignResource.cs" id="1_ml1c2"]
+
+[resource]
+script = ExtResource("1_ml1c2")
+metadata/_custom_type_script = "uid://dw0wm35agoew6"

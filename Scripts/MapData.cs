@@ -66,19 +66,6 @@ public class MapData
 		await builder.Build(design, debug);
 		callback.Invoke();
 	}
-	/*internal async Task GenerateFloor(int floorIndex, BuildLevel floorDef, Action callback)
-    {
-		log.Invoke(new BuildLogEventArgument(){source = "MapData: GenerateFloor()", message = "Generating floor......", levelIndex = floorIndex });
-        await builder.BuildFloor(floorIndex, floorDef);
-        callback.Invoke();
-    }*/
-
-	/*internal async Task GenerateSection(int levelIndex, string sectionTypeName, ulong[] seed, SectionResource sectionDef, bool debug, Action callback)
-    {
-		log.Invoke(new BuildLogEventArgument(){source = "MapData::GenerateSection()", message = $"Generation started..... defIsNull[{sectionDef is null}]"});
-        await builder.BuildSection(levelIndex, sectionTypeName, sectionDef, seed, debug);
-        callback.Invoke();
-    }*/
 
 	internal void SavePiece(MapPiece piece)
 	{
@@ -88,39 +75,6 @@ public class MapData
 	{
 		ISection rngSection = Sections[GD.RandRange(0, Sections.Count - 1)];
 		return rngSection.GetRandomPiece();
-	}
-	/// <summary>
-	/// Uses piece verification and then return the piece.<br/>
-	/// Will create piece if needed.
-	/// </summary>
-	/// <param name="coord"></param>
-	/// <returns></returns>
-	internal MapPiece GetPiece(MapCoordinate coord)
-	{
-		VerifyPiece(coord);
-		return pieces[coord.x][coord.y][coord.z];
-	}
-
-
-	/// <summary>
-	/// Get piece if it exists or return null
-	/// Use this when iterating across map to not change map
-	/// </summary>
-	/// <param name="coord"></param>
-	/// <returns></returns>
-	internal MapPiece GetExistingPiece(MapCoordinate coord)
-	{
-		if (pieces.ContainsKey(coord.x))
-		{
-			if (pieces[coord.x].ContainsKey(coord.y))
-			{
-				if (pieces[coord.x][coord.y].ContainsKey(coord.z))
-				{
-					return pieces[coord.x][coord.y][coord.z];
-				}
-			}
-		}
-		return null;
 	}
 
 	/// <summary>
@@ -148,32 +102,50 @@ public class MapData
 		return picked;
 	}
 
-	/// <summary>
-	/// Verifies piece instance exists. Makes one if needed
-	/// </summary>
-	/// <param name="x"></param>
-	/// <param name="y"></param>
-	/// <param name="z"></param>
-	/// <param name="verbose"></param>
-	private void VerifyPiece(MapCoordinate coord, bool verbose = false)
-	{
-		if (pieces == null) { pieces = new System.Collections.Generic.Dictionary<int, System.Collections.Generic.Dictionary<int, System.Collections.Generic.Dictionary<int, MapPiece>>>(); }
 
-		if (!pieces.Keys.Contains(coord.x)) { pieces[coord.x] = new System.Collections.Generic.Dictionary<int, System.Collections.Generic.Dictionary<int, MapPiece>>(); }
-		if (!pieces[coord.x].Keys.Contains(coord.y)) { pieces[coord.x][coord.y] = new System.Collections.Generic.Dictionary<int, MapPiece>(); }
+
+	/// <summary>
+	/// Get piece if it exists or return null
+	/// Use this when iterating across map to not change map
+	/// </summary>
+	/// <param name="coord"></param>
+	/// <returns></returns>
+	internal MapPiece GetExistingPiece(MapCoordinate coord)
+	{
+		if (pieces.ContainsKey(coord.x))
+		{
+			if (pieces[coord.x].ContainsKey(coord.y))
+			{
+				if (pieces[coord.x][coord.y].ContainsKey(coord.z))
+				{
+					return pieces[coord.x][coord.y][coord.z];
+				}
+			}
+		}
+		return null;
+	}
+	/// <summary>
+	/// Makes one if needed and then return the piece.
+	/// </summary>
+	/// <param name="coord"></param>
+	/// <returns></returns>
+	internal MapPiece GetPiece(MapCoordinate coord, bool verbose = false)
+	{
+		if (pieces == null) { pieces = new Dictionary<int, Dictionary<int, Dictionary<int, MapPiece>>>(); }
+		if (!pieces.Keys.Contains(coord.x)) { pieces[coord.x] = new Dictionary<int, Dictionary<int, MapPiece>>(); }
+		if (!pieces[coord.x].Keys.Contains(coord.y)) { pieces[coord.x][coord.y] = new Dictionary<int, MapPiece>(); }
 		if (!pieces[coord.x][coord.y].Keys.Contains(coord.z))
 		{
 			if (verbose) { GD.PrintErr($"VerifyPieceSpace", $"insert blank piece [{coord.x}.{coord.y}.{coord.z}]"); }
-
 			pieces[coord.x][coord.y][coord.z] = new MapPiece(this, coord);
 		}
-
+		return pieces[coord.x][coord.y][coord.z];
 	}
 
 
 
 
-	public MapPiece GetNextPieceOver(MapPiece startPiece, MAPDIRECTION orientation)
+	/*public MapPiece GetNextPieceOver(MapPiece startPiece, MAPDIRECTION orientation)
 	{
 
 		switch (orientation)
@@ -198,27 +170,9 @@ public class MapData
 				break;
 		}
 		return startPiece;
-	}
-
-	/*#region Functional to manipulate map pieces
-    internal void AddDoorWide(MapPiece piece1, bool overrideLocked)
-    {
-        MapPiece piece2 = piece1.Neighbour(DungeonUtils.TwistRight(piece1.Orientation), true);
-        piece1.AssignWall(new KeyData() { key = PIECEKEYS.OCCUPIED, dir = DungeonUtils.Flip(piece1.Orientation) }, overrideLocked);
-        piece2.AssignWall(new KeyData() { key = PIECEKEYS.WDW, dir = DungeonUtils.Flip(piece1.Orientation) }, overrideLocked);
-        piece1.Neighbour(DungeonUtils.Flip(piece1.Orientation), true).AssignWall(new KeyData() { key = PIECEKEYS.WDW, dir = piece1.Orientation }, overrideLocked);
-        piece2.Neighbour(DungeonUtils.Flip(piece1.Orientation), true).AssignWall(new KeyData() { key = PIECEKEYS.OCCUPIED, dir = piece1.Orientation }, overrideLocked);
-    }
-    //internal void MovePieceOwnershipToSection(MapPiece piece, int newOwnerSection)
-    //{
-    //    ISection oldOwner = sections[piece.SectionIndex];
-    //    oldOwner.RemovePiece(piece.Coord, newOwnerSection);
-    //}
-    #endregion
-	*/
+	}*/
 
 	#region Connection and Opening related
-
 	internal bool AddNewConnection(ISection fromSection, ISection toSection, MapCoordinate fromLocation, MapCoordinate toLocation, MAPDIRECTION dir, out int id)
 	{
 		id = Connections.Keys.Count + 1;
@@ -250,11 +204,5 @@ public class MapData
 		MapPiece p1 = GetExistingPiece(connection.coord);
 		sections[p1.MainSection].AddOpening(p1.Coord, connection.Dir, false, overrideLocked, log);
 	}
-
-
-
-
-
-
 	#endregion
 }// EOF CLASS

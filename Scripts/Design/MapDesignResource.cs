@@ -6,12 +6,12 @@ using MDunGen.Resources;
 namespace MDunGen.Design;
 
 [Tool, GlobalClass]
-internal partial class MapDesignResource : Resource
+internal partial class MapDesignResource : DungeonAddonResource
 {
 	/// <summary>
 	/// How many levels the map will have
 	/// </summary>
-	[Export] internal int nbOfLevel;
+	[Export] internal int nbOfLevel = 1;
 	/// <summary>
 	/// The biome used when visualizing the data when no other one defined
 	/// </summary>
@@ -23,7 +23,17 @@ internal partial class MapDesignResource : Resource
 
 	internal Array<Resource> designRules = new Array<Resource>();
 
-	//internal MapDesignResource() { }
+	internal MapDesignResource()
+	{
+		designRules = new Array<Resource>();
+		defaultBiome = ResourceLoader.Load<BiomeResource>("res://addons/MDunGen/Config/Biomes/def_biome.tres");
+		designRules.Add(ResourceLoader.Load<Resource>("res://addons/MDunGen/BuildRules/StartRoom.tres"));
+	}
+
+	internal void SetSingleSectionDesign(DesignResource design)
+	{
+		designRules = new Array<Resource>(){ design };
+	}
 
 	public override Array<Dictionary> _GetPropertyList()
 	{
@@ -57,7 +67,7 @@ internal partial class MapDesignResource : Resource
 			str = str.Replace("designRules/entry_", "");
 			if (int.TryParse(str, out int index))
 			{
-				if(index > designRules.Count - 1)
+				if (index > designRules.Count - 1)
 				{
 					designRules.Add(null);
 				}
@@ -92,6 +102,10 @@ internal partial class MapDesignResource : Resource
 	public override bool _PropertyCanRevert(StringName property)
 	{
 		string str = property.ToString();
+		if (str == "defaultBiome")
+		{
+			return true;
+		}
 		if (str.Contains("designRules/entry_"))
 		{
 			return true;
@@ -102,7 +116,7 @@ internal partial class MapDesignResource : Resource
 	public override Variant _PropertyGetRevert(StringName property)
 	{
 		string str = property.ToString();
-		if(str == "defaultBiome")
+		if (str == "defaultBiome")
 		{
 			return ResourceLoader.Load<Resource>("res://addons/MDunGen/Config/Biomes/def_biome.tres");
 		}
@@ -120,8 +134,8 @@ internal partial class MapDesignResource : Resource
 		}
 		return base._PropertyGetRevert(property);
 	}
-	
-	
+
+
 
 
 	private void AddDesignResource()
