@@ -1,5 +1,9 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using Godot;
 using MDunGen.Commons;
+using MDunGen.Design;
 using MDunGen.Sections;
 
 namespace MDunGen.Builder;
@@ -22,11 +26,11 @@ internal static class BuildUtils
 
 	internal static void AddDebugKeys(MapPiece piece)
 	{
-		piece.AddDebug(new KeyData() { key = PIECEKEYS.DEBUG, dir = piece.Orientation, variantID = 1 });
-		if (piece.HasNorthWall) { piece.AddDebug(new KeyData() { key = PIECEKEYS.DEBUG, dir = MAPDIRECTION.NORTH, variantID = 2 }); }
-		if (piece.HasEastWall) { piece.AddDebug(new KeyData() { key = PIECEKEYS.DEBUG, dir = MAPDIRECTION.EAST, variantID = 2 }); }
-		if (piece.HasSouthWall) { piece.AddDebug(new KeyData() { key = PIECEKEYS.DEBUG, dir = MAPDIRECTION.SOUTH, variantID = 2 }); }
-		if (piece.HasWestWall) { piece.AddDebug(new KeyData() { key = PIECEKEYS.DEBUG, dir = MAPDIRECTION.WEST, variantID = 2 }); }
+		piece.AddDebug(new KeyData() { key = PIECEKEYS.DEBUG, dir = piece.Orientation, variantID = (int)DEBUGVARIANTS.ARROW });
+		if (piece.HasNorthWall) { piece.AddDebug(new KeyData() { key = PIECEKEYS.DEBUG, dir = MAPDIRECTION.NORTH, variantID = (int)DEBUGVARIANTS.WALLFLAGGREEN }); }
+		if (piece.HasEastWall) { piece.AddDebug(new KeyData() { key = PIECEKEYS.DEBUG, dir = MAPDIRECTION.EAST, variantID = (int)DEBUGVARIANTS.WALLFLAGGREEN }); }
+		if (piece.HasSouthWall) { piece.AddDebug(new KeyData() { key = PIECEKEYS.DEBUG, dir = MAPDIRECTION.SOUTH, variantID = (int)DEBUGVARIANTS.WALLFLAGGREEN }); }
+		if (piece.HasWestWall) { piece.AddDebug(new KeyData() { key = PIECEKEYS.DEBUG, dir = MAPDIRECTION.WEST, variantID = (int)DEBUGVARIANTS.WALLFLAGGREEN }); }
 	}
 
 
@@ -102,7 +106,7 @@ internal static class BuildUtils
 
 				}
 			}
-		}      
+		}
 		// add the keys
 		if (NE)
 		{
@@ -178,4 +182,65 @@ internal static class BuildUtils
 	}
 
 
+	internal static bool ResolveLocationRule(MapData map, MapBuilder builder, BuildSection rule, Action<BuildLogEventArgument> log, out MapPiece mp)
+	{
+		ISection prevSec; MAPDIRECTION dir;
+		switch (rule.location)
+		{
+			case LOCATION.ATTACHEDTOPREVIOUSSECTION:
+				prevSec = map.Sections.Last();
+				if (prevSec is null) { break; }
+				if (prevSec.GetOuterWallFreeNeighbour(out mp, out dir))
+				{
+					mp.Orientation = dir;
+					return true;
+				}
+				break;
+			case LOCATION.ATTACHEDTOSECTION:
+
+				int targetIndex = rule.targetedIndex;
+				bool hasKey = builder.indexToSection.ContainsKey(targetIndex);
+				if (!hasKey)
+				{
+					log(new BuildLogEventArgument()
+					{
+						severity = BUILDLOGSEVERITY.ERROR,
+						message = $"MapBuilder index to section lookup failed for targetIndex[{targetIndex}] sectionIndex came back as [{builder.indexToSection[rule.targetedIndex]}]"
+					});
+
+					prevSec = map.Sections.Last();
+				}
+				else
+				{
+					int sectionIndex = builder.indexToSection[rule.targetedIndex];
+					if (sectionIndex < map.Sections.Count && sectionIndex > -1)
+					{
+						prevSec = map.Sections[builder.indexToSection[rule.targetedIndex]];
+					}
+					else
+					{
+						log(new BuildLogEventArgument()
+						{
+							severity = BUILDLOGSEVERITY.ERROR,
+							message = $"Map sectionIndex[{sectionIndex}] OutOfRange. There is [{map.Sections.Count}] sections in MapData"
+						});
+
+						prevSec = map.Sections.Last();
+					}
+				}
+
+				if (prevSec is null) { break; }
+				if (prevSec.GetOuterWallFreeNeighbour(out mp, out dir))
+				{
+					mp.Orientation = dir;
+					return true;
+				}
+				break;
+			case LOCATION.CENTER:
+				mp = map.GetPiece(MapCoordinate.Zero); // TODO fix this
+				return true;
+		}
+		mp = null;
+		return false;
+	}
 }// EOF CLASS

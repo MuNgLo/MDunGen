@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="MapDesignResource" format=3 uid="uid://cuhyi1nl1stap"]
+
+[ext_resource type="Resource" uid="uid://de3h6je3yyg37" path="res://addons/MDunGen/Config/Biomes/def_biome.tres" id="1_ckoh0"]
+[ext_resource type="Script" uid="uid://dw0wm35agoew6" path="res://addons/MDunGen/Scripts/Design/MapDesignResource.cs" id="1_gmbim"]
+[ext_resource type="Resource" uid="uid://dodisoc5yvivl" path="res://addons/MDunGen/BuildRules/StartRoom.tres" id="2_fwmfe"]
+[ext_resource type="Resource" uid="uid://bruploi5u2fur" path="res://addons/MDunGen/BuildRules/StandardRoom.tres" id="3_j6i1r"]
+[ext_resource type="Resource" uid="uid://b38r10q5kwe23" path="res://addons/MDunGen/BuildRules/PathLongTangled.tres" id="3_tw4m1"]
+[ext_resource type="Script" uid="uid://bjvp5xjwrs50t" path="res://addons/MDunGen/Scripts/Design/Loop.cs" id="5_sddi7"]
+
+[sub_resource type="Resource" id="Resource_000ex"]
+script = ExtResource("5_sddi7")
+loop = 5
+metadata/_custom_type_script = "uid://bjvp5xjwrs50t"
+
+[sub_resource type="Resource" id="Resource_j6i1r"]
+script = ExtResource("5_sddi7")
+loop = 3
+stepBack = 3
+metadata/_custom_type_script = "uid://bjvp5xjwrs50t"
+
+[resource]
+script = ExtResource("1_gmbim")
+nbOfLevel = 1
+defaultBiome = ExtResource("1_ckoh0")
+designRules/entry_0 = ExtResource("2_fwmfe")
+designRules/entry_1 = ExtResource("3_tw4m1")
+designRules/entry_2 = ExtResource("3_j6i1r")
+designRules/entry_3 = SubResource("Resource_000ex")
+designRules/entry_4 = SubResource("Resource_j6i1r")
+metadata/_custom_type_script = "uid://dw0wm35agoew6"

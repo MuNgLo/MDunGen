@@ -1,9 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://b0k5luvs28qyn"]
+[gd_scene format=3 uid="uid://b0k5luvs28qyn"]
 
 [ext_resource type="ArrayMesh" uid="uid://b50kwq287keph" path="res://addons/MDunGen/Meshes/Standard/Standard_Ceiling.res" id="1_sactn"]
 
-[node name="Ceiling" type="Node3D"]
+[node name="Ceiling" type="Node3D" unique_id=866243625]
 
-[node name="DefaultMeshesCeilingMesh" type="MeshInstance3D" parent="."]
+[node name="DefaultMeshesCeilingMesh" type="MeshInstance3D" parent="." unique_id=983831519]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
 mesh = ExtResource("1_sactn")

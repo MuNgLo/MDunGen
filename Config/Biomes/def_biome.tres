@@ -68,11 +68,11 @@ resources = [ExtResource("24_nc63f")]
 [resource]
 script = ExtResource("17_08lf2")
 debug = [SubResource("Resource_ofac7")]
-wallMaterials = null
+wallMaterials = []
 walls = [SubResource("Resource_6cc41"), SubResource("Resource_bbhx8"), SubResource("Resource_numd5"), SubResource("Resource_t5kn0")]
-floorMaterials = null
+floorMaterials = []
 floors = [SubResource("Resource_sqnh8")]
-ceilingMaterials = null
+ceilingMaterials = []
 ceilings = [SubResource("Resource_p06t7")]
 extras = [SubResource("Resource_b5faw")]
 metadata/_custom_type_script = "uid://c3jmyg31j7sts"

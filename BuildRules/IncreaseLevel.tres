@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="IncreaseLevel" format=3 uid="uid://ugbt4n74iptd"]
+
+[ext_resource type="Script" uid="uid://cux2j514y4hck" path="res://addons/MDunGen/Scripts/Design/IncreaseLevel.cs" id="1_3qtxb"]
+
+[resource]
+script = ExtResource("1_3qtxb")
+metadata/_custom_type_script = "uid://cux2j514y4hck"

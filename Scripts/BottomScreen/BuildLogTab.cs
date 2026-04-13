@@ -18,9 +18,9 @@ public partial class BuildLogTab : MarginContainer
 		if(debug){ GD.Print($"BuildLogTab::_EnterTree()"); }
 		logRichText.MetaClicked += WhenMetaClicked;
 		leFilter.TextChanged += WhenFilterChanged;
-		BS.addon.MS.Visualizer.OnMapBuildFloorStarted += ClearLog;
-		BS.addon.MS.Visualizer.OnMapBuildEnded += AddBuildEnd;
-		BS.addon.MS.Visualizer.OnMapBuildLog += AddBuildLog;
+		BS.addon.MS.OnMapDataGenerationStarted += ClearLog;
+		BS.addon.MS.OnMapDataGenerationEnded += AddBuildEnd;
+		BS.addon.MS.OnMapBuildLog += AddBuildLog;
 		RequestReady();
 	}
 	MS.CameraControls camera;

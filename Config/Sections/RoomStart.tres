@@ -9,4 +9,5 @@ sectionType = "RoomSection"
 sizeWidthMin = 5
 sizeDepthMin = 5
 nbFloorsMax = 1
+waterLevel = 4.94
 firstPieceDoor = false

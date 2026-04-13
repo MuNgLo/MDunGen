@@ -2,22 +2,14 @@
 using Godot;
 namespace MDunGen.Resources;
 
-[GlobalClass, Tool]
+[GlobalClass, Tool, System.Obsolete("Design takes over")]
 public partial class GenerationSettingsResource : DungeonAddonResource
 {
+	/*
 	[ExportGroup("General")]
-	[Export] public int nbOfFloors = 1;
-	[Export] public FloorResource floorDef;
+	[Export] public int nbOfLevel = 1;
+	[Export] internal BuildLevel levelDef;
 	[Export] public bool calculatePathing = true;
-
-	[ExportGroup("Seed")]
-	[Export] public int seed1 = 1111;
-	[Export] public int seed2 = 2222;
-	[Export] public int seed3 = 3333;
-	[Export] public int seed4 = 4444;
-
-	public ulong[] MasterSeed => new[] { (ulong)seed1, (ulong)seed2, (ulong)seed3, (ulong)seed4 };
-
-	//public GenerationSettingsResource() { }
+*/
 }// EOF CLASS
 

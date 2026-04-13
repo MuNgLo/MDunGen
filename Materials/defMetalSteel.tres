@@ -1,6 +1,6 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://v6o5o71ndwt"]
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://v6o5o71ndwt"]
 
-[ext_resource type="Texture2D" uid="uid://ce53bqirgbqxr" path="res://addons/MDunGen/Materials/Textures/WallPixelMap.png" id="1_b8vn3"]
+[ext_resource type="Texture2D" uid="uid://dbtdn375m7cn7" path="res://addons/MDunGen/Materials/Textures/WallPixelMap.png" id="1_b8vn3"]
 
 [resource]
 specular_mode = 2

@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Godot;
 using MDunGen.Commons;
+using MDunGen.Design;
 using MDunGen.Pathfinding;
 using MDunGen.Resources;
 using MDunGen.Sections;
@@ -12,9 +13,9 @@ using MDunGen.Sections;
 namespace MDunGen.Builder;
 /// <summary>
 /// The class to instantiate when you want to construct map data<br/>
-/// THe build log is fed out through the given Log Action
+/// The build log is fed out through the given Log Action
 /// </summary>
-internal class FloorBuilder
+internal class LevelBuilder
 {
 	/// <summary>
 	/// The seed for the build<br>
@@ -22,58 +23,58 @@ internal class FloorBuilder
 	/// </summary>
 	readonly ulong[] seed;
 	/// <summary>
-	/// The actual map generated
+	/// The map data the level is part of
 	/// </summary>
 	MapData map;
+
+	MapBuilder mapBuilder;
+
+
 	/// <summary>
-	/// The floor RNG generator for the whole build process
+	/// The level RNG generator for the whole build process
 	/// </summary>
-	PRNGMarsenneTwister floorRNG;
-	int levelIndex = -1;
+	readonly PRNGMarsenneTwister levelRNG;
+	/// <summary>
+	/// The level index is relative to the generation. Starting on 0<br/>
+	/// for the first level generated
+	/// </summary>
+	readonly int levelIndex = -1;
 	/// <summary>
 	/// Action for the builder to be able to push log messages
 	/// </summary>
-	Action<BuildLogEventArgument> log;
+	readonly Action<BuildLogEventArgument> log;
 
+	MapDesignResource Args => map.Design;
 
-	GenerationSettingsResource Args => map.MapArgs;
-
-	internal FloorBuilder(int levelIndex, MapData map, ulong[] seed, Action<BuildLogEventArgument> log)
+	internal LevelBuilder(int levelIndex, MapData map, MapBuilder mapBuilder, ulong[] seed, Action<BuildLogEventArgument> log)
 	{
 		this.levelIndex = levelIndex;
 		this.log = log;
 		this.map = map;
+		this.mapBuilder = mapBuilder;
 		this.seed = seed;
-		floorRNG = new PRNGMarsenneTwister(this.seed);
+		levelRNG = new PRNGMarsenneTwister(this.seed);
 	}
 
-	#region FIX IT!
-	Vector3I dungeonCenter = Vector3I.Zero;
-	int floorIndex = 0;
-	int floorHeight = 1;
-	private MapCoordinate FloorCenter()
-	{
-		return new(dungeonCenter + Vector3I.Up * floorIndex * floorHeight);
-	}
-	#endregion
+	
 
-	internal async Task BuildFloor(FloorResource floor, bool doPathing)
+	internal async Task Build(BuildSections level)
 	{
-		log.Invoke(new() { source = "FloorBuilder::BuildFloor()", message = "Starting build rules for floor.", levelIndex = levelIndex });
+		log.Invoke(new() { source = "FloorBuilder::BuildFloor()", message = $"Starting build rules for floor. Count[{level.rules.Length}]", levelIndex = levelIndex });
 
-		foreach (BuildRuleResource ruleResource in floor.rules)
+		foreach (BuildSection ruleResource in level.rules)
 		{
 			if (ruleResource is null)
 			{
 				log.Invoke(new() { severity = BUILDLOGSEVERITY.WARNING, source = "FloorBuilder::BuildFloor()", message = "Rule is NULL", levelIndex = levelIndex });
 				continue;
 			}
-			switch (ruleResource.category)
-			{
-				case CATEGORYRULE.BUILD:
-					await ResolveBuildRule(levelIndex, ruleResource);
-					break;
-			}
+			//switch (ruleResource.category)
+			//{
+			//	case CATEGORYRULE.BUILD:
+			//		await ResolveBuildRule(levelIndex, ruleResource);
+			//		break;
+			//}
 		}
 
 		log.Invoke(new() { source = "FloorBuilder::BuildFloor()", message = "Build rules completed.", levelIndex = levelIndex });
@@ -85,28 +86,28 @@ internal class FloorBuilder
 		BuildUtils.AddDebugKeys(ref map);
 		BuildUtils.LatePassRooms(ref map);
 		BuildUtils.RemoveAllEmpty(ref map);
-		// Do pathing for all connections
-		if (doPathing)
-		{
-			log.Invoke(new() { source = "FloorBuilder::BuildFloor()", message = "adding pathing.", levelIndex = levelIndex });
-			DoPathingPass();
-		}
+		// TODO pathing for all connections
+		//if (doPathing)
+		//{
+		//	log.Invoke(new() { source = "FloorBuilder::BuildFloor()", message = "adding pathing.", levelIndex = levelIndex });
+		//	DoPathingPass();
+		//}
 		log.Invoke(new() { source = "MapBuilder::BuildFloorMapData()", message = "Finished." });
 	}
 
-	private async Task ResolveBuildRule(int levelIndex, BuildRuleResource rule)
+	private async Task ResolveBuildRule(int levelIndex, BuildSection rule)
 	{
 		ISection prevSec = map.Sections.Count > 0 ? map.Sections.Last() : null;
-		for (int i = 0; i < rule.amount; i++)
-		{
-			if (ResolveLocationRule(rule.location, out MapPiece mp, prevSec))
+		//for (int i = 0; i < rule.amount; i++)
+		//{
+			if (BuildUtils.ResolveLocationRule(map, mapBuilder, rule, log, out MapPiece mp))
 			{
 				ISection section = ResolveSectionInstance(levelIndex, mp.Coord, mp.Orientation, rule.section);
 				section.Build(log);
 				map.Sections.Add(section);
 			}
 			await Task.Delay(1);
-		}
+		//}
 	}
 	private void BuildOpeningsFromConnections()
 	{
@@ -120,15 +121,6 @@ internal class FloorBuilder
 			map.AddOpeningBetweenSections(con.Value, true);
 		}
 	}
-
-
-
-
-
-
-
-
-
 	private void DoPathingPass()
 	{
 		// Process all connections
@@ -182,30 +174,7 @@ internal class FloorBuilder
 		//GD.Print(map.Connections.First().ToString());
 	}
 
-	/// <summary>
-	/// Returns 0,0,0 as default
-	/// </summary>
-	/// <param name="location"></param>
-	/// <returns></returns>
-	private bool ResolveLocationRule(STARTLOCATIONRULE location, out MapPiece mp, ISection prevSec)
-	{
-		switch (location)
-		{
-			case STARTLOCATIONRULE.ATTACHEDTOPREVIOUS:
-				if (prevSec is null) { break; }
-				if (prevSec.GetOuterWallFreeNeighbour(out mp, out MAPDIRECTION dir))
-				{
-					mp.Orientation = dir;
-					return true;
-				}
-				break;
-			case STARTLOCATIONRULE.CENTER:
-				mp = map.GetPiece(FloorCenter());
-				return true;
-		}
-		mp = null;
-		return false;
-	}
+	
 
 	private ISection ResolveSectionInstance(int levelIndex, MapCoordinate location, MAPDIRECTION direction, SectionResource sectionDef)
 	{
@@ -220,7 +189,7 @@ internal class FloorBuilder
 			levelIndex = levelIndex,
 			cfg = Args,
 			sectionDefinition = sectionDef,
-			sectionSeed = [(ulong)floorRNG.Next(9999), (ulong)floorRNG.Next(9999), (ulong)floorRNG.Next(9999), (ulong)floorRNG.Next(9999)]
+			sectionSeed = [(ulong)levelRNG.Next(9999), (ulong)levelRNG.Next(9999), (ulong)levelRNG.Next(9999), (ulong)levelRNG.Next(9999)]
 		};
 
 		Assembly assembly = Assembly.GetExecutingAssembly();

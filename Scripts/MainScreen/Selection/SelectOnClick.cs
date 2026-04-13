@@ -53,7 +53,7 @@ public partial class SelectOnClick : SubViewportContainer
 			point = results["position"].AsVector3();
 
 			(subViewPort.FindChild("Target") as Node3D).GlobalPosition = point;
-			MapPiece mp = visualizer.GetMapPiece(DungeonUtils.GlobalSnapCoordinate((Vector3I)point));
+			MapPiece mp = mainScreen.GetMapPiece(DungeonUtils.GlobalSnapCoordinate((Vector3I)point));
 			actionToCall.Invoke(mp);
 		}
 	}

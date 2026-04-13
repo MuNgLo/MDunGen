@@ -1,6 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://ctcp5708si8yp"]
+[gd_scene format=3 uid="uid://ctcp5708si8yp"]
 
-[ext_resource type="Script" uid="uid://bqqmv7b6hshob" path="res://addons/MDunGen/Scripts/MainScreen/Selection/Gizmos/PathGizmo.cs" id="1_0fo30"]
+[ext_resource type="Script" uid="uid://dkem0h4f4naq7" path="res://addons/MDunGen/Scripts/MainScreen/Selection/Gizmos/PathGizmo.cs" id="1_0fo30"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vkcas"]
 emission_enabled = true
@@ -10,7 +10,7 @@ disable_receive_shadows = true
 
 [sub_resource type="ImmediateMesh" id="ImmediateMesh_bs5ph"]
 
-[node name="SectionBox" type="MeshInstance3D"]
+[node name="SectionBox" type="MeshInstance3D" unique_id=1629817228]
 material_override = SubResource("StandardMaterial3D_vkcas")
 cast_shadow = 0
 mesh = SubResource("ImmediateMesh_bs5ph")

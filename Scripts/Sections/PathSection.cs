@@ -43,7 +43,7 @@ public class PathSection : SectionBase
 		MAPDIRECTION startDir = step.Orientation;
 		if (map.Sections.Count > 0)
 		{
-			BuildStartConnection(step, DungeonUtils.Flip(step.Orientation));
+			//BuildStartConnection(step, DungeonUtils.Flip(step.Orientation));
 		}
 		//VerifyWidth(step);
 		SetupLines(step);

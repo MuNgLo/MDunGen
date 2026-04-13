@@ -42,4 +42,11 @@ public partial class AddonSettingsResource : DungeonAddonResource
 	[ExportGroup("CameraSettings")]
 	[Export] public bool cameraResetOnBuild = true;
 
+	[ExportGroup("Seed")]
+	[Export] public int seed1 = 1111;
+	[Export] public int seed2 = 2222;
+	[Export] public int seed3 = 3333;
+	[Export] public int seed4 = 4444;
+	public ulong[] MasterSeed => new[] { (ulong)seed1, (ulong)seed2, (ulong)seed3, (ulong)seed4 };
+
 }// EOF CLASS

@@ -39,7 +39,7 @@ public partial class CameraControls : Node
 	}
 	public override void _Ready()
 	{
-		mainScreen.Visualizer.OnMapBuildEnded += WhenNewMapBuilt;
+		mainScreen.OnMapDataGenerationEnded += WhenNewMapBuilt;
 		subV.MouseEntered += WhenMouseEnterMain;
 		subV.MouseExited += WhenMouseExitMain;
 	}

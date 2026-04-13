@@ -2,9 +2,11 @@
 #if TOOLS
 using Godot;
 using MDunGen.Commons;
+using MDunGen.Design;
 using MDunGen.Resources;
 using MDunGen.Sections;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,74 +20,21 @@ public partial class ScreenDungeonVisualizer : Node3D
 {
 	[Export] bool debug;
 
-	private MainScreen screen;
-	private MapData map;
-	private GenerationSettingsResource settings;
-	private AddonSettingsResource MasterConfig => screen.addon.MasterConfig;
-	private System.Collections.Generic.Dictionary<PIECEKEYS, System.Collections.Generic.Dictionary<int, Resource>> cacheKeyedPieces;
+	private MainScreen mainScreen;
+	private AddonSettingsResource MasterConfig => mainScreen.addon.MasterConfig;
 	private Node3D mapContainer;
 	private Node3D propContainer;
 	private Node3D tileContainer;
 	private Node3D debugContainer;
-	private BiomeResource biome;
-	public MapData Map { get => map; }
+	
 
-	public event EventHandler OnMapBuildFloorStarted;
-	public event EventHandler OnMapBuildEnded;
-	public event EventHandler<BuildLogEventArgument> OnMapBuildLog;
-
-	public void RaiseBuildLogEvent(BuildLogEventArgument args)
-	{
-		EventHandler<BuildLogEventArgument> evt = OnMapBuildLog;
-		evt?.Invoke(this, args);
-	}
 
 	public override void _EnterTree()
 	{
-		screen = GetParent().GetParent().GetParent() as MainScreen;
+		mainScreen = GetParent().GetParent().GetParent() as MainScreen;
 	}
-	public async Task BuildDungeon(GenerationSettingsResource settings, FloorResource floor, BiomeResource biome)
-	{
-		OnMapBuildFloorStarted?.Invoke(EventArgs.Empty, EventArgs.Empty);
-		screen.RaiseNotification($"Building Dungeon");
-		this.settings = settings;
-		screen.RaiseNotification($"Generating:" + string.Format("{0:0}", 0) + "%");
-		await ToSignal(GetTree(), "process_frame");
-		BuildData(biome, () => { ReDrawMap(); }, floor);
-		await ToSignal(GetTree(), "process_frame");
-		OnMapBuildEnded?.Invoke(EventArgs.Empty, EventArgs.Empty);
-	}
-	public async void BuildSection(int levelIndex, string sectionTypeName, SectionResource sectionDef, ulong[] seed, GenerationSettingsResource settings, BiomeResource biome, bool debug, Action callback)
-	{
-		this.settings = settings;
-		screen.RaiseNotification($"Generating:" + string.Format("{0:0}", 0) + "%");
-		await ToSignal(GetTree(), "process_frame");
-
-		cacheKeyedPieces = new System.Collections.Generic.Dictionary<PIECEKEYS, System.Collections.Generic.Dictionary<int, Resource>>();
-		this.biome = biome;
-
-		map = new MapData(settings, RaiseBuildLogEvent);
-		await map.GenerateSection(levelIndex, sectionTypeName, seed, sectionDef, debug, callback);
-		OnMapBuildEnded?.Invoke(EventArgs.Empty, EventArgs.Empty);
-	}
-
-	[Obsolete("This shouldn't be used at all this way. use the builder stuff instead")]
-	private async void BuildData(BiomeResource biome, Action callback, FloorResource floor)
-	{
-		cacheKeyedPieces = new System.Collections.Generic.Dictionary<PIECEKEYS, System.Collections.Generic.Dictionary<int, Resource>>();
-		this.biome = biome;
-		if (settings is null)
-		{
-			GD.PrintErr($"DungeonGenerator::BuildDungeon() BuildDungeonFailed! settings is NULL[{settings is null}] biome is NUll[{biome is null}]");
-			return;
-		}
-		map = new MapData(settings, floor, RaiseBuildLogEvent);
-		//await map.GenerateMap(callback, screen.addon.MasterConfig.pathingPass);
-		for (int i = 0; i < settings.nbOfFloors; i++)
-		{
-			await map.GenerateFloor(i, settings.floorDef, callback, screen.addon.MasterConfig.pathingPass);
-		}
-	}
+	
+	
 
 	/// <summary>
 	/// Updates the visuals
@@ -93,32 +42,31 @@ public partial class ScreenDungeonVisualizer : Node3D
 	/// </summary>
 	public async void ReDrawMap()
 	{
-		if (settings is null) { return; }
-		screen.RaiseNotification($"Generating Visuals");
-		if(debug) { GD.Print($"ScreenDungeonVisualizer::ReDrawMap()"); }
+		mainScreen.RaiseNotification($"Generating Visuals");
+		if (debug) { GD.Print($"ScreenDungeonVisualizer::ReDrawMap()"); }
 		cacheKeyedPieces = new System.Collections.Generic.Dictionary<PIECEKEYS, System.Collections.Generic.Dictionary<int, Resource>>();
 		mapContainer = FindChild("Generated") as Node3D;
 		debugContainer = FindChild("GeneratedDebug") as Node3D;
-		for (int i = 0; i < settings.nbOfFloors; i++)
+		for (int i = 0; i < mainScreen.Map.Levels; i++)
 		{
 			GetFloorContainer(i);
 			GetFloorDebugContainer(i);
 			if (i < MasterConfig.visibleFloorStart || i > MasterConfig.visibleFloorEnd) { ClearFloor(i); ClearDebugFloor(i); continue; }
-			VisualizeFloor(i);
+			VisualizeFloor(i, mainScreen.Map.DefaultBiome);
 			await ToSignal(GetTree(), "process_frame");
 		}
-		screen.RaiseNotification($"Done");
+		mainScreen.RaiseNotification($"Done");
 	}
 
 	public void ReDrawSection()
 	{
-		if(debug) { GD.Print($"ScreenDungeonVisualizer::ReDrawSection()"); }
+		if (debug) { GD.Print($"ScreenDungeonVisualizer::ReDrawSection()"); }
 		cacheKeyedPieces = new System.Collections.Generic.Dictionary<PIECEKEYS, System.Collections.Generic.Dictionary<int, Resource>>();
 		mapContainer = FindChild("Generated") as Node3D;
 		debugContainer = FindChild("GeneratedDebug") as Node3D;
 		GetFloorContainer(0);
 		GetFloorDebugContainer(0);
-		VisualizeFloor(0);
+		VisualizeFloor(0, mainScreen.Map.DefaultBiome);
 	}
 	/// <summary>
 	/// Removes the visuals for a specific Floor
@@ -231,23 +179,20 @@ public partial class ScreenDungeonVisualizer : Node3D
 		}
 		return debugContainer.GetChild(y) as Node3D;
 	}
-
-
-
-
-	private void VisualizeFloor(int floor)
+	[Obsolete("Heh this isn't FIX IT!")]
+	private void VisualizeFloor(int floor, BiomeResource biome)
 	{
 		ClearFloor(floor);
 
-		foreach (ISection section in map.Sections)
+		foreach (ISection section in mainScreen.Map.Sections)
 		{
 			if (section.Coord.y == floor || section.SectionIndex == 0)
 			{
-				VisualizeSection(section);
+				VisualizeSection(section, biome);
 			}
 		}
 	}
-	private void VisualizeSection(ISection section)
+	private void VisualizeSection(ISection section, BiomeResource biome)
 	{
 		if (section == null) { return; }
 		section.SectionContainer = new Node3D();
@@ -260,7 +205,7 @@ public partial class ScreenDungeonVisualizer : Node3D
 		int index = 0;
 		foreach (MapPiece rp in section.Pieces)
 		{
-			MapPiece piece = map.GetPiece(rp.Coord);
+			MapPiece piece = mainScreen.Map.GetPiece(rp.Coord);
 			if (BuildVisualNode(biome, piece, out Node3D visualNode, propContainer, true))
 			{
 				visualNode.Name = $"S{string.Format("0:000", section.SectionIndex)}-T{index}";
@@ -289,7 +234,7 @@ public partial class ScreenDungeonVisualizer : Node3D
 		visualNode.Name = piece.CoordString;
 
 		// generate floors
-		if (screen.addon.MasterConfig.showFloors)
+		if (mainScreen.addon.MasterConfig.showFloors)
 		{
 			if (piece.keyFloor.key != PIECEKEYS.NONE && piece.keyFloor.key != PIECEKEYS.OCCUPIED &&
 				GetByKey(piece.keyFloor, biome, out Node3D floor, makeCollider))
@@ -299,7 +244,7 @@ public partial class ScreenDungeonVisualizer : Node3D
 			}
 		}
 		// generate ceiling
-		if (screen.addon.MasterConfig.showCeilings)
+		if (mainScreen.addon.MasterConfig.showCeilings)
 		{
 			if (piece.keyCeiling.key != PIECEKEYS.NONE && GetByKey(piece.keyCeiling, biome, out Node3D ceiling, makeCollider))
 			{
@@ -308,7 +253,7 @@ public partial class ScreenDungeonVisualizer : Node3D
 			}
 		}
 		// generate walls
-		if (screen.addon.MasterConfig.showWalls)
+		if (mainScreen.addon.MasterConfig.showWalls)
 		{
 			for (int i = 1; i < 9; i *= 2)
 			{
@@ -324,7 +269,7 @@ public partial class ScreenDungeonVisualizer : Node3D
 			SpecialCaseRoundedCorners(piece, visualNode, biome, makeCollider);
 		}
 		// generate extras
-		if (screen.addon.MasterConfig.showExtras)
+		if (mainScreen.addon.MasterConfig.showExtras)
 		{
 			foreach (KeyData extra in piece.Extras)
 			{
@@ -335,7 +280,7 @@ public partial class ScreenDungeonVisualizer : Node3D
 				}
 			}
 		}
-		if (screen.addon.MasterConfig.showDebug)
+		if (mainScreen.addon.MasterConfig.showDebug)
 		{
 			foreach (KeyData dbg in piece.Debug)
 			{
@@ -425,13 +370,16 @@ public partial class ScreenDungeonVisualizer : Node3D
 		if (data.dir != MAPDIRECTION.ANY) { obj.RotationDegrees = DungeonUtils.ResolveRotation(data.dir); } else { obj.RotationDegrees = Vector3.Up * 45.0f; }
 		return true;
 	}
+
+	private Dictionary<PIECEKEYS, Dictionary<int, Resource>> cacheKeyedPieces;
+
 	private Resource ResolveAndCache(KeyData data, BiomeResource biome)
 	{
 		if (biome is null) { GD.PushError("ScreenDungeonVisualizer::ResolveAndCache() BIOME GIVEN AS NULL!!"); return null; }
 
-		if (cacheKeyedPieces == null) { cacheKeyedPieces = new System.Collections.Generic.Dictionary<PIECEKEYS, System.Collections.Generic.Dictionary<int, Resource>>(); }
+		if (cacheKeyedPieces == null) { cacheKeyedPieces = new Dictionary<PIECEKEYS, Dictionary<int, Resource>>(); }
 
-		if (!cacheKeyedPieces.ContainsKey(data.key)) { cacheKeyedPieces[data.key] = new System.Collections.Generic.Dictionary<int, Resource>(); }
+		if (!cacheKeyedPieces.ContainsKey(data.key)) { cacheKeyedPieces[data.key] = new Dictionary<int, Resource>(); }
 
 		if (!cacheKeyedPieces[data.key].ContainsKey(data.variantID))
 		{
@@ -489,28 +437,13 @@ public partial class ScreenDungeonVisualizer : Node3D
 		if (!state)
 		{
 			generated.Hide();
-			screen.RaiseNotification($"Debug OFF");
+			mainScreen.RaiseNotification($"Debug OFF");
 		}
 		else
 		{
 			generated.Show();
-			screen.RaiseNotification($"Debug ON");
+			mainScreen.RaiseNotification($"Debug ON");
 		}
-	}
-
-	/// <summary>
-	/// Allow lookup of current MapData
-	/// </summary>
-	/// <param name="coord"></param>
-	/// <returns></returns>
-	public MapPiece GetMapPiece(MapCoordinate coord)
-	{
-		if (map is null || map.Pieces.Count == 0)
-		{
-			GD.PushError("Map data needs to be rebuilt");
-			return null;
-		}
-		return map.GetExistingPiece(coord);
 	}
 }// eof class
 #endif

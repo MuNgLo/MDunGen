@@ -1,6 +1,7 @@
 ﻿// Gone through at v1.3
 using Godot;
 using MDunGen.Commons;
+using MDunGen.Design;
 using MDunGen.Resources;
 
 namespace MDunGen.Sections;
@@ -12,7 +13,7 @@ public class SectionBuildArguments
 	public MapPiece piece;
 	public int sectionID;
 	public int levelIndex = -1;
-	public GenerationSettingsResource cfg;
+	internal MapDesignResource cfg;
 	public Material waterMaterial;
 	public ulong[] sectionSeed;
 	//public ulong[] Seed => sectionSeed is null ? cfg.Seed : sectionSeed;

@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Godot;
 using MDunGen.Commons;
+using MDunGen.Design;
 using MDunGen.Resources;
 using MDunGen.Sections;
 
@@ -23,6 +24,9 @@ internal class SectionBuilder
 	/// The actual map generated
 	/// </summary>
 	MapData map;
+
+	MapBuilder mapBuilder;
+
 	/// <summary>
 	/// The floor RNG generator for the whole build process
 	/// </summary>
@@ -33,49 +37,58 @@ internal class SectionBuilder
 	/// </summary>
 	Action<BuildLogEventArgument> log;
 
-	GenerationSettingsResource Args => map.MapArgs;
+	MapDesignResource Args => map.Design;
 
-	internal SectionBuilder(int levelIndex, MapData map, ulong[] seed, Action<BuildLogEventArgument> log)
+
+	internal SectionBuilder(MapBuilder mapBuilder, int levelIndex, MapData map, ulong[] seed, Action<BuildLogEventArgument> log)
 	{
 		this.levelIndex = levelIndex;
 		this.log = log;
 		this.map = map;
+		this.mapBuilder = mapBuilder;
 		this.seed = seed;
 		sectionRNG = new PRNGMarsenneTwister(this.seed);
 	}
 
-
-	internal async Task BuildSection(string sectionTypeName, SectionResource sectionDef, ulong[] usedSeed, bool debug)
+	internal async Task Build(BuildSection designRule, bool debug)
 	{
-		MapPiece piece = map.GetPiece(MapCoordinate.Zero);
-		// Seems tpo be only for the debug generation of a section so use random direction
-		piece.Orientation = MAPDIRECTION.ANY;
-
-		SectionBuildArguments buildArgs = new SectionBuildArguments()
+		if (BuildUtils.ResolveLocationRule(map, mapBuilder, designRule, log, out MapPiece piece))
 		{
-			map = map,
-			piece = piece,
-			sectionID = map.Sections.Count,
-			levelIndex = levelIndex,
-			cfg = Args,
-			sectionDefinition = sectionDef,
-			sectionSeed = usedSeed
-		};
+			if (designRule.direction == MAPDIRECTION.ANY)
+			{
+				piece.Orientation = (MAPDIRECTION)sectionRNG.Next(1, 5);
+			}
+			else
+			{
+				piece.Orientation = designRule.direction;
+			}
 
-		Assembly assembly = Assembly.GetExecutingAssembly();
-		Type type = assembly.GetTypes().First(t => t.Name == sectionTypeName);
+			SectionBuildArguments buildArgs = new SectionBuildArguments()
+			{
+				map = map,
+				piece = piece,
+				sectionID = map.Sections.Count,
+				levelIndex = levelIndex,
+				cfg = Args,
+				sectionDefinition = designRule.section,
+				sectionSeed = seed
+			};
 
-		object instance = Activator.CreateInstance(type, new object[] { buildArgs, debug});
+			Assembly assembly = Assembly.GetExecutingAssembly();
+			Type type = assembly.GetTypes().First(t => t.Name == buildArgs.sectionDefinition.sectionType);
 
-		ISection section = instance as SectionBase;
+			object instance = Activator.CreateInstance(type, new object[] { buildArgs, debug });
 
-		section.Build(log);
-		map.Sections.Add(section);
+			ISection section = instance as SectionBase;
 
-		BuildUtils.FitRoundedCorners(ref map);
-		BuildUtils.AddDebugKeys(ref map);
-		BuildUtils.LatePassRooms(ref map);
-		BuildUtils.RemoveAllEmpty(ref map);
-		await Task.Delay(1);
+			section.Build(log);
+			map.Sections.Add(section);
+
+			BuildUtils.FitRoundedCorners(ref map);
+			BuildUtils.AddDebugKeys(ref map);
+			BuildUtils.LatePassRooms(ref map);
+			BuildUtils.RemoveAllEmpty(ref map);
+			await Task.Delay(1);
+		}
 	}
 }// EOF CLASS

@@ -15,4 +15,3 @@ sizeDepthMin = 1
 sizeDepthMax = 1
 nbFloorsMin = 2
 arches = false
-placers = []

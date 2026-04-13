@@ -1,7 +1,8 @@
 ﻿// Gone through at v1.3
 using MDunGen.Commons;
-using MDunGen.Resources;
+using MDunGen.Design;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MDunGen.Builder;
@@ -30,6 +31,8 @@ internal class MapBuilder
 	/// </summary>
 	Action<BuildLogEventArgument> log;
 
+	int currentLevel = -1;
+
 	public MapBuilder(MapData map, ulong[] seed, Action<BuildLogEventArgument> log)
 	{
 		this.log = log;
@@ -47,16 +50,82 @@ internal class MapBuilder
 		return [(ulong)masterRNG.Next(9999), (ulong)masterRNG.Next(9999), (ulong)masterRNG.Next(9999), (ulong)masterRNG.Next(9999)];
 	}
 
-	internal async Task BuildFloor(int levelIndex, FloorResource floorDef, bool doPathing)
+	/// <summary>
+	/// Keep track of loops by design index and store how many<br/>
+	/// times it has looped.
+	/// </summary>
+	Dictionary<int,int> loopCounter;
+	/// <summary>
+	/// As rules generates sections a lookup table is generated
+	/// </summary>
+	internal Dictionary<int, int> indexToSection;
+	internal async Task Build(MapDesignResource mapDesign, bool debug)
 	{
-		FloorBuilder floorBuilder = new(levelIndex, map, NewSeed(), log);
-		await floorBuilder.BuildFloor(floorDef, doPathing);
+		// Reset loop counter
+		loopCounter = new Dictionary<int, int>();
+		// Reset section lookup table
+		indexToSection = new Dictionary<int, int>();
+
+		for (int i = 0; i < mapDesign.designRules.Count; i++)
+		{
+			DesignResource designRule = (DesignResource)mapDesign.designRules[i];
+			switch (designRule.GetType().Name)
+			{
+				case nameof(BuildSections):
+					Godot.GD.Print($"Goal BuildSections BuildSections");
+					await BuildLevel(designRule as BuildSections);
+					break;
+				case nameof(BuildSection):
+					Godot.GD.Print($"Goal BuildSection BuildSection");
+					//if(!indexToSection.ContainsKey(i)){ indexToSection[i] = -1; }
+					indexToSection[i] = map.Sections.Count;
+					await BuildSection(designRule as BuildSection, debug);
+					break;
+				case nameof(Loop):
+					// Verify that the internal count entry exists
+					if(!loopCounter.ContainsKey(i)){ loopCounter[i] = 0; }
+					// Increment counter on loop
+					loopCounter[i]++;
+					// If the loop is hit again after it already ran once. Reset and do again
+					if(loopCounter[i] > (designRule as Loop).loop + 1)
+					{
+						log(new BuildLogEventArgument()
+						{
+						severity = BUILDLOGSEVERITY.INFO, 
+						message	= $"Loop reset on Index[{i}]"
+						});
+						loopCounter[i] = 1;
+					}
+					// Cause the step back
+					if(loopCounter[i] < (designRule as Loop).loop + 1)
+					{
+						int newIDX = i - (designRule as Loop).stepBack;
+						log(new BuildLogEventArgument()
+						{
+						severity = BUILDLOGSEVERITY.INFO, 
+						message	= $"Loop[{i}] triggered Going back to [{newIDX}]"
+						});
+						i = newIDX - 1;
+					}
+					break;
+				case nameof(IncreaseLevel):
+					Godot.GD.Print($"Goal IncreaseLevel IncreaseLevel");
+					currentLevel++;
+					break;
+			}
+		}
 	}
 
-	internal async Task BuildSection(int levelIndex, string sectionTypeName, SectionResource sectionDef, ulong[] seed, bool debug)
+	async Task BuildLevel(BuildSections levelDef)
 	{
-		SectionBuilder sectionBuilder = new(levelIndex, map, NewSeed(), log);
-		await sectionBuilder.BuildSection(sectionTypeName, sectionDef, seed, debug);
+		LevelBuilder levelBuilder = new(currentLevel, map, this, NewSeed(), log);
+		await levelBuilder.Build(levelDef);
+	}
+
+	async Task BuildSection(BuildSection designRule, bool debug)
+	{
+		SectionBuilder sectionBuilder = new(this, currentLevel, map, NewSeed(), log);
+		await sectionBuilder.Build(designRule, debug);
 	}
 }// EOF CLASS
 

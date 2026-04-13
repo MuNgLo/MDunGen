@@ -2,6 +2,7 @@
 //#define MConsole // If MConsole is in the project, comment this out to get log messages pushed to it
 using Godot;
 using MDunGen.Commons;
+using MDunGen.Design;
 using MDunGen.Resources;
 using System;
 using System.Collections.Generic;
@@ -15,10 +16,19 @@ namespace MDunGen;
 [GlobalClass]
 public partial class Dungeon : Node
 {
+	[Export] private bool debug = false;
 	[Export] private bool spawnInOnLaunch = false;
 	[Export] private Vector3 globalOffset = Vector3.Zero;
-	[Export] private GenerationSettingsResource dunSettings;
+	[Export] private MapDesignResource dunSettings;
 	[Export] private DungeonVisualizer visualizer;
+
+	[ExportGroup("Seed")]
+	[Export] public int seed1 = 1111;
+	[Export] public int seed2 = 2222;
+	[Export] public int seed3 = 3333;
+	[Export] public int seed4 = 4444;
+	public ulong[] MasterSeed => new[] { (ulong)seed1, (ulong)seed2, (ulong)seed3, (ulong)seed4 };
+
 	internal Dictionary<int, Dictionary<int, Dictionary<int, MapPiece>>> Pieces => map.Pieces;
 	internal List<MapPiece> PendingPieces => map.GetPieces(MAPPIECESTATE.PENDING);
 	internal List<MapPiece> LockedPieces => map.GetPieces(MAPPIECESTATE.LOCKED);
@@ -32,13 +42,13 @@ public partial class Dungeon : Node
 	{
 		DungeonUtils.globalOffset = globalOffset;
 		visualizer.ClearVisualizer();
-		if (spawnInOnLaunch) { GenerateMapData(dunSettings); }
+		if (spawnInOnLaunch) { GenerateMapData(dunSettings, MasterSeed); }
 	}
 
-	private void GenerateMapData(GenerationSettingsResource dunSettings)
+	internal void GenerateMapData(MapDesignResource design, ulong[] seed)
 	{
 		Log("Dungeon : Generating layout....");
-		BuildMapData(dunSettings, () => { GeneratedMapData(); });
+		BuildMapData(design, seed, () => { GeneratedMapData(); }, debug);
 	}
 	private void GeneratedMapData()
 	{
@@ -46,15 +56,15 @@ public partial class Dungeon : Node
 		visualizer.ShowMap();
 	}
 
-	public async void BuildMapData(GenerationSettingsResource settings, Action callback)
+	internal async void BuildMapData(MapDesignResource design, ulong[] seed, Action callback, bool debug)
 	{
-		if (settings is null)
+		if (design is null)
 		{
-			Log($"Fail! settings is NULL[{settings is null}]");
+			Log($"Fail! settings is NULL[{design is null}]");
 			return;
 		}
-		map = new MapData(settings, RaiseBuildLogEvent);
-		await map.GenerateMap(callback, settings.calculatePathing);
+		map = new MapData(design, seed, RaiseBuildLogEvent);
+		await map.GenerateMap(callback, debug);
 	}
 	/// <summary>
 	/// This is how the addon logs build messages in runtime

@@ -15,4 +15,3 @@ sizeWidthMax = 1
 sizeDepthMin = 1
 sizeDepthMax = 1
 arches = false
-placers = []

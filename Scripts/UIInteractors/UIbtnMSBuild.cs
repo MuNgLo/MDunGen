@@ -26,11 +26,11 @@ public partial class UIbtnMSBuild : Button
 		mainScreen.WhenClearPressed();
 		if (mainScreen.addon.Profile.useRandomSeed)
 		{
-			mainScreen.addon.Profile.settings.seed1 = GD.RandRange(1111, 9999);
-			mainScreen.addon.Profile.settings.seed2 = GD.RandRange(1111, 9999);
-			mainScreen.addon.Profile.settings.seed3 = GD.RandRange(1111, 9999);
-			mainScreen.addon.Profile.settings.seed4 = GD.RandRange(1111, 9999);
-			ResourceSaver.Save(mainScreen.addon.Profile.settings);
+			mainScreen.addon.MasterConfig.seed1 = GD.RandRange(1111, 9999);
+			mainScreen.addon.MasterConfig.seed2 = GD.RandRange(1111, 9999);
+			mainScreen.addon.MasterConfig.seed3 = GD.RandRange(1111, 9999);
+			mainScreen.addon.MasterConfig.seed4 = GD.RandRange(1111, 9999);
+			ResourceSaver.Save(mainScreen.addon.MasterConfig);
 		}
 
 		DungeonUtils.globalOffset = mainScreen.addon.Profile.globalOffset;
@@ -41,11 +41,11 @@ public partial class UIbtnMSBuild : Button
 
 				string sectionTypeName = sectionTypeSelector.GetItemText(sectionTypeSelector.Selected);
 				SectionResource sectionDef = sectionSelector.GetSelectedResource();
-				mainScreen.GenerateSection(0, sectionTypeName, sectionDef, mainScreen.addon.Profile.settings, mainScreen.addon.Profile.biome, true);
+				mainScreen.GenerateSection(0, sectionTypeName, sectionDef, mainScreen.addon.MasterConfig.MasterSeed, mainScreen.addon.Profile.design.defaultBiome, true);
 				break;
 			default:
 			case VIEWERMODE.DUNGEON:
-				await mainScreen.GenerateDungeon(mainScreen.addon.Profile.settings, mainScreen.addon.Profile.biome);
+				await mainScreen.GenerateDungeon(mainScreen.addon.Profile.design, true);
 				break;
 		}
 		//ReleaseFocus();

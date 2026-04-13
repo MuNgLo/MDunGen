@@ -3,6 +3,7 @@
 using Godot;
 using Godot.Collections;
 using MDunGen.Commons;
+using MDunGen.Design;
 using MDunGen.Resources;
 using System;
 using System.Threading.Tasks;
@@ -19,7 +20,6 @@ public partial class MainScreen : Control
 	private Selection.Manager selection;
 	private ScreenDungeonVisualizer dunVis;
 
-
 	public Node3D CurrentDungeon => GetNode<Node3D>("SubViewportContainer/SubViewport/Dungeon/Generated");
 	public Node3D Gizmos => GetNode<Node3D>("SubViewportContainer/SubViewport/Gizmos");
 
@@ -27,10 +27,8 @@ public partial class MainScreen : Control
 	internal EventHandler<string> OnNotificationPushed;
 	internal EventHandler<Pathfinding.PathData> OnPathDataPushed;
 
-
 	internal Selection.Manager Selection => selection;
 	public ScreenDungeonVisualizer Visualizer { get => dunVis; }
-	public MapData Map { get => dunVis.Map; }
 
 	public override void _EnterTree()
 	{
@@ -68,17 +66,89 @@ public partial class MainScreen : Control
 	/// <summary>
 	/// Generates and display a dungeon in the viewer
 	/// </summary>
-	/// <param name="settings"></param>
+	/// <param name="design"></param>
 	/// <param name="biome"></param>
-	public async Task GenerateDungeon(GenerationSettingsResource settings, BiomeResource biome)
+	internal async Task GenerateDungeon(MapDesignResource design, bool debug)
 	{
-		await dunVis.BuildDungeon(settings, settings.floorDef, biome);
+		await BuildDungeon(design, addon.MasterConfig.MasterSeed, debug);
 	}
-	public void GenerateSection(int levelIndex, string sectionTypeName, SectionResource sectionDef, GenerationSettingsResource settings, BiomeResource biome, bool debug)
+
+
+	internal async Task BuildDungeon(MapDesignResource design, ulong[] seed, bool debug)
+	{
+		if (design is null)
+		{
+			GD.PrintErr($"MainScreen::BuildDungeon() BuildDungeonFailed! design is NULL[{design is null}]");
+			return;
+		}
+		OnMapDataGenerationStarted?.Invoke(EventArgs.Empty, EventArgs.Empty);
+		RaiseNotification($"Building Dungeon");
+		this.design = design;
+		map = new MapData(this.design, seed, RaiseBuildLogEvent);
+		await map.GenerateMap(() => { dunVis.ReDrawMap();}, debug);
+		OnMapDataGenerationEnded?.Invoke(EventArgs.Empty, EventArgs.Empty);
+	}
+
+
+	public void GenerateSection(int levelIndex, string sectionTypeName, SectionResource sectionDef, ulong[] seed, BiomeResource biome, bool debug)
 	{
 		RaiseNotification($"Building Section {sectionDef.sectionName}");
-		dunVis.BuildSection(levelIndex, sectionTypeName, sectionDef, settings.MasterSeed, settings, biome, debug, ReDrawDungeon);
+		BuildSection(levelIndex, sectionTypeName, sectionDef, seed, biome, debug, ReDrawDungeon);
 	}
+	public async void BuildSection(int levelIndex, string sectionTypeName, SectionResource sectionDef, ulong[] seed, BiomeResource biome, bool debug, Action callback)
+	{
+		this.design = null;
+		RaiseNotification($"Generating:" + string.Format("{0:0}", 0) + "%");
+		await ToSignal(GetTree(), "process_frame");
+		map = new MapData(design, seed, RaiseBuildLogEvent);
+		// TODO fix this so section mode uses the design approach
+		//await map.GenerateSection(levelIndex, sectionTypeName, seed, sectionDef, debug, callback);
+		OnMapDataGenerationEnded?.Invoke(EventArgs.Empty, EventArgs.Empty);
+	}
+	private MapData map;
+	public MapData Map { get => map; }
+
+	private MapDesignResource design;
+	public event EventHandler OnMapDataGenerationStarted;
+	public event EventHandler OnMapDataGenerationEnded;
+	public event EventHandler<BuildLogEventArgument> OnMapBuildLog;
+
+	public void RaiseBuildLogEvent(BuildLogEventArgument args)
+	{
+		EventHandler<BuildLogEventArgument> evt = OnMapBuildLog;
+		evt?.Invoke(this, args);
+	}
+	/// <summary>
+	/// Allow lookup of current MapData
+	/// </summary>
+	/// <param name="coord"></param>
+	/// <returns></returns>
+	public MapPiece GetMapPiece(MapCoordinate coord)
+	{
+		if (map is null || map.Pieces.Count == 0)
+		{
+			GD.PushError("Map data needs to be rebuilt");
+			return null;
+		}
+		return map.GetExistingPiece(coord);
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	public void ReDrawDungeon()
 	{
 		selection.ClearSelection();
