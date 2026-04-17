@@ -18,7 +18,6 @@ public partial class UIbtnMSSettings : Button
 
 	private void WhenBtnPressed()
 	{
-		EditorInterface.Singleton.InspectObject(mainScreen.addon.Profile.design);
-		//ReleaseFocus();
+		EditorInterface.Singleton.InspectObject(mainScreen.addon.MasterConfig);
 	}
 }// EOF CLASS

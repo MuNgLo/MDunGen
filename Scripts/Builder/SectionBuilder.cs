@@ -88,20 +88,13 @@ internal class SectionBuilder
 
 			if (debug)
 			{
-				Godot.GD.Print("Noo not goal!");
 				if (Godot.Engine.IsEditorHint())
 				{
 					AddonSettingsResource config = Godot.ResourceLoader.Load<AddonSettingsResource>("res://addons/MDunGen/Config/def_master.tres");
-					if (config.sectionFirstPieceDoor) { BuildUtils.SectionAddConnectionOnFirst(section); }
+					if (config.sectionFirstPieceDoor) { BuildUtils.SectionAddConnectionOnFirst(ref map, section); }
 					if (config.sectionAddAttachment) { BuildUtils.SectionAddFakeAttachment(section); }
 				}
 			}
-
-
-			BuildUtils.FitRoundedCorners(ref map);
-			BuildUtils.AddDebugKeys(ref map);
-			BuildUtils.LatePassRooms(ref map);
-			BuildUtils.RemoveAllEmpty(ref map);
 			await Task.Delay(1);
 		}
 	}

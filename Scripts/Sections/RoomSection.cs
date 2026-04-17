@@ -1,5 +1,6 @@
 ﻿// Gone through at v1.3
 using Godot;
+using MDunGen.Builder;
 using MDunGen.Commons;
 using System;
 using System.Collections.Generic;
@@ -21,17 +22,6 @@ public class RoomSection : SectionBase
 		start.State = MAPPIECESTATE.PENDING;
 		pieces.Add(start);
 		start.Save();
-
-		MapPiece parent = map.GetExistingPiece(coord + DungeonUtils.Flip(orientation));
-		if (parent is not null)
-		{
-			ISection parentSection = map.Sections[parent.MainSection]; // TODO this should be very broken??
-			int c1 = AddConnection(DungeonUtils.Flip(orientation), parentSection, start.Coord, parent.Coord, true);
-			int c2 = parentSection.AddConnection(orientation, this, parent.Coord, start.Coord, true);
-			map.Connections[c1].connectedToConnectionID = c2;
-			map.Connections[c2].connectedToConnectionID = c1;
-		}
-
 
 		// Loop over pieces and process them. Adding neighbors and growing the section
 		int breaker = 0;
@@ -56,43 +46,9 @@ public class RoomSection : SectionBase
 		}
 		SealSection();
 		if (sectionDefinition.arches) { FitSmallArches(); }
+
+		// Add start connection
+		BuildUtils.AddConnection(ref map, coord, coord + DungeonUtils.Flip(Orientation), this);
 	}
-
-	/*public void PunchBackDoor()
-	{
-		if (sectionDefinition.backDoorChance < 1 || rng.Next(100) > sectionDefinition.backDoorChance)
-		{
-			return;
-		}
-		int breaker = 20;
-
-		List<MapPiece> candidates = GetWallPieces(0, true);
-		candidates.RemoveAll(p => p.HasWall(DungeonUtils.Flip(orientation)));
-
-		while (breaker > 0 && candidates.Count > 2)
-		{
-			breaker--;
-			MapPiece pick = candidates[rng.Next(candidates.Count)];
-			candidates.Remove(pick);
-
-			MAPDIRECTION dir = pick.OutsideWallDirection();
-			if (pick.WallKey(dir).key != PIECEKEYS.W) { continue; }
-			MapPiece nb = pick.Neighbour(dir, true);
-			if (nb.isEmpty) { continue; }
-			if (nb.WallKey(DungeonUtils.Flip(dir)).key != PIECEKEYS.W) { continue; }
-
-			pick.SetError(true);
-			nb.SetError(true);
-
-			if (!nb.IsPartOfSection(sectionIndex))
-			{
-				// TODO Here the nb.SectionIndex been outside valid values
-				AddConnection(dir, map.Sections[nb.MainSection], pick.Coord, nb.Coord, true);
-				return;
-			}
-
-
-		}
-	}*/
 	#endregion
 }// EOF CLASS

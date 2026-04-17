@@ -20,6 +20,5 @@ public partial class UIbtnMSClear : Button
 	private void WhenBtnPressed()
 	{
 		mainScreen.WhenClearPressed();
-		//ReleaseFocus();
 	}
 }// EOF CLASS

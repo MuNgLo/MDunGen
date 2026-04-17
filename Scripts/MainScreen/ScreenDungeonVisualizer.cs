@@ -53,7 +53,7 @@ public partial class ScreenDungeonVisualizer : Node3D
 			GetLevelDebugContainer(i);
 			if (i < MasterConfig.visibleLevelsStart || i > MasterConfig.visibleLevelEnd) { ClearLevel(i); ClearDebugLevel(i); continue; }
 			VisualizeLevel(i, mainScreen.Map.DefaultBiome);
-			await ToSignal(GetTree(), "process_frame");
+			await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 		}
 		mainScreen.RaiseNotification($"Done");
 	}
@@ -187,7 +187,7 @@ public partial class ScreenDungeonVisualizer : Node3D
 
 	private void VisualizeSection(ISection section, BiomeResource biome)
 	{
-		GD.Print($"ScreenDungeonVisualizer::VisualizeSection() section is null[{section is null}]");
+		//GD.Print($"ScreenDungeonVisualizer::VisualizeSection() section is null[{section is null}]");
 		if (section == null) { return; }
 		section.SectionContainer = new Node3D();
 		tileContainer = new Node3D();
@@ -419,7 +419,7 @@ public partial class ScreenDungeonVisualizer : Node3D
 		}
 		return cacheKeyedPieces[data.key][data.variantID];
 	}
-
+	[Obsolete("Does this do anything useful anymore?")]
 	internal void SetDebugLayer(bool state)
 	{
 		Node3D generated = GetNode<Node3D>("GeneratedDebug");

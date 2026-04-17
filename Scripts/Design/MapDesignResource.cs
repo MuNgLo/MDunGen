@@ -20,6 +20,10 @@ internal partial class MapDesignResource : DungeonAddonResource
 	Callable addDesignResource => Callable.From(AddDesignResource);
 	[ExportToolButton("Remove")]
 	Callable removeDesignResource => Callable.From(RemoveDesignResource);
+	[ExportToolButton("Next Level")]
+	Callable addNextLevel => Callable.From(AddNextLevel);
+
+
 
 	internal Array<Resource> designRules = new Array<Resource>();
 
@@ -27,12 +31,12 @@ internal partial class MapDesignResource : DungeonAddonResource
 	{
 		designRules = new Array<Resource>();
 		defaultBiome = ResourceLoader.Load<BiomeResource>("res://addons/MDunGen/Config/Biomes/def_biome.tres");
-		designRules.Add(ResourceLoader.Load<Resource>("res://addons/MDunGen/BuildRules/StartRoom.tres"));
+		designRules.Add(ConstructNewStartRoom());
 	}
 
 	internal void SetSingleSectionDesign(DesignResource design)
 	{
-		designRules = new Array<Resource>(){ design };
+		designRules = new Array<Resource>() { design };
 	}
 
 	public override Array<Dictionary> _GetPropertyList()
@@ -127,26 +131,99 @@ internal partial class MapDesignResource : DungeonAddonResource
 			{
 				if (index == 0)
 				{
-					return ResourceLoader.Load<Resource>("res://addons/MDunGen/BuildRules/StartRoom.tres");
+					return ConstructNewStartRoom();
 				}
-				return ResourceLoader.Load<Resource>("res://addons/MDunGen/BuildRules/StandardRoom.tres");
+				return ConstructNewStandardRoom();
 			}
 		}
 		return base._PropertyGetRevert(property);
 	}
 
-
-
-
 	private void AddDesignResource()
 	{
-		designRules.Add(ResourceLoader.Load<Resource>("res://addons/MDunGen/BuildRules/StandardRoom.tres"));
+		if (designRules.Count < 1)
+		{
+			designRules.Add(ConstructNewStartRoom());
+		}
+		else
+		{
+			designRules.Add(ConstructNewStandardRoom());
+		}
 		NotifyPropertyListChanged();
 	}
-	private void RemoveDesignResource()
+	private void AddNextLevel()
 	{
-		designRules.RemoveAt(designRules.Count - 1);
+		designRules.Add(ConstructNewNextLevel());
 		NotifyPropertyListChanged();
+	}
+	private Resource ConstructNewNextLevel()
+	{
+		return new IncreaseLevel()
+		{
+			ResourceName = "Next Level " + (CountRules<IncreaseLevel>() + 1)
+		};
+	}
+	private Resource ConstructNewStartRoom()
+	{
+		return new BuildSection()
+		{
+			ResourceName = "DefaultStartRoom",
+			location = Commons.LOCATION.CENTER,
+			direction = Commons.MAPDIRECTION.ANY,
+			section = new SectionResource()
+			{
+				ResourceName = "DefaultStartRoom",
+				sectionType = "RoomSection",
+				sectionName = "DefaultStartRoom",
+				sizeWidthMin = 5,
+				sizeWidthMax = 5,
+				sizeDepthMin = 5,
+				sizeDepthMax = 5,
+				nbFloorsMin = 2,
+				nbFloorsMax = 2
+			}
+		};
+	}
+	private Resource ConstructNewStandardRoom()
+	{
+		return new BuildSection()
+		{
+			ResourceName = "DefaultStandardRoom",
+			location = Commons.LOCATION.ATTACHEDTOPREVIOUSSECTION,
+			direction = Commons.MAPDIRECTION.PIECE,
+			section = new SectionResource()
+			{
+				ResourceName = "DefaultStandardRoom",
+				sectionType = "RoomSection",
+				sectionName = "DefaultStandardRoom",
+				sizeWidthMin = 3,
+				sizeWidthMax = 5,
+				sizeDepthMin = 3,
+				sizeDepthMax = 5,
+				nbFloorsMin = 1,
+				nbFloorsMax = 3
+			}
+		};
 	}
 
+	private void RemoveDesignResource()
+	{
+		if (designRules.Count > 0)
+		{
+			designRules.RemoveAt(designRules.Count - 1);
+			NotifyPropertyListChanged();
+		}
+	}
+
+
+
+	private int CountRules<T>()
+	{
+		int count = 0;
+		for (int i = 0; i < designRules.Count; i++)
+		{
+			if (designRules[i] is T) { count++; }
+		}
+		return count;
+	}
 }// EOF CLASS

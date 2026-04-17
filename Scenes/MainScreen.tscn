@@ -129,6 +129,17 @@ Color(0.37254903, 1, 0.5921569, 1): Color(0.45, 0.95, 0.5, 1),
 Color(1, 0.8666667, 0.39607844, 1): Color(0.83, 0.78, 0.62, 1)
 }
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rnhfd"]
+content_margin_left = 1.0
+content_margin_top = 1.0
+content_margin_right = 1.0
+content_margin_bottom = 1.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
 [sub_resource type="DPITexture" id="DPITexture_a8w07"]
 _source = "<svg xmlns=\"http://www.w3.org/2000/svg\" xml:space=\"preserve\" width=\"16\" height=\"16\"><path fill=\"#e0e0e0\" d=\"M9 2a3 3 0 0 0-3 2.777 3 3 0 1 0-3 5.047V12a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-1l3 2V7l-3 2V7.23A3 3 0 0 0 9 2z\"/></svg>
 "
@@ -286,10 +297,13 @@ icon = SubResource("DPITexture_qnf5v")
 flat = false
 icon_alignment = 1
 expand_icon = true
-item_count = 1
-popup/item_0/text = "With attachment"
+item_count = 2
+popup/item_0/text = "First piece Door"
 popup/item_0/checkable = 1
 popup/item_0/id = 0
+popup/item_1/text = "With attachment"
+popup/item_1/checkable = 1
+popup/item_1/id = 1
 script = ExtResource("10_rnhfd")
 mainScreen = NodePath("../..")
 
@@ -348,7 +362,6 @@ mainScreen = NodePath("../..")
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 tooltip_text = "Layers to visualize from map data"
-toggle_mode = false
 shortcut_feedback = false
 shortcut_in_tooltip = false
 icon = SubResource("DPITexture_p7c07")
@@ -434,6 +447,8 @@ custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 tooltip_text = "Addon settings"
 focus_mode = 0
+theme_override_constants/align_to_largest_stylebox = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_rnhfd")
 icon = ExtResource("32_m0fwq")
 icon_alignment = 1
 expand_icon = true
@@ -447,7 +462,6 @@ layout_mode = 2
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 tooltip_text = "Layers to visualize from map data"
-toggle_mode = false
 shortcut_feedback = false
 shortcut_in_tooltip = false
 icon = SubResource("DPITexture_a8w07")

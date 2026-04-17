@@ -90,9 +90,6 @@ public interface ISection
 	public void SealSection(int wallVariant = 0, int floorVariant = 0, int ceilingVariant = 0);
 
 
-	public void AddConnection(int connectionIndex);
-	public int AddConnection(MAPDIRECTION dir, ISection otherSection, MapCoordinate location, MapCoordinate otherLocation, bool overrideLocked);
-	public int AddInverseConnection(MAPDIRECTION dir, ISection otherSection, MapCoordinate location, MapCoordinate otherLocation, bool overrideLocked);
 
 	/// <summary>
 	/// Assign placers to the section. If placersOverride is valid it will override the SectionResource placers collection
@@ -145,5 +142,6 @@ public interface ISection
 	public ATTACHHEIGHT GrowHeight { get; }
 	public ATTACHHEIGHT AttachHeight { get; }
 
+	public void AddConnection(int connectionIndex);
 
 }// EOF INTERFACE

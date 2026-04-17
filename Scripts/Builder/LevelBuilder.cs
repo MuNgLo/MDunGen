@@ -69,23 +69,17 @@ internal class LevelBuilder
 				log.Invoke(new() { severity = BUILDLOGSEVERITY.WARNING, source = "FloorBuilder::BuildFloor()", message = "Rule is NULL", levelIndex = levelIndex });
 				continue;
 			}
-			//switch (ruleResource.category)
-			//{
-			//	case CATEGORYRULE.BUILD:
-			//		await ResolveBuildRule(levelIndex, ruleResource);
-			//		break;
-			//}
 		}
 
 		log.Invoke(new() { source = "FloorBuilder::BuildFloor()", message = "Build rules completed.", levelIndex = levelIndex });
 
-		BuildOpeningsFromConnections();
-
-
+/*
+		BuildUtils.BuildOpeningsFromConnections(ref map);
 		BuildUtils.FitRoundedCorners(ref map);
 		BuildUtils.AddDebugKeys(ref map);
 		BuildUtils.LatePassRooms(ref map);
 		BuildUtils.RemoveAllEmpty(ref map);
+		*/
 		// TODO pathing for all connections
 		//if (doPathing)
 		//{
@@ -109,18 +103,7 @@ internal class LevelBuilder
 			await Task.Delay(1);
 		//}
 	}
-	private void BuildOpeningsFromConnections()
-	{
-		// TODO maybe move this last chance for a section to get a connection in
-		for (int i = 0; i < map.Sections.Count; i++)
-		{
-			map.Sections[i].PunchBackDoor();
-		}
-		foreach (KeyValuePair<int, SectionConnection> con in map.Connections)
-		{
-			map.AddOpeningBetweenSections(con.Value, true);
-		}
-	}
+	
 	private void DoPathingPass()
 	{
 		// Process all connections

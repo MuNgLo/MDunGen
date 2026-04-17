@@ -20,6 +20,5 @@ public partial class UIbtnMSMode : Button
 	private void WhenBtnPressed()
 	{
 		mainScreen.addon.ChangeMode();
-		//ReleaseFocus();
 	}
 }// EOF CLASS

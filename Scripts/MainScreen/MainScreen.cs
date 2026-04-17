@@ -42,7 +42,7 @@ public partial class MainScreen : Control
 		{
 			PopupInitialSettingsDialogue();
 		}
-		SetDebugLayer(addon.Profile.showDebugLayer);
+		SetDebugLayer(addon.MasterConfig.showDebug);
 		RaiseUpdateUI();
 	}
 
@@ -89,7 +89,7 @@ public partial class MainScreen : Control
 		RaiseNotification($"Building Section {sectionDef.sectionName}");
 		this.design = null;
 		RaiseNotification($"Generating:" + string.Format("{0:0}", 0) + "%");
-		await ToSignal(GetTree(), "process_frame");
+		await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 		// TODO fix this so section mode uses the design approach
 
 		BuildSection design = new BuildSection()

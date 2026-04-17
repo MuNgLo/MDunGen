@@ -21,6 +21,5 @@ public partial class UIbtnBSClearLog : Button
 	private void WhenBtnPressed()
 	{
 		buildLog.ClearLog();
-		//ReleaseFocus();
 	}
 }// EOF CLASS

@@ -10,10 +10,10 @@
 bg_color = Color(0.056291588, 0.05629161, 0.05629155, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lyjaj"]
-content_margin_left = 4.0
-content_margin_top = 4.0
-content_margin_right = 4.0
-content_margin_bottom = 4.0
+content_margin_left = 1.0
+content_margin_top = 1.0
+content_margin_right = 1.0
+content_margin_bottom = 1.0
 bg_color = Color(0.1, 0.1, 0.1, 0.6)
 corner_radius_top_left = 3
 corner_radius_top_right = 3
@@ -205,7 +205,6 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_lyjaj")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_5thb6")
 theme_override_styles/hover = SubResource("StyleBoxFlat_veqwb")
 icon = SubResource("DPITexture_lyjaj")
-expand_icon = true
 script = ExtResource("6_5thb6")
 buildLog = NodePath("../../../../../..")
 

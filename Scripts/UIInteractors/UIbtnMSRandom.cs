@@ -10,7 +10,7 @@ public partial class UIbtnMSRandom : Button
 
 	public override void _Ready()
 	{
-		ButtonPressed = mainScreen.addon.Profile.useRandomSeed;
+		ButtonPressed = mainScreen.addon.MasterConfig.useRandomSeed;
 		Pressed += WhenRandomSeedPressed;
 		Icon = EditorInterface.Singleton.GetBaseControl().GetThemeIcon("RandomNumberGenerator", "EditorIcons");
 	}
@@ -22,9 +22,9 @@ public partial class UIbtnMSRandom : Button
 
 	private void WhenRandomSeedPressed()
 	{
-		mainScreen.addon.Profile.useRandomSeed = !mainScreen.addon.Profile.useRandomSeed;
-		ResourceSaver.Save(mainScreen.addon.Profile);
-		mainScreen.RaiseNotification("Generate " + (mainScreen.addon.Profile.useRandomSeed ? "Random" : "Seeded"));
+		mainScreen.addon.MasterConfig.useRandomSeed = !mainScreen.addon.MasterConfig.useRandomSeed;
+		ResourceSaver.Save(mainScreen.addon.MasterConfig);
+		mainScreen.RaiseNotification("Generate " + (mainScreen.addon.MasterConfig.useRandomSeed ? "Random" : "Seeded"));
 	}
 	
 }// EOF CLASS

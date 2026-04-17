@@ -67,6 +67,8 @@ internal class Line
 				{
 					if (mainline)
 					{
+						// TODO FIX IT!
+						/*
 						ISection nextSection = map.Sections[nextStep.MainSection];
 						// Works
 						int c1 = section.AddConnection(Last.Orientation, nextSection, Last.Coord, nextStep.Coord, true);
@@ -93,6 +95,7 @@ internal class Line
 							map.Connections[cL1].connectedToConnectionID = cL2;
 							map.Connections[cL2].connectedToConnectionID = cL1;
 						}
+						*/
 						AddStep(nextStep);
 						return;
 					}

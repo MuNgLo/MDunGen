@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace MDunGen.Sections;
-
+[Obsolete("Piggy said so!")]
 public class VerticalRoomSection : SectionBase
 {
 	public VerticalRoomSection(SectionBuildArguments args, bool debug) : base(args, debug) { }
@@ -21,15 +21,7 @@ public class VerticalRoomSection : SectionBase
 		pieces.Add(start);
 		start.Save();
 
-		MapPiece parent = map.GetExistingPiece(coord + DungeonUtils.Flip(orientation));
-		if (parent is not null)
-		{
-			ISection parentSection = map.Sections[parent.MainSection]; // TODO this should be very broken?? Really??
-			int c1 = AddConnection(DungeonUtils.Flip(orientation), parentSection, start.Coord, parent.Coord, true);
-			int c2 = parentSection.AddConnection(orientation, this, parent.Coord, start.Coord, true);
-			map.Connections[c1].connectedToConnectionID = c2;
-			map.Connections[c2].connectedToConnectionID = c1;
-		}
+	
 
 
 		// Loop over pieces and process them. Adding neighbors and growing the section

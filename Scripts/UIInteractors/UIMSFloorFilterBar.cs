@@ -16,7 +16,6 @@ public partial class UIMSFloorFilterBar : HBoxContainer
 	[Export] TextureButton tbSubtractFloor;
 	[Export] Label lblFloorEnd;
 	private AddonSettingsResource MasterConfig => mainScreen.addon.MasterConfig;
-	private ProfileResource Profile => mainScreen.addon.Profile;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{

@@ -35,8 +35,6 @@ public partial class SectionResource : DungeonAddonResource
 	[Export] public int nbDoorsPerFloorMin = 0;
 	[Export] public int nbDoorsPerFloorMax = 0;
 
-	//[ExportGroup("WiP")]
-	//[Export] public int backDoorChance = 30;
 
 	internal void VerifyValues()
 	{

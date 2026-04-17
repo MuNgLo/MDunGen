@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="BuildSection" format=3 uid="uid://dodisoc5yvivl"]
-
-[ext_resource type="Script" uid="uid://ctqejgc53anud" path="res://addons/MDunGen/Scripts/Design/BuildSection.cs" id="1_2ndhp"]
-[ext_resource type="Resource" uid="uid://dk1ltui3mo7xj" path="res://addons/MDunGen/Config/Sections/RoomStart.tres" id="2_ufq2p"]
-
-[resource]
-script = ExtResource("1_2ndhp")
-location = 1
-section = ExtResource("2_ufq2p")

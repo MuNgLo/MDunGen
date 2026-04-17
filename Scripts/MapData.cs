@@ -173,11 +173,11 @@ public class MapData
 	}*/
 
 	#region Connection and Opening related
-	internal bool AddNewConnection(ISection fromSection, ISection toSection, MapCoordinate fromLocation, MapCoordinate toLocation, MAPDIRECTION dir, out int id)
+	internal bool AddNewConnection(int fromSectionIndex, int toSectionIndex, MapCoordinate fromLocation, MapCoordinate toLocation, MAPDIRECTION dir, out int id)
 	{
 		id = Connections.Keys.Count + 1;
-		connections[id] = new SectionConnection(id, fromLocation, fromSection.SectionIndex, dir);
-		connections[id].ConnectedLocations.Add(new ConnectedLocation(toSection.SectionIndex, id, toLocation, 1));
+		connections[id] = new SectionConnection(id, fromLocation, fromSectionIndex, dir);
+		connections[id].ConnectedLocations.Add(new ConnectedLocation(toSectionIndex, id, toLocation, 1));
 		return true;
 	}
 	internal bool GetConnection(int sectionID, MapCoordinate coord, out SectionConnection conn)

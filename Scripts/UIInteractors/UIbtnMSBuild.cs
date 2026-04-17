@@ -24,7 +24,7 @@ public partial class UIbtnMSBuild : Button
 	private async void WhenBtnPressed()
 	{
 		mainScreen.WhenClearPressed();
-		if (mainScreen.addon.Profile.useRandomSeed)
+		if (mainScreen.addon.MasterConfig.useRandomSeed)
 		{
 			mainScreen.addon.MasterConfig.seed1 = GD.RandRange(1111, 9999);
 			mainScreen.addon.MasterConfig.seed2 = GD.RandRange(1111, 9999);
@@ -33,7 +33,8 @@ public partial class UIbtnMSBuild : Button
 			ResourceSaver.Save(mainScreen.addon.MasterConfig);
 		}
 
-		DungeonUtils.globalOffset = mainScreen.addon.Profile.globalOffset;
+		// Always use 0,0,0 as center in the addon debug visualizer
+		DungeonUtils.globalOffset = Vector3.Zero;
 
 		switch (mainScreen.addon.Mode)
 		{
@@ -41,14 +42,13 @@ public partial class UIbtnMSBuild : Button
 
 				string sectionTypeName = sectionTypeSelector.GetItemText(sectionTypeSelector.Selected);
 				SectionResource sectionDef = sectionSelector.GetSelectedResource();
-				mainScreen.GenerateSection(0, sectionTypeName, sectionDef, mainScreen.addon.MasterConfig.MasterSeed, mainScreen.addon.Profile.design.defaultBiome, true);
+				mainScreen.GenerateSection(0, sectionTypeName, sectionDef, mainScreen.addon.MasterConfig.MasterSeed, mainScreen.addon.MasterConfig.design.defaultBiome, true);
 				break;
 			default:
 			case VIEWERMODE.DUNGEON:
-				await mainScreen.GenerateDungeon(mainScreen.addon.Profile.design, false);
+				await mainScreen.GenerateDungeon(mainScreen.addon.MasterConfig.design, false);
 				break;
 		}
-		//ReleaseFocus();
 		mainScreen.RaiseUpdateUI();
 	}
 }// EOF CLASS

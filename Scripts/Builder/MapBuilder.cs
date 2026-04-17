@@ -69,6 +69,7 @@ internal class MapBuilder
 
 		for (int i = 0; i < mapDesign.designRules.Count; i++)
 		{
+			BuildUtils.RemoveAllEmpty(ref map);
 			DesignResource designRule = (DesignResource)mapDesign.designRules[i];
 			switch (designRule.GetType().Name)
 			{
@@ -115,6 +116,12 @@ internal class MapBuilder
 					break;
 			}
 		}
+
+		BuildUtils.BuildOpeningsFromConnections(ref map);
+		BuildUtils.FitRoundedCorners(ref map);
+		BuildUtils.AddDebugKeys(ref map);
+		BuildUtils.LatePassRooms(ref map);
+		BuildUtils.RemoveAllEmpty(ref map);
 	}
 
 	async Task BuildLevel(BuildSections levelDef)

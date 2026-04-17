@@ -20,6 +20,12 @@ public partial class InitialPopup : Control
 		pathLine.Text = screen.addon.MasterConfig.ProjectResourcePath;
 
 	}
+	public override void _ExitTree()
+	{
+		changeBtn.Pressed -= WhenChangePressed;
+		closeBtn.Pressed -= QueueFree;
+	}
+
 	private void WhenChangePressed()
 	{
 		changeBtn.ReleaseFocus();

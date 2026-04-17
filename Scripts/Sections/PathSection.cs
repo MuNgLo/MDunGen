@@ -179,7 +179,7 @@ public class PathSection : SectionBase
 			return RightSide.GetRandomAlongPath(out dir, false, true);
 		}
 	}
-	[Obsolete("NEeds rewrite and fixing")]
+	/*[Obsolete("NEeds rewrite and fixing")]
 	private void BuildStartConnection(MapPiece startPiece, MAPDIRECTION dir)
 	{
 		MapPiece startPieceConnection = startPiece.Neighbour(dir, false);
@@ -198,7 +198,7 @@ public class PathSection : SectionBase
 			map.Connections[conn1].connectedToConnectionID = conn2;
 			map.Connections[conn2].connectedToConnectionID = conn1;
 		}
-	}
+	}*/
 	private void BuildEndCap()
 	{
 		MapPiece endPieceConnection = LeftSide.Last.Neighbour(LeftSide.Last.Orientation, true);
@@ -206,6 +206,7 @@ public class PathSection : SectionBase
 		if (sectionDefinition.sizeWidthMax < 2)
 		{
 			CapLineEndsWithWalls();
+			/*
 			if (endPieceConnection.State == MAPPIECESTATE.PENDING && endPieceConnection.MainSection >= 0 && !endPieceConnection.IsPartOfSection(sectionIndex))
 			{
 				AddConnection(
@@ -216,6 +217,7 @@ public class PathSection : SectionBase
 					true
 					);
 			}
+			*/
 			return;
 		}
 		MapPiece endPieceConnection2 = RightSide.Last.Neighbour(RightSide.Last.Orientation, true);
@@ -243,12 +245,14 @@ public class PathSection : SectionBase
 			if (!endPieceConnection.isEmpty && endPieceConnection2.isEmpty && endPieceConnection.MainSection >= 0 && !endPieceConnection.IsPartOfSection(sectionIndex))
 			{
 				// Add a single door to connect corridors on left side
-				AddConnection(LeftSide.Last.Orientation, map.Sections[endPieceConnection.MainSection], LeftSide.Last.Coord, endPieceConnection.Coord, true);
+				// TODO FIX IT!
+				//AddConnection(LeftSide.Last.Orientation, map.Sections[endPieceConnection.MainSection], LeftSide.Last.Coord, endPieceConnection.Coord, true);
 			}
 			else if (endPieceConnection.isEmpty && !endPieceConnection2.isEmpty && endPieceConnection2.MainSection >= 0 && !endPieceConnection2.IsPartOfSection(sectionIndex))
 			{
 				// Add a single door to connect corridors on right side
-				AddConnection(RightSide.Last.Orientation, map.Sections[endPieceConnection.MainSection], RightSide.Last.Coord, endPieceConnection.Coord, true);
+				// TODO FIX IT!
+				//AddConnection(RightSide.Last.Orientation, map.Sections[endPieceConnection.MainSection], RightSide.Last.Coord, endPieceConnection.Coord, true);
 			}
 		}
 	}

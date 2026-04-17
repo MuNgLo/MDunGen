@@ -18,7 +18,6 @@ public partial class UIbtnMSBiome : Button
 
 	private void WhenBtnPressed()
 	{
-		EditorInterface.Singleton.InspectObject(mainScreen.addon.Profile.design.defaultBiome);
-		//ReleaseFocus();
+		EditorInterface.Singleton.InspectObject(mainScreen.addon.MasterConfig.design.defaultBiome);
 	}
 }// EOF CLASS

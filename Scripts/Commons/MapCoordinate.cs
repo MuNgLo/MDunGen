@@ -21,6 +21,18 @@ public struct MapCoordinate
 		y = v.Y;
 		z = v.Z;
 	}
+
+	public MAPDIRECTION DirectionTo(MapCoordinate other)
+	{
+		if (other == StepNorth) { return MAPDIRECTION.NORTH; }
+		if (other == StepEast) { return MAPDIRECTION.EAST; }
+		if (other == StepSouth) { return MAPDIRECTION.SOUTH; }
+		if (other == StepWest) { return MAPDIRECTION.WEST; }
+		if (other == StepUp) { return MAPDIRECTION.UP; }
+		if (other == StepDown) { return MAPDIRECTION.DOWN; }
+		return MAPDIRECTION.ANY;
+	}
+
 	public bool Equals(MapCoordinate other)
 	{
 		return x == other.x && y == other.y && z == other.z;

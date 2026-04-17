@@ -51,7 +51,6 @@ public partial class UImenbtnMSView : MenuButton
 			default:
 				break;
 		}
-		//ReleaseFocus();
 		mainScreen.ReDrawDungeon();
 	}
 

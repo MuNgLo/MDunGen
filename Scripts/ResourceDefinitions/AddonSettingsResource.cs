@@ -1,5 +1,6 @@
 // Gone through at v1.3
 using Godot;
+using MDunGen.Design;
 namespace MDunGen.Resources;
 
 /// <summary>
@@ -9,6 +10,8 @@ namespace MDunGen.Resources;
 [Tool, GlobalClass]
 public partial class AddonSettingsResource : DungeonAddonResource
 {
+	[Export] internal MapDesignResource design;
+
 	[Export] public string lastUsedProfile = "res://addons/MDunGen/Config/def_profile.tres";
 	[Export] public string ProjectResourcePath = string.Empty;
 
@@ -48,6 +51,7 @@ public partial class AddonSettingsResource : DungeonAddonResource
 	[Export] public bool cameraResetOnBuild = true;
 
 	[ExportGroup("Seed")]
+	[Export] public bool useRandomSeed = true;
 	[Export] public int seed1 = 1111;
 	[Export] public int seed2 = 2222;
 	[Export] public int seed3 = 3333;

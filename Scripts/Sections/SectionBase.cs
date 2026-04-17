@@ -1,6 +1,5 @@
 ﻿// Gone through at v1.3
 using Godot;
-using MDunGen.Builder;
 using MDunGen.Commons;
 using MDunGen.Resources;
 using System;
@@ -25,7 +24,7 @@ public class SectionBase : ISection
 	/// <summary>
 	/// The parent map data this section belongs to
 	/// </summary>
-	private protected readonly MapData map;
+	private protected MapData map;
 	/// <summary>
 	/// Assigned section index on creation
 	/// </summary>
@@ -521,43 +520,7 @@ public class SectionBase : ISection
 		}
 		return false;
 	}
-	public void AddConnection(int id)
-	{
-		if (id < 1)
-		{
 
-			GD.PushError($"SectionBase::AddConnection({id}) INVALID ID!\n{System.Environment.StackTrace}");
-		}
-
-		if (!connections.Exists(p => p == id)) { connections.Add(id); }
-	}
-	/// <summary>
-	/// Checks for pre-existing connection and add it. Otherwise create a new one.
-	/// </summary>
-	/// <param name="dir"></param>
-	/// <param name="coord"></param>
-	/// <param name="overrideLocked"></param>
-	public int AddConnection(MAPDIRECTION dir, ISection otherSection, MapCoordinate location, MapCoordinate otherLocation, bool overrideLocked)
-	{
-		// Create a new connection
-		if (map.AddNewConnection(this, otherSection, location, otherLocation, dir, out int cID))
-		{
-			AddConnection(cID);
-			return cID;
-		}
-		return -1;
-	}
-
-	public int AddInverseConnection(MAPDIRECTION dir, ISection otherSection, MapCoordinate location, MapCoordinate otherLocation, bool overrideLocked)
-	{
-		// Create a new connection
-		if (map.AddNewConnection(otherSection, this, otherLocation, location, DungeonUtils.Flip(dir), out int cID))
-		{
-			AddConnection(cID);
-			return cID;
-		}
-		return -1;
-	}
 
 	/// <summary>
 	/// Make depth and width consistent relative to section orientation
@@ -653,5 +616,16 @@ public class SectionBase : ISection
 		}
 		mp.State = MAPPIECESTATE.LOCKED;
 		map.SavePiece(mp);
+	}
+
+
+	public void AddConnection(int id)
+	{
+		if (id < 1)
+		{
+			GD.PushError($"SectionBase::AddConnection({id}) INVALID ID!\n{System.Environment.StackTrace}");
+		}
+
+		if (!connections.Exists(p => p == id)) { connections.Add(id); }
 	}
 }// EOF CLASS

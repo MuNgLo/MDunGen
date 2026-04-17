@@ -1,19 +1,21 @@
 [gd_resource type="Resource" script_class="AddonSettingsResource" format=3 uid="uid://blngor0u0dbk4"]
 
+[ext_resource type="Resource" uid="uid://dyo35jmwmxmvm" path="res://addons/MDunGen/BuildRules/Map03.tres" id="1_0iudd"]
 [ext_resource type="Script" uid="uid://c1a3kt0tn7hxb" path="res://addons/MDunGen/Scripts/ResourceDefinitions/AddonSettingsResource.cs" id="1_5xn5v"]
 
 [resource]
 script = ExtResource("1_5xn5v")
+design = ExtResource("1_0iudd")
 lastUsedProfile = "res://addons/MuNgLosDungeon/Config/def_profile.tres"
 ProjectResourcePath = "res://Dungeon/"
-maxVisibleLevels = 1
+maxVisibleLevels = 2
+showCeilings = false
 showExtras = false
 showDebug = false
 sectionFirstPieceDoor = true
-sectionAddAttachment = true
 pathingPass = false
 cameraResetOnBuild = false
-seed1 = 5037
-seed2 = 8006
-seed3 = 1745
-seed4 = 7087
+seed1 = 8293
+seed2 = 2545
+seed3 = 3327
+seed4 = 2594

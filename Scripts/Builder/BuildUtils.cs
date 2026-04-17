@@ -10,14 +10,39 @@ namespace MDunGen.Builder;
 
 internal static class BuildUtils
 {
-	/// <summary>
-	/// TODO make this add a connection instead
-	/// For now it just changes the wall
-	/// </summary>
-	/// <param name="section"></param>
-	[Obsolete("Needs to be reconsidered")]
-	internal static void SectionAddConnectionOnFirst(ISection section)
+	internal static void AddDebugKeys(ref MapData map)
 	{
+		foreach (int X in map.Pieces.Keys)
+		{
+			foreach (int Y in map.Pieces[X].Keys)
+			{
+				foreach (int Z in map.Pieces[X][Y].Keys)
+				{
+					AddDebugKeys(map.Pieces[X][Y][Z]);
+				}
+			}
+		}
+	}
+	internal static void AddDebugKeys(MapPiece piece)
+	{
+		piece.AddDebug(new KeyData() { key = PIECEKEYS.DEBUG, dir = piece.Orientation, variantID = (int)DEBUGVARIANTS.ARROW });
+		if (piece.HasNorthWall) { piece.AddDebug(new KeyData() { key = PIECEKEYS.DEBUG, dir = MAPDIRECTION.NORTH, variantID = (int)DEBUGVARIANTS.WALLFLAGGREEN }); }
+		if (piece.HasEastWall) { piece.AddDebug(new KeyData() { key = PIECEKEYS.DEBUG, dir = MAPDIRECTION.EAST, variantID = (int)DEBUGVARIANTS.WALLFLAGGREEN }); }
+		if (piece.HasSouthWall) { piece.AddDebug(new KeyData() { key = PIECEKEYS.DEBUG, dir = MAPDIRECTION.SOUTH, variantID = (int)DEBUGVARIANTS.WALLFLAGGREEN }); }
+		if (piece.HasWestWall) { piece.AddDebug(new KeyData() { key = PIECEKEYS.DEBUG, dir = MAPDIRECTION.WEST, variantID = (int)DEBUGVARIANTS.WALLFLAGGREEN }); }
+	}
+
+	internal static void SectionAddConnectionOnFirst(ref MapData map, ISection section)
+	{
+		// Add start connection
+		AddConnection(
+			ref map,
+			section.Pieces.First().Coord,
+			section.Pieces.First().Coord + DungeonUtils.Flip(section.Orientation),
+			section
+			);
+
+		/*
 		section.Pieces.First().AssignWall(
 			new KeyData()
 			{
@@ -33,6 +58,38 @@ internal static class BuildUtils
 				dir = section.Pieces.
 			First().Orientation
 			}, true);
+		*/
+	}
+	/// <summary>
+	/// Will insert a connection between 2 map pieces in the map data<br/>
+	/// It wont check if it is valid so when in section mode a partial connection<br/>
+	/// can be visualized.<br/>
+	/// The connection generated in mirrored direction will not be made if end piece is empty
+	/// </summary>
+	/// <param name="map"></param>
+	/// <param name="from"></param>
+	/// <param name="to"></param>
+	internal static void AddConnection(ref MapData map, MapCoordinate from, MapCoordinate to, ISection startSection)
+	{
+		MAPDIRECTION dir = from.DirectionTo(to);
+		int c1 = -1;
+		MapPiece start = map.GetExistingPiece(from);
+		MapPiece end = map.GetExistingPiece(to);
+		if (start is not null)
+		{
+			// Adds the start to end side of the connection
+			if (!end.isEmpty && map.AddNewConnection(start.MainSection, end.MainSection, from, to, dir, out c1))
+			{
+				startSection.AddConnection(c1);
+				int c2 = -1;
+				// Adds the end to start side of the connection
+				if (map.AddNewConnection(end.MainSection, start.MainSection,
+				to, from, DungeonUtils.Flip(dir), out c2))
+				{
+					map.Sections[end.MainSection].AddConnection(c2);
+				}
+			}
+		}
 	}
 	/// <summary>
 	/// Add a fake attachment when debugging a section
@@ -47,32 +104,10 @@ internal static class BuildUtils
 			mp.Neighbour(DungeonUtils.Flip(dir), true).AssignWall(new KeyData() { key = PIECEKEYS.WD, dir = dir }, true);
 		}
 	}
-
-
-	internal static void AddDebugKeys(ref MapData map)
-	{
-		foreach (int X in map.Pieces.Keys)
-		{
-			foreach (int Y in map.Pieces[X].Keys)
-			{
-				foreach (int Z in map.Pieces[X][Y].Keys)
-				{
-					AddDebugKeys(map.Pieces[X][Y][Z]);
-				}
-			}
-		}
-	}
-
-	internal static void AddDebugKeys(MapPiece piece)
-	{
-		piece.AddDebug(new KeyData() { key = PIECEKEYS.DEBUG, dir = piece.Orientation, variantID = (int)DEBUGVARIANTS.ARROW });
-		if (piece.HasNorthWall) { piece.AddDebug(new KeyData() { key = PIECEKEYS.DEBUG, dir = MAPDIRECTION.NORTH, variantID = (int)DEBUGVARIANTS.WALLFLAGGREEN }); }
-		if (piece.HasEastWall) { piece.AddDebug(new KeyData() { key = PIECEKEYS.DEBUG, dir = MAPDIRECTION.EAST, variantID = (int)DEBUGVARIANTS.WALLFLAGGREEN }); }
-		if (piece.HasSouthWall) { piece.AddDebug(new KeyData() { key = PIECEKEYS.DEBUG, dir = MAPDIRECTION.SOUTH, variantID = (int)DEBUGVARIANTS.WALLFLAGGREEN }); }
-		if (piece.HasWestWall) { piece.AddDebug(new KeyData() { key = PIECEKEYS.DEBUG, dir = MAPDIRECTION.WEST, variantID = (int)DEBUGVARIANTS.WALLFLAGGREEN }); }
-	}
-
-
+	/// <summary>
+	/// Parses through the map data, finds and inserts rounded corners where needed
+	/// </summary>
+	/// <param name="map"></param>
 	internal static void FitRoundedCorners(ref MapData map)
 	{
 		foreach (int X in map.Pieces.Keys)
@@ -86,8 +121,11 @@ internal static class BuildUtils
 			}
 		}
 	}
-
-
+	/// <summary>
+	/// Fits rounded corners to the passed in map piece
+	/// </summary>
+	/// <param name="map"></param>
+	/// <param name="piece"></param>
 	internal static void FitRoundedCorners(ref MapData map, MapPiece piece)
 	{
 		MapPiece adjacentN = map.GetExistingPiece(piece.Coord.StepNorth); // These need to NOT create new pieces
@@ -142,7 +180,6 @@ internal static class BuildUtils
 				if (!adjacentN.HasSouthWall && !adjacentW.HasEastWall)
 				{
 					NW = true;
-
 				}
 			}
 		}
@@ -183,17 +220,39 @@ internal static class BuildUtils
 			}
 		}
 	}
-
+	/// <summary>
+	/// Passing over the map data, section by section<br/>
+	/// TODO Doesn't do anything right now
+	/// </summary>
+	/// <param name="map"></param>
 	internal static void LatePassRooms(ref MapData map)
 	{
 		// Props pass of rooms
+		/*
 		foreach (ISection room in map.Sections)
 		{
 			if (room is not RoomSection) { continue; }
 			//PlaceBridges(room);
 		}
+		*/
 	}
-
+	/// <summary>
+	/// Will go through the map data and insert openings between sections as indicated by<br/>
+	/// the connection data.
+	/// </summary>
+	/// <param name="map"></param>
+	internal static void BuildOpeningsFromConnections(ref MapData map)
+	{
+		// TODO maybe move this last chance for a section to get a connection in
+		for (int i = 0; i < map.Sections.Count; i++)
+		{
+			map.Sections[i].PunchBackDoor();
+		}
+		foreach (KeyValuePair<int, SectionConnection> con in map.Connections)
+		{
+			map.AddOpeningBetweenSections(con.Value, true);
+		}
+	}
 	/// <summary>
 	/// Removes all pieces in map data that isEmpty
 	/// Run this as last step of the generation.
@@ -219,8 +278,16 @@ internal static class BuildUtils
 			map.Pieces[c.x][c.y].Remove(c.z);
 		}
 	}
-
-
+	/// <summary>
+	/// If successful this will resolve the location for the section and return true with the<br/>
+	/// map piece
+	/// </summary>
+	/// <param name="map"></param>
+	/// <param name="builder"></param>
+	/// <param name="rule"></param>
+	/// <param name="log"></param>
+	/// <param name="mp"></param>
+	/// <returns></returns>
 	internal static bool ResolveLocationRule(MapData map, MapBuilder builder, BuildSection rule, Action<BuildLogEventArgument> log, out MapPiece mp)
 	{
 		ISection prevSec; MAPDIRECTION dir;
@@ -236,7 +303,6 @@ internal static class BuildUtils
 				}
 				break;
 			case LOCATION.ATTACHEDTOSECTION:
-
 				int targetIndex = rule.targetedIndex;
 				bool hasKey = builder.indexToSection.ContainsKey(targetIndex);
 				if (!hasKey)
@@ -282,6 +348,4 @@ internal static class BuildUtils
 		mp = null;
 		return false;
 	}
-
-
 }// EOF CLASS

@@ -21,6 +21,6 @@ public partial class UIbtnMSInspectSection : Button
 	private void WhenBtnPressed()
 	{
 		EditorInterface.Singleton.InspectObject(sectionSelector.GetSelectedResource());
-		//ReleaseFocus();
+		
 	}
 }// EOF CLASS

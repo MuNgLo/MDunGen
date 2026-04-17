@@ -37,7 +37,6 @@ public partial class UImbtnMSCamera : MenuButton
 				ResourceSaver.Save(mainScreen.addon.MasterConfig);
 				break;
 		}
-		//ReleaseFocus();
 	}
 
 	private void UpdatePopup(object sender, object args)

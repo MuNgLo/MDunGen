@@ -25,7 +25,6 @@ public partial class Dungeons : EditorPlugin
 	private CameraControls cam;
 	private PackedScene mainPrefab = ResourceLoader.Load<PackedScene>("res://addons/MDunGen/Scenes/MainScreen.tscn");
 	private PackedScene bottomPrefab = ResourceLoader.Load<PackedScene>("res://addons/MDunGen/Scenes/BottomScreen.tscn");
-	public ProfileResource Profile = ResourceLoader.Load("res://addons/MDunGen/Config/def_profile.tres") as ProfileResource;
 	private EditorFileDialog popup;
 	#region Overrides
 	public override void _EnterTree()
@@ -53,15 +52,16 @@ public partial class Dungeons : EditorPlugin
 		bDock.AddChild(bScreen);
 		AddDock(bDock);
 	}
-
+	[Obsolete]
 	Button testBTN;
+	[Obsolete]
 	private void RunDebugTestThings()
 	{
 		testBTN = new Button() { Text = "Debug" };
 		AddControlToContainer(CustomControlContainer.SpatialEditorMenu, testBTN);
 		testBTN.Pressed += DebugDumpToScene;
 	}
-
+	[Obsolete]
 	private void DebugDumpToScene()
 	{
 		PackedScene sceneToSave = new PackedScene();
