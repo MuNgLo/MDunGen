@@ -35,7 +35,8 @@ internal partial class UIobtnMSSection : OptionButton
 
 	private void WhenSectionTypeSelected(object sender, Type T)
 	{
-		if (!Visible) { Clear(); return; }
+		if (!Visible) { return; }
+		Clear();
 		PopulateResourceCollection();
 		LoadSelected();
 	}

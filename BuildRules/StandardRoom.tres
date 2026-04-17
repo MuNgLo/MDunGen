@@ -7,5 +7,6 @@
 script = ExtResource("1_yvlha")
 location = 3
 targetedIndex = 1
+direction = 7
 section = ExtResource("2_vx1cj")
 metadata/_custom_type_script = "uid://ctqejgc53anud"

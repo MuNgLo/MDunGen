@@ -23,10 +23,10 @@ public partial class AddonSettingsResource : DungeonAddonResource
 	public string defaultStartRoom = "res://addons/MDunGen/Config/Rooms/DefaultStartRoom.tres";
 	public string defaultStandardRoom = "res://addons/MDunGen/Config/Rooms/DefaultStandardRoom.tres";
 
-	[ExportCategory("Visual Floors")]
-	[Export] public int visibleFloorStart = 0;
-	[Export] public int maxVisibleFloors = 5;
-	public int visibleFloorEnd => visibleFloorStart + maxVisibleFloors - 1;
+	[ExportCategory("Visual Levels")]
+	[Export] public int visibleLevelsStart = 0;
+	[Export] public int maxVisibleLevels = 5;
+	public int visibleLevelEnd => visibleLevelsStart + maxVisibleLevels - 1;
 
 
 	[ExportGroup("Show")]
@@ -35,6 +35,11 @@ public partial class AddonSettingsResource : DungeonAddonResource
 	[Export] public bool showCeilings = true;
 	[Export] public bool showExtras = true;
 	[Export] public bool showDebug = true;
+
+	[ExportGroup("SectionMode Options")]
+	[Export] public bool sectionFirstPieceDoor = false;
+	[Export] public bool sectionAddAttachment = false;
+
 
 	[ExportGroup("Passes")]
 	[Export] public bool pathingPass = true;

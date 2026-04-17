@@ -26,62 +26,67 @@ public partial class ScreenDungeonVisualizer : Node3D
 	private Node3D propContainer;
 	private Node3D tileContainer;
 	private Node3D debugContainer;
-	
+
 
 
 	public override void _EnterTree()
 	{
 		mainScreen = GetParent().GetParent().GetParent() as MainScreen;
 	}
-	
-	
+
+
 
 	/// <summary>
 	/// Updates the visuals
-	/// Obeying the floor start and floor end
+	/// Obeying the level start and level end
 	/// </summary>
 	public async void ReDrawMap()
 	{
 		mainScreen.RaiseNotification($"Generating Visuals");
-		if (debug) { GD.Print($"ScreenDungeonVisualizer::ReDrawMap()"); }
-		cacheKeyedPieces = new System.Collections.Generic.Dictionary<PIECEKEYS, System.Collections.Generic.Dictionary<int, Resource>>();
+		if (debug) { GD.Print($"ScreenDungeonVisualizer::ReDrawMap() MapData.Levels[{mainScreen.Map.Levels}]"); }
+		cacheKeyedPieces = new Dictionary<PIECEKEYS, Dictionary<int, Resource>>();
 		mapContainer = FindChild("Generated") as Node3D;
 		debugContainer = FindChild("GeneratedDebug") as Node3D;
 		for (int i = 0; i < mainScreen.Map.Levels; i++)
 		{
-			GetFloorContainer(i);
-			GetFloorDebugContainer(i);
-			if (i < MasterConfig.visibleFloorStart || i > MasterConfig.visibleFloorEnd) { ClearFloor(i); ClearDebugFloor(i); continue; }
-			VisualizeFloor(i, mainScreen.Map.DefaultBiome);
+			GetLevelContainer(i);
+			GetLevelDebugContainer(i);
+			if (i < MasterConfig.visibleLevelsStart || i > MasterConfig.visibleLevelEnd) { ClearLevel(i); ClearDebugLevel(i); continue; }
+			VisualizeLevel(i, mainScreen.Map.DefaultBiome);
 			await ToSignal(GetTree(), "process_frame");
 		}
 		mainScreen.RaiseNotification($"Done");
 	}
 
-	public void ReDrawSection()
+	private void VisualizeLevel(int level, BiomeResource biome)
 	{
-		if (debug) { GD.Print($"ScreenDungeonVisualizer::ReDrawSection()"); }
-		cacheKeyedPieces = new System.Collections.Generic.Dictionary<PIECEKEYS, System.Collections.Generic.Dictionary<int, Resource>>();
-		mapContainer = FindChild("Generated") as Node3D;
-		debugContainer = FindChild("GeneratedDebug") as Node3D;
-		GetFloorContainer(0);
-		GetFloorDebugContainer(0);
-		VisualizeFloor(0, mainScreen.Map.DefaultBiome);
-	}
-	/// <summary>
-	/// Removes the visuals for a specific Floor
-	/// </summary>
-	/// <param name="floorIndex"></param>
-	internal void ClearFloor(int floorIndex)
-	{
-		Node3D floorContainer = GetFloorContainer(floorIndex);
+		//GD.Print($"ScreenDungeonVisualizer::VisualizeLevel({level})");
+		ClearLevel(level);
 
-		if (floorContainer == null)
+		foreach (ISection section in mainScreen.Map.Sections)
 		{
-			GD.Print($"ScreenDungeonVisualizer::ClearFloor()  floor container node missing!");
+			if (section.LevelIndex == level)
+			{
+				VisualizeSection(section, biome);
+			}
+		}
+	}
+
+
+	/// <summary>
+	/// Removes the visuals for a specific level
+	/// </summary>
+	/// <param name="levelIndex"></param>
+	internal void ClearLevel(int levelIndex)
+	{
+		Node3D levelContainer = GetLevelContainer(levelIndex);
+
+		if (levelContainer == null)
+		{
+			GD.Print($"ScreenDungeonVisualizer::ClearLevel()  level container node missing!");
 			return;
 		}
-		foreach (Node child in floorContainer.GetChildren())
+		foreach (Node child in levelContainer.GetChildren())
 		{
 			if (child is Node3D)
 			{
@@ -90,19 +95,19 @@ public partial class ScreenDungeonVisualizer : Node3D
 		}
 	}
 	/// <summary>
-	/// Removes the visuals for a specific Floor
+	/// Removes the visuals for a specific level
 	/// </summary>
-	/// <param name="floorIndex"></param>
-	internal void ClearDebugFloor(int floorIndex)
+	/// <param name="level"></param>
+	internal void ClearDebugLevel(int level)
 	{
-		Node3D floorContainer = GetFloorDebugContainer(floorIndex);
+		Node3D levelContainer = GetLevelDebugContainer(level);
 
-		if (floorContainer == null)
+		if (levelContainer == null)
 		{
-			GD.Print($"ScreenDungeonVisualizer::ClearDebugFloor()  floor container node missing!");
+			GD.Print($"ScreenDungeonVisualizer::ClearDebugLevel()  level container node missing!");
 			return;
 		}
-		foreach (Node child in floorContainer.GetChildren())
+		foreach (Node child in levelContainer.GetChildren())
 		{
 			if (child is Node3D)
 			{
@@ -113,12 +118,12 @@ public partial class ScreenDungeonVisualizer : Node3D
 	/// <summary>
 	/// Clears All the visuals
 	/// </summary>
-	internal void ClearLevel()
+	internal void ClearAllLevels()
 	{
 		Node3D generated = GetNode<Node3D>("Generated");
 		if (generated == null)
 		{
-			GD.Print($"ScreenDungeonVisualizer::ClearLevel()  Generated node missing!");
+			GD.Print($"ScreenDungeonVisualizer::ClearAllLevels()  Generated node missing!");
 			return;
 		}
 		foreach (Node child in generated.GetChildren())
@@ -128,17 +133,16 @@ public partial class ScreenDungeonVisualizer : Node3D
 				child.QueueFree();
 			}
 		}
-		//mapGen.ClearNavMesh();
 	}
 	/// <summary>
 	/// Clears All the debug visuals 
 	/// </summary>
-	internal void ClearLevelDebug()
+	internal void ClearAllLevelsDebug()
 	{
 		Node3D generated = GetNode<Node3D>("GeneratedDebug");
 		if (generated == null)
 		{
-			GD.Print($"ScreenDungeonVisualizer::ClearLevel()  GeneratedDebug node missing!");
+			GD.Print($"ScreenDungeonVisualizer::ClearAllLevelsDebug()  GeneratedDebug node missing!");
 			return;
 		}
 		foreach (Node child in generated.GetChildren())
@@ -150,56 +154,46 @@ public partial class ScreenDungeonVisualizer : Node3D
 		}
 	}
 	/// <summary>
-	/// Gets the floor parent. Creates if needed
+	/// Gets the level parent. Creates if needed
 	/// </summary>
-	/// <param name="y"></param>
+	/// <param name="level"></param>
 	/// <returns></returns>
-	private Node3D GetFloorContainer(int y)
+	private Node3D GetLevelContainer(int level)
 	{
-		if (mapContainer.GetChildCount() < y + 1)
+		if (mapContainer.GetChildCount() < level + 1)
 		{
-			Node3D node = new Node3D();
-			node.Name = string.Format("{0:000}" + "Floor", y);
+			Node3D node = new Node3D() { Name = string.Format("{0:000}" + "Level", level) };
 			mapContainer.AddChild(node, true);
 		}
-		return mapContainer.GetChild(y) as Node3D;
+		return mapContainer.GetChild(level) as Node3D;
 	}
 	/// <summary>
-	/// Gets the floor parent. Creates if needed
+	/// Gets the level parent. Creates if needed
 	/// </summary>
-	/// <param name="y"></param>
+	/// <param name="level"></param>
 	/// <returns></returns>
-	private Node3D GetFloorDebugContainer(int y)
+	private Node3D GetLevelDebugContainer(int level)
 	{
-		if (debugContainer.GetChildCount() < y + 1)
+		if (debugContainer.GetChildCount() < level + 1)
 		{
 			Node3D node = new Node3D();
-			node.Name = string.Format("{0:000}" + "Floor", y);
+			node.Name = string.Format("{0:000}" + "Level", level);
 			debugContainer.AddChild(node, true);
 		}
-		return debugContainer.GetChild(y) as Node3D;
+		return debugContainer.GetChild(level) as Node3D;
 	}
-	[Obsolete("Heh this isn't FIX IT!")]
-	private void VisualizeFloor(int floor, BiomeResource biome)
-	{
-		ClearFloor(floor);
 
-		foreach (ISection section in mainScreen.Map.Sections)
-		{
-			if (section.Coord.y == floor || section.SectionIndex == 0)
-			{
-				VisualizeSection(section, biome);
-			}
-		}
-	}
+
+
 	private void VisualizeSection(ISection section, BiomeResource biome)
 	{
+		GD.Print($"ScreenDungeonVisualizer::VisualizeSection() section is null[{section is null}]");
 		if (section == null) { return; }
 		section.SectionContainer = new Node3D();
 		tileContainer = new Node3D();
 		section.SectionContainer.Name = "S" + string.Format("{0:000}", section.SectionIndex);
 		tileContainer.Name = $"Tiles[{section.Pieces.Count}]";
-		GetFloorContainer(section.Coord.y).AddChild(section.SectionContainer, true);
+		GetLevelContainer(section.LevelIndex).AddChild(section.SectionContainer, true);
 		section.SectionContainer.AddChild(tileContainer, true);
 		// Section Tiles
 		int index = 0;
@@ -233,7 +227,7 @@ public partial class ScreenDungeonVisualizer : Node3D
 		visualNode = new Node3D();
 		visualNode.Name = piece.CoordString;
 
-		// generate floors
+		// generate floors visuals
 		if (mainScreen.addon.MasterConfig.showFloors)
 		{
 			if (piece.keyFloor.key != PIECEKEYS.NONE && piece.keyFloor.key != PIECEKEYS.OCCUPIED &&

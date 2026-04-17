@@ -45,7 +45,7 @@ public partial class UIbtnMSBuild : Button
 				break;
 			default:
 			case VIEWERMODE.DUNGEON:
-				await mainScreen.GenerateDungeon(mainScreen.addon.Profile.design, true);
+				await mainScreen.GenerateDungeon(mainScreen.addon.Profile.design, false);
 				break;
 		}
 		//ReleaseFocus();

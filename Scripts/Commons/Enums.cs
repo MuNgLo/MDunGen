@@ -15,7 +15,7 @@ public enum MAPPIECESTATE { UNUSED, PENDING, LOCKED }
 /// <summary>
 /// Direction in map.
 /// </summary>
-public enum MAPDIRECTION { ANY, NORTH, EAST, SOUTH, WEST, UP, DOWN }
+public enum MAPDIRECTION { ANY = 0, PIECE = 7, NORTH = 1, EAST = 2, SOUTH = 3, WEST = 4, UP = 5, DOWN = 6 }
 [Flags]
 public enum WALLS { N = 1, E = 2, S = 4, W = 8 }
 public enum PIECEKEYS
@@ -39,6 +39,12 @@ public enum ROOMCONNECTIONRESPONCE { DOOR = 1, BALCONY = 2, BRIDGE = 4, STAIR = 
 [Obsolete]
 public enum CATEGORYRULE { NONE, BUILD, LOOP, FLOOD }
 public enum LOCATION { NONE, CENTER, ATTACHEDTOPREVIOUSSECTION, ATTACHEDTOSECTION, ATTACHEDTOPREVIOUSLEVEL }
+
+/// <summary>
+/// When starting a section or pulling an attachment location from existing section this<br/>
+/// set what section internal height is valid for attachment.
+/// </summary>
+public enum ATTACHHEIGHT { SAME, RANDOM, BOTTOM, CENTER, TOP }
 
 
 /// <summary>

@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Godot;
 using MDunGen.Commons;
 using MDunGen.Design;
 using MDunGen.Resources;
@@ -54,13 +53,16 @@ internal class SectionBuilder
 	{
 		if (BuildUtils.ResolveLocationRule(map, mapBuilder, designRule, log, out MapPiece piece))
 		{
-			if (designRule.direction == MAPDIRECTION.ANY)
+			if (designRule.direction != MAPDIRECTION.PIECE)
 			{
-				piece.Orientation = (MAPDIRECTION)sectionRNG.Next(1, 5);
-			}
-			else
-			{
-				piece.Orientation = designRule.direction;
+				if (designRule.direction == MAPDIRECTION.ANY)
+				{
+					piece.Orientation = (MAPDIRECTION)sectionRNG.Next(1, 5);
+				}
+				else
+				{
+					piece.Orientation = designRule.direction;
+				}
 			}
 
 			SectionBuildArguments buildArgs = new SectionBuildArguments()
@@ -68,7 +70,7 @@ internal class SectionBuilder
 				map = map,
 				piece = piece,
 				sectionID = map.Sections.Count,
-				levelIndex = levelIndex,
+				levelIndex = this.levelIndex,
 				cfg = Args,
 				sectionDefinition = designRule.section,
 				sectionSeed = seed
@@ -83,6 +85,18 @@ internal class SectionBuilder
 
 			section.Build(log);
 			map.Sections.Add(section);
+
+			if (debug)
+			{
+				Godot.GD.Print("Noo not goal!");
+				if (Godot.Engine.IsEditorHint())
+				{
+					AddonSettingsResource config = Godot.ResourceLoader.Load<AddonSettingsResource>("res://addons/MDunGen/Config/def_master.tres");
+					if (config.sectionFirstPieceDoor) { BuildUtils.SectionAddConnectionOnFirst(section); }
+					if (config.sectionAddAttachment) { BuildUtils.SectionAddFakeAttachment(section); }
+				}
+			}
+
 
 			BuildUtils.FitRoundedCorners(ref map);
 			BuildUtils.AddDebugKeys(ref map);

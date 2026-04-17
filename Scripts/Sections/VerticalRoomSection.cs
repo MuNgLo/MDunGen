@@ -1,5 +1,4 @@
 ﻿// Gone through at v1.3
-using Godot;
 using MDunGen.Commons;
 using System;
 using System.Collections.Generic;
@@ -7,14 +6,14 @@ using System.Linq;
 
 namespace MDunGen.Sections;
 
-public class RoomSection : SectionBase
+public class VerticalRoomSection : SectionBase
 {
-	public RoomSection(SectionBuildArguments args, bool debug) : base(args, debug) { }
+	public VerticalRoomSection(SectionBuildArguments args, bool debug) : base(args, debug) { }
 
 	#region ISection methods
 	public override void Build(Action<BuildLogEventArgument> log)
 	{
-		log.Invoke(new() { source = "RoomSection::Build()", message = "Building Room section", sectionIndex = sectionIndex, levelIndex = levelIndex, mapLocations = [coord] });
+		log.Invoke(new() { source = "VerticalRoomSection::Build()", message = "Building Room section", sectionIndex = sectionIndex, levelIndex = levelIndex, mapLocations = [coord] });
 
 		MapPiece start = map.GetPiece(coord);
 
@@ -25,7 +24,7 @@ public class RoomSection : SectionBase
 		MapPiece parent = map.GetExistingPiece(coord + DungeonUtils.Flip(orientation));
 		if (parent is not null)
 		{
-			ISection parentSection = map.Sections[parent.MainSection]; // TODO this should be very broken??
+			ISection parentSection = map.Sections[parent.MainSection]; // TODO this should be very broken?? Really??
 			int c1 = AddConnection(DungeonUtils.Flip(orientation), parentSection, start.Coord, parent.Coord, true);
 			int c2 = parentSection.AddConnection(orientation, this, parent.Coord, start.Coord, true);
 			map.Connections[c1].connectedToConnectionID = c2;
@@ -45,7 +44,7 @@ public class RoomSection : SectionBase
 				log.Invoke(new()
 				{
 					severity = BUILDLOGSEVERITY.WARNING,
-					source = "RoomSection::Build()",
+					source = "RoomVerticalRoomSectionSection::Build()",
 					message = "ProcessPiece loop hit breaker!",
 					sectionIndex = sectionIndex,
 					levelIndex = levelIndex,
@@ -54,7 +53,11 @@ public class RoomSection : SectionBase
 				break;
 			}
 		}
+
 		SealSection();
+
+
+		
 		if (sectionDefinition.arches) { FitSmallArches(); }
 	}
 

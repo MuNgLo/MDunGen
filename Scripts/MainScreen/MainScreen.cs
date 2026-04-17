@@ -70,12 +70,6 @@ public partial class MainScreen : Control
 	/// <param name="biome"></param>
 	internal async Task GenerateDungeon(MapDesignResource design, bool debug)
 	{
-		await BuildDungeon(design, addon.MasterConfig.MasterSeed, debug);
-	}
-
-
-	internal async Task BuildDungeon(MapDesignResource design, ulong[] seed, bool debug)
-	{
 		if (design is null)
 		{
 			GD.PrintErr($"MainScreen::BuildDungeon() BuildDungeonFailed! design is NULL[{design is null}]");
@@ -84,7 +78,7 @@ public partial class MainScreen : Control
 		OnMapDataGenerationStarted?.Invoke(EventArgs.Empty, EventArgs.Empty);
 		RaiseNotification($"Building Dungeon");
 		this.design = design;
-		map = new MapData(this.design, seed, RaiseBuildLogEvent);
+		map = new MapData(this.design, addon.MasterConfig.MasterSeed, RaiseBuildLogEvent);
 		await map.GenerateMap(() => { dunVis.ReDrawMap();}, debug);
 		OnMapDataGenerationEnded?.Invoke(EventArgs.Empty, EventArgs.Empty);
 	}
@@ -162,7 +156,7 @@ public partial class MainScreen : Control
 		switch (addon.Mode)
 		{
 			case VIEWERMODE.SECTION:
-				dunVis.ReDrawSection();
+				dunVis.ReDrawMap();
 				selection.SelectFirstSection();
 				break;
 			case VIEWERMODE.DUNGEON:
@@ -178,8 +172,8 @@ public partial class MainScreen : Control
 	{
 		RaiseNotification("CLEARING...");
 		await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-		dunVis.ClearLevel();
-		dunVis.ClearLevelDebug();
+		dunVis.ClearAllLevels();
+		dunVis.ClearAllLevelsDebug();
 
 		// WORKAROUND! TODO make this better??
 		if (selection is null) { selection = new Selection.Manager(addon, this, dunVis); }

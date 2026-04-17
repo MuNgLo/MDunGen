@@ -13,11 +13,7 @@ public partial class DungeonViewerToolbar : HBoxContainer
 	[Export] MainScreen screen;
 
 	[ExportGroup("Section visible")]
-	[Export] UIobtnMSSectionType btnSectionTypeList;
-	[Export] UIobtnMSSection btnSectionSelector;
-	[Export] UIbtnMSInspectSection btnSectionInspect;
-	[Export] VSeparator vsLeft;
-	[Export] VSeparator vsRight;
+	[Export] Control[] visibleWhenInSectionMode;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -39,19 +35,17 @@ public partial class DungeonViewerToolbar : HBoxContainer
 		switch (screen.addon.Mode)
 		{
 			case VIEWERMODE.SECTION:
-				btnSectionSelector.Show();
-				btnSectionTypeList.Show();
-				btnSectionInspect.Show();
-				vsLeft.Show();
-				vsRight.Show();
+				foreach (Control item in visibleWhenInSectionMode)
+				{
+					item.Show();
+				}
 				break;
 			case VIEWERMODE.DUNGEON:
 			default:
-				btnSectionSelector.Hide();
-				btnSectionTypeList.Hide();
-				btnSectionInspect.Hide();
-				vsLeft.Hide();
-				vsRight.Hide();
+				foreach (Control item in visibleWhenInSectionMode)
+				{
+					item.Hide();
+				}
 				break;
 		}
 	}

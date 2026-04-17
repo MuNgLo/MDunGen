@@ -23,7 +23,7 @@ public partial class UIMSFloorFilterBar : HBoxContainer
 		sbStartFloor.ValueChanged += WhenSpinBoxValueChanged;
 		tbAddFloor.Pressed += WhenPlusPressed;
 		tbSubtractFloor.Pressed += WhenMinusPressed;
-		lblFloorEnd.Text = MasterConfig.maxVisibleFloors.ToString();
+		lblFloorEnd.Text = MasterConfig.maxVisibleLevels.ToString();
 	}
 	public override void _ExitTree()
 	{
@@ -38,10 +38,10 @@ public partial class UIMSFloorFilterBar : HBoxContainer
 		// Get Index of OG box. After this the rest will be inserted/removed
 		int startInsertIndex = FloorBox.GetIndex() + 1;
 		// Calculate end floor
-		int endFloor = MasterConfig.visibleFloorStart + MasterConfig.maxVisibleFloors - 1;
+		int endFloor = MasterConfig.visibleLevelsStart + MasterConfig.maxVisibleLevels - 1;
 		lblFloorEnd.Text = endFloor.ToString();
 		int currentCount = GetChildCount();
-		int goalCount = endFloor - MasterConfig.visibleFloorStart + 5; // 5 extra because not all are floor boxes
+		int goalCount = endFloor - MasterConfig.visibleLevelsStart + 5; // 5 extra because not all are floor boxes
 
 		if (currentCount > goalCount)
 		{
@@ -65,7 +65,7 @@ public partial class UIMSFloorFilterBar : HBoxContainer
 	}
 	private void WhenSpinBoxValueChanged(double value)
 	{
-		MasterConfig.visibleFloorStart = Mathf.Clamp((int)value, 0, 100);
+		MasterConfig.visibleLevelsStart = Mathf.Clamp((int)value, 0, 100);
 		ResourceSaver.Save(MasterConfig);
 		ShowFloorsNotification();
 		UpdateUI();
@@ -74,7 +74,7 @@ public partial class UIMSFloorFilterBar : HBoxContainer
 	}
 	private void WhenPlusPressed()
 	{
-		MasterConfig.maxVisibleFloors = Mathf.Clamp(MasterConfig.maxVisibleFloors + 1, 1, 10);
+		MasterConfig.maxVisibleLevels = Mathf.Clamp(MasterConfig.maxVisibleLevels + 1, 1, 10);
 		ResourceSaver.Save(MasterConfig);
 		ShowFloorsNotification();
 		UpdateUI();
@@ -82,7 +82,7 @@ public partial class UIMSFloorFilterBar : HBoxContainer
 	}
 	private void WhenMinusPressed()
 	{
-		MasterConfig.maxVisibleFloors = Mathf.Clamp(MasterConfig.maxVisibleFloors - 1, 1, 10);
+		MasterConfig.maxVisibleLevels = Mathf.Clamp(MasterConfig.maxVisibleLevels - 1, 1, 10);
 		ResourceSaver.Save(MasterConfig);
 		ShowFloorsNotification();
 		UpdateUI();
@@ -90,7 +90,7 @@ public partial class UIMSFloorFilterBar : HBoxContainer
 	}
 	private void ShowFloorsNotification()
 	{
-		mainScreen.RaiseNotification($"Showing floor {MasterConfig.visibleFloorStart + 1}" + (MasterConfig.maxVisibleFloors > 1 ? $" through {MasterConfig.visibleFloorStart + MasterConfig.maxVisibleFloors}" : string.Empty));
+		mainScreen.RaiseNotification($"Showing floor {MasterConfig.visibleLevelsStart + 1}" + (MasterConfig.maxVisibleLevels > 1 ? $" through {MasterConfig.visibleLevelsStart + MasterConfig.maxVisibleLevels}" : string.Empty));
 	}
 }// EOF CLASS
 #endif

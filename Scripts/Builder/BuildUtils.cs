@@ -10,6 +10,45 @@ namespace MDunGen.Builder;
 
 internal static class BuildUtils
 {
+	/// <summary>
+	/// TODO make this add a connection instead
+	/// For now it just changes the wall
+	/// </summary>
+	/// <param name="section"></param>
+	[Obsolete("Needs to be reconsidered")]
+	internal static void SectionAddConnectionOnFirst(ISection section)
+	{
+		section.Pieces.First().AssignWall(
+			new KeyData()
+			{
+				key = PIECEKEYS.WD,
+				dir = DungeonUtils.Flip(section.Pieces.First().Orientation)
+			}
+				, true);
+		section.Pieces.First().Neighbour(
+			DungeonUtils.Flip(section.Pieces.First().Orientation), true).
+			AssignWall(new KeyData()
+			{
+				key = PIECEKEYS.WD,
+				dir = section.Pieces.
+			First().Orientation
+			}, true);
+	}
+	/// <summary>
+	/// Add a fake attachment when debugging a section
+	/// </summary>
+	/// <param name="section"></param>
+	/// <exception cref="NotImplementedException"></exception>
+	internal static void SectionAddFakeAttachment(ISection section)
+	{
+		if (section.GetOuterWallFreeNeighbour(out MapPiece mp, out MAPDIRECTION dir))
+		{
+			// Change the wall on the section piece
+			mp.Neighbour(DungeonUtils.Flip(dir), true).AssignWall(new KeyData() { key = PIECEKEYS.WD, dir = dir }, true);
+		}
+	}
+
+
 	internal static void AddDebugKeys(ref MapData map)
 	{
 		foreach (int X in map.Pieces.Keys)
@@ -243,4 +282,6 @@ internal static class BuildUtils
 		mp = null;
 		return false;
 	}
+
+
 }// EOF CLASS

@@ -1,6 +1,7 @@
 ﻿// Gone through at v1.3
 using MDunGen.Commons;
 using MDunGen.Design;
+using MDunGen.Resources;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -31,7 +32,7 @@ internal class MapBuilder
 	/// </summary>
 	Action<BuildLogEventArgument> log;
 
-	int currentLevel = -1;
+	int currentLevel = 0;
 
 	public MapBuilder(MapData map, ulong[] seed, Action<BuildLogEventArgument> log)
 	{
@@ -54,7 +55,7 @@ internal class MapBuilder
 	/// Keep track of loops by design index and store how many<br/>
 	/// times it has looped.
 	/// </summary>
-	Dictionary<int,int> loopCounter;
+	Dictionary<int, int> loopCounter;
 	/// <summary>
 	/// As rules generates sections a lookup table is generated
 	/// </summary>
@@ -76,34 +77,34 @@ internal class MapBuilder
 					await BuildLevel(designRule as BuildSections);
 					break;
 				case nameof(BuildSection):
-					Godot.GD.Print($"Goal BuildSection BuildSection");
+					//Godot.GD.Print($"Goal BuildSection BuildSection");
 					//if(!indexToSection.ContainsKey(i)){ indexToSection[i] = -1; }
 					indexToSection[i] = map.Sections.Count;
 					await BuildSection(designRule as BuildSection, debug);
 					break;
 				case nameof(Loop):
 					// Verify that the internal count entry exists
-					if(!loopCounter.ContainsKey(i)){ loopCounter[i] = 0; }
+					if (!loopCounter.ContainsKey(i)) { loopCounter[i] = 0; }
 					// Increment counter on loop
 					loopCounter[i]++;
 					// If the loop is hit again after it already ran once. Reset and do again
-					if(loopCounter[i] > (designRule as Loop).loop + 1)
+					if (loopCounter[i] > (designRule as Loop).loop + 1)
 					{
 						log(new BuildLogEventArgument()
 						{
-						severity = BUILDLOGSEVERITY.INFO, 
-						message	= $"Loop reset on Index[{i}]"
+							severity = BUILDLOGSEVERITY.INFO,
+							message = $"Loop reset on Index[{i}]"
 						});
 						loopCounter[i] = 1;
 					}
 					// Cause the step back
-					if(loopCounter[i] < (designRule as Loop).loop + 1)
+					if (loopCounter[i] < (designRule as Loop).loop + 1)
 					{
 						int newIDX = i - (designRule as Loop).stepBack;
 						log(new BuildLogEventArgument()
 						{
-						severity = BUILDLOGSEVERITY.INFO, 
-						message	= $"Loop[{i}] triggered Going back to [{newIDX}]"
+							severity = BUILDLOGSEVERITY.INFO,
+							message = $"Loop[{i}] triggered Going back to [{newIDX}]"
 						});
 						i = newIDX - 1;
 					}

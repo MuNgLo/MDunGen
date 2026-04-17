@@ -216,10 +216,10 @@ static internal class DungeonUtils
 
 		//plane.SubdivideWidth = sizeX;
 		//plane.SubdivideDepth = sizeZ;
-		
+
 		surface.Name = "Water";
 		section.SectionContainer.AddChild(surface);
-		
+
 		Vector3 height = Vector3.Up * section.WaterLevel;
 		//Vector3 depth = GlobalDirection(orientation) * sizeDepth * 0.5f + GlobalDirection(orientation) * 9.0f;
 		//Vector3 width = GlobalDirection(TwistLeft(orientation)) * -3.0f;
@@ -233,8 +233,10 @@ static internal class DungeonUtils
 	{
 		Vector3 min = GlobalPosition(section.MinCoord);
 		Vector3 max = GlobalPosition(section.MaxCoord);
-		Vector3 center = (max - min)*0.5f + min;
+		Vector3 center = (max - min) * 0.5f + min;
 		return center;
 	}
+
+	
 }// EOF CLASS
 

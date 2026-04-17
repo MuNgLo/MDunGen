@@ -21,6 +21,9 @@ public partial class SectionResource : DungeonAddonResource
 	[Export] public int nbFloorsMin = 1;
 	[Export] public int nbFloorsMax = 2;
 
+	[Export] public ATTACHHEIGHT GrowHeight = ATTACHHEIGHT.BOTTOM;
+	[Export] public ATTACHHEIGHT AttachHeight = ATTACHHEIGHT.BOTTOM;
+
 	[ExportGroup("Extras")]
 	[Export] public bool arches = true;
 	[ExportGroup("Water")]
@@ -32,12 +35,8 @@ public partial class SectionResource : DungeonAddonResource
 	[Export] public int nbDoorsPerFloorMin = 0;
 	[Export] public int nbDoorsPerFloorMax = 0;
 
-	[ExportGroup("WiP")]
-	//[Export] public Array<PlacerEntryResource> placers;
-	[Export] public bool centerSpiralStairs = false;
-	[Export] public bool firstPieceDoor = true;
-	[Export] public int backDoorChance = 30;
-	[Export] public bool allFloor = false;
+	//[ExportGroup("WiP")]
+	//[Export] public int backDoorChance = 30;
 
 	internal void VerifyValues()
 	{
@@ -50,6 +49,6 @@ public partial class SectionResource : DungeonAddonResource
 		if (nbFloorsMax < nbFloorsMin) { nbFloorsMax = Mathf.Clamp(nbFloorsMax, nbFloorsMin, 1000); }
 		nbFloorsMin = Mathf.Clamp(nbFloorsMin, 1, nbFloorsMax);
 
-		backDoorChance = Mathf.Clamp(backDoorChance, 0, 100);
+		//backDoorChance = Mathf.Clamp(backDoorChance, 0, 100);
 	}
 }// EOF CLASS

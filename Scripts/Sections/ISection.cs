@@ -116,7 +116,14 @@ public interface ISection
 	/// <param name="parentCoord"></param>
 	/// <returns></returns>
 	bool ContainsPiece(MapCoordinate parentCoord);
-	bool GetOuterWallFreeNeighbour(out MapPiece neighbour, out MAPDIRECTION dir, bool includeCorners = false, bool onlySectionGroundFloor = true);
+	/// <summary>
+	/// Returns the empty neighbor and the direction away from section if successful
+	/// </summary>
+	/// <param name="neighbour"></param>
+	/// <param name="dir"></param>
+	/// <param name="includeCorners"></param>
+	/// <returns></returns>
+	bool GetOuterWallFreeNeighbour(out MapPiece neighbour, out MAPDIRECTION dir, bool includeCorners = false);
 
 
 	public int ConnectionCount { get; }
@@ -132,4 +139,11 @@ public interface ISection
 	public float WaterLevel { get; }
 	public float WaterDepth { get; }
 	public Material WaterMaterial { get; }
+
+
+
+	public ATTACHHEIGHT GrowHeight { get; }
+	public ATTACHHEIGHT AttachHeight { get; }
+
+
 }// EOF INTERFACE

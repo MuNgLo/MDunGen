@@ -1,5 +1,6 @@
 ﻿// Gone through at v1.3
 using Godot;
+using MDunGen.Builder;
 using MDunGen.Commons;
 using MDunGen.Resources;
 using System;
@@ -52,23 +53,20 @@ public class SectionBase : ISection
 	private protected List<MapPiece> pieces;
 
 
-
-	//private SectionProps props;
-	//internal SectionProps PropGrid => props;
-	//public List<SectionProp> Props => props.props;
-
 	private protected MapCoordinate coord;
 	private protected int MinY => minY;
 	private protected int MaxY => maxY;
 	public MapCoordinate Coord => coord;
 
-
-	//private Array<PlacerEntryResource> placers;
-	//public Array<PlacerEntryResource> Placers => placers;
-
 	#endregion
 
 	#region Needs some work
+
+	ATTACHHEIGHT growHeight = ATTACHHEIGHT.BOTTOM;
+	ATTACHHEIGHT attachHeight = ATTACHHEIGHT.BOTTOM;
+	public ATTACHHEIGHT GrowHeight => growHeight;
+	public ATTACHHEIGHT AttachHeight => attachHeight;
+
 	private protected SectionResource sectionDefinition;
 
 	internal MAPDIRECTION orientation;
@@ -99,7 +97,7 @@ public class SectionBase : ISection
 	#endregion
 
 	#region Properties
-	public MapCoordinate MaxCoord => new MapCoordinate(maxX, MaxY - 1, maxZ);
+	public MapCoordinate MaxCoord => new MapCoordinate(maxX, MaxY, maxZ);
 	public MapCoordinate MinCoord => new MapCoordinate(minX, MinY, minZ);
 
 
@@ -141,13 +139,15 @@ public class SectionBase : ISection
 		pieces = new List<MapPiece>();
 		connections = new List<int>();
 		rng = new PRNGMarsenneTwister(args.Seed);
-		//props = new SectionProps(this, args.Seed);
 
 		map = args.map;
 
 		sectionDefinition = args.sectionDefinition;
 		levelIndex = args.levelIndex;
 		sectionIndex = args.sectionID;
+
+		growHeight = args.sectionDefinition.GrowHeight;
+		attachHeight = args.sectionDefinition.AttachHeight;
 
 		waterMaterial = args.sectionDefinition.waterMaterial;
 		waterDepth = args.sectionDefinition.waterDepth;
@@ -194,29 +194,10 @@ public class SectionBase : ISection
 			piece.AssignWall(new KeyData() { key = PIECEKEYS.WDW, dir = dir }, overrideLocked);
 			MapPiece nb = piece.Neighbour(DungeonUtils.TwistRight(dir), true);
 			nb.AssignWall(new KeyData() { key = PIECEKEYS.OCCUPIED, dir = dir }, overrideLocked);
-			/*if (!piece.hasFloor)
-			{
-				StairPlacer stairCase = new StairPlacer(this, piece, dir);
-				if (stairCase.isValid)
-				{
-					stairCase.Build();
-				}
-			}*/
 		}
 		else
 		{
 			piece.AssignWall(new KeyData() { key = PIECEKEYS.WD, dir = dir }, overrideLocked);
-			if (!piece.hasFloor)
-			{
-
-				/*StairPlacer stairCase = new StairPlacer(this, piece, dir);
-				if (stairCase.isValid)
-				{
-					stairCase.Build();
-				}*/
-
-
-			}
 		}
 		map.SavePiece(piece);
 		return true;
@@ -310,28 +291,75 @@ public class SectionBase : ISection
 		return candidates;
 	}
 
-	public bool GetOuterWallFreeNeighbour(out MapPiece neighbour, out MAPDIRECTION dir, bool includeCorners = false, bool onlySectionGroundFloor = true)
+
+	public bool GetOuterWallFreeNeighbour(out MapPiece neighbour, out MAPDIRECTION dir, bool includeCorners = false)
 	{
+		int aHeight = ResolveAttachHeight();
+
+
 		// Confirmed
-		List<MapPiece> candidates = onlySectionGroundFloor ? GetOutsideWallsOnFloor(Coord.y) : GetOutsideWalls(includeCorners);
+		List<MapPiece> candidates = GetOutsideWallsOnFloor(aHeight, includeCorners);
+
 		dir = MAPDIRECTION.ANY;
 		int breaker = 20;
 		while (breaker > 0 && candidates.Count > 0)
 		{
 			int idx = RNG.Next(candidates.Count);
 			neighbour = candidates[idx].Neighbour(candidates[idx].OutsideWallDirection(), true);
-			if (neighbour.isEmpty) { dir = candidates[idx].OutsideWallDirection(); return true; }
+			if (neighbour.isEmpty)
+			{
+				// Found empty valid neighbor
+				dir = candidates[idx].OutsideWallDirection();
+				return true;
+			}
 			breaker--;
 		}
 		neighbour = null;
 		return false;
 	}
 
+	private int ResolveAttachHeight()
+	{
+		switch (AttachHeight)
+		{
+			case ATTACHHEIGHT.RANDOM:
+				return RNG.Next(sizeY);
+			case ATTACHHEIGHT.BOTTOM:
+				return minY;
+			case ATTACHHEIGHT.CENTER:
+				return minY + Mathf.FloorToInt((maxY - minY) * 0.5f);
+			case ATTACHHEIGHT.TOP:
+				return maxY;
+		}
+		return Coord.y;
+	}
+	private void AdjustSectionHeight(int y)
+	{
+		switch (GrowHeight)
+		{
+			case ATTACHHEIGHT.RANDOM:
+				int offset = RNG.Next(sizeY);
+				minY = y - offset;
+				maxY = y + sizeY - 1 - offset;
+				return;
+			case ATTACHHEIGHT.CENTER:
+				minY = y - Mathf.FloorToInt(sizeY * 0.5f);
+				maxY = y + Mathf.FloorToInt(sizeY * 0.5f);
+				return;
+			case ATTACHHEIGHT.TOP:
+				minY = y - sizeY + 1;
+				maxY = y;
+				return;
+		}
+		minY = y;
+		maxY = y + sizeY - 1;
+	}
+
 	/// <summary>
 	/// Set min max based on arguments
 	/// </summary>
-	/// <param name="center"></param>
-	private protected void SetMinMaxCoord(MapCoordinate center)
+	/// <param name="growLocation"></param>
+	private protected void SetMinMaxCoord(MapCoordinate growLocation)
 	{
 		int XOffset = 0;
 		int ZOffset = 0;
@@ -340,33 +368,35 @@ public class SectionBase : ISection
 		switch (orientation)
 		{
 			case MAPDIRECTION.NORTH:
-				minX = center.x - (int)(sizeX * 0.5f) + 1 - XOffset;
-				maxX = center.x + (int)(sizeX * 0.5f);
-				minZ = center.z - sizeZ + 1;
-				maxZ = center.z;
+				minX = growLocation.x - (int)(sizeX * 0.5f) + 1 - XOffset;
+				maxX = growLocation.x + (int)(sizeX * 0.5f);
+				minZ = growLocation.z - sizeZ + 1;
+				maxZ = growLocation.z;
 				break;
 			case MAPDIRECTION.SOUTH:
-				minX = center.x - (int)(sizeX * 0.5f) + XOffset;
-				maxX = center.x + (int)(sizeX * 0.5f) - 1;
-				minZ = center.z;
-				maxZ = center.z + sizeZ - 1;
+				minX = growLocation.x - (int)(sizeX * 0.5f) + XOffset;
+				maxX = growLocation.x + (int)(sizeX * 0.5f) - 1;
+				minZ = growLocation.z;
+				maxZ = growLocation.z + sizeZ - 1;
 				break;
 			case MAPDIRECTION.EAST:
-				minX = center.x;
-				maxX = center.x + sizeX - 1;
-				minZ = center.z - (int)(sizeZ * 0.5f) + 1 - ZOffset;
-				maxZ = center.z + (int)(sizeZ * 0.5f);
+				minX = growLocation.x;
+				maxX = growLocation.x + sizeX - 1;
+				minZ = growLocation.z - (int)(sizeZ * 0.5f) + 1 - ZOffset;
+				maxZ = growLocation.z + (int)(sizeZ * 0.5f);
 				break;
 			case MAPDIRECTION.WEST:
-				minX = center.x - sizeX + 1;
-				maxX = center.x;
-				minZ = center.z - (int)(sizeZ * 0.5f) - ZOffset;
-				maxZ = center.z + (int)(sizeZ * 0.5f) - 1;
+				minX = growLocation.x - sizeX + 1;
+				maxX = growLocation.x;
+				minZ = growLocation.z - (int)(sizeZ * 0.5f) - ZOffset;
+				maxZ = growLocation.z + (int)(sizeZ * 0.5f) - 1;
 				break;
 		}
-		minY = center.y;
-		maxY = center.y + sizeY;
+		AdjustSectionHeight(growLocation.y);
 	}
+
+
+
 	/// <summary>
 	/// Finds the furthest pieces to describe a square that the section covers<br/>
 	/// Make sure to do this after build to get correct values
@@ -384,14 +414,14 @@ public class SectionBase : ISection
 
 		foreach (MapPiece piece in Pieces)
 		{
-			if(piece.Coord.x < minX) { minX = piece.Coord.x; }
-			if(piece.Coord.x > maxX) { maxX = piece.Coord.x; }
+			if (piece.Coord.x < minX) { minX = piece.Coord.x; }
+			if (piece.Coord.x > maxX) { maxX = piece.Coord.x; }
 
-			if(piece.Coord.z < minZ) { minZ = piece.Coord.z; }
-			if(piece.Coord.z > maxZ) { maxZ = piece.Coord.z; }
+			if (piece.Coord.z < minZ) { minZ = piece.Coord.z; }
+			if (piece.Coord.z > maxZ) { maxZ = piece.Coord.z; }
 
-			if(piece.Coord.y < minY) { minY = piece.Coord.y; }
-			if(piece.Coord.y > maxY) { maxY = piece.Coord.y; }
+			if (piece.Coord.y < minY) { minY = piece.Coord.y; }
+			if (piece.Coord.y > maxY) { maxY = piece.Coord.y; }
 		}
 	}
 
@@ -495,7 +525,7 @@ public class SectionBase : ISection
 	{
 		if (id < 1)
 		{
-			
+
 			GD.PushError($"SectionBase::AddConnection({id}) INVALID ID!\n{System.Environment.StackTrace}");
 		}
 
@@ -583,5 +613,45 @@ public class SectionBase : ISection
 		{
 			piece.AddExtra(new KeyData() { key = PIECEKEYS.ARCH, dir = MAPDIRECTION.WEST, variantID = 0 });
 		}
+	}
+
+	/// <summary>
+	/// If the passed piece is pending, It is added to section and all its UNUSED<br/>
+	/// neighbors are added the the pieces List for processing.<br/>
+	/// That is if they are inside the min/max space of the section
+	/// </summary>
+	/// <param name="mp"></param>
+	private protected void ProcessPiece(MapPiece mp)
+	{
+		if (mp.State != MAPPIECESTATE.PENDING)
+		{
+			return;
+		}
+		mp.Orientation = orientation;
+		mp.AddSection(sectionIndex);
+
+		// Do all MAPDIRECTIONs
+		for (int i = 1; i < 7; i++)
+		{
+			MAPDIRECTION processingDirection = (MAPDIRECTION)i;
+			MapPiece nb = mp.Neighbour(processingDirection, true);
+			if (nb.State == MAPPIECESTATE.UNUSED)
+			{
+				if (nb.Coord.x >= minX && nb.Coord.x <= maxX
+					&& nb.Coord.y >= MinY && nb.Coord.y <= MaxY
+					&& nb.Coord.z >= minZ && nb.Coord.z <= maxZ
+					)
+				{
+					// Expand room to tile if within limits
+					nb.State = MAPPIECESTATE.PENDING;
+					nb.AddSection(sectionIndex);
+					nb.sectionFloor = Math.Abs(nb.Coord.y - pieces.First().Coord.y);
+					pieces.Add(nb);
+					map.SavePiece(nb);
+				}
+			}
+		}
+		mp.State = MAPPIECESTATE.LOCKED;
+		map.SavePiece(mp);
 	}
 }// EOF CLASS

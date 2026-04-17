@@ -20,4 +20,3 @@ nbFloorsMin = 3
 nbFloorsMax = 3
 waterLevel = -0.2
 waterMaterial = ExtResource("2_ernsh")
-firstPieceDoor = false
