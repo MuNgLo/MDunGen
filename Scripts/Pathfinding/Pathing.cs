@@ -9,6 +9,15 @@ namespace MDunGen.Pathfinding;
 
 internal static class Pathing
 {
+
+
+	internal static EventHandler<PathData> OnPathDataPushed;
+
+	internal static void RaiseOnPathDataPushed(PathData pathData)
+	{
+		OnPathDataPushed?.Invoke(null, pathData);
+	}
+
     internal static void FindPath(PathQuery query, Action<PathAnswer> callback)
     {
         if (query.IsSectionPath)

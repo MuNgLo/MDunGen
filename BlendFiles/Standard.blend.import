@@ -53,6 +53,11 @@ _subresources={
 "use_external/enabled": true,
 "use_external/fallback_path": "res://addons/MDunGen/Materials/defWallMaterial.tres",
 "use_external/path": "uid://kfgeyarnq0v6"
+},
+"bWood": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://addons/MDunGen/Materials/defWood.tres",
+"use_external/path": "uid://dawr6dgw6djb1"
 }
 },
 "meshes": {
@@ -118,6 +123,24 @@ _subresources={
 "save_to_file/enabled": true,
 "save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Standard/Standard_Floor03.res",
 "save_to_file/path": "uid://dw204lqdmh624"
+},
+"Standard_LadderFull": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Standard/Standard_LadderFull.res",
+"save_to_file/path": "uid://kp1we438axv7"
+},
+"Standard_LadderStop": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Standard/Standard_LadderStop.res",
+"save_to_file/path": "uid://cwg7bdjfrcdh1"
 },
 "Standard_Wall01": {
 "generate/lightmap_uv": 0,

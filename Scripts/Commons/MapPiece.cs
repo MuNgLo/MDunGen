@@ -160,11 +160,11 @@ public class MapPiece
 	/// <param name="kData"></param>
 	internal void AddExtra(KeyData kData)
 	{
-		extras.RemoveAll(p => p.key == kData.key && p.dir == kData.dir);
+		extras.RemoveAll(p => p.key == kData.key && p.dir == kData.dir && p.variantID == kData.variantID);
 		extras.Add(kData);
 	}
 	/// <summary>
-	/// Removes all matching keys from props. Then add one
+	/// Removes all matching keys from debug. Then add one
 	/// </summary>
 	/// <param name="kData"></param>
 	internal void AddDebug(KeyData kData)

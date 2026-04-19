@@ -1,6 +1,7 @@
 ﻿// Gone through at v1.3
 using System.Collections.Generic;
 using System.Linq;
+using MDunGen.Builder;
 using MDunGen.Commons;
 using MDunGen.Sections;
 
@@ -42,7 +43,7 @@ internal class Line
 	/// <param name="step"></param>
 	internal void AddStep(MapPiece step, bool skipOrientation = false)
 	{
-		if(!skipOrientation){ step.Orientation = Last.Orientation; }
+		if (!skipOrientation) { step.Orientation = Last.Orientation; }
 		step.State = MAPPIECESTATE.PENDING;
 		step.AddSection(SectionIndex);
 		steps.Add(step);
@@ -52,13 +53,20 @@ internal class Line
 	internal void Walk(int maxSteps, bool mainline)
 	{
 		if (steps.Count < 1) { return; }
+		MapPiece oldLast = Last;
 		WalkNormal(maxSteps, mainline);
+
+		// Insert connection backwards when leaving other section
+		if (oldLast.MainSection != SectionIndex && oldLast.MainSection != Last.MainSection)
+		{
+			BuildUtils.AddConnection(ref map, Last.Coord, oldLast.Coord, section);
+		}
 	}
 	internal void WalkNormal(int maxSteps, bool mainline)
 	{
 		MapPiece nextStep = Last.Neighbour(Last.Orientation, true);
 		// Check if the next piece has a section assigned
-		if (nextStep.MainSection >= 0)
+		if (nextStep.MainSection > -1)
 		{
 			if (!nextStep.IsPartOfSection(SectionIndex) && !nextStep.IsPartOfSection(Last.MainSection))
 			{
@@ -67,35 +75,7 @@ internal class Line
 				{
 					if (mainline)
 					{
-						// TODO FIX IT!
-						/*
-						ISection nextSection = map.Sections[nextStep.MainSection];
-						// Works
-						int c1 = section.AddConnection(Last.Orientation, nextSection, Last.Coord, nextStep.Coord, true);
-						int c2 = nextSection.AddConnection(DungeonUtils.Flip(Last.Orientation), section, nextStep.Coord, Last.Coord, true);
-						map.Connections[c1].connectedToConnectionID = c2;
-						map.Connections[c2].connectedToConnectionID = c1;
-
-						// Right side special connection
-						MapPiece nextStepRightNB = nextStep.Neighbour(DungeonUtils.TwistRight(Last.Orientation), false);
-						if (nextStepRightNB is not null && nextStepRightNB.IsPartOfSection(nextSection.SectionIndex) && !nextStepRightNB.HasWall(DungeonUtils.TwistLeft(Last.Orientation)))
-						{
-							int cR1 = section.AddConnection(DungeonUtils.TwistRight(Last.Orientation), map.Sections[nextStepRightNB.MainSection], nextStep.Coord, nextStepRightNB.Coord, true);
-							int cR2 = map.Sections[nextStepRightNB.MainSection].AddConnection(DungeonUtils.TwistLeft(Last.Orientation), section, nextStepRightNB.Coord, nextStep.Coord, true);
-							map.Connections[cR1].connectedToConnectionID = cR2;
-							map.Connections[cR2].connectedToConnectionID = cR1;
-						}
-
-						// Left side special connection
-						MapPiece nextStepLeftNB = nextStep.Neighbour(DungeonUtils.TwistLeft(Last.Orientation), false);
-						if (nextStepLeftNB is not null && nextStepLeftNB.IsPartOfSection(nextSection.SectionIndex) && !nextStepLeftNB.HasWall(DungeonUtils.TwistRight(Last.Orientation)))
-						{
-							int cL1 = section.AddConnection(DungeonUtils.TwistLeft(Last.Orientation), map.Sections[nextStepLeftNB.MainSection], nextStep.Coord, nextStepLeftNB.Coord, false);
-							int cL2 = map.Sections[nextStepLeftNB.MainSection].AddConnection(DungeonUtils.TwistRight(Last.Orientation), section, nextStepLeftNB.Coord, nextStep.Coord, true);
-							map.Connections[cL1].connectedToConnectionID = cL2;
-							map.Connections[cL2].connectedToConnectionID = cL1;
-						}
-						*/
+						BuildUtils.AddConnection(ref map, Last.Coord, nextStep.Coord, section);
 						AddStep(nextStep);
 						return;
 					}
@@ -112,20 +92,14 @@ internal class Line
 				AddStep(nextStep);
 				return;
 			}
+
+
+
 			// Proceed to walk Line through other section
 			AddStep(nextStep);
 			return;
 		}
-		/*else if (Last.MainSection >= 0 && !Last.IsPartOfSection(SectionIndex))
-		{
-			int nextSectionIndex = nextStep.MainSection;
-			if (nextSectionIndex < 0) { nextSectionIndex = SectionIndex; }
-			// Works
-			int c1b = section.AddConnection(DungeonUtils.Flip(Last.Orientation), map.Sections[Last.MainSection], nextStep.Coord, Last.Coord, true);
-			int c2b = map.Sections[Last.MainSection].AddConnection(Last.Orientation, section, Last.Coord, nextStep.Coord, true);
-			map.Connections[c1b].connectedToConnectionID = c2b;
-			map.Connections[c2b].connectedToConnectionID = c1b;
-		}*/
+
 		AddStep(nextStep);
 		nextStep.Save();
 	}

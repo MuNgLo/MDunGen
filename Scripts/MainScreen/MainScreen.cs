@@ -15,22 +15,24 @@ namespace MDunGen.MS;
 public partial class MainScreen : Control
 {
 	public Dungeons addon;
-	private VIEWERMODE mode = VIEWERMODE.DUNGEON;
-	public VIEWERMODE Mode => mode;
-	private Selection.Manager selection;
-	private ScreenDungeonVisualizer dunVis;
+	VIEWERMODE mode = VIEWERMODE.DUNGEON;
+	Selection.Manager selection;
+	ScreenDungeonVisualizer dunVis;
+	EditorFileDialog popup;
+	MapData map;
 
-	private EditorFileDialog popup;
-
-
-	public Node3D CurrentDungeon => GetNode<Node3D>("SubViewportContainer/SubViewport/Dungeon/Generated");
-	public Node3D Gizmos => GetNode<Node3D>("SubViewportContainer/SubViewport/Gizmos");
-
+	MapDesignResource design;
+	public event EventHandler OnMapDataGenerationStarted;
+	public event EventHandler OnMapDataGenerationEnded;
+	public event EventHandler<BuildLogEventArgument> OnMapBuildLog;
 	internal EventHandler OnMainScreenUIUpdate;
 	internal EventHandler<string> OnNotificationPushed;
-	internal EventHandler<Pathfinding.PathData> OnPathDataPushed;
 
+	public VIEWERMODE Mode => mode;
+	public MapData Map { get => map; }
 	internal Selection.Manager Selection => selection;
+	public Node3D Gizmos => GetNode<Node3D>("SubViewportContainer/SubViewport/Gizmos");
+	public Node3D CurrentDungeon => GetNode<Node3D>("SubViewportContainer/SubViewport/Dungeon/Generated");
 	public ScreenDungeonVisualizer Visualizer { get => dunVis; }
 
 	public override void _EnterTree()
@@ -45,7 +47,6 @@ public partial class MainScreen : Control
 		{
 			PopupInitialSettingsDialogue();
 		}
-		SetDebugLayer(addon.MasterConfig.showDebug);
 		RaiseUpdateUI();
 	}
 
@@ -109,13 +110,7 @@ public partial class MainScreen : Control
 
 		OnMapDataGenerationEnded?.Invoke(EventArgs.Empty, EventArgs.Empty);
 	}
-	private MapData map;
-	public MapData Map { get => map; }
 
-	private MapDesignResource design;
-	public event EventHandler OnMapDataGenerationStarted;
-	public event EventHandler OnMapDataGenerationEnded;
-	public event EventHandler<BuildLogEventArgument> OnMapBuildLog;
 
 	public void RaiseBuildLogEvent(BuildLogEventArgument args)
 	{
@@ -183,18 +178,7 @@ public partial class MainScreen : Control
 		selection.ClearSelection();
 		RaiseNotification("CLEARED");
 	}
-	/// <summary>
-	/// Sets the state of the debug information
-	/// </summary>
-	/// <param name="state"></param>
-	internal void SetDebugLayer(bool state)
-	{
-		dunVis.SetDebugLayer(state);
-	}
-	internal void RaiseOnPathDataPushed(Pathfinding.PathData pathData)
-	{
-		OnPathDataPushed?.Invoke(this, pathData);
-	}
+
 
 	/// <summary>
 	/// Toggles mode between dungeon and section. Defaults to dungeon.

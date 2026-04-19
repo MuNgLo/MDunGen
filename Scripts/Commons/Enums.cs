@@ -29,7 +29,8 @@ public enum PIECEKEYS
 	WD = 12,
 	WDW = 13,
 	WCI = 14,
-	ARCH = 15
+	ARCH = 15,
+	MISC = 16
 }
 
 

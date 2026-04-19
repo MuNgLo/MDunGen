@@ -12,7 +12,9 @@
 [ext_resource type="PackedScene" uid="uid://c47pckvep6emk" path="res://addons/MDunGen/Scenes/Standard/def_archcorner.tscn" id="10_kbl5j"]
 [ext_resource type="PackedScene" uid="uid://ctq3ly115qcft" path="res://addons/MDunGen/Scenes/Standard/def_hallwayarch01.tscn" id="11_xjl7o"]
 [ext_resource type="PackedScene" uid="uid://bo1vvej54i8o" path="res://addons/MDunGen/Scenes/Standard/def_floor01.tscn" id="12_guq6r"]
+[ext_resource type="ArrayMesh" uid="uid://kp1we438axv7" path="res://addons/MDunGen/Meshes/Standard/Standard_LadderFull.res" id="12_u2eaq"]
 [ext_resource type="PackedScene" uid="uid://bsedxwapwcs7g" path="res://addons/MDunGen/Scenes/Standard/def_floor02.tscn" id="13_k3g1e"]
+[ext_resource type="ArrayMesh" uid="uid://c2d44lqomn044" path="res://addons/MDunGen/Meshes/Standard/Standard_LadderStop.res" id="13_vu743"]
 [ext_resource type="PackedScene" uid="uid://bkoxwnfj3xk1g" path="res://addons/MDunGen/Scenes/Standard/def_floor03.tscn" id="14_g4srk"]
 [ext_resource type="PackedScene" uid="uid://digcfyvxwb5hd" path="res://addons/MDunGen/Scenes/Standard/def_hallwayfloor01.tscn" id="15_41rgj"]
 [ext_resource type="PackedScene" uid="uid://1b4yyt8ynq8u" path="res://addons/MDunGen/Scenes/Standard/def_hallwayfloor02.tscn" id="16_p7b47"]
@@ -39,6 +41,12 @@ resources = [ExtResource("3_vu743"), ExtResource("4_480td"), ExtResource("5_wg6c
 script = ExtResource("2_u2eaq")
 key = 15
 resources = [ExtResource("9_hytc7"), ExtResource("10_kbl5j"), ExtResource("11_xjl7o")]
+
+[sub_resource type="Resource" id="Resource_vu743"]
+script = ExtResource("2_u2eaq")
+key = 16
+resources = [ExtResource("12_u2eaq"), ExtResource("13_vu743")]
+metadata/_custom_type_script = "uid://bexk71y5d2pt5"
 
 [sub_resource type="Resource" id="Resource_sqnh8"]
 script = ExtResource("2_u2eaq")
@@ -74,5 +82,5 @@ floorMaterials = []
 floors = [SubResource("Resource_sqnh8")]
 ceilingMaterials = []
 ceilings = [SubResource("Resource_p06t7")]
-extras = [SubResource("Resource_b5faw")]
+extras = [SubResource("Resource_b5faw"), SubResource("Resource_vu743")]
 metadata/_custom_type_script = "uid://c3jmyg31j7sts"

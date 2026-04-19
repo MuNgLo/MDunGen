@@ -74,6 +74,7 @@ internal class PathQuery
 				else
 				{
 					// TODO Is this good??? setting this to cost 1???
+					Godot.GD.Print("SADDASD");
 					tempConn.Add(otherConn.connectionID, otherConn.coord, 1);
 				}
 			}
@@ -84,7 +85,7 @@ internal class PathQuery
 
 	internal void OverrideSections(int start, int end)
 	{
-		Godot.GD.Print($"PathQuery OverrideSections() NO GOAL!");
+		Godot.GD.Print($"PathQuery OverrideSections() NO GOAL! startSection[{startSection}]>[{start}]  endSection[{endSection}]>[{end}]");
 
 		startSection = start;
 		endSection = end;

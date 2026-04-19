@@ -15,7 +15,7 @@ public class RoomSection : SectionBase
 	#region ISection methods
 	public override void Build(Action<BuildLogEventArgument> log)
 	{
-		log.Invoke(new() { source = "RoomSection::Build()", message = "Building Room section", sectionIndex = sectionIndex, levelIndex = levelIndex, mapLocations = [coord] });
+		log.Invoke(new() { source = "RoomSection::Build()", message = $"Building [{this.GetType().Name}]", sectionIndex = sectionIndex, levelIndex = levelIndex, mapLocations = [coord] });
 
 		MapPiece start = map.GetPiece(coord);
 

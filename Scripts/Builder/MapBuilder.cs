@@ -1,6 +1,7 @@
 ﻿// Gone through at v1.3
 using MDunGen.Commons;
 using MDunGen.Resources;
+using MDunGen.Sections;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -117,8 +118,14 @@ internal class MapBuilder
 		}
 
 		BuildUtils.ProcessMapConnections(ref map, log);
-
 		BuildUtils.BuildOpeningsFromConnections(ref map);
+
+		for (int i = 0; i < map.Sections.Count; i++)
+		{
+			VerticalInnerPathBuilder vBuilder = new VerticalInnerPathBuilder(this, map, NewSeed(), log);
+			await vBuilder.Build(i, debug);			
+		}
+
 		BuildUtils.FitRoundedCorners(ref map);
 		BuildUtils.AddDebugKeys(ref map);
 		BuildUtils.LatePassRooms(ref map);

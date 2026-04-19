@@ -55,8 +55,6 @@ internal class LevelBuilder
 		levelRNG = new PRNGMarsenneTwister(this.seed);
 	}
 
-	
-
 	internal async Task Build(BuildSections level)
 	{
 		log.Invoke(new() { source = "FloorBuilder::BuildFloor()", message = $"Starting build rules for floor. Count[{level.rules.Length}]", levelIndex = levelIndex });
@@ -69,7 +67,6 @@ internal class LevelBuilder
 				continue;
 			}
 		}
-
 		log.Invoke(new() { source = "FloorBuilder::BuildFloor()", message = "Build rules completed.", levelIndex = levelIndex });
 
 /*
@@ -86,6 +83,7 @@ internal class LevelBuilder
 		//	DoPathingPass();
 		//}
 		log.Invoke(new() { source = "MapBuilder::BuildFloorMapData()", message = "Finished." });
+		await Task.Delay(1);
 	}
 
 	private async Task ResolveBuildRule(int levelIndex, BuildSection rule)

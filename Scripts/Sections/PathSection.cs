@@ -38,7 +38,7 @@ public class PathSection : SectionBase
 
 	public override void Build(Action<BuildLogEventArgument> log)
 	{
-		log.Invoke(new() { source = "RoomSection::Build()", message = "Building Path section", sectionIndex = sectionIndex, levelIndex = levelIndex, mapLocations = [coord] });
+		log.Invoke(new() { source = "RoomSection::Build()", message = $"Building [{this.GetType().Name}]", sectionIndex = sectionIndex, levelIndex = levelIndex, mapLocations = [coord] });
 
 		MapPiece step = map.GetPiece(coord);
 		MAPDIRECTION startDir = step.Orientation;

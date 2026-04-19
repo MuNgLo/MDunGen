@@ -371,32 +371,38 @@ public partial class ScreenDungeonVisualizer : Node3D
 
 		if (cacheKeyedPieces == null) { cacheKeyedPieces = new Dictionary<PIECEKEYS, Dictionary<int, Resource>>(); }
 
+
 		if (!cacheKeyedPieces.ContainsKey(data.key)) { cacheKeyedPieces[data.key] = new Dictionary<int, Resource>(); }
 
 		if (!cacheKeyedPieces[data.key].ContainsKey(data.variantID))
 		{
+			if (data.key == PIECEKEYS.MISC)
+			{
+				GD.Print($"ResolveAndCache Key [{data.key}] looked up. data.variantID[{data.variantID}]");
+			}
 			if (biome.GetResource(data.key, data.variantID, out Resource result))
 			{
 				cacheKeyedPieces[data.key][data.variantID] = result;
 			}
-			if (biome.debug.Where(p => p.key == data.key).Count() > 0)
+			if (biome.debug.Count(p => p.key == data.key) > 0)
 			{
 				cacheKeyedPieces[data.key][data.variantID] = biome.debug.Where(p => p.key == data.key).First().GetResource(data.variantID);
 			}
-			else if (biome.walls.Where(p => p.key == data.key).Count() > 0)
+			else if (biome.walls.Count(p => p.key == data.key) > 0)
 			{
 				cacheKeyedPieces[data.key][data.variantID] = biome.walls.Where(p => p.key == data.key).First().GetResource(data.variantID);
 			}
-			else if (biome.floors.Where(p => p.key == data.key).Count() > 0)
+			else if (biome.floors.Count(p => p.key == data.key) > 0)
 			{
 				cacheKeyedPieces[data.key][data.variantID] = biome.floors.Where(p => p.key == data.key).First().GetResource(data.variantID);
 			}
-			else if (biome.ceilings.Where(p => p.key == data.key).Count() > 0)
+			else if (biome.ceilings.Count(p => p.key == data.key) > 0)
 			{
 				cacheKeyedPieces[data.key][data.variantID] = biome.ceilings.Where(p => p.key == data.key).First().GetResource(data.variantID);
 			}
-			else if (biome.extras.Where(p => p.key == data.key).Count() > 0)
+			else if (biome.extras.Any(p => p.key == data.key))
 			{
+				GD.Print($"ResolveAndCache Key [{data.key}] has [{biome.extras.Count()}] Extra entries");
 				cacheKeyedPieces[data.key][data.variantID] = biome.extras.Where(p => p.key == data.key).First().GetResource(data.variantID);
 			}
 		}
@@ -417,25 +423,6 @@ public partial class ScreenDungeonVisualizer : Node3D
 		}
 		return cacheKeyedPieces[data.key][data.variantID];
 	}
-	[Obsolete("Does this do anything useful anymore?")]
-	internal void SetDebugLayer(bool state)
-	{
-		Node3D generated = GetNode<Node3D>("GeneratedDebug");
-		if (generated == null)
-		{
-			GD.Print($"ScreenDungeonVisualizer::ClearLevel()  GeneratedDebug node missing!");
-			return;
-		}
-		if (!state)
-		{
-			generated.Hide();
-			mainScreen.RaiseNotification($"Debug OFF");
-		}
-		else
-		{
-			generated.Show();
-			mainScreen.RaiseNotification($"Debug ON");
-		}
-	}
+
 }// eof class
 #endif

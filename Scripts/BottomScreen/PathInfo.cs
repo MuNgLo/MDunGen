@@ -11,7 +11,7 @@ public partial class PathInfo : Control
 	[Export] private RichTextLabel pathDebugInfo;
 	public override void _EnterTree()
 	{
-		BS.addon.MS.OnPathDataPushed += WhenPathDataPushed;
+		Pathing.OnPathDataPushed += WhenPathDataPushed;
 	}
     private void WhenPathDataPushed(object sender, PathData e)
     {

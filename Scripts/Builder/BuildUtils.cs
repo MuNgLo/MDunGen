@@ -372,7 +372,6 @@ internal static class BuildUtils
 			ISection section = map.Sections[connPair.Value.sectionID];
 			if(map.Connections[connPair.Key].connectedToConnectionID < 0)
 			{
-				GD.Print($"Connection connected to invalid connection [{map.Connections[connPair.Key].connectedToConnectionID}]");
 				if(map.GetConnection(map.Connections[connPair.Key].coord + map.Connections[connPair.Key].Dir, out SectionConnection conn))
 				{
 					map.Connections[connPair.Key].connectedToConnectionID = conn.connectionID;
@@ -421,6 +420,16 @@ internal static class BuildUtils
 				}
 			}
 		}
+	}
+
+	internal static List<MapPiece> GetPiecesDownwardsToFloor(ref MapData map, MapCoordinate coord)
+	{
+		List<MapPiece> result = [map.GetExistingPiece(coord)];
+		while (result.Last() is not null && !result.Last().hasFloor)
+		{
+			result.Add(map.GetExistingPiece(result.Last().Coord + MAPDIRECTION.DOWN));
+		}
+		return result;
 	}
 	#endregion
 }// EOF CLASS

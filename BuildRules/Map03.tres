@@ -4,9 +4,8 @@
 [ext_resource type="Script" uid="uid://5nmg7q8558mt" path="res://addons/MDunGen/Scripts/ResourceDefinitions/BuildSection.cs" id="2_jsdhc"]
 [ext_resource type="Script" uid="uid://dabyiog8edqj1" path="res://addons/MDunGen/Scripts/ResourceDefinitions/SectionResource.cs" id="3_n5aaw"]
 [ext_resource type="Script" uid="uid://yjmny0yp4xhp" path="res://addons/MDunGen/Scripts/ResourceDefinitions/MapDesignResource.cs" id="4_42huq"]
-[ext_resource type="Resource" uid="uid://b38r10q5kwe23" path="res://addons/MDunGen/BuildRules/PathLongTangled.tres" id="4_u0tnt"]
 
-[sub_resource type="Resource" id="Resource_t0h0k"]
+[sub_resource type="Resource" id="Resource_jsdhc"]
 resource_name = "DefaultStartRoom"
 script = ExtResource("3_n5aaw")
 sectionName = "DefaultStartRoom"
@@ -15,56 +14,50 @@ sizeWidthMin = 5
 sizeDepthMin = 5
 nbFloorsMin = 2
 
-[sub_resource type="Resource" id="Resource_npiyt"]
+[sub_resource type="Resource" id="Resource_n5aaw"]
 resource_name = "DefaultStartRoom"
 script = ExtResource("2_jsdhc")
 location = 1
-section = SubResource("Resource_t0h0k")
-
-[sub_resource type="Resource" id="Resource_n5aaw"]
-resource_name = "DefaultStandardRoom"
-script = ExtResource("3_n5aaw")
-sectionName = "DefaultStandardRoom"
-sectionType = "RoomSection"
-nbFloorsMax = 3
+section = SubResource("Resource_jsdhc")
 
 [sub_resource type="Resource" id="Resource_42huq"]
 resource_name = "DefaultStandardRoom"
-script = ExtResource("2_jsdhc")
-direction = 7
-section = SubResource("Resource_n5aaw")
-
-[sub_resource type="Resource" id="Resource_u0tnt"]
-resource_name = "DefaultStandardRoom"
 script = ExtResource("3_n5aaw")
 sectionName = "DefaultStandardRoom"
 sectionType = "RoomSection"
+nbFloorsMin = 2
 nbFloorsMax = 3
+GrowHeight = 4
+
+[sub_resource type="Resource" id="Resource_u0tnt"]
+resource_name = "DefaultStandardRoom"
+script = ExtResource("2_jsdhc")
+direction = 7
+section = SubResource("Resource_42huq")
+
+[sub_resource type="Resource" id="Resource_t0h0k"]
+resource_name = "DefaultStandardRoom"
+script = ExtResource("2_jsdhc")
+direction = 7
+section = SubResource("Resource_42huq")
+
+[sub_resource type="Resource" id="Resource_npiyt"]
+resource_name = "DefaultStandardRoom"
+script = ExtResource("2_jsdhc")
+direction = 7
+section = SubResource("Resource_42huq")
 
 [sub_resource type="Resource" id="Resource_m7i4m"]
 resource_name = "DefaultStandardRoom"
 script = ExtResource("2_jsdhc")
 direction = 7
-section = SubResource("Resource_u0tnt")
-
-[sub_resource type="Resource" id="Resource_w3lce"]
-resource_name = "DefaultStandardRoom"
-script = ExtResource("3_n5aaw")
-sectionName = "DefaultStandardRoom"
-sectionType = "RoomSection"
-nbFloorsMax = 3
-
-[sub_resource type="Resource" id="Resource_dgdal"]
-resource_name = "DefaultStandardRoom"
-script = ExtResource("2_jsdhc")
-direction = 7
-section = SubResource("Resource_w3lce")
+section = SubResource("Resource_42huq")
 
 [resource]
 script = ExtResource("4_42huq")
 defaultBiome = ExtResource("1_jsdhc")
-designRules/entry_0 = SubResource("Resource_npiyt")
-designRules/entry_1 = SubResource("Resource_42huq")
-designRules/entry_2 = ExtResource("4_u0tnt")
-designRules/entry_3 = SubResource("Resource_m7i4m")
-designRules/entry_4 = SubResource("Resource_dgdal")
+designRules/entry_0 = SubResource("Resource_n5aaw")
+designRules/entry_1 = SubResource("Resource_u0tnt")
+designRules/entry_2 = SubResource("Resource_t0h0k")
+designRules/entry_3 = SubResource("Resource_npiyt")
+designRules/entry_4 = SubResource("Resource_m7i4m")
