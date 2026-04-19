@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Godot;
 using MDunGen.Commons;
-using MDunGen.Design;
 using MDunGen.Pathfinding;
 using MDunGen.Resources;
 using MDunGen.Sections;
@@ -104,58 +103,7 @@ internal class LevelBuilder
 		//}
 	}
 	
-	private void DoPathingPass()
-	{
-		// Process all connections
-		foreach (KeyValuePair<int, SectionConnection> connPair in map.Connections)
-		{
-			if (connPair.Value.sectionID < 0 || connPair.Value.sectionID >= map.Sections.Count)
-			{
-				GD.PushError($"MapBuilder::DoPathingPass() missing section for connection Connection[key:{connPair.Key}][value.sectionID:{connPair.Value.sectionID}] Map has [{map.Sections.Count}] sections.");
-				log(new BuildLogEventArgument()
-				{
-					source = $"MapBuilder::DoPathingPass()",
-					message = $"missing section for connection Connection[key:{connPair.Key}][value.sectionID:{connPair.Value.sectionID}] Map has [{map.Sections.Count}] sections."
-				});
-				continue;
-			}
-
-			ISection section = map.Sections[connPair.Value.sectionID];
-			//section.AddConnection(connection.Key);
-		}
-
-		foreach (ISection section in map.Sections)
-		{
-			foreach (int fromID in section.Connections)
-			{
-				SectionConnection conn = map.Connections[fromID];
-
-				// path to the other connections in the same section
-				foreach (int toID in section.Connections)
-				{
-					if (fromID == toID) { continue; }
-					SectionConnection to = map.Connections[toID];
-
-					//if(section.SectionIndex != to.sectionID){ 
-					//    Godot.GD.PushError($"MapBuilder::DoPathingPass() Section miss match! Skipping!");
-					//    continue;
-					//}
-					MapPiece mpStart = map.GetExistingPiece(conn.coord);
-					MapPiece mpEnd = map.GetExistingPiece(to.coord);
-					if (Pathing.FindPath(
-					new PathQuery(map, mpStart, mpEnd), out PathAnswer answer))
-					{
-						if (answer.path.Count > 0)
-						{
-							conn.Add(to.connectionID, to.coord, answer.path.Count);
-						}
-					}
-				}
-			}
-		}
-		//GD.Print("pathing Pass in builder!");
-		//GD.Print(map.Connections.First().ToString());
-	}
+	
 
 	
 

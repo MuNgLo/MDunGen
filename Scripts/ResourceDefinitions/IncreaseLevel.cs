@@ -1,6 +1,6 @@
 using Godot;
 
-namespace MDunGen.Design;
+namespace MDunGen.Resources;
 /// <summary>
 /// Increases the current level in the builder by 1
 /// </summary>

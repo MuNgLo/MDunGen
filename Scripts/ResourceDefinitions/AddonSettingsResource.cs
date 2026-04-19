@@ -1,6 +1,5 @@
 // Gone through at v1.3
 using Godot;
-using MDunGen.Design;
 namespace MDunGen.Resources;
 
 /// <summary>

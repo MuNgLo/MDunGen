@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using MDunGen.Commons;
-using MDunGen.Design;
+using MDunGen.Pathfinding;
+using MDunGen.Resources;
 using MDunGen.Sections;
 
 namespace MDunGen.Builder;
@@ -60,37 +61,7 @@ internal static class BuildUtils
 			}, true);
 		*/
 	}
-	/// <summary>
-	/// Will insert a connection between 2 map pieces in the map data<br/>
-	/// It wont check if it is valid so when in section mode a partial connection<br/>
-	/// can be visualized.<br/>
-	/// The connection generated in mirrored direction will not be made if end piece is empty
-	/// </summary>
-	/// <param name="map"></param>
-	/// <param name="from"></param>
-	/// <param name="to"></param>
-	internal static void AddConnection(ref MapData map, MapCoordinate from, MapCoordinate to, ISection startSection)
-	{
-		MAPDIRECTION dir = from.DirectionTo(to);
-		int c1 = -1;
-		MapPiece start = map.GetExistingPiece(from);
-		MapPiece end = map.GetExistingPiece(to);
-		if (start is not null)
-		{
-			// Adds the start to end side of the connection
-			if (!end.isEmpty && map.AddNewConnection(start.MainSection, end.MainSection, from, to, dir, out c1))
-			{
-				startSection.AddConnection(c1);
-				int c2 = -1;
-				// Adds the end to start side of the connection
-				if (map.AddNewConnection(end.MainSection, start.MainSection,
-				to, from, DungeonUtils.Flip(dir), out c2))
-				{
-					map.Sections[end.MainSection].AddConnection(c2);
-				}
-			}
-		}
-	}
+	
 	/// <summary>
 	/// Add a fake attachment when debugging a section
 	/// </summary>
@@ -348,4 +319,108 @@ internal static class BuildUtils
 		mp = null;
 		return false;
 	}
+	
+	#region  Connections
+	/// <summary>
+	/// Will insert a connection between 2 map pieces in the map data<br/>
+	/// It wont check if it is valid so when in section mode a partial connection<br/>
+	/// can be visualized.<br/>
+	/// The connection generated in mirrored direction will not be made if end piece is empty
+	/// </summary>
+	/// <param name="map"></param>
+	/// <param name="from"></param>
+	/// <param name="to"></param>
+	internal static bool AddConnection(ref MapData map, MapCoordinate from, MapCoordinate to, ISection startSection)
+	{
+		MAPDIRECTION dir = from.DirectionTo(to);
+		int c1 = -1;
+		MapPiece start = map.GetExistingPiece(from);
+		MapPiece end = map.GetExistingPiece(to);
+		if (start is not null)
+		{
+			// Adds the start to end side of the connection
+			if (end is not null && !end.isEmpty && map.AddNewConnection(start.MainSection, end.MainSection, from, to, dir, out c1))
+			{
+				startSection.AddConnection(c1);
+				int c2 = -1;
+				// Adds the end to start side of the connection
+				if (map.AddNewConnection(end.MainSection, start.MainSection,
+				to, from, DungeonUtils.Flip(dir), out c2))
+				{
+					map.Sections[end.MainSection].AddConnection(c2);
+				}
+			}
+		}
+		return c1 != -1;
+	}
+	internal static void ProcessMapConnections(ref MapData map, Action<BuildLogEventArgument> log)
+	{
+		// Process all connections
+		foreach (KeyValuePair<int, SectionConnection> connPair in map.Connections)
+		{
+			if (connPair.Value.sectionID < 0 || connPair.Value.sectionID >= map.Sections.Count)
+			{
+				GD.PushError($"MapBuilder::DoPathingPass() missing section for connection Connection[key:{connPair.Key}][value.sectionID:{connPair.Value.sectionID}] Map has [{map.Sections.Count}] sections.");
+				log(new BuildLogEventArgument()
+				{
+					source = $"MapBuilder::DoPathingPass()",
+					message = $"missing section for connection Connection[key:{connPair.Key}][value.sectionID:{connPair.Value.sectionID}] Map has [{map.Sections.Count}] sections."
+				});
+				continue;
+			}
+
+			ISection section = map.Sections[connPair.Value.sectionID];
+			if(map.Connections[connPair.Key].connectedToConnectionID < 0)
+			{
+				GD.Print($"Connection connected to invalid connection [{map.Connections[connPair.Key].connectedToConnectionID}]");
+				if(map.GetConnection(map.Connections[connPair.Key].coord + map.Connections[connPair.Key].Dir, out SectionConnection conn))
+				{
+					map.Connections[connPair.Key].connectedToConnectionID = conn.connectionID;
+				}
+			}
+
+		}
+		foreach (ISection item in map.Sections)
+		{
+			ConnectInternalSectionConnections(ref map, item, log);
+		}
+	}
+	/// <summary>
+	/// Calculate distance cost between all the connections in the section<br/>
+	/// Has to run after the section has been added to the map data
+	/// </summary>
+	static void ConnectInternalSectionConnections(ref MapData map, ISection section, Action<BuildLogEventArgument> log)
+	{
+		//GD.Print($"BuildUtils::ConnectInternalSectionConnections() section[{section.SectionIndex}] section.Connections[{section.Connections.Count}]");
+		foreach (int fromID in section.Connections)
+		{
+			SectionConnection conn = map.Connections[fromID];
+			// path to the other connections in the same section
+			foreach (int toID in section.Connections)
+			{
+				if (fromID == toID) { continue; }
+				SectionConnection to = map.Connections[toID];
+				if(section.SectionIndex != to.sectionID){ 
+					log(new BuildLogEventArgument()
+					{
+						severity = BUILDLOGSEVERITY.ERROR,
+						message = $"MapBuilder::DoPathingPass() Section miss match! Skipping!",
+						mapLocations = [conn.coord, to.coord]
+					});
+				    continue;
+				}
+				MapPiece mpStart = map.GetExistingPiece(conn.coord);
+				MapPiece mpEnd = map.GetExistingPiece(to.coord);
+				if (Pathing.FindPath(
+				new PathQuery(map, mpStart, mpEnd), out PathAnswer answer))
+				{
+					if (answer.path.Count > 0)
+					{
+						conn.Add(to.connectionID, to.coord, answer.path.Count);
+					}
+				}
+			}
+		}
+	}
+	#endregion
 }// EOF CLASS

@@ -36,13 +36,13 @@ public partial class UIbtnMSBuild : Button
 		// Always use 0,0,0 as center in the addon debug visualizer
 		DungeonUtils.globalOffset = Vector3.Zero;
 
-		switch (mainScreen.addon.Mode)
+		switch (mainScreen.Mode)
 		{
 			case VIEWERMODE.SECTION:
 
 				string sectionTypeName = sectionTypeSelector.GetItemText(sectionTypeSelector.Selected);
 				SectionResource sectionDef = sectionSelector.GetSelectedResource();
-				mainScreen.GenerateSection(0, sectionTypeName, sectionDef, mainScreen.addon.MasterConfig.MasterSeed, mainScreen.addon.MasterConfig.design.defaultBiome, true);
+				mainScreen.GenerateSection(0, sectionTypeName, sectionDef, mainScreen.addon.MasterConfig.MasterSeed, (BiomeResource)mainScreen.addon.MasterConfig.design.defaultBiome, true);
 				break;
 			default:
 			case VIEWERMODE.DUNGEON:

@@ -3,7 +3,6 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using MDunGen.Commons;
-using MDunGen.Design;
 using MDunGen.Resources;
 using MDunGen.Sections;
 
@@ -84,7 +83,19 @@ internal class SectionBuilder
 			ISection section = instance as SectionBase;
 
 			section.Build(log);
+
 			map.Sections.Add(section);
+
+// Add start connection
+		if(!BuildUtils.AddConnection(ref map, section.Coord, section.Coord + DungeonUtils.Flip(section.Orientation), section))
+		{
+			log(new BuildLogEventArgument()
+			{
+				severity = BUILDLOGSEVERITY.ERROR,
+				mapLocations = [section.Coord],
+				message = $"Failed to add start connection in [{GetType().Name}] "
+			});
+		}
 
 			if (debug)
 			{

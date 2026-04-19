@@ -1,7 +1,7 @@
 // Gone through at v1.3
 using Godot;
 
-namespace MDunGen.Design;
+namespace MDunGen.Resources;
 /// <summary>
 /// Contains a collection of BuildSection
 /// </summary>

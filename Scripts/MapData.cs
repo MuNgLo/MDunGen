@@ -6,9 +6,7 @@ using MDunGen.Sections;
 using MDunGen.Builder;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using MDunGen.Design;
 
 namespace MDunGen;
 /// <summary>
@@ -32,7 +30,7 @@ public class MapData
 
 	private Action<BuildLogEventArgument> log;
 
-	internal BiomeResource DefaultBiome => design.defaultBiome;
+	internal BiomeResource DefaultBiome => (BiomeResource)design.defaultBiome;
 	internal int Levels => design.nbOfLevel;
 
 	internal MapData(MapDesignResource design, ulong[] seed, Action<BuildLogEventArgument> log)
@@ -186,6 +184,19 @@ public class MapData
 		foreach (KeyValuePair<int, SectionConnection> c in Connections)
 		{
 			if (c.Value.coord == coord && c.Value.sectionID == sectionID)
+			{
+				conn = c.Value;
+				return true;
+			}
+		}
+		return false;
+	}
+	internal bool GetConnection(MapCoordinate coord, out SectionConnection conn)
+	{
+		conn = null;
+		foreach (KeyValuePair<int, SectionConnection> c in Connections)
+		{
+			if (c.Value.coord == coord)
 			{
 				conn = c.Value;
 				return true;

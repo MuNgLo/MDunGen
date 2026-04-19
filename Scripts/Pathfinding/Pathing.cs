@@ -13,6 +13,7 @@ internal static class Pathing
     {
         if (query.IsSectionPath)
         {
+
             PathAnswer answer = new PathAnswer(query);
             answer.connectionPath = RunConnectionPathing(query.startConnection, query.endConnection, query.Connections);
             callback.Invoke(answer);
@@ -53,6 +54,7 @@ internal static class Pathing
 
     private static List<int> RunConnectionPathing(SectionConnection startConnection, SectionConnection goalConnection, Dictionary<int, SectionConnection> connections)
     {
+		Godot.GD.Print($"Pathing::RunConnectionPathing() from[{startConnection.connectionID}] to[{goalConnection.connectionID}]");
         //connections[-1] = startConnection;
         var openList = new List<int> { startConnection.connectionID };
         var closedList = new HashSet<int>();
@@ -64,6 +66,8 @@ internal static class Pathing
 
         while (openList.Count > 0)
         {
+			Godot.GD.Print($"Pathing::RunConnectionPathing() while openList...");
+
             // Find node in open list with the lowest F score
             int current = openList.OrderBy(node => gScore[node] + hScore[node]).First();
 
@@ -133,6 +137,7 @@ internal static class Pathing
                 }
             }
         }
+		Godot.GD.Print($"Pathing::RunConnectionPathing() Failed to path!");
         connections.Remove(startConnection.connectionID);
         connections.Remove(goalConnection.connectionID);
         return new List<int>(); // No path found
@@ -395,6 +400,8 @@ internal static class Pathing
 
     static private List<int> ReconstructSectionPath(Dictionary<int, int> parentMap, int current)
     {
+		Godot.GD.Print($"Pathing::ReconstructSectionPath() GOAL!");
+
         var path = new List<int> { current };
         while (parentMap.ContainsKey(current))
         {

@@ -1,6 +1,5 @@
 // Gone through at v1.3
 using Godot;
-using Godot.Collections;
 using MDunGen.Commons;
 
 namespace MDunGen.Resources;
@@ -10,7 +9,6 @@ public partial class SectionResource : DungeonAddonResource
 {
 	[Export] public string sectionName = string.Empty;
 	[Export] public string sectionType = string.Empty;
-	[Export] public string sectionStyle = string.Empty;
 	[Export] public ROOMCONNECTIONRESPONCE defaultResponses = (ROOMCONNECTIONRESPONCE)15;
 	[ExportGroup("General")]
 	[Export] public int sizeWidthMin = 3; // Used to have blank get/set. Dunno why

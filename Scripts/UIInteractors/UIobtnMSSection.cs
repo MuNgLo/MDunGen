@@ -11,7 +11,7 @@ namespace MDunGen.UI;
 [Tool, GlobalClass]
 internal partial class UIobtnMSSection : OptionButton
 {
-	[Export] MainScreen screen;
+	[Export] MainScreen mainScreen;
 	[Export] UIobtnMSSectionType sectionTypeSelector;
 
 	private Dictionary<string, string> resources;
@@ -59,11 +59,11 @@ internal partial class UIobtnMSSection : OptionButton
 		List<Resource> items = new List<Resource>();
 
 		// Add default resources
-		foreach (string file in DirAccess.GetFilesAt(screen.addon.MasterConfig.SectionResourcePathDefault))
+		foreach (string file in DirAccess.GetFilesAt(mainScreen.addon.MasterConfig.SectionResourcePathDefault))
 		{
 			if (file.Contains("tres"))
 			{
-				Resource res = ResourceLoader.Load(screen.addon.MasterConfig.SectionResourcePathDefault + file);// + file.Replace(".tres", ""));
+				Resource res = ResourceLoader.Load(mainScreen.addon.MasterConfig.SectionResourcePathDefault + file);// + file.Replace(".tres", ""));
 				if (res is SectionResource)
 				{
 					if (typeName == (res as SectionResource).sectionType)
@@ -74,13 +74,13 @@ internal partial class UIobtnMSSection : OptionButton
 			}
 		}
 		// Add project section resources
-		if (screen.addon.VerifySectionsFolder())
+		if (VerifySectionsFolder())
 		{
-			foreach (string file in DirAccess.GetFilesAt(screen.addon.MasterConfig.SectionResourcePath))
+			foreach (string file in DirAccess.GetFilesAt(mainScreen.addon.MasterConfig.SectionResourcePath))
 			{
 				if (file.Contains("tres"))
 				{
-					Resource res = ResourceLoader.Load(screen.addon.MasterConfig.SectionResourcePath + file);// + file.Replace(".tres", ""));
+					Resource res = ResourceLoader.Load(mainScreen.addon.MasterConfig.SectionResourcePath + file);// + file.Replace(".tres", ""));
 					if (res is SectionResource)
 					{
 						if (typeName == (res as SectionResource).sectionType)
@@ -119,6 +119,22 @@ internal partial class UIobtnMSSection : OptionButton
 		if (!resources.ContainsKey(sectionName)) { return null; }
 		Resource res = ResourceLoader.Load(resources[sectionName]);//
 		return res as SectionResource;
+	}
+
+	private bool VerifySectionsFolder()
+	{
+		if (mainScreen.addon.MasterConfig.ProjectResourcePath != string.Empty && DirAccess.DirExistsAbsolute(mainScreen.addon.MasterConfig.SectionResourcePath))
+		{
+			return true;
+		}
+		if (mainScreen.addon.MasterConfig.ProjectResourcePath != string.Empty && DirAccess.DirExistsAbsolute(mainScreen.addon.MasterConfig.ProjectResourcePath))
+		{
+			GD.Print("Dungeons:: Creating Sections folder in the project path");
+			DirAccess.MakeDirAbsolute(mainScreen.addon.MasterConfig.SectionResourcePath);
+			EditorInterface.Singleton.GetResourceFilesystem().Scan();
+			return DirAccess.DirExistsAbsolute(mainScreen.addon.MasterConfig.SectionResourcePath);
+		}
+		return false;
 	}
 }// EOF CLASS
 #endif

@@ -32,7 +32,7 @@ public partial class DungeonViewerToolbar : HBoxContainer
 	private void UpdateToolbar(object sender, EventArgs e)
 	{
 		// Update the UI to current states
-		switch (screen.addon.Mode)
+		switch (screen.Mode)
 		{
 			case VIEWERMODE.SECTION:
 				foreach (Control item in visibleWhenInSectionMode)

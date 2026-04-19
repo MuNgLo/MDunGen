@@ -1,9 +1,8 @@
 using System;
 using Godot;
 using Godot.Collections;
-using MDunGen.Resources;
 
-namespace MDunGen.Design;
+namespace MDunGen.Resources;
 
 [Tool, GlobalClass]
 internal partial class MapDesignResource : DungeonAddonResource
@@ -15,13 +14,16 @@ internal partial class MapDesignResource : DungeonAddonResource
 	/// <summary>
 	/// The biome used when visualizing the data when no other one defined
 	/// </summary>
-	[Export] internal BiomeResource defaultBiome;
+	[Export(PropertyHint.ResourceType, "BiomeResource")]
+	internal Resource defaultBiome;
 	[ExportToolButton("Add")]
 	Callable addDesignResource => Callable.From(AddDesignResource);
 	[ExportToolButton("Remove")]
 	Callable removeDesignResource => Callable.From(RemoveDesignResource);
 	[ExportToolButton("Next Level")]
 	Callable addNextLevel => Callable.From(AddNextLevel);
+	[ExportToolButton("Loop")]
+	Callable addLoop => Callable.From(AddLoop);
 
 
 
@@ -30,7 +32,7 @@ internal partial class MapDesignResource : DungeonAddonResource
 	internal MapDesignResource()
 	{
 		designRules = new Array<Resource>();
-		defaultBiome = ResourceLoader.Load<BiomeResource>("res://addons/MDunGen/Config/Biomes/def_biome.tres");
+		defaultBiome = ResourceLoader.Load<Resource>("res://addons/MDunGen/Config/Biomes/def_biome.tres");
 		designRules.Add(ConstructNewStartRoom());
 	}
 
@@ -156,6 +158,13 @@ internal partial class MapDesignResource : DungeonAddonResource
 		designRules.Add(ConstructNewNextLevel());
 		NotifyPropertyListChanged();
 	}
+
+	private void AddLoop()
+	{
+		designRules.Add(new Loop());
+		NotifyPropertyListChanged();
+	}
+
 	private Resource ConstructNewNextLevel()
 	{
 		return new IncreaseLevel()

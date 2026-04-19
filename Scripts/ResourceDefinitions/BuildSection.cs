@@ -1,9 +1,8 @@
 // Gone through at v1.3
 using Godot;
 using MDunGen.Commons;
-using MDunGen.Resources;
 
-namespace MDunGen.Design;
+namespace MDunGen.Resources;
 /// <summary>
 /// How to add a section to the map data
 /// </summary>

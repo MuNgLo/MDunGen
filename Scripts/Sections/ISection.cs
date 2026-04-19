@@ -21,19 +21,9 @@ public interface ISection
 	/// </summary>
 	public string SectionName { get; }
 	/// <summary>
-	/// What type of section is this. Room, Corridor, Void, Pantry?
-	/// </summary>
-	public string SectionStyle { get; }
-	/// <summary>
 	/// Total count of all map pieces in the section (include empty?)
 	/// </summary>
 	public int TileCount { get; }
-
-
-	/// <summary>
-	/// TODO decide if this is all props or just the section inner props
-	/// </summary>
-	//public int PropCount { get; }
 
 	/// <summary>
 	/// All the pieces in the section

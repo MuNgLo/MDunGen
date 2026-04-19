@@ -2,7 +2,6 @@
 //#define MConsole // If MConsole is in the project, comment this out to get log messages pushed to it
 using Godot;
 using MDunGen.Commons;
-using MDunGen.Design;
 using MDunGen.Resources;
 using System;
 using System.Collections.Generic;

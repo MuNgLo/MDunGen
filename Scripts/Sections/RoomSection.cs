@@ -47,8 +47,6 @@ public class RoomSection : SectionBase
 		SealSection();
 		if (sectionDefinition.arches) { FitSmallArches(); }
 
-		// Add start connection
-		BuildUtils.AddConnection(ref map, coord, coord + DungeonUtils.Flip(Orientation), this);
 	}
 	#endregion
 }// EOF CLASS

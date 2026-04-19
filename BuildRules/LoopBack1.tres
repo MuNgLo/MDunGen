@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="Loop" format=3 uid="uid://c6tovxdira66c"]
 
-[ext_resource type="Script" uid="uid://bjvp5xjwrs50t" path="res://addons/MDunGen/Scripts/Design/Loop.cs" id="1_6cnfs"]
+[ext_resource type="Script" uid="uid://bjvp5xjwrs50t" path="res://addons/MDunGen/Scripts/ResourceDefinitions/Loop.cs" id="1_6cnfs"]
 
 [resource]
 script = ExtResource("1_6cnfs")

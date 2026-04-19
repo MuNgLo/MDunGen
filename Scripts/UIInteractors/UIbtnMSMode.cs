@@ -19,6 +19,6 @@ public partial class UIbtnMSMode : Button
 
 	private void WhenBtnPressed()
 	{
-		mainScreen.addon.ChangeMode();
+		mainScreen.ChangeMode();
 	}
 }// EOF CLASS

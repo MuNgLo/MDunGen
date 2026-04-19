@@ -1,7 +1,6 @@
 ﻿// Gone through at v1.3
 using Godot;
 using MDunGen.Commons;
-using MDunGen.Design;
 using MDunGen.Resources;
 
 namespace MDunGen.Sections;

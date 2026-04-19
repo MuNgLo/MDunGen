@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="BuildSection" format=3 uid="uid://b38r10q5kwe23"]
 
-[ext_resource type="Script" uid="uid://ctqejgc53anud" path="res://addons/MDunGen/Scripts/Design/BuildSection.cs" id="1_0kntj"]
+[ext_resource type="Script" uid="uid://ctqejgc53anud" path="res://addons/MDunGen/Scripts/ResourceDefinitions/BuildSection.cs" id="1_0kntj"]
 [ext_resource type="Resource" uid="uid://bi6wigkf4cpei" path="res://addons/MDunGen/Config/Sections/PathLongTangled.tres" id="2_jtrdr"]
 
 [resource]

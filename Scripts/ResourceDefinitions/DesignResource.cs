@@ -1,7 +1,6 @@
 using Godot;
-using MDunGen.Resources;
 
-namespace MDunGen.Design;
+namespace MDunGen.Resources;
 
 [Tool, GlobalClass]
 internal partial class DesignResource : DungeonAddonResource

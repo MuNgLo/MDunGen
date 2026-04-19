@@ -14,7 +14,10 @@ public class SectionConnection
     public int connectedToConnectionID;
     public MapCoordinate coord;
     private List<ConnectedLocation> connectedLocations;
-    internal List<ConnectedLocation> ConnectedLocations => connectedLocations;
+    /// <summary>
+	/// The other connections this connection is connected to
+	/// </summary>
+	internal List<ConnectedLocation> ConnectedLocations => connectedLocations;
     
     public readonly MAPDIRECTION Dir;
 
@@ -28,8 +31,8 @@ public class SectionConnection
         connectedToConnectionID = -1;
     }
     public void Add(int connectionID, MapCoordinate location, double cost){
-        if(!connectedLocations.Exists(p=>p.connectionID == connectionID)){
-            connectedLocations.Add(new ConnectedLocation(sectionID, connectionID, location, cost));
+        if(!ConnectedLocations.Exists(p=>p.connectionID == connectionID)){
+            ConnectedLocations.Add(new ConnectedLocation(sectionID, connectionID, location, cost));
         }
     }
     /// <summary>
@@ -39,12 +42,12 @@ public class SectionConnection
     /// <returns></returns>
     internal MapCoordinate GetSide(int sectionID)
     {
-        return connectedLocations.Find(p=>p.section == sectionID).coord;
+        return ConnectedLocations.Find(p=>p.section == sectionID).coord;
     }
   
     public override string ToString(){
-        string text = $"uniqueID[{connectionID}] in [S{sectionID}] to [C{connectedToConnectionID}]\n";
-        text += string.Join(' ', connectedLocations);
+        string text = $"uniqueID[{connectionID}] in Section[{sectionID}] paired to other connection[{connectedToConnectionID}]\n";
+        text += string.Join(' ', ConnectedLocations);
         return text;
     }
 

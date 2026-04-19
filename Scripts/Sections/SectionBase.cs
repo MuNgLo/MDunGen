@@ -34,10 +34,6 @@ public class SectionBase : ISection
 	/// </summary>
 	private protected readonly int levelIndex;
 	/// <summary>
-	/// What type of section is this. Room, Corridor, Void, Pantry?
-	/// </summary>
-	private protected string sectionStyle = string.Empty;
-	/// <summary>
 	/// The section name. Might not be unique in the Dungeon
 	/// </summary>
 	private protected string sectionName = string.Empty;
@@ -111,7 +107,6 @@ public class SectionBase : ISection
 
 	public int SectionIndex => sectionIndex;
 	public int LevelIndex => levelIndex;
-	public string SectionStyle => sectionStyle;
 	public string SectionName => sectionName;
 	public virtual int TileCount => Pieces.Count;
 	public virtual List<MapPiece> Pieces => pieces;
@@ -152,7 +147,6 @@ public class SectionBase : ISection
 		waterDepth = args.sectionDefinition.waterDepth;
 		waterLevel = args.sectionDefinition.waterLevel;
 
-		sectionStyle = sectionDefinition.sectionStyle;
 		sectionName = sectionDefinition.sectionName;
 		coord = args.piece.Coord;
 		defaultConnectionResponses = sectionDefinition.defaultResponses;

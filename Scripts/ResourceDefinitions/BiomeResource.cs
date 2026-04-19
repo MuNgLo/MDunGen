@@ -60,8 +60,9 @@ public partial class BiomeResource : DungeonAddonResource
 	// constructor with all default values.
 	// Without a parameterless constructor, Godot will have problems
 	// creating and editing your resource via the inspector.
-	//public BiomeDefinition() : this(0, null, null) { }
-	public BiomeResource()
+	// public BiomeDefinition() : this(0, null, null) { }
+	public BiomeResource(){}
+	public BiomeResource(bool asDefault)
 	{
 		//debug defaults
 		PIECEKEYS[] defDebugKeys = new PIECEKEYS[]

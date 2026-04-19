@@ -1,6 +1,5 @@
 ﻿// Gone through at v1.3
 using MDunGen.Commons;
-using MDunGen.Design;
 using MDunGen.Resources;
 using System;
 using System.Collections.Generic;
@@ -116,6 +115,8 @@ internal class MapBuilder
 					break;
 			}
 		}
+
+		BuildUtils.ProcessMapConnections(ref map, log);
 
 		BuildUtils.BuildOpeningsFromConnections(ref map);
 		BuildUtils.FitRoundedCorners(ref map);

@@ -1,5 +1,6 @@
 ﻿// Gone through at v1.3
 using Godot;
+using MDunGen.Builder;
 using MDunGen.Commons;
 using MDunGen.Resources;
 using System;
@@ -41,11 +42,6 @@ public class PathSection : SectionBase
 
 		MapPiece step = map.GetPiece(coord);
 		MAPDIRECTION startDir = step.Orientation;
-		if (map.Sections.Count > 0)
-		{
-			//BuildStartConnection(step, DungeonUtils.Flip(step.Orientation));
-		}
-		//VerifyWidth(step);
 		SetupLines(step);
 		int breaker = corMaxTotal * 2 + 5;
 		int turnTimer = RollTurn();
@@ -80,14 +76,7 @@ public class PathSection : SectionBase
 			return;
 		}
 
-		foreach (MapPiece piece in Pieces)
-		{
-			//if (sectionIndex != piece.SectionIndex)
-			//{
-			//	//GD.Print($"PathSection::Build() Foreign Piece! coord[{piece.Coord}]");
-			//	//map.MovePieceOwnershipToSection(piece, sectionIndex);
-			//}
-		}
+	
 		MakeSureStartPieceIsFirstPieceAndFixTheOrientation(startDir);
 
 		SealSection();
@@ -95,6 +84,7 @@ public class PathSection : SectionBase
 		if (sectionDefinition.arches) { FitSmallArches(); }
 		IsValid = true;
 		SetMinMaxCoord();
+		
 	}
 
 	private void MakeSureStartPieceIsFirstPieceAndFixTheOrientation(MAPDIRECTION dir)
@@ -179,6 +169,7 @@ public class PathSection : SectionBase
 			return RightSide.GetRandomAlongPath(out dir, false, true);
 		}
 	}
+
 	/*[Obsolete("NEeds rewrite and fixing")]
 	private void BuildStartConnection(MapPiece startPiece, MAPDIRECTION dir)
 	{
@@ -199,6 +190,7 @@ public class PathSection : SectionBase
 			map.Connections[conn2].connectedToConnectionID = conn1;
 		}
 	}*/
+
 	private void BuildEndCap()
 	{
 		MapPiece endPieceConnection = LeftSide.Last.Neighbour(LeftSide.Last.Orientation, true);
