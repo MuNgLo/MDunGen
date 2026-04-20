@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="AddonSettingsResource" format=3 uid="uid://blngor0u0dbk4"]
 
-[ext_resource type="Resource" uid="uid://dyo35jmwmxmvm" path="res://addons/MDunGen/BuildRules/Map03.tres" id="1_0iudd"]
+[ext_resource type="Resource" uid="uid://dyo35jmwmxmvm" path="res://addons/MDunGen/Config/Floors/Map03.tres" id="1_0iudd"]
 [ext_resource type="Script" uid="uid://c1a3kt0tn7hxb" path="res://addons/MDunGen/Scripts/ResourceDefinitions/AddonSettingsResource.cs" id="1_5xn5v"]
 
 [resource]
@@ -13,7 +13,8 @@ showDebug = false
 sectionFirstPieceDoor = true
 pathingPass = false
 cameraResetOnBuild = false
-seed1 = 2917
-seed2 = 8062
-seed3 = 4860
-seed4 = 1755
+useRandomSeed = false
+seed1 = 9416
+seed2 = 6964
+seed3 = 8347
+seed4 = 3040

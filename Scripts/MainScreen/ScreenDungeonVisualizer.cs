@@ -376,10 +376,6 @@ public partial class ScreenDungeonVisualizer : Node3D
 
 		if (!cacheKeyedPieces[data.key].ContainsKey(data.variantID))
 		{
-			if (data.key == PIECEKEYS.MISC)
-			{
-				GD.Print($"ResolveAndCache Key [{data.key}] looked up. data.variantID[{data.variantID}]");
-			}
 			if (biome.GetResource(data.key, data.variantID, out Resource result))
 			{
 				cacheKeyedPieces[data.key][data.variantID] = result;
@@ -402,7 +398,6 @@ public partial class ScreenDungeonVisualizer : Node3D
 			}
 			else if (biome.extras.Any(p => p.key == data.key))
 			{
-				GD.Print($"ResolveAndCache Key [{data.key}] has [{biome.extras.Count()}] Extra entries");
 				cacheKeyedPieces[data.key][data.variantID] = biome.extras.Where(p => p.key == data.key).First().GetResource(data.variantID);
 			}
 		}

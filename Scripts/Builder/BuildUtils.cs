@@ -237,7 +237,7 @@ internal static class BuildUtils
 			{
 				foreach (int Z in map.Pieces[X][Y].Keys)
 				{
-					if (map.Pieces[X][Y][Z].isEmpty)
+					if (map.Pieces[X][Y][Z].isEmpty && map.Pieces[X][Y][Z].MainSection == -1)
 					{
 						toDelete.Add(map.Pieces[X][Y][Z].Coord);
 					}

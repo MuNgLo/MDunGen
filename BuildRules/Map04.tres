@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="MapDesignResource" format=3 uid="uid://dlihlcgukc3p4"]
-
-[ext_resource type="Resource" uid="uid://de3h6je3yyg37" path="res://addons/MDunGen/Config/Biomes/def_biome.tres" id="1_wawri"]
-[ext_resource type="Script" uid="uid://dw0wm35agoew6" path="res://addons/MDunGen/Scripts/ResourceDefinitions/MapDesignResource.cs" id="2_r42uu"]
-
-[resource]
-script = ExtResource("2_r42uu")
-defaultBiome = ExtResource("1_wawri")
-metadata/_custom_type_script = "uid://dw0wm35agoew6"

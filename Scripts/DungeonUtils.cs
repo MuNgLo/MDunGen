@@ -21,7 +21,7 @@ static internal class DungeonUtils
 	/// </summary>
 	/// <param name="coord"></param>
 	/// <returns></returns>
-	static public MapCoordinate[] NeighbourCoordinates(MapCoordinate coord)
+	static public MapCoordinate[] NeighboursFlatCoordinates(MapCoordinate coord)
 	{
 		return [coord + MAPDIRECTION.NORTH,
 				coord + MAPDIRECTION.EAST,
@@ -31,6 +31,35 @@ static internal class DungeonUtils
 				coord + MAPDIRECTION.SOUTH + MAPDIRECTION.EAST,
 				coord + MAPDIRECTION.SOUTH + MAPDIRECTION.WEST,
 				coord + MAPDIRECTION.NORTH + MAPDIRECTION.WEST];
+	}
+	static public MapCoordinate[] NeighboursAllCoordinates(MapCoordinate coord)
+	{
+		return [coord + MAPDIRECTION.NORTH,
+				coord + MAPDIRECTION.EAST,
+				coord + MAPDIRECTION.SOUTH,
+				coord + MAPDIRECTION.WEST,
+				coord + MAPDIRECTION.NORTH + MAPDIRECTION.EAST,
+				coord + MAPDIRECTION.SOUTH + MAPDIRECTION.EAST,
+				coord + MAPDIRECTION.SOUTH + MAPDIRECTION.WEST,
+				coord + MAPDIRECTION.NORTH + MAPDIRECTION.WEST,
+				coord + MapCoordinate.Down,
+				coord + MapCoordinate.Down + MAPDIRECTION.NORTH,
+				coord + MapCoordinate.Down + MAPDIRECTION.EAST,
+				coord + MapCoordinate.Down + MAPDIRECTION.SOUTH,
+				coord + MapCoordinate.Down + MAPDIRECTION.WEST,
+				coord + MapCoordinate.Down + MAPDIRECTION.NORTH + MapCoordinate.East,
+				coord + MapCoordinate.Down + MAPDIRECTION.SOUTH + MapCoordinate.East,
+				coord + MapCoordinate.Down + MAPDIRECTION.SOUTH + MapCoordinate.West,
+				coord + MapCoordinate.Down + MAPDIRECTION.NORTH + MapCoordinate.West,
+				coord + MapCoordinate.Up,
+				coord + MapCoordinate.Up + MAPDIRECTION.NORTH,
+				coord + MapCoordinate.Up + MAPDIRECTION.EAST,
+				coord + MapCoordinate.Up + MAPDIRECTION.SOUTH,
+				coord + MapCoordinate.Up + MAPDIRECTION.WEST,
+				coord + MapCoordinate.Up + MAPDIRECTION.NORTH + MapCoordinate.East,
+				coord + MapCoordinate.Up + MAPDIRECTION.SOUTH + MapCoordinate.East,
+				coord + MapCoordinate.Up + MAPDIRECTION.SOUTH + MapCoordinate.West,
+				coord + MapCoordinate.Up + MAPDIRECTION.NORTH + MapCoordinate.West];
 	}
 
 	/// <summary>
@@ -237,6 +266,6 @@ static internal class DungeonUtils
 		return center;
 	}
 
-	
+
 }// EOF CLASS
 

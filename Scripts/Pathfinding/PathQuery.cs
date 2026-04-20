@@ -71,22 +71,24 @@ internal class PathQuery
 						tempConn.Add(otherConn.connectionID, otherConn.coord, answer.path.Count);
 					}
 				}
-				else
-				{
-					// TODO Is this good??? setting this to cost 1???
-					Godot.GD.Print("SADDASD");
-					tempConn.Add(otherConn.connectionID, otherConn.coord, 1);
-				}
+				//else
+				//{
+				//	// TODO Is this good??? setting this to cost 1???
+				//	tempConn.Add(otherConn.connectionID, otherConn.coord, 1);
+				//}
 			}
 		}
 		map.Connections[tempConn.connectionID] = tempConn;
 		return tempConn;
 	}
-
+	/// <summary>
+	/// Occasionally the section IDs need to be overwritten because the query runs in<br/>
+	/// a section that isn't main section on one of both of the map pieces
+	/// </summary>
+	/// <param name="start"></param>
+	/// <param name="end"></param>
 	internal void OverrideSections(int start, int end)
 	{
-		Godot.GD.Print($"PathQuery OverrideSections() NO GOAL! startSection[{startSection}]>[{start}]  endSection[{endSection}]>[{end}]");
-
 		startSection = start;
 		endSection = end;
 	}

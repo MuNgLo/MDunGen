@@ -94,7 +94,7 @@ public partial class CameraControls : Node
 	{
 		if (cursorIsInside && Input.IsMouseButtonPressed(MouseButton.Middle))
 		{
-			mainScreen.Selection.SelectRandomPiecesForPathing(0.05f);
+			mainScreen.Selection.SelectRandomPiecesForPathing();
 		}
 
 

@@ -35,7 +35,20 @@ internal class PathLocation
 	public void SetNeighbours(Map map)
 	{
 		Neighbors = new Dictionary<MapCoordinate, double>();
-		MapCoordinate[] mapCoordinates = DungeonUtils.NeighbourCoordinates(coord);
+		MapCoordinate[] mapCoordinates = DungeonUtils.NeighboursAllCoordinates(coord);
+		for (int i = 0; i < mapCoordinates.Length; i++)
+		{
+			if (map.GetNodeById(mapCoordinates[i]) is not null)
+			{
+				Neighbors[mapCoordinates[i]] = double.MaxValue;
+			}
+		}
+	}
+
+	public void SetNeighboursOLD(Map map)
+	{
+		Neighbors = new Dictionary<MapCoordinate, double>();
+		MapCoordinate[] mapCoordinates = DungeonUtils.NeighboursAllCoordinates(coord);
 		for (int i = 0; i < 4; i++)
 		{
 			if (map.GetNodeById(mapCoordinates[i]) is not null)

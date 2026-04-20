@@ -2,7 +2,6 @@
 #if TOOLS
 using Godot;
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using MDunGen.Commons;
 using MDunGen.Sections;
@@ -158,12 +157,16 @@ internal class Manager
 		}
 	}
 	private double randomSelectionTimestamp = 0.0;
-	internal void SelectRandomPiecesForPathing(float timeRandomSelectionIsBlocked)
+	internal void SelectRandomPiecesForPathing()
 	{
 		if (randomSelectionTimestamp > Time.GetTicksMsec()) { return; }
-		randomSelectionTimestamp = Time.GetTicksMsec() + timeRandomSelectionIsBlocked * 1000.0;
+		randomSelectionTimestamp = Time.GetTicksMsec() + 0.04f * 1000.0;
 		MapPiece mp1 = mainScreen.Map.GetRandomPieceEditor();
 		MapPiece mp2 = mainScreen.Map.GetRandomPieceEditor();
+		while(mp1.Coord == mp2.Coord)
+		{
+			mp2 = mainScreen.Map.GetRandomPieceEditor();
+		}
 		SelectMapPiece(mp1, false);
 		SelectPathTargetMapPiece(mp2);
 	}
@@ -218,7 +221,7 @@ internal class Manager
 	private void DrawPath(MapCoordinate start, MapCoordinate end, Color col, int sectionIndex)
 	{
 		ISection section = mainScreen.Map.Sections[sectionIndex];
-		if (!section.ContainsPiece(end))
+		if (!section.ContainsPiece(start) || !section.ContainsPiece(end))
 		{
 			return;
 		}
@@ -228,14 +231,14 @@ internal class Manager
 		query.OverrideSections(sectionIndex, sectionIndex);
 		if (!query.IsValid)
 		{
-			Godot.GD.PushError($"Selection.Manager::DrawPath() query was invalid!");
+			GD.PushError($"Selection.Manager::DrawPath() query was invalid! sectionIndex[{sectionIndex}] start[{start}] end[{end}]");
 			return;
 		}
-		Pathing.FindPath(query, (PathAnswer answer) => { AddGizmoForAnswer(answer); });
+		Pathing.FindPath(query, AddGizmoForAnswer);
 	}
 	private void DrawPathBetweenConnections(int connID1, int connID2, Color col)
 	{
-			Godot.GD.Print("DrawPathBetweenConnections Gooal");
+			GD.Print("DrawPathBetweenConnections Gooal");
 
 		if (connID1 == -1 || connID2 == -1) { return; }
 		if (addon.MS.Map.Connections.ContainsKey(connID1) && addon.MS.Map.Connections.ContainsKey(connID2))

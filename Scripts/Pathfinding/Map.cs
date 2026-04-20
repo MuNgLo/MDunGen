@@ -5,6 +5,9 @@ using MDunGen.Sections;
 
 namespace MDunGen.Pathfinding;
 
+/// <summary>
+/// The Node map used for pathfinding in MDunGen MapData
+/// </summary>
 internal class Map
 {
     private List<PathLocation> nodes;

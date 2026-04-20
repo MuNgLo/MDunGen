@@ -1,8 +1,0 @@
-[gd_resource type="Resource" script_class="ProfileResource" format=3 uid="uid://c18oe4qok4s1t"]
-
-[ext_resource type="Script" uid="uid://q23oreunj1qt" path="res://addons/MDunGen/Scripts/ResourceDefinitions/ProfileResource.cs" id="1_aoufu"]
-[ext_resource type="Resource" uid="uid://cuhyi1nl1stap" path="res://addons/MDunGen/BuildRules/Map02.tres" id="1_qrbdl"]
-
-[resource]
-script = ExtResource("1_aoufu")
-design = ExtResource("1_qrbdl")

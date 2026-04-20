@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dedtciwwk6abt"]
 
 [ext_resource type="Script" uid="uid://cch0xcj1of5b4" path="res://addons/MDunGen/Scripts/Dungeon.cs" id="1_qur3q"]
+[ext_resource type="Resource" uid="uid://dyo35jmwmxmvm" path="res://addons/MDunGen/Config/Floors/Map03.tres" id="2_qur3q"]
 [ext_resource type="Script" uid="uid://bd8yphupvwyge" path="res://addons/MDunGen/Scripts/DungeonVisualizer.cs" id="3_0yk27"]
 [ext_resource type="Resource" uid="uid://de3h6je3yyg37" path="res://addons/MDunGen/Config/Biomes/def_biome.tres" id="4_qur3q"]
 [ext_resource type="Script" uid="uid://wikpf35ca1av" path="res://addons/MDunGen/Scenes/ExampleScene/PlayerFreelookCamera.cs" id="5_x57yw"]
@@ -14,6 +15,7 @@ shadow_enabled = true
 [node name="Dungeon" type="Node" parent="." unique_id=1917805050 node_paths=PackedStringArray("visualizer")]
 script = ExtResource("1_qur3q")
 spawnInOnLaunch = true
+dunSettings = ExtResource("2_qur3q")
 visualizer = NodePath("../DungeonVisualizer")
 
 [node name="DungeonVisualizer" type="Node3D" parent="." unique_id=1199063606 node_paths=PackedStringArray("dungeon")]
