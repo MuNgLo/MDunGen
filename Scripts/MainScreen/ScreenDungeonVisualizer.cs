@@ -231,7 +231,7 @@ public partial class ScreenDungeonVisualizer : Node3D
 			if (piece.keyFloor.key != PIECEKEYS.NONE && piece.keyFloor.key != PIECEKEYS.OCCUPIED &&
 				GetByKey(piece.keyFloor, biome, out Node3D floor, makeCollider))
 			{
-				DungeonUtils.ApplyMaterialOverrides(floor, biome.floorMaterials);
+				DungeonUtils.ApplyMaterialOverrides(floor, biome.floor_materials);
 				visualNode.AddChild(floor, true);
 			}
 		}
@@ -240,7 +240,7 @@ public partial class ScreenDungeonVisualizer : Node3D
 		{
 			if (piece.keyCeiling.key != PIECEKEYS.NONE && GetByKey(piece.keyCeiling, biome, out Node3D ceiling, makeCollider))
 			{
-				DungeonUtils.ApplyMaterialOverrides(ceiling, biome.ceilingMaterials);
+				DungeonUtils.ApplyMaterialOverrides(ceiling, biome.ceiling_materials);
 				visualNode.AddChild(ceiling, true);
 			}
 		}
@@ -253,7 +253,7 @@ public partial class ScreenDungeonVisualizer : Node3D
 				{
 					if (GetByKey(piece.WallKey((MAPDIRECTION)Math.Log2(i) + 1), biome, out Node3D wall, makeCollider))
 					{
-						DungeonUtils.ApplyMaterialOverrides(wall, biome.wallMaterials);
+						DungeonUtils.ApplyMaterialOverrides(wall, biome.wall_materials);
 						visualNode.AddChild(wall, true);
 					}
 				}
@@ -267,7 +267,7 @@ public partial class ScreenDungeonVisualizer : Node3D
 			{
 				if (GetByKey(extra, biome, out Node3D ext, makeCollider))
 				{
-					DungeonUtils.ApplyMaterialOverrides(ext, biome.wallMaterials);
+					DungeonUtils.ApplyMaterialOverrides(ext, biome.wall_materials);
 					visualNode.AddChild(ext, true);
 				}
 			}
@@ -298,7 +298,7 @@ public partial class ScreenDungeonVisualizer : Node3D
 		{
 			if (GetByKey(piece.WallKeyNorth, biome, out Node3D wall, makeCollider))
 			{
-				DungeonUtils.ApplyMaterialOverrides(wall, biome.wallMaterials);
+				DungeonUtils.ApplyMaterialOverrides(wall, biome.wall_materials);
 
 				visualNode.AddChild(wall, true);
 			}
@@ -307,7 +307,7 @@ public partial class ScreenDungeonVisualizer : Node3D
 		{
 			if (GetByKey(piece.WallKeyEast, biome, out Node3D wall, makeCollider))
 			{
-				DungeonUtils.ApplyMaterialOverrides(wall, biome.wallMaterials);
+				DungeonUtils.ApplyMaterialOverrides(wall, biome.wall_materials);
 				visualNode.AddChild(wall, true);
 			}
 		}
@@ -315,7 +315,7 @@ public partial class ScreenDungeonVisualizer : Node3D
 		{
 			if (GetByKey(piece.WallKeySouth, biome, out Node3D wall, makeCollider))
 			{
-				DungeonUtils.ApplyMaterialOverrides(wall, biome.wallMaterials);
+				DungeonUtils.ApplyMaterialOverrides(wall, biome.wall_materials);
 				visualNode.AddChild(wall, true);
 			}
 		}
@@ -323,7 +323,7 @@ public partial class ScreenDungeonVisualizer : Node3D
 		{
 			if (GetByKey(piece.WallKeyWest, biome, out Node3D wall, makeCollider))
 			{
-				DungeonUtils.ApplyMaterialOverrides(wall, biome.wallMaterials);
+				DungeonUtils.ApplyMaterialOverrides(wall, biome.wall_materials);
 				visualNode.AddChild(wall, true);
 			}
 		}

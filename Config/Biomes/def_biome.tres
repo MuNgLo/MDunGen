@@ -1,6 +1,7 @@
 [gd_resource type="Resource" script_class="BiomeResource" format=3 uid="uid://de3h6je3yyg37"]
 
-[ext_resource type="PackedScene" uid="uid://b0k5luvs28qyn" path="res://addons/MDunGen/Scenes/Standard/def_ceiling.tscn" id="1_ei6xj"]
+[ext_resource type="PackedScene" uid="uid://b0k5luvs28qyn" path="res://addons/MDunGen/Scenes/Standard/def_ceiling01.tscn" id="1_u2eaq"]
+[ext_resource type="Material" uid="uid://b0pphjs1lefh6" path="res://addons/MDunGen/Materials/def_ceiling.tres" id="1_vu743"]
 [ext_resource type="Script" uid="uid://bexk71y5d2pt5" path="res://addons/MDunGen/Scripts/ResourceDefinitions/BiomeEntryResource.cs" id="2_u2eaq"]
 [ext_resource type="ArrayMesh" uid="uid://bkhtgsky7tf8u" path="res://addons/MDunGen/Meshes/Standard/Standard_dbError.res" id="3_vu743"]
 [ext_resource type="ArrayMesh" uid="uid://d3o1e38vsdqs0" path="res://addons/MDunGen/Meshes/Standard/Standard_dbArrow.res" id="4_480td"]
@@ -9,78 +10,79 @@
 [ext_resource type="ArrayMesh" uid="uid://jsyys7e6t7gu" path="res://addons/MDunGen/Meshes/Standard/Standard_dbFaulty.res" id="7_c3sh7"]
 [ext_resource type="ArrayMesh" uid="uid://c1p8ru46pg8v6" path="res://addons/MDunGen/Meshes/Standard/Standard_dbEnd.res" id="8_to0q5"]
 [ext_resource type="PackedScene" uid="uid://b1jc4ww05tw32" path="res://addons/MDunGen/Scenes/Standard/def_arch.tscn" id="9_hytc7"]
-[ext_resource type="PackedScene" uid="uid://c47pckvep6emk" path="res://addons/MDunGen/Scenes/Standard/def_archcorner.tscn" id="10_kbl5j"]
-[ext_resource type="PackedScene" uid="uid://ctq3ly115qcft" path="res://addons/MDunGen/Scenes/Standard/def_hallwayarch01.tscn" id="11_xjl7o"]
+[ext_resource type="PackedScene" uid="uid://c47pckvep6emk" path="res://addons/MDunGen/Scenes/Standard/def_arch_corner.tscn" id="10_u2eaq"]
+[ext_resource type="PackedScene" uid="uid://ctq3ly115qcft" path="res://addons/MDunGen/Scenes/Standard/def_hallway_arch.tscn" id="11_vu743"]
 [ext_resource type="PackedScene" uid="uid://bo1vvej54i8o" path="res://addons/MDunGen/Scenes/Standard/def_floor01.tscn" id="12_guq6r"]
-[ext_resource type="ArrayMesh" uid="uid://kp1we438axv7" path="res://addons/MDunGen/Meshes/Standard/Standard_LadderFull.res" id="12_u2eaq"]
+[ext_resource type="Material" uid="uid://dkj4wkj6kfoti" path="res://addons/MDunGen/Materials/def_floor.tres" id="13_480td"]
 [ext_resource type="PackedScene" uid="uid://bsedxwapwcs7g" path="res://addons/MDunGen/Scenes/Standard/def_floor02.tscn" id="13_k3g1e"]
-[ext_resource type="ArrayMesh" uid="uid://cwg7bdjfrcdh1" path="res://addons/MDunGen/Meshes/Standard/Standard_LadderStop.res" id="13_vu743"]
 [ext_resource type="PackedScene" uid="uid://bkoxwnfj3xk1g" path="res://addons/MDunGen/Scenes/Standard/def_floor03.tscn" id="14_g4srk"]
-[ext_resource type="PackedScene" uid="uid://digcfyvxwb5hd" path="res://addons/MDunGen/Scenes/Standard/def_hallwayfloor01.tscn" id="15_41rgj"]
-[ext_resource type="PackedScene" uid="uid://1b4yyt8ynq8u" path="res://addons/MDunGen/Scenes/Standard/def_hallwayfloor02.tscn" id="16_p7b47"]
 [ext_resource type="Script" uid="uid://c3jmyg31j7sts" path="res://addons/MDunGen/Scripts/ResourceDefinitions/BiomeResource.cs" id="17_08lf2"]
+[ext_resource type="PackedScene" uid="uid://digcfyvxwb5hd" path="res://addons/MDunGen/Scenes/Standard/def_hallway_floor01.tscn" id="17_vu743"]
 [ext_resource type="PackedScene" uid="uid://b8cjyfjwaqgea" path="res://addons/MDunGen/Scenes/Standard/def_wall01.tscn" id="18_prw1t"]
 [ext_resource type="PackedScene" uid="uid://bv6l13mlr0w6b" path="res://addons/MDunGen/Scenes/Standard/def_wall02.tscn" id="19_dxe22"]
+[ext_resource type="Material" uid="uid://kfgeyarnq0v6" path="res://addons/MDunGen/Materials/def_wall.tres" id="19_vu743"]
 [ext_resource type="PackedScene" uid="uid://bel2njfu1ge0j" path="res://addons/MDunGen/Scenes/Standard/def_wall03.tscn" id="20_ncyry"]
-[ext_resource type="PackedScene" uid="uid://c8jxalblikoj6" path="res://addons/MDunGen/Scenes/Standard/def_wallopening01.tscn" id="21_64qie"]
-[ext_resource type="PackedScene" uid="uid://dp58p4c4wawlc" path="res://addons/MDunGen/Scenes/Standard/def_wallopening02.tscn" id="22_gp6gk"]
-[ext_resource type="PackedScene" uid="uid://be4l3oub5omjw" path="res://addons/MDunGen/Scenes/Standard/def_wallopeningwide.tscn" id="23_mch10"]
-[ext_resource type="PackedScene" uid="uid://dyruxrgt241g7" path="res://addons/MDunGen/Scenes/Standard/def_wallcorner.tscn" id="24_nc63f"]
+[ext_resource type="PackedScene" uid="uid://c8jxalblikoj6" path="res://addons/MDunGen/Scenes/Standard/def_wall_opening01.tscn" id="23_vu743"]
+[ext_resource type="PackedScene" uid="uid://dp58p4c4wawlc" path="res://addons/MDunGen/Scenes/Standard/def_wall_opening02.tscn" id="24_480td"]
+[ext_resource type="PackedScene" uid="uid://be4l3oub5omjw" path="res://addons/MDunGen/Scenes/Standard/def_wall_opening_wide.tscn" id="25_wg6cx"]
+[ext_resource type="PackedScene" uid="uid://dyruxrgt241g7" path="res://addons/MDunGen/Scenes/Standard/def_wall_corner.tscn" id="26_uhk14"]
 
-[sub_resource type="Resource" id="Resource_p06t7"]
+[sub_resource type="Resource" id="Resource_uhk14"]
+resource_name = "Ceilings"
 script = ExtResource("2_u2eaq")
 key = 9
-resources = [ExtResource("1_ei6xj")]
+resources = [ExtResource("1_u2eaq")]
 
-[sub_resource type="Resource" id="Resource_ofac7"]
+[sub_resource type="Resource" id="Resource_c3sh7"]
+resource_name = "Debug Visuals"
 script = ExtResource("2_u2eaq")
 key = 3
 resources = [ExtResource("3_vu743"), ExtResource("4_480td"), ExtResource("5_wg6cx"), ExtResource("6_uhk14"), ExtResource("7_c3sh7"), ExtResource("8_to0q5")]
 
-[sub_resource type="Resource" id="Resource_b5faw"]
+[sub_resource type="Resource" id="Resource_to0q5"]
+resource_name = "Arches"
 script = ExtResource("2_u2eaq")
 key = 15
-resources = [ExtResource("9_hytc7"), ExtResource("10_kbl5j"), ExtResource("11_xjl7o")]
+resources = [ExtResource("9_hytc7"), ExtResource("10_u2eaq"), ExtResource("11_vu743")]
 
-[sub_resource type="Resource" id="Resource_vu743"]
-script = ExtResource("2_u2eaq")
-key = 16
-resources = [ExtResource("12_u2eaq"), ExtResource("13_vu743")]
-metadata/_custom_type_script = "uid://bexk71y5d2pt5"
-
-[sub_resource type="Resource" id="Resource_sqnh8"]
+[sub_resource type="Resource" id="Resource_hytc7"]
+resource_name = "Floors"
 script = ExtResource("2_u2eaq")
 key = 7
-resources = [ExtResource("12_guq6r"), ExtResource("13_k3g1e"), ExtResource("14_g4srk"), ExtResource("15_41rgj"), ExtResource("16_p7b47")]
+resources = [ExtResource("12_guq6r"), ExtResource("13_k3g1e"), ExtResource("14_g4srk"), ExtResource("17_vu743"), ExtResource("17_vu743")]
 
-[sub_resource type="Resource" id="Resource_6cc41"]
+[sub_resource type="Resource" id="Resource_kbl5j"]
+resource_name = "Walls"
 script = ExtResource("2_u2eaq")
 key = 11
 resources = [ExtResource("18_prw1t"), ExtResource("19_dxe22"), ExtResource("20_ncyry")]
 
-[sub_resource type="Resource" id="Resource_bbhx8"]
+[sub_resource type="Resource" id="Resource_xjl7o"]
+resource_name = "Openings"
 script = ExtResource("2_u2eaq")
 key = 12
-resources = [ExtResource("21_64qie"), ExtResource("22_gp6gk")]
+resources = [ExtResource("23_vu743"), ExtResource("24_480td")]
 
-[sub_resource type="Resource" id="Resource_numd5"]
+[sub_resource type="Resource" id="Resource_guq6r"]
+resource_name = "Wide Openings"
 script = ExtResource("2_u2eaq")
 key = 13
-resources = [ExtResource("23_mch10")]
+resources = [ExtResource("25_wg6cx")]
 
-[sub_resource type="Resource" id="Resource_t5kn0"]
+[sub_resource type="Resource" id="Resource_k3g1e"]
+resource_name = "Corners"
 script = ExtResource("2_u2eaq")
 key = 14
-resources = [ExtResource("24_nc63f")]
+resources = [ExtResource("26_uhk14")]
 
 [resource]
 script = ExtResource("17_08lf2")
-debug = [SubResource("Resource_ofac7")]
-wallMaterials = []
-walls = [SubResource("Resource_6cc41"), SubResource("Resource_bbhx8"), SubResource("Resource_numd5"), SubResource("Resource_t5kn0")]
-floorMaterials = []
-floors = [SubResource("Resource_sqnh8")]
-ceilingMaterials = []
-ceilings = [SubResource("Resource_p06t7")]
-extras = [SubResource("Resource_b5faw"), SubResource("Resource_vu743")]
+debug = [SubResource("Resource_c3sh7")]
+wall_materials = [ExtResource("19_vu743")]
+walls = [SubResource("Resource_kbl5j"), SubResource("Resource_xjl7o"), SubResource("Resource_guq6r"), SubResource("Resource_k3g1e")]
+floor_materials = [ExtResource("13_480td")]
+floors = [SubResource("Resource_hytc7")]
+ceiling_materials = [ExtResource("1_vu743")]
+ceilings = [SubResource("Resource_uhk14")]
+extras = [SubResource("Resource_to0q5")]
 metadata/_custom_type_script = "uid://c3jmyg31j7sts"

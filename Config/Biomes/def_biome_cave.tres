@@ -1,0 +1,81 @@
+[gd_resource type="Resource" script_class="BiomeResource" format=3 uid="uid://dfl4e8xg3enlj"]
+
+[ext_resource type="PackedScene" uid="uid://bfo02c5yt1wo3" path="res://addons/MDunGen/Scenes/Cave/def_ceiling_cave.tscn" id="2_gly2f"]
+[ext_resource type="Script" uid="uid://bexk71y5d2pt5" path="res://addons/MDunGen/Scripts/ResourceDefinitions/BiomeEntryResource.cs" id="3_2v1fp"]
+[ext_resource type="ArrayMesh" uid="uid://bkhtgsky7tf8u" path="res://addons/MDunGen/Meshes/Standard/Standard_dbError.res" id="4_kkfn3"]
+[ext_resource type="ArrayMesh" uid="uid://d3o1e38vsdqs0" path="res://addons/MDunGen/Meshes/Standard/Standard_dbArrow.res" id="5_2thwm"]
+[ext_resource type="ArrayMesh" uid="uid://32364sg0a66v" path="res://addons/MDunGen/Meshes/Standard/Standard_dbWallFlagGreen.res" id="6_eyk53"]
+[ext_resource type="ArrayMesh" uid="uid://dlwyd7wcgkmc7" path="res://addons/MDunGen/Meshes/Standard/Standard_dbWallFlagRed.res" id="7_xwn25"]
+[ext_resource type="ArrayMesh" uid="uid://jsyys7e6t7gu" path="res://addons/MDunGen/Meshes/Standard/Standard_dbFaulty.res" id="8_doh46"]
+[ext_resource type="ArrayMesh" uid="uid://c1p8ru46pg8v6" path="res://addons/MDunGen/Meshes/Standard/Standard_dbEnd.res" id="9_uhuhs"]
+[ext_resource type="PackedScene" uid="uid://c14criy0er1f8" path="res://addons/MDunGen/Scenes/Cave/def_arch_cave.tscn" id="10_gp13d"]
+[ext_resource type="PackedScene" uid="uid://83plyprbfnje" path="res://addons/MDunGen/Scenes/Cave/def_arch_corner_cave.tscn" id="11_p1cdb"]
+[ext_resource type="PackedScene" uid="uid://ctq3ly115qcft" path="res://addons/MDunGen/Scenes/Standard/def_hallway_arch.tscn" id="12_mjkyy"]
+[ext_resource type="PackedScene" uid="uid://bhvry231twumv" path="res://addons/MDunGen/Scenes/Cave/def_floor_cave.tscn" id="14_l32tm"]
+[ext_resource type="PackedScene" uid="uid://nxvpgv6ehoxa" path="res://addons/MDunGen/Scenes/Cave/def_wall_cave01.tscn" id="17_gp13d"]
+[ext_resource type="Script" uid="uid://c3jmyg31j7sts" path="res://addons/MDunGen/Scripts/ResourceDefinitions/BiomeResource.cs" id="18_0wxim"]
+[ext_resource type="PackedScene" uid="uid://bydijaowjwpwh" path="res://addons/MDunGen/Scenes/Cave/def_wall_cave02.tscn" id="18_p1cdb"]
+[ext_resource type="Material" uid="uid://msnmrjeaqh84" path="res://addons/MDunGen/Materials/defCave.tres" id="19_g6vp2"]
+[ext_resource type="PackedScene" uid="uid://cosw3s35mahlh" path="res://addons/MDunGen/Scenes/Cave/def_wall_opening_cave.tscn" id="21_rnhys"]
+[ext_resource type="PackedScene" uid="uid://e111sweiynw3" path="res://addons/MDunGen/Scenes/Cave/def_wall_opening_wide_cave.tscn" id="22_c4880"]
+[ext_resource type="PackedScene" uid="uid://d4g1asmywmysa" path="res://addons/MDunGen/Scenes/Cave/def_wallcorner_cave.tscn" id="23_s5esh"]
+
+[sub_resource type="Resource" id="Resource_uhk14"]
+resource_name = "Ceilings"
+script = ExtResource("3_2v1fp")
+key = 9
+resources = [ExtResource("2_gly2f")]
+
+[sub_resource type="Resource" id="Resource_c3sh7"]
+resource_name = "Debug Visuals"
+script = ExtResource("3_2v1fp")
+key = 3
+resources = [ExtResource("4_kkfn3"), ExtResource("5_2thwm"), ExtResource("6_eyk53"), ExtResource("7_xwn25"), ExtResource("8_doh46"), ExtResource("9_uhuhs")]
+
+[sub_resource type="Resource" id="Resource_to0q5"]
+resource_name = "Arches"
+script = ExtResource("3_2v1fp")
+key = 15
+resources = [ExtResource("10_gp13d"), ExtResource("11_p1cdb"), ExtResource("12_mjkyy")]
+
+[sub_resource type="Resource" id="Resource_hytc7"]
+resource_name = "Floors"
+script = ExtResource("3_2v1fp")
+key = 7
+resources = [ExtResource("14_l32tm")]
+
+[sub_resource type="Resource" id="Resource_kbl5j"]
+resource_name = "Walls"
+script = ExtResource("3_2v1fp")
+key = 11
+resources = [ExtResource("17_gp13d"), ExtResource("18_p1cdb")]
+
+[sub_resource type="Resource" id="Resource_xjl7o"]
+resource_name = "Openings"
+script = ExtResource("3_2v1fp")
+key = 12
+resources = [ExtResource("21_rnhys")]
+
+[sub_resource type="Resource" id="Resource_guq6r"]
+resource_name = "Wide Openings"
+script = ExtResource("3_2v1fp")
+key = 13
+resources = [ExtResource("22_c4880")]
+
+[sub_resource type="Resource" id="Resource_k3g1e"]
+resource_name = "Corners"
+script = ExtResource("3_2v1fp")
+key = 14
+resources = [ExtResource("23_s5esh")]
+
+[resource]
+script = ExtResource("18_0wxim")
+debug = [SubResource("Resource_c3sh7")]
+wall_materials = [ExtResource("19_g6vp2")]
+walls = [SubResource("Resource_kbl5j"), SubResource("Resource_xjl7o"), SubResource("Resource_guq6r"), SubResource("Resource_k3g1e")]
+floor_materials = []
+floors = [SubResource("Resource_hytc7")]
+ceiling_materials = []
+ceilings = [SubResource("Resource_uhk14")]
+extras = [SubResource("Resource_to0q5")]
+metadata/_custom_type_script = "uid://c3jmyg31j7sts"

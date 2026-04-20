@@ -1,5 +1,6 @@
 // Gone through at v1.3
 using Godot;
+using Godot.Collections;
 using MDunGen.Commons;
 using System;
 using System.Linq;
@@ -9,39 +10,184 @@ namespace MDunGen.Resources;
 [GlobalClass, Tool]
 public partial class BiomeResource : DungeonAddonResource
 {
-	[Export] public Vector3I size = Vector3I.One * 6;
+	//[Export] public Vector3I size = Vector3I.One * 6;
 	[ExportCategory("Debug")]
 	[Export] public BiomeEntryResource[] debug;
 	[ExportCategory("Walls")]
-	[Export] public Material[] wallMaterials;
+	[Export] public Material[] wall_materials;
 	[Export] public BiomeEntryResource[] walls;
 	[ExportCategory("Floors")]
-	[Export] public Material[] floorMaterials;
+	[Export] public Material[] floor_materials;
 	[Export] public BiomeEntryResource[] floors;
 	[ExportCategory("Ceilings")]
-	[Export] public Material[] ceilingMaterials;
+	[Export] public Material[] ceiling_materials;
 	[Export] public BiomeEntryResource[] ceilings;
 	[ExportCategory("Extras")]
 	[Export] public BiomeEntryResource[] extras;
 
-	private readonly string standardMeshPath = "res://addons/MDunGen/Meshes/Standard/Standard_";
-	private readonly string standardScenePath = "res://addons/MDunGen/Scenes/Standard/";
+	public BiomeResource() { }
+
+	#region Inspector Integration
+	public override bool _PropertyCanRevert(StringName property)
+	{
+		string str = property.ToString();
+		if (str == "debug" || str == "walls" || str == "floors" || str == "ceilings" || str == "extras"
+		|| str == "wall_materials" || str == "floor_materials" || str == "ceiling_materials")
+		{
+			return true;
+		}
+		return base._PropertyCanRevert(property);
+	}
+
+	public override Variant _PropertyGetRevert(StringName property)
+	{
+		switch (property.ToString())
+		{
+			case "debug":
+				return ConstructDefaultDebug();
+			case "wall_materials":
+				Material[] wallMats = [ResourceLoader.Load<Material>("res://addons/MDunGen/Materials/def_wall.tres")];
+				return wallMats;
+			case "walls":
+				return ConstructDefaultWalls();
+			case "floor_materials":
+				Material[] floorMats = [ResourceLoader.Load<Material>("res://addons/MDunGen/Materials/def_floor.tres")];
+				return floorMats;
+			case "floors":
+				return ConstructDefaultFloors();
+			case "ceiling_materials":
+				Material[] ceilingMats = [ResourceLoader.Load<Material>("res://addons/MDunGen/Materials/def_ceiling.tres")];
+				return ceilingMats;
+			case "ceilings":
+				return ConstructDefaultCeilings();
+			case "extras":
+				return ConstructDefaultExtras();
+		}
+		return base._PropertyGetRevert(property);
+	}
+
+	private Variant ConstructDefaultExtras()
+	{
+		BiomeEntryResource[] result = [
+			new BiomeEntryResource(){
+					ResourceName = "Arches",
+					key = PIECEKEYS.ARCH,
+					resources = [
+						ResourceLoader.Load<Resource>("res://addons/MDunGen/Scenes/Standard/def_arch.tscn"),
+						ResourceLoader.Load<Resource>("res://addons/MDunGen/Scenes/Standard/def_arch_corner.tscn"),
+						ResourceLoader.Load<Resource>("res://addons/MDunGen/Scenes/Standard/def_hallway_arch.tscn"),
+					]
+				}
+		];
+		return result;
+	}
+
+	private Variant ConstructDefaultCeilings()
+	{
+		BiomeEntryResource[] result = [
+			new BiomeEntryResource(){
+					ResourceName = "Ceilings",
+					key = PIECEKEYS.C,
+					resources = [
+						ResourceLoader.Load<Resource>("res://addons/MDunGen/Scenes/Standard/def_ceiling01.tscn"),
+					]
+				}
+		];
+		return result;
+	}
+
+	private Variant ConstructDefaultFloors()
+	{
+		BiomeEntryResource[] result = [
+			new BiomeEntryResource(){
+				ResourceName = "Floors",
+				key = PIECEKEYS.F,
+				resources = [
+					ResourceLoader.Load<Resource>("res://addons/MDunGen/Scenes/Standard/def_floor01.tscn"),
+					ResourceLoader.Load<Resource>("res://addons/MDunGen/Scenes/Standard/def_floor02.tscn"),
+					ResourceLoader.Load<Resource>("res://addons/MDunGen/Scenes/Standard/def_floor03.tscn"),
+					ResourceLoader.Load<Resource>("res://addons/MDunGen/Scenes/Standard/def_hallway_floor01.tscn"),
+					ResourceLoader.Load<Resource>("res://addons/MDunGen/Scenes/Standard/def_hallway_floor01.tscn"),
+				]
+			}
+		];
+		return result;
+	}
+
+	private Variant ConstructDefaultWalls()
+	{
+		BiomeEntryResource[] result = [
+		new BiomeEntryResource(){
+				ResourceName = "Walls",
+				key = PIECEKEYS.W,
+				resources = [
+					ResourceLoader.Load<Resource>("res://addons/MDunGen/Scenes/Standard/def_wall01.tscn"),
+					ResourceLoader.Load<Resource>("res://addons/MDunGen/Scenes/Standard/def_wall02.tscn"),
+					ResourceLoader.Load<Resource>("res://addons/MDunGen/Scenes/Standard/def_wall03.tscn"),
+				]
+			},
+		new BiomeEntryResource(){
+				ResourceName = "Openings",
+				key = PIECEKEYS.WD,
+				resources = [
+					ResourceLoader.Load<Resource>("res://addons/MDunGen/Scenes/Standard/def_wall_opening01.tscn"),
+					ResourceLoader.Load<Resource>("res://addons/MDunGen/Scenes/Standard/def_wall_opening02.tscn"),
+				]
+			},
+		new BiomeEntryResource(){
+				ResourceName = "Wide Openings",
+				key = PIECEKEYS.WDW,
+				resources = [
+					ResourceLoader.Load<Resource>("res://addons/MDunGen/Scenes/Standard/def_wall_opening_wide.tscn"),
+				]
+			},
+		new BiomeEntryResource(){
+				ResourceName = "Corners",
+				key = PIECEKEYS.WCI,
+				resources = [
+					ResourceLoader.Load<Resource>("res://addons/MDunGen/Scenes/Standard/def_wall_corner.tscn"),
+				]
+			}
+	];
+		return result;
+	}
+
+	private Variant ConstructDefaultDebug()
+	{
+		BiomeEntryResource[] result = [
+			new BiomeEntryResource(){
+				ResourceName = "Debug Visuals",
+				key = PIECEKEYS.DEBUG,
+				resources = [
+					ResourceLoader.Load<Resource>("res://addons/MDunGen/Meshes/Standard/Standard_dbError.res"),
+					ResourceLoader.Load<Resource>("res://addons/MDunGen/Meshes/Standard/Standard_dbArrow.res"),
+					ResourceLoader.Load<Resource>("res://addons/MDunGen/Meshes/Standard/Standard_dbWallFlagGreen.res"),
+					ResourceLoader.Load<Resource>("res://addons/MDunGen/Meshes/Standard/Standard_dbWallFlagRed.res"),
+					ResourceLoader.Load<Resource>("res://addons/MDunGen/Meshes/Standard/Standard_dbFaulty.res"),
+					ResourceLoader.Load<Resource>("res://addons/MDunGen/Meshes/Standard/Standard_dbEnd.res")
+				]
+			}
+		];
+		return result;
+	}
+	#endregion
+
+	#region Access
 	internal bool GetResource(PIECEKEYS key, int variantID, out Resource result)
 	{
 		result = null;
 		BiomeEntryResource entry = null;
-		if (debug.Where(p => p.key == key).Count() > 0) { entry = debug.Where(p => p.key == key).First(); }
-		if (entry is null) { if (walls.Where(p => p.key == key).Count() > 0) { entry = walls.Where(p => p.key == key).First(); } }
-		if (entry is null) { if (floors.Where(p => p.key == key).Count() > 0) { entry = floors.Where(p => p.key == key).First(); } }
-		if (entry is null) { if (ceilings.Where(p => p.key == key).Count() > 0) { entry = ceilings.Where(p => p.key == key).First(); } }
-		if (entry is null) { if (extras.Where(p => p.key == key).Count() > 0) { entry = extras.Where(p => p.key == key).First(); } }
+		if (debug.Any(p => p.key == key)) { entry = debug.First(p => p.key == key); }
+		if (entry is null) { if (walls.Any(p => p.key == key)) { entry = walls.First(p => p.key == key); } }
+		if (entry is null) { if (floors.Any(p => p.key == key)) { entry = floors.First(p => p.key == key); } }
+		if (entry is null) { if (ceilings.Any(p => p.key == key)) { entry = ceilings.First(p => p.key == key); } }
+		if (entry is null) { if (extras.Any(p => p.key == key)) { entry = extras.First(p => p.key == key); } }
 		if (entry is null) { return false; }
 		if (entry.resources.Length < 1)
 		{
-			GD.PrintErr($"BiomeDefinition::GetResource({key}, {variantID}) No resources setup under that key!");
+			GD.PrintErr($"BiomeDefinition::GetResource({key}, {variantID}) No resources setup under that key in [{ResourcePath}]");
 			return false;
 		}
-
 		if (variantID > 0 && variantID < entry.resources.Length)
 		{
 			result = entry.resources[variantID];
@@ -49,119 +195,10 @@ public partial class BiomeResource : DungeonAddonResource
 		}
 		if (variantID >= entry.resources.Length)
 		{
-			GD.PrintErr($"BiomeDefinition::GetResouce({key}, {variantID}) Variant dont exist!");
+			GD.PrintErr($"BiomeDefinition::GetResource({key}, {variantID}) Variant don't exist in [{ResourcePath}]");
 		}
 		result = entry.resources[0];
 		return true;
 	}
-
-	// Make sure you provide a parameterless constructor.
-	// In C#, a parameterless constructor is different from a
-	// constructor with all default values.
-	// Without a parameterless constructor, Godot will have problems
-	// creating and editing your resource via the inspector.
-	// public BiomeDefinition() : this(0, null, null) { }
-	public BiomeResource(){}
-	public BiomeResource(bool asDefault)
-	{
-		//debug defaults
-		PIECEKEYS[] defDebugKeys = new PIECEKEYS[]
-		{
-				PIECEKEYS.DEBUG
-		};
-		string[][] defDebugEntries = new string[][]
-		{
-				[standardMeshPath + "dbError.res",
-				 standardMeshPath + "dbArrow.res",
-				 standardMeshPath + "dbWallFlagGreen.res",
-				 standardMeshPath + "dbWallFlagRed.res",
-				 standardMeshPath + "dbFaulty.res",
-				 standardMeshPath + "dbEnd.res"]
-		};
-		debug = new BiomeEntryResource[defDebugKeys.Length];
-		SetupArray(ref debug, defDebugKeys, defDebugEntries);
-		//walls
-		PIECEKEYS[] defWallsKeys = new PIECEKEYS[]
-		  {
-					PIECEKEYS.W,
-					PIECEKEYS.WD,
-					PIECEKEYS.WDW,
-					PIECEKEYS.WCI
-		  };
-		string[][] defWallsEntries = new string[][]
-		{
-				new string[]{ standardScenePath + "def_wall01.tscn", standardScenePath + "def_wall02.tscn", standardScenePath + "def_wall03.tscn" },
-				new string[]{ standardScenePath + "def_wallopening01.tscn", standardScenePath + "def_wallopening02.tscn" },
-				new string[]{ standardScenePath + "def_wallopeningwide.tscn" },
-				new string[]{ standardScenePath + "def_wallcorner.tscn" }
-		};
-		walls = new BiomeEntryResource[defWallsKeys.Length];
-		SetupArray(ref walls, defWallsKeys, defWallsEntries);
-
-		// Floors
-		PIECEKEYS[] defFloorsKeys = new PIECEKEYS[]
-		  {
-					PIECEKEYS.F
-		  };
-		string[][] defFloorsEntries = new string[][]
-		{
-				new string[]{
-				standardScenePath + "def_floor01.tscn",
-				 standardScenePath + "def_floor02.tscn",
-				  standardScenePath + "def_floor03.tscn",
-				   standardScenePath + "def_hallwayfloor01.tscn",
-				   standardScenePath + "def_hallwayfloor02.tscn"
-				}
-		};
-		floors = new BiomeEntryResource[defFloorsKeys.Length];
-		SetupArray(ref floors, defFloorsKeys, defFloorsEntries);
-
-		// Ceilings
-		PIECEKEYS[] defCeilingsKeys = new PIECEKEYS[]
-		  {
-					PIECEKEYS.C
-		  };
-		string[][] defCeilingsEntries = new string[][]
-		{
-				new string[]{ standardScenePath + "def_ceiling.tscn" }
-		};
-		ceilings = new BiomeEntryResource[defCeilingsKeys.Length];
-		SetupArray(ref ceilings, defCeilingsKeys, defCeilingsEntries);
-
-		// Extras
-		PIECEKEYS[] defExtrakeys = new PIECEKEYS[]
-		{
-				PIECEKEYS.ARCH,
-		};
-		string[][] defExtrasEntries = new string[][]
-		{
-				new string[]{
-					standardScenePath + "def_arch.tscn",
-					standardScenePath + "def_archcorner.tscn",
-					standardScenePath + "def_hallwayarch01.tscn",
-					}
-		};
-		extras = new BiomeEntryResource[defExtrakeys.Length];
-		SetupArray(ref extras, defExtrakeys, defExtrasEntries);
-	}
-
-
-
-	private void SetupArray(ref BiomeEntryResource[] arr, PIECEKEYS[] keys, string[][] variants)
-	{
-		for (int i = 0; i < arr.Length; i++)
-		{
-			Resource[] resources = new Resource[variants[i].Length];
-			for (int b = 0; b < variants[i].Length; b++)
-			{
-				resources[b] = ResourceLoader.Load(variants[i][b]);
-			}
-			arr[i] = new BiomeEntryResource()
-			{
-				key = keys[i],
-				resources = resources
-			};
-
-		}
-	}
+	#endregion
 }// EOF CLASS

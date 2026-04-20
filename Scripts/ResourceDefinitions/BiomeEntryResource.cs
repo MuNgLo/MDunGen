@@ -11,7 +11,15 @@ public partial class BiomeEntryResource : DungeonAddonResource
 	/// <summary>
 	/// DON'T access this directly Use the GetResource
 	/// </summary>
-	[Export] public Resource[] resources { get; set; } = null;
+	[Export(PropertyHint.ResourceType, "Mesh,PackedScene")] public Resource[] resources { get; set; } = null;
+
+
+
+
+
+
+
+	#region Access
 	public Resource GetResource(int index)
 	{
 		if (index < 0 || index >= resources.Length)
@@ -28,4 +36,5 @@ public partial class BiomeEntryResource : DungeonAddonResource
 		}
 		return resources[index];
 	}
+	#endregion
 }// EOF CLASS

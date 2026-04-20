@@ -9,6 +9,7 @@ design = ExtResource("1_0iudd")
 lastUsedProfile = "res://addons/MuNgLosDungeon/Config/def_profile.tres"
 ProjectResourcePath = "res://Dungeon/"
 maxVisibleLevels = 2
+showCeilings = false
 showDebug = false
 sectionFirstPieceDoor = true
 pathingPass = false

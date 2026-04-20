@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://bydijaowjwpwh"]
+
+[ext_resource type="ArrayMesh" uid="uid://plcxvua3shwg" path="res://addons/MDunGen/Meshes/Cave/DefaultCave_WallCave.res" id="1_apcnu"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ox2cc"]
+size = Vector3(6, 6, 1)
+
+[node name="Wall01" type="Node3D" unique_id=1806112417]
+
+[node name="DefaultMeshesWallMesh" type="MeshInstance3D" parent="." unique_id=464171296]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -2)
+mesh = ExtResource("1_apcnu")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="DefaultMeshesWallMesh" unique_id=1940637856]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DefaultMeshesWallMesh/StaticBody3D" unique_id=1562384262]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+shape = SubResource("BoxShape3D_ox2cc")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1280039637]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8045405, -1.651)
+light_color = Color(0.9109286, 0.57575613, 0.21406385, 1)
+light_energy = 6.699
+shadow_enabled = true
