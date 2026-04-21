@@ -2,11 +2,28 @@
 
 [ext_resource type="Texture2D" uid="uid://cuhw3gb8lxcq" path="res://addons/MDunGen/Materials/Textures/CaveTilable.png" id="1_1ak24"]
 
+[sub_resource type="Gradient" id="Gradient_lc0cl"]
+offsets = PackedFloat32Array(0, 0.14102565, 0.41025642, 0.99743587, 1)
+colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 1, 0.25565878, 0.25565878, 0.25565878, 1, 0.9545454, 0.9545454, 0.9545454, 1, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ku18g"]
+frequency = 0.0042
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_4cxqt"]
+noise = SubResource("FastNoiseLite_ku18g")
+color_ramp = SubResource("Gradient_lc0cl")
+seamless = true
+as_normal_map = true
+seamless_blend_skirt = 0.277
+bump_strength = 14.8
+
 [resource]
-diffuse_mode = 1
-specular_mode = 2
-albedo_color = Color(0.247059, 0.239216, 0.223529, 1)
+albedo_color = Color(0.28184682, 0.2731906, 0.25587645, 1)
 albedo_texture = ExtResource("1_1ak24")
+metallic_specular = 0.0
+normal_enabled = true
+normal_scale = 2.45
+normal_texture = SubResource("NoiseTexture2D_4cxqt")
 uv1_scale = Vector3(0.205, 0.205, 0.205)
 uv1_triplanar = true
 uv1_world_triplanar = true

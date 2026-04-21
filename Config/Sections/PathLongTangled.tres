@@ -6,10 +6,10 @@
 script = ExtResource("1_yk757")
 corMaxTotal = 120
 corMaxStraight = 2
+corMinStraight = 4
 sectionName = "Long Tangled"
 sectionType = "PathSection"
-sectionStyle = "Connector"
-sizeWidthMin = 2
+sizeWidthMin = 1
 sizeWidthMax = 2
 sizeDepthMin = 1
 sizeDepthMax = 1
