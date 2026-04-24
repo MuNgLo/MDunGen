@@ -354,37 +354,45 @@ public class SectionBase : ISection
 	/// <param name="growLocation"></param>
 	private protected void SetMinMaxCoord(MapCoordinate growLocation)
 	{
-		int XOffset = 0;
-		int ZOffset = 0;
-		if (sizeX % 2 != 0) { XOffset = 1; }
-		if (sizeZ % 2 != 0) { ZOffset = 1; }
 		switch (orientation)
 		{
 			case MAPDIRECTION.NORTH:
-				minX = growLocation.x - (int)(sizeX * 0.5f) + 1 - XOffset;
-				maxX = growLocation.x + (int)(sizeX * 0.5f);
-				minZ = growLocation.z - sizeZ + 1;
+				minX = growLocation.x - Mathf.FloorToInt(sizeX * 0.5f);
+				maxX = minX + sizeX - 1;
 				maxZ = growLocation.z;
+				minZ = maxZ - sizeZ + 1;
 				break;
 			case MAPDIRECTION.SOUTH:
-				minX = growLocation.x - (int)(sizeX * 0.5f) + XOffset;
-				maxX = growLocation.x + (int)(sizeX * 0.5f) - 1;
+				maxX = growLocation.x + Mathf.FloorToInt(sizeX * 0.5f);
+				minX = maxX - sizeX + 1;
 				minZ = growLocation.z;
-				maxZ = growLocation.z + sizeZ - 1;
+				maxZ = minZ + sizeZ - 1;
 				break;
 			case MAPDIRECTION.EAST:
 				minX = growLocation.x;
-				maxX = growLocation.x + sizeX - 1;
-				minZ = growLocation.z - (int)(sizeZ * 0.5f) + 1 - ZOffset;
-				maxZ = growLocation.z + (int)(sizeZ * 0.5f);
+				maxX = minX + sizeX - 1;
+				minZ = growLocation.z - Mathf.FloorToInt(sizeZ * 0.5f);
+				maxZ = minZ + sizeZ - 1;
 				break;
 			case MAPDIRECTION.WEST:
-				minX = growLocation.x - sizeX + 1;
 				maxX = growLocation.x;
-				minZ = growLocation.z - (int)(sizeZ * 0.5f) - ZOffset;
-				maxZ = growLocation.z + (int)(sizeZ * 0.5f) - 1;
+				minX = maxX - sizeX + 1;
+				maxZ = growLocation.z + Mathf.FloorToInt(sizeZ * 0.5f);
+				minZ = maxZ - sizeZ + 1;
 				break;
 		}
+
+		/*if (sizeX % 2 == 0 && orientation == MAPDIRECTION.SOUTH)
+		{
+			minX -= 1;
+			maxX -= 1;
+		}
+
+		if (sizeX % 2 == 0 && orientation == MAPDIRECTION.WEST)
+		{
+			minZ -= 1;
+			maxZ -= 1;
+		}*/
 		AdjustSectionHeight(growLocation.y);
 	}
 

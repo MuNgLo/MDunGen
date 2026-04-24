@@ -30,9 +30,13 @@ public enum PIECEKEYS
 	WDW = 13,
 	WCI = 14,
 	ARCH = 15,
-	MISC = 16
+	MISC = 16,
+	RAILING = 17, 
+	SUPPORT = 18 
 }
 
+public enum RAILING { LONG = 0, CORNERROUNDED = 1 }
+public enum SUPPORT { LONG = 0, CORNERROUNDED = 1 }
 
 [Flags]
 public enum ROOMCONNECTIONRESPONCE { DOOR = 1, BALCONY = 2, BRIDGE = 4, STAIR = 8 }

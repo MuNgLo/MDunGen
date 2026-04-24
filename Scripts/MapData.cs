@@ -58,10 +58,10 @@ public class MapData
 	/// </summary>
 	/// <param name="callback"></param>
 	/// <returns></returns>
-	internal async Task GenerateMap(Action callback, bool debug)
+	internal async Task GenerateMap(Action callback, bool debug, Action<float> ProgressCallBack)
 	{
 		log.Invoke(new BuildLogEventArgument() { source = "MapData: GenerateMap()", message = "Generating map......" });
-		await builder.Build(design, debug);
+		await builder.Build(design, debug, ProgressCallBack);
 		callback.Invoke();
 	}
 

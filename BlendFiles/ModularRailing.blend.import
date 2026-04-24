@@ -1,0 +1,116 @@
+[remap]
+
+importer="scene"
+importer_version=1
+type="PackedScene"
+uid="uid://co3y3ylg01egf"
+path="res://.godot/imported/ModularRailing.blend-024b3d05d6423d31bbb1d22de5358631.scn"
+
+[deps]
+
+source_file="res://addons/MDunGen/BlendFiles/ModularRailing.blend"
+dest_files=["res://.godot/imported/ModularRailing.blend-024b3d05d6423d31bbb1d22de5358631.scn"]
+
+[params]
+
+nodes/root_type=""
+nodes/root_name=""
+nodes/root_script=null
+nodes/apply_root_scale=true
+nodes/root_scale=1.0
+nodes/import_as_skeleton_bones=false
+nodes/use_name_suffixes=true
+nodes/use_node_type_suffixes=true
+meshes/ensure_tangents=true
+meshes/generate_lods=true
+meshes/create_shadow_meshes=true
+meshes/light_baking=1
+meshes/lightmap_texel_size=0.2
+meshes/force_disable_compression=false
+skins/use_named_skins=true
+animation/import=true
+animation/fps=30
+animation/trimming=false
+animation/remove_immutable_tracks=true
+animation/import_rest_as_RESET=false
+import_script/path=""
+materials/extract=0
+materials/extract_format=0
+materials/extract_path=""
+_subresources={
+"materials": {
+"bConcrete": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://addons/MDunGen/Materials/def_concrete.tres",
+"use_external/path": "uid://djo0wx17igec0"
+},
+"bFloor": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://addons/MDunGen/Materials/def_floor.tres",
+"use_external/path": "uid://dkj4wkj6kfoti"
+},
+"bWall": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://addons/MDunGen/Materials/def_wall.tres",
+"use_external/path": "uid://kfgeyarnq0v6"
+}
+},
+"meshes": {
+"ModularRailing_RailCornerRounded": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Modular/Railings/Default/CornerRounded.res",
+"save_to_file/path": "uid://dtibg258bcy3j"
+},
+"ModularRailing_RailLong": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Modular/Railings/Default/Long.res",
+"save_to_file/path": "uid://cb56v7h8051xc"
+},
+"ModularRailing_SupportCornerRounded": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Modular/Supports/Default/CornerRounded.res",
+"save_to_file/path": "uid://de4dq45nvmalk"
+},
+"ModularRailing_SupportLong": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Modular/Supports/Default/Long.res",
+"save_to_file/path": "uid://cnypwfadctd2i"
+}
+}
+}
+blender/nodes/visible=2
+blender/nodes/active_collection_only=false
+blender/nodes/punctual_lights=true
+blender/nodes/cameras=true
+blender/nodes/custom_properties=true
+blender/nodes/modifiers=1
+blender/meshes/colors=false
+blender/meshes/uvs=true
+blender/meshes/normals=true
+blender/meshes/export_geometry_nodes_instances=false
+blender/meshes/gpu_instances=false
+blender/meshes/tangents=true
+blender/meshes/skins=2
+blender/meshes/export_bones_deforming_mesh_only=false
+blender/materials/unpack_enabled=true
+blender/materials/export_materials=1
+blender/animation/limit_playback=true
+blender/animation/always_sample=true
+blender/animation/group_tracks=true
+gltf/naming_version=2

@@ -77,6 +77,30 @@ public partial class BiomeResource : DungeonAddonResource
 						ResourceLoader.Load<Resource>("res://addons/MDunGen/Scenes/Standard/def_arch_corner.tscn"),
 						ResourceLoader.Load<Resource>("res://addons/MDunGen/Scenes/Standard/def_hallway_arch.tscn"),
 					]
+				},
+			new BiomeEntryResource(){
+					ResourceName = "Railings",
+					key = PIECEKEYS.RAILING,
+					resources = [
+						ResourceLoader.Load<Resource>("res://addons/MDunGen/Meshes/Modular/Railings/Default/Long.res"),
+						ResourceLoader.Load<Resource>("res://addons/MDunGen/Meshes/Modular/Railings/Default/CornerRounded.res"),
+					]
+				},
+			new BiomeEntryResource(){
+					ResourceName = "Ladders",
+					key = PIECEKEYS.MISC,
+					resources = [
+						ResourceLoader.Load<Resource>("res://addons/MDunGen/Meshes/Standard/Standard_LadderFull.res"),
+						ResourceLoader.Load<Resource>("res://addons/MDunGen/Meshes/Standard/Standard_LadderStop.res"),
+					]
+				},
+			new BiomeEntryResource(){
+					ResourceName = "Supports",
+					key = PIECEKEYS.SUPPORT,
+					resources = [
+						ResourceLoader.Load<Resource>("res://addons/MDunGen/Meshes/Modular/Supports/Default/Long.res"),
+						ResourceLoader.Load<Resource>("res://addons/MDunGen/Meshes/Modular/Supports/Default/CornerRounded.res"),
+					]
 				}
 		];
 		return result;

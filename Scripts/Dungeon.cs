@@ -63,8 +63,14 @@ public partial class Dungeon : Node
 			return;
 		}
 		map = new MapData(design, seed, RaiseBuildLogEvent);
-		await map.GenerateMap(callback, debug);
+		await map.GenerateMap(callback, debug, UpdateProgress);
 	}
+
+	private void UpdateProgress(float normalizedProgression)
+	{
+		GD.Print($"Building Dungeon [{(normalizedProgression * 100).ToString("00")}%]");
+	}
+
 	/// <summary>
 	/// This is how the addon logs build messages in runtime
 	/// </summary>

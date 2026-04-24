@@ -16,7 +16,7 @@ public class BuildLogEventArgument : EventArgs
 
 	public string BuildRichText(bool showSource)
 	{
-		string str = $"{System.Environment.NewLine}[color={ResolveColor(severity)}]*[/color]";
+		string str = $"[bgcolor={ResolveColor(severity)}] [/bgcolor]  ";
 		if (showSource)
 		{
 			str += source;
@@ -31,6 +31,7 @@ public class BuildLogEventArgument : EventArgs
 		}
 		str += message;
 		str += AppendLocations();
+		str += System.Environment.NewLine;
 		return str;
 	}
 

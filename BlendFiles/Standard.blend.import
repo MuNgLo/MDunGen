@@ -41,17 +41,17 @@ _subresources={
 "materials": {
 "bCieling": {
 "use_external/enabled": true,
-"use_external/fallback_path": "res://addons/MDunGen/Materials/defCeilingMaterial.tres",
+"use_external/fallback_path": "res://addons/MDunGen/Materials/def_ceiling.tres",
 "use_external/path": "uid://b0pphjs1lefh6"
 },
 "bFloor": {
 "use_external/enabled": true,
-"use_external/fallback_path": "res://addons/MDunGen/Materials/defFloorMaterial.tres",
+"use_external/fallback_path": "res://addons/MDunGen/Materials/def_floor.tres",
 "use_external/path": "uid://dkj4wkj6kfoti"
 },
 "bWall": {
 "use_external/enabled": true,
-"use_external/fallback_path": "res://addons/MDunGen/Materials/defWallMaterial.tres",
+"use_external/fallback_path": "res://addons/MDunGen/Materials/def_wall.tres",
 "use_external/path": "uid://kfgeyarnq0v6"
 },
 "bWood": {

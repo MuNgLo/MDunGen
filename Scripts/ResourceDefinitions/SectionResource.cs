@@ -9,7 +9,7 @@ public partial class SectionResource : DungeonAddonResource
 {
 	[Export] public string sectionName = string.Empty;
 	[Export] public string sectionType = string.Empty;
-	[Export] public ROOMCONNECTIONRESPONCE defaultResponses = (ROOMCONNECTIONRESPONCE)15;
+	
 	[ExportGroup("General")]
 	[Export] public int sizeWidthMin = 3; // Used to have blank get/set. Dunno why
 	[Export] public int sizeWidthMax = 5;
@@ -21,17 +21,20 @@ public partial class SectionResource : DungeonAddonResource
 
 	[Export] public ATTACHHEIGHT GrowHeight = ATTACHHEIGHT.BOTTOM;
 	[Export] public ATTACHHEIGHT AttachHeight = ATTACHHEIGHT.BOTTOM;
+	
+	[ExportGroup("Responses")]
+	[Export] public ROOMCONNECTIONRESPONCE defaultResponses = (ROOMCONNECTIONRESPONCE)15;
 
 	[ExportGroup("Extras")]
 	[Export] public bool arches = true;
 	[ExportGroup("Water")]
-	[Export] public float waterLevel = -1.0f;
+	[Export] public float waterLevel = 1.1f;
 	[Export] public float waterDepth = 1.0f;
 	[Export] public Material waterMaterial;
-	[ExportGroup("Debug")]
-	[Export] public bool debug = false;
-	[Export] public int nbDoorsPerFloorMin = 0;
-	[Export] public int nbDoorsPerFloorMax = 0;
+	//[ExportGroup("Debug")]
+	//[Export] public bool debug = false;
+	//[Export] public int nbDoorsPerFloorMin = 0;
+	//[Export] public int nbDoorsPerFloorMax = 0;
 
 
 	internal void VerifyValues()

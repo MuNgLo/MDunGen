@@ -278,12 +278,12 @@ popup/item_3/id = 3
 script = ExtResource("7_tveyh")
 screen = NodePath("../..")
 
-[node name="SectionResourceSelector" type="OptionButton" parent="DungeonViewerToolbar" unique_id=972387590 node_paths=PackedStringArray("screen", "sectionTypeSelector")]
+[node name="SectionResourceSelector" type="OptionButton" parent="DungeonViewerToolbar" unique_id=972387590 node_paths=PackedStringArray("mainScreen", "sectionTypeSelector")]
 layout_mode = 2
 tooltip_text = "Lists the section resources for the selected Type"
 focus_mode = 0
 script = ExtResource("8_jguo1")
-screen = NodePath("../..")
+mainScreen = NodePath("../..")
 sectionTypeSelector = NodePath("../btnSectionTypeList")
 
 [node name="btnSectionOptions" type="MenuButton" parent="DungeonViewerToolbar" unique_id=712676187 node_paths=PackedStringArray("mainScreen")]

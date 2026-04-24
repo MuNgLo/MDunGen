@@ -60,8 +60,12 @@ internal class MapBuilder
 	/// As rules generates sections a lookup table is generated
 	/// </summary>
 	internal Dictionary<int, int> indexToSection;
-	internal async Task Build(MapDesignResource mapDesign, bool debug)
+	internal async Task Build(MapDesignResource mapDesign, bool debug, Action<float> ProgressCallBack)
 	{
+		// calculate the number of steps this will be
+		float totalSteps = mapDesign.designRules.Count + 8;
+
+
 		// Reset loop counter
 		loopCounter = new Dictionary<int, int>();
 		// Reset section lookup table
@@ -69,6 +73,10 @@ internal class MapBuilder
 
 		for (int i = 0; i < mapDesign.designRules.Count; i++)
 		{
+			if(i > 0)
+			{
+				ProgressCallBack.Invoke(i / totalSteps);
+			}
 			BuildUtils.RemoveAllEmpty(ref map);
 			DesignResource designRule = (DesignResource)mapDesign.designRules[i];
 			switch (designRule.GetType().Name)
@@ -117,31 +125,61 @@ internal class MapBuilder
 			}
 		}
 
+		await AddRails(false);
+		ProgressCallBack.Invoke((mapDesign.designRules.Count + 1) / totalSteps);
+
+		await AddSupports(debug);
+		ProgressCallBack.Invoke((mapDesign.designRules.Count + 2) / totalSteps);
+
+
 		BuildUtils.ProcessMapConnections(ref map, log);
+		ProgressCallBack.Invoke((mapDesign.designRules.Count + 3) / totalSteps);
+
 		BuildUtils.BuildOpeningsFromConnections(ref map);
+		ProgressCallBack.Invoke((mapDesign.designRules.Count + 4) / totalSteps);
 
 		for (int i = 0; i < map.Sections.Count; i++)
 		{
 			VerticalInnerPathBuilder vBuilder = new VerticalInnerPathBuilder(this, map, NewSeed(), log);
 			await vBuilder.Build(i, debug);			
 		}
+		ProgressCallBack.Invoke((mapDesign.designRules.Count + 5) / totalSteps);
 
 		BuildUtils.FitRoundedCorners(ref map);
+		ProgressCallBack.Invoke((mapDesign.designRules.Count + 6) / totalSteps);
+
 		BuildUtils.AddDebugKeys(ref map);
+		ProgressCallBack.Invoke((mapDesign.designRules.Count + 7) / totalSteps);
+
 		BuildUtils.LatePassRooms(ref map);
+		ProgressCallBack.Invoke((mapDesign.designRules.Count + 8) / totalSteps);
+
 		BuildUtils.RemoveAllEmpty(ref map);
+		ProgressCallBack.Invoke(1.0f);
+	}
+
+	private async Task AddSupports(bool debug)
+	{
+		SupportBuilder builder = new SupportBuilder(map, NewSeed(), log);
+		await builder.Build(debug);
+	}
+
+	private async Task AddRails(bool debug)
+	{
+		RailBuilder builder = new RailBuilder(map, NewSeed(), log);
+		await builder.Build(debug);
 	}
 
 	async Task BuildLevel(BuildSections levelDef)
 	{
-		LevelBuilder levelBuilder = new(currentLevel, map, this, NewSeed(), log);
-		await levelBuilder.Build(levelDef);
+		LevelBuilder builder = new(currentLevel, map, this, NewSeed(), log);
+		await builder.Build(levelDef);
 	}
 
 	async Task BuildSection(BuildSection designRule, bool debug)
 	{
-		SectionBuilder sectionBuilder = new(this, currentLevel, map, NewSeed(), log);
-		await sectionBuilder.Build(designRule, debug);
+		SectionBuilder builder = new(this, currentLevel, map, NewSeed(), log);
+		await builder.Build(designRule, debug);
 	}
 }// EOF CLASS
 

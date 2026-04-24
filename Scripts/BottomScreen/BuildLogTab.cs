@@ -2,6 +2,7 @@ using Godot;
 using MDunGen.Commons;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MDunGen.Bottom;
 [Tool, GlobalClass]
@@ -13,14 +14,17 @@ public partial class BuildLogTab : MarginContainer
 	[Export] RichTextLabel logRichText;
 	[Export] LineEdit leFilter;
 	[Export] CheckBox cbShowSource;
+
+	List<BuildLogEventArgument> entries;
 	public override void _Ready()
 	{
 		if(debug){ GD.Print($"BuildLogTab::_EnterTree()"); }
+		entries = new List<BuildLogEventArgument>();
 		logRichText.MetaClicked += WhenMetaClicked;
 		leFilter.TextChanged += WhenFilterChanged;
 		BS.addon.MS.OnMapDataGenerationStarted += ClearLog;
 		BS.addon.MS.OnMapDataGenerationEnded += AddBuildEnd;
-		BS.addon.MS.OnMapBuildLog += AddBuildLog;
+		BS.addon.MS.OnMapBuildLog += WhenBuildLog;
 		RequestReady();
 	}
 	MS.CameraControls camera;
@@ -32,19 +36,20 @@ public partial class BuildLogTab : MarginContainer
 
 	private void WhenFilterChanged(string newText)
 	{
-		/*
-		foreach (Node child in container.GetChildren())
+		ClearLog();
+		foreach (BuildLogEventArgument args in entries)
 		{
-			if(child is BuildLogEntry entry)
+			if (args.message.ToLower().Contains(newText))
 			{
-				entry.Visible = IsInFilter(entry);
+				AddEntry(args);
 			}
-		}*/
+		}
 	}
 
-	private void AddBuildLog(object sender, BuildLogEventArgument e)
+	private void WhenBuildLog(object sender, BuildLogEventArgument e)
 	{
 		if(debug){ GD.Print($"BuildLogTab::AddBuildLog() {e.message}"); }
+		entries.Add(e);
 		AddEntry(e);
 	}
 
@@ -68,7 +73,16 @@ public partial class BuildLogTab : MarginContainer
 	{
 		if(debug){ GD.Print($"BuildLogTab::AddEntry()"); }
 		logRichText.Text += args.BuildRichText(cbShowSource.ButtonPressed);
+		PushToEnd();
 	}
+
+	private async void PushToEnd()
+	{
+		await Task.Delay(5);
+		ScrollContainer sc = logRichText.GetParent<ScrollContainer>();
+		sc.ScrollVertical = 20000000;
+	}
+
 	bool IsInFilter(BuildLogEntry entry)
 	{
 		return entry.Text.ToLower().Contains(leFilter.Text.ToLower());

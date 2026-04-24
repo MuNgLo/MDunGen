@@ -74,19 +74,25 @@ public partial class MainScreen : Control
 	/// <param name="biome"></param>
 	internal async Task GenerateDungeon(MapDesignResource design, bool debug)
 	{
+		await Task.Delay(10);
+
 		if (design is null)
 		{
 			GD.PrintErr($"MainScreen::BuildDungeon() BuildDungeonFailed! design is NULL[{design is null}]");
 			return;
 		}
 		OnMapDataGenerationStarted?.Invoke(EventArgs.Empty, EventArgs.Empty);
-		RaiseNotification($"Building Dungeon");
+		RaiseNotification($"Building Dungeon [---]");
 		this.design = design;
 		map = new MapData(this.design, addon.MasterConfig.MasterSeed, RaiseBuildLogEvent);
-		await map.GenerateMap(() => { dunVis.ReDrawMap();}, debug);
+		await map.GenerateMap(() => { dunVis.ReDrawMap();}, debug, UpdateProgress);
 		OnMapDataGenerationEnded?.Invoke(EventArgs.Empty, EventArgs.Empty);
 	}
 
+	private void UpdateProgress(float normalizedProgression)
+	{
+		RaiseNotification($"Building Dungeon [{(int)(normalizedProgression * 100.0f)}%]");
+	}
 
 	public async void GenerateSection(int levelIndex, string sectionTypeName, SectionResource sectionDef, ulong[] seed, BiomeResource biome, bool debug)
 	{
@@ -106,7 +112,7 @@ public partial class MainScreen : Control
 		mapDesign.SetSingleSectionDesign(design);
 
 		map = new MapData(mapDesign, seed, RaiseBuildLogEvent);
-		await map.GenerateMap(() => { dunVis.ReDrawMap();}, true);
+		await map.GenerateMap(() => { dunVis.ReDrawMap();}, true, UpdateProgress);
 
 		OnMapDataGenerationEnded?.Invoke(EventArgs.Empty, EventArgs.Empty);
 	}

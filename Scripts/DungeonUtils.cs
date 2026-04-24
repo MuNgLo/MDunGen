@@ -243,19 +243,12 @@ static internal class DungeonUtils
 		int sizeWidth = Mathf.Abs(section.MaxCoord.z - section.MinCoord.z) * 6 + 6;
 		plane.Size = new Vector2(sizeDepth, sizeWidth);
 
-		//plane.SubdivideWidth = sizeX;
-		//plane.SubdivideDepth = sizeZ;
-
 		surface.Name = "Water";
 		section.SectionContainer.AddChild(surface);
 
-		Vector3 height = Vector3.Up * section.WaterLevel;
-		//Vector3 depth = GlobalDirection(orientation) * sizeDepth * 0.5f + GlobalDirection(orientation) * 9.0f;
-		//Vector3 width = GlobalDirection(TwistLeft(orientation)) * -3.0f;
-		//surface.Position = height + depth + width;
-
-		//surface.Position += GlobalPosition(section.Coord);
-		surface.GlobalPosition = SectionWorldCenter(section) + height;
+		Vector3 height = SectionWorldCenter(section);
+		height.Y = GlobalPosition(section.MinCoord).Y + section.WaterLevel;
+		surface.GlobalPosition = height;
 	}
 
 	internal static Vector3 SectionWorldCenter(ISection section)

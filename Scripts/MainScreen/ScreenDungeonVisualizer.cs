@@ -371,7 +371,6 @@ public partial class ScreenDungeonVisualizer : Node3D
 
 		if (cacheKeyedPieces == null) { cacheKeyedPieces = new Dictionary<PIECEKEYS, Dictionary<int, Resource>>(); }
 
-
 		if (!cacheKeyedPieces.ContainsKey(data.key)) { cacheKeyedPieces[data.key] = new Dictionary<int, Resource>(); }
 
 		if (!cacheKeyedPieces[data.key].ContainsKey(data.variantID))
@@ -380,41 +379,45 @@ public partial class ScreenDungeonVisualizer : Node3D
 			{
 				cacheKeyedPieces[data.key][data.variantID] = result;
 			}
-			if (biome.debug.Count(p => p.key == data.key) > 0)
+			if (biome.debug.Any(p => p.key == data.key))
 			{
-				cacheKeyedPieces[data.key][data.variantID] = biome.debug.Where(p => p.key == data.key).First().GetResource(data.variantID);
+				cacheKeyedPieces[data.key][data.variantID] = biome.debug.First(p => p.key == data.key).GetResource(data.variantID);
 			}
-			else if (biome.walls.Count(p => p.key == data.key) > 0)
+			else if (biome.walls.Any(p => p.key == data.key))
 			{
-				cacheKeyedPieces[data.key][data.variantID] = biome.walls.Where(p => p.key == data.key).First().GetResource(data.variantID);
+				cacheKeyedPieces[data.key][data.variantID] = biome.walls.First(p => p.key == data.key).GetResource(data.variantID);
 			}
-			else if (biome.floors.Count(p => p.key == data.key) > 0)
+			else if (biome.floors.Any(p => p.key == data.key))
 			{
-				cacheKeyedPieces[data.key][data.variantID] = biome.floors.Where(p => p.key == data.key).First().GetResource(data.variantID);
+				cacheKeyedPieces[data.key][data.variantID] = biome.floors.First(p => p.key == data.key).GetResource(data.variantID);
 			}
-			else if (biome.ceilings.Count(p => p.key == data.key) > 0)
+			else if (biome.ceilings.Any(p => p.key == data.key))
 			{
-				cacheKeyedPieces[data.key][data.variantID] = biome.ceilings.Where(p => p.key == data.key).First().GetResource(data.variantID);
+				cacheKeyedPieces[data.key][data.variantID] = biome.ceilings.First(p => p.key == data.key).GetResource(data.variantID);
 			}
 			else if (biome.extras.Any(p => p.key == data.key))
 			{
-				cacheKeyedPieces[data.key][data.variantID] = biome.extras.Where(p => p.key == data.key).First().GetResource(data.variantID);
+				cacheKeyedPieces[data.key][data.variantID] = biome.extras.First(p => p.key == data.key).GetResource(data.variantID);
 			}
 		}
 		if (!cacheKeyedPieces.ContainsKey(data.key))
 		{
-			//Log(this, "ResolveAndCache", $"Key [{data.key}] was not found!");
+			GD.PushError($"ResolveAndCache Key [{data.key}] was not found!");
 			return null;
 		}
 		if (!cacheKeyedPieces[data.key].ContainsKey(data.variantID))
 		{
 			if (!cacheKeyedPieces[data.key].ContainsKey(0))
 			{
-				//Log(this, "ResolveAndCache", $"Key [{data.key}] Variant [{data.variantID}] was not found! And Default fallback failed!");
+				GD.PushError($"ResolveAndCache Key [{data.key}] Variant [{data.variantID}] was not found! And Default fallback failed!");
 				return null;
 			}
-			//Log(this, "ResolveAndCache", $"Key [{data.key}] Variant [{data.variantID}] was not found! Default used as fallback.");
+			GD.PushError($"ResolveAndCache Key [{data.key}] Variant [{data.variantID}] was not found! Default used as fallback.");
 			return cacheKeyedPieces[data.key][0];
+		}
+		if(cacheKeyedPieces[data.key][data.variantID] is null)
+		{
+			GD.PushError($"ResolveAndCache Key [{data.key}] Variant [{data.variantID}] is NULL.");
 		}
 		return cacheKeyedPieces[data.key][data.variantID];
 	}

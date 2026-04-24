@@ -1,13 +1,11 @@
 [gd_resource type="Resource" script_class="MapDesignResource" format=3 uid="uid://dyo35jmwmxmvm"]
 
-[ext_resource type="Resource" uid="uid://dfl4e8xg3enlj" path="res://addons/MDunGen/Config/Biomes/def_biome_cave.tres" id="1_rle0j"]
+[ext_resource type="Resource" uid="uid://de3h6je3yyg37" path="res://addons/MDunGen/Config/Biomes/def_biome.tres" id="1_rle0j"]
 [ext_resource type="Script" uid="uid://5nmg7q8558mt" path="res://addons/MDunGen/Scripts/ResourceDefinitions/BuildSection.cs" id="2_aybms"]
 [ext_resource type="Script" uid="uid://dabyiog8edqj1" path="res://addons/MDunGen/Scripts/ResourceDefinitions/SectionResource.cs" id="3_6fb0a"]
-[ext_resource type="Resource" uid="uid://bi6wigkf4cpei" path="res://addons/MDunGen/Config/Sections/PathLongTangled.tres" id="4_jpepa"]
-[ext_resource type="Script" uid="uid://cgy3ixncw83o5" path="res://addons/MDunGen/Scripts/ResourceDefinitions/Loop.cs" id="5_mgoxc"]
 [ext_resource type="Script" uid="uid://yjmny0yp4xhp" path="res://addons/MDunGen/Scripts/ResourceDefinitions/MapDesignResource.cs" id="6_s6476"]
 
-[sub_resource type="Resource" id="Resource_t0h0k"]
+[sub_resource type="Resource" id="Resource_vn2lh"]
 resource_name = "DefaultStartRoom"
 script = ExtResource("3_6fb0a")
 sectionName = "DefaultStartRoom"
@@ -16,45 +14,28 @@ sizeWidthMin = 5
 sizeDepthMin = 5
 nbFloorsMin = 2
 
-[sub_resource type="Resource" id="Resource_npiyt"]
+[sub_resource type="Resource" id="Resource_l2m60"]
 resource_name = "DefaultStartRoom"
 script = ExtResource("2_aybms")
 location = 1
-section = SubResource("Resource_t0h0k")
+section = SubResource("Resource_vn2lh")
 
-[sub_resource type="Resource" id="Resource_m7i4m"]
-script = ExtResource("2_aybms")
-section = ExtResource("4_jpepa")
-metadata/_custom_type_script = "uid://5nmg7q8558mt"
-
-[sub_resource type="Resource" id="Resource_w3lce"]
+[sub_resource type="Resource" id="Resource_rle0j"]
 resource_name = "DefaultStandardRoom"
 script = ExtResource("3_6fb0a")
 sectionName = "DefaultStandardRoom"
 sectionType = "RoomSection"
+sizeWidthMin = 5
+sizeDepthMin = 5
 nbFloorsMax = 3
 
-[sub_resource type="Resource" id="Resource_dgdal"]
+[sub_resource type="Resource" id="Resource_aybms"]
 resource_name = "DefaultStandardRoom"
 script = ExtResource("2_aybms")
-location = 3
-targetedIndex = 1
-direction = 7
-section = SubResource("Resource_w3lce")
-
-[sub_resource type="Resource" id="Resource_20s4d"]
-script = ExtResource("5_mgoxc")
-loop = 5
-
-[sub_resource type="Resource" id="Resource_ovare"]
-script = ExtResource("5_mgoxc")
-stepBack = 3
+section = SubResource("Resource_rle0j")
 
 [resource]
 script = ExtResource("6_s6476")
 defaultBiome = ExtResource("1_rle0j")
-designRules/entry_0 = SubResource("Resource_npiyt")
-designRules/entry_1 = SubResource("Resource_m7i4m")
-designRules/entry_2 = SubResource("Resource_dgdal")
-designRules/entry_3 = SubResource("Resource_20s4d")
-designRules/entry_4 = SubResource("Resource_ovare")
+designRules/entry_0 = SubResource("Resource_l2m60")
+designRules/entry_1 = SubResource("Resource_aybms")
