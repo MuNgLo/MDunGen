@@ -101,6 +101,19 @@ public partial class BiomeResource : DungeonAddonResource
 						ResourceLoader.Load<Resource>("res://addons/MDunGen/Meshes/Modular/Supports/Default/Long.res"),
 						ResourceLoader.Load<Resource>("res://addons/MDunGen/Meshes/Modular/Supports/Default/CornerRounded.res"),
 					]
+				},
+			new BiomeEntryResource(){
+					ResourceName = "Bridges",
+					key = PIECEKEYS.BRIDGE,
+					resources = [
+						ResourceLoader.Load<Resource>("res://addons/MDunGen/Meshes/Modular/Bridges/Default/Long.res"),
+						ResourceLoader.Load<Resource>("res://addons/MDunGen/Meshes/Modular/Bridges/Default/Foundation.res"),
+						ResourceLoader.Load<Resource>("res://addons/MDunGen/Meshes/Modular/Bridges/Default/Section.res"),
+						ResourceLoader.Load<Resource>("res://addons/MDunGen/Meshes/Modular/Bridges/Default/Stub.res"),
+						ResourceLoader.Load<Resource>("res://addons/MDunGen/Meshes/Modular/Bridges/Default/HandRailLong.res"),
+						ResourceLoader.Load<Resource>("res://addons/MDunGen/Meshes/Modular/Bridges/Default/HandRailSection.res"),
+						ResourceLoader.Load<Resource>("res://addons/MDunGen/Meshes/Modular/Bridges/Default/HandRailStub.res"),
+					]
 				}
 		];
 		return result;

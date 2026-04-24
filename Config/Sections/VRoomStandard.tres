@@ -1,14 +1,16 @@
 [gd_resource type="Resource" script_class="SectionResource" format=3 uid="uid://b6c31710v2val"]
 
 [ext_resource type="Script" uid="uid://dabyiog8edqj1" path="res://addons/MDunGen/Scripts/ResourceDefinitions/SectionResource.cs" id="1_uw2x3"]
+[ext_resource type="Material" uid="uid://b0c3uoswh26nq" path="res://addons/MDunGen/Materials/defWater.tres" id="2_cjxot"]
 
 [resource]
 script = ExtResource("1_uw2x3")
 sectionName = "Standard"
 sectionType = "VerticalRoomSection"
-sizeWidthMin = 5
-sizeDepthMin = 5
+sizeWidthMin = 2
+sizeDepthMin = 2
 nbFloorsMin = 3
-nbFloorsMax = 3
-GrowHeight = 2
+nbFloorsMax = 10
+waterLevel = 0.21
+waterMaterial = ExtResource("2_cjxot")
 metadata/_custom_type_script = "uid://dabyiog8edqj1"

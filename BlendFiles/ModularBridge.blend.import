@@ -37,8 +37,101 @@ import_script/path=""
 materials/extract=0
 materials/extract_format=0
 materials/extract_path=""
-_subresources={}
-blender/nodes/visible=0
+_subresources={
+"materials": {
+"bFloor": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://addons/MDunGen/Materials/def_floor.tres",
+"use_external/path": "uid://dkj4wkj6kfoti"
+},
+"bMetalRusty": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://addons/MDunGen/Materials/def_metal_rusty.tres",
+"use_external/path": "uid://basaqtad5m5f7"
+},
+"bWall": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://addons/MDunGen/Materials/def_wall.tres",
+"use_external/path": "uid://kfgeyarnq0v6"
+},
+"bWood": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://addons/MDunGen/Materials/def_wood.tres",
+"use_external/path": "uid://dawr6dgw6djb1"
+},
+"bWoodDark": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://addons/MDunGen/Materials/def_wood_dark.tres",
+"use_external/path": "uid://s72ftlupfu52"
+}
+},
+"meshes": {
+"ModularBridge_Foundation": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Modular/Bridges/Default/Foundation.res",
+"save_to_file/path": "uid://g355gvlab2tk"
+},
+"ModularBridge_HandRailLong": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Modular/Bridges/Default/HandRailLong.res",
+"save_to_file/path": "uid://d2cv8358lrucu"
+},
+"ModularBridge_HandRailSection": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Modular/Bridges/Default/HandRailSection.res",
+"save_to_file/path": "uid://cl3ergoofvl2"
+},
+"ModularBridge_HandRailStub": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Modular/Bridges/Default/HandRailStub.res",
+"save_to_file/path": "uid://c6g3ssog4f2te"
+},
+"ModularBridge_Long": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Modular/Bridges/Default/Long.res",
+"save_to_file/path": "uid://b2om80paf2076"
+},
+"ModularBridge_Section": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Modular/Bridges/Default/Section.res",
+"save_to_file/path": "uid://bxvf04nwmyd3b"
+},
+"ModularBridge_Stub": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Modular/Bridges/Default/Stub.res",
+"save_to_file/path": "uid://budoldq151mqy"
+}
+}
+}
+blender/nodes/visible=2
 blender/nodes/active_collection_only=false
 blender/nodes/punctual_lights=true
 blender/nodes/cameras=true

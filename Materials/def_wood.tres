@@ -10,7 +10,7 @@ noise = SubResource("FastNoiseLite_8kbxq")
 color_ramp = SubResource("Gradient_w01hw")
 
 [resource]
-albedo_color = Color(0.15242821, 0.08182097, 0.011008291, 1)
+albedo_color = Color(0.3032944, 0.17375189, 0.047133878, 1)
 albedo_texture = SubResource("NoiseTexture2D_t5p81")
 metallic_specular = 0.08
 roughness_texture_channel = 4

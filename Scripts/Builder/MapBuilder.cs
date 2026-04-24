@@ -73,7 +73,7 @@ internal class MapBuilder
 
 		for (int i = 0; i < mapDesign.designRules.Count; i++)
 		{
-			if(i > 0)
+			if (i > 0)
 			{
 				ProgressCallBack.Invoke(i / totalSteps);
 			}
@@ -125,12 +125,11 @@ internal class MapBuilder
 			}
 		}
 
-		await AddRails(false);
+		await AddRails(debug);
 		ProgressCallBack.Invoke((mapDesign.designRules.Count + 1) / totalSteps);
 
 		await AddSupports(debug);
 		ProgressCallBack.Invoke((mapDesign.designRules.Count + 2) / totalSteps);
-
 
 		BuildUtils.ProcessMapConnections(ref map, log);
 		ProgressCallBack.Invoke((mapDesign.designRules.Count + 3) / totalSteps);
@@ -138,10 +137,13 @@ internal class MapBuilder
 		BuildUtils.BuildOpeningsFromConnections(ref map);
 		ProgressCallBack.Invoke((mapDesign.designRules.Count + 4) / totalSteps);
 
+		await AddBridges(true);
+		ProgressCallBack.Invoke((mapDesign.designRules.Count + 2) / totalSteps);
+
 		for (int i = 0; i < map.Sections.Count; i++)
 		{
 			VerticalInnerPathBuilder vBuilder = new VerticalInnerPathBuilder(this, map, NewSeed(), log);
-			await vBuilder.Build(i, debug);			
+			await vBuilder.Build(i, debug);
 		}
 		ProgressCallBack.Invoke((mapDesign.designRules.Count + 5) / totalSteps);
 
@@ -161,6 +163,11 @@ internal class MapBuilder
 	private async Task AddSupports(bool debug)
 	{
 		SupportBuilder builder = new SupportBuilder(map, NewSeed(), log);
+		await builder.Build(debug);
+	}
+	private async Task AddBridges(bool debug)
+	{
+		BridgeBuilder builder = new BridgeBuilder(map, NewSeed(), log);
 		await builder.Build(debug);
 	}
 

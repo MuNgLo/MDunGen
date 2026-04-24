@@ -56,7 +56,7 @@ _subresources={
 },
 "bWood": {
 "use_external/enabled": true,
-"use_external/fallback_path": "res://addons/MDunGen/Materials/defWood.tres",
+"use_external/fallback_path": "res://addons/MDunGen/Materials/def_wood.tres",
 "use_external/path": "uid://dawr6dgw6djb1"
 }
 },

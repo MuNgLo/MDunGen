@@ -191,6 +191,7 @@ public class MapData
 		}
 		return false;
 	}
+	[Obsolete("Use GetConnections instead")]
 	internal bool GetConnection(MapCoordinate coord, out SectionConnection conn)
 	{
 		conn = null;
@@ -203,6 +204,18 @@ public class MapData
 			}
 		}
 		return false;
+	}
+	internal bool GetConnections(MapCoordinate coord, out List<SectionConnection> connections)
+	{
+		connections = new List<SectionConnection>();
+		foreach (KeyValuePair<int, SectionConnection> c in Connections)
+		{
+			if (c.Value.coord == coord)
+			{
+				connections.Add(c.Value);
+			}
+		}
+		return connections.Count > 0;
 	}
 
 	/// <summary>
