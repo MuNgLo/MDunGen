@@ -1,6 +1,7 @@
 // Gone through at v1.3
 using System;
 using System.Linq;
+using MDunGen.Builder;
 using MDunGen.Commons;
 using MDunGen.Resources;
 
@@ -47,7 +48,7 @@ public class HallwaySection : SectionBase
 			mapPiece.AddSection(sectionIndex);
 			map.SavePiece(mapPiece);
 		}
-		SealSection(0, -1, 0);
+		BuildUtils.SealSection(ref map, this);
 
 		if (debug)
 		{

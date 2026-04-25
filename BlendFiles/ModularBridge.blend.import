@@ -84,6 +84,24 @@ _subresources={
 "save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Modular/Bridges/Default/HandRailLong.res",
 "save_to_file/path": "uid://d2cv8358lrucu"
 },
+"ModularBridge_HandRailLongOpen": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Modular/Bridges/Default/HandRailLongOpen.res",
+"save_to_file/path": "uid://bkh5rww2qs4pl"
+},
+"ModularBridge_HandRailPost": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://addons/MDunGen/Meshes/Modular/Bridges/Default/HandRailPost.res",
+"save_to_file/path": "uid://b7tvtok75pmq6"
+},
 "ModularBridge_HandRailSection": {
 "generate/lightmap_uv": 0,
 "generate/lods": 0,

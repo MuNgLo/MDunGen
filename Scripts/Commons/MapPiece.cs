@@ -42,12 +42,12 @@ public class MapPiece
 	/// <summary>
 	/// Floor KeyData for biome decoding
 	/// </summary>
-	internal KeyData keyFloor = new() { key = PIECEKEYS.NONE, dir = MAPDIRECTION.ANY };
+	internal KeyData keyFloor = KeyData.Empty;
 
 	/// <summary>
 	/// Ceiling KeyData for biome decoding
 	/// </summary>
-	internal KeyData keyCeiling = new() { key = PIECEKEYS.NONE, dir = MAPDIRECTION.ANY };
+	internal KeyData keyCeiling = KeyData.Empty;
 	/// <summary>
 	/// Stored as Dict so we can walk a direction until we hit a wall
 	/// </summary>

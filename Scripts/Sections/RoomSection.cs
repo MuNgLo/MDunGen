@@ -44,9 +44,8 @@ public class RoomSection : SectionBase
 				break;
 			}
 		}
-		SealSection();
+		BuildUtils.SealSection(ref map, this);
 		if (sectionDefinition.arches) { FitSmallArches(); }
-
 	}
 	#endregion
 }// EOF CLASS

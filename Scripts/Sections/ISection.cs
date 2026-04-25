@@ -73,22 +73,6 @@ public interface ISection
 	public bool PlaceArches { get; }
 	public List<MapPiece> GetWallPieces(int floor, bool includeCorners = false);
 
-
-	/// <summary>
-	/// Puts wall,floor and ceiling keys against other sections
-	/// </summary>
-	public void SealSection(int wallVariant = 0, int floorVariant = 0, int ceilingVariant = 0);
-
-
-
-	/// <summary>
-	/// Assign placers to the section. If placersOverride is valid it will override the SectionResource placers collection
-	/// </summary>
-	/// <param name="sectionDef"></param>
-	/// <param name="placersOverride"></param>
-	//void AssignPlacer(SectionResource sectionDef, Array<PlacerEntryResource> placersOverride);
-
-
 	/// <summary>
 	/// Removes the piece from section.<br/>
 	/// Should basically never happen

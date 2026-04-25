@@ -37,8 +37,6 @@ internal class BridgeBuilder
 
 	internal async Task Build(bool debug)
 	{
-		Godot.GD.Print("Bridge Build GOAL!");
-
 		foreach (int X in map.Pieces.Keys)
 		{
 			foreach (int Y in map.Pieces[X].Keys)
@@ -54,61 +52,126 @@ internal class BridgeBuilder
 
 	private void FitBridge(ref MapData map, MapPiece piece, bool debug)
 	{
-		// Has to be part of a section
-		if (piece.MainSection < 0) { return; }
-		// has to have floor
-		if (!piece.hasFloor) { return; }
-		// The piece has to be a multi section
-		if (piece.Sections.Count < 2) { return; }
-	
+		if (!IsBridge(ref map, piece, debug)) { return; }
+
 		MAPDIRECTION backwards = DungeonUtils.Flip(piece.Orientation);
-	
-		MapPiece underPiece = map.GetExistingPiece(piece.Coord.StepDown);
+		MAPDIRECTION left = DungeonUtils.TwistLeft(piece.Orientation);
+		MAPDIRECTION right = DungeonUtils.TwistRight(piece.Orientation);
 
-		if (underPiece is null) { return; }
-
-		if (underPiece.hasCeiling) { return; }
-
-		if (piece.MainSection != underPiece.MainSection) { return; }
-
-		bool doEndStub = false;
-		bool doStartStub = false;
-		// Check for connections
-		if (map.GetConnections(piece.Coord, out List<SectionConnection> connections))
+		// If there is a ceiling that needs to be removed, do so
+		if (piece.hasCeiling)
 		{
-			for (int i = 0; i < connections.Count; i++)
+			MapPiece upperPiece = map.GetExistingPiece(piece.Coord.StepUp);
+			if (upperPiece is not null)
 			{
-				if (piece.Orientation == connections[i].Dir) { doEndStub = true; }
-				if (DungeonUtils.Flip(piece.Orientation) == connections[i].Dir) { doStartStub = true; }
-				AddBridgeKey(piece, connections[i].Dir, BRIDGES.FOUNDATION, debug);
+				if (piece.MainSection == upperPiece.MainSection)
+				{
+					piece.keyCeiling = KeyData.Empty;
+				}
 			}
 		}
 
-		if (!doEndStub && !doStartStub)
+		// Remember if center piece is long or section
+		bool isLong = true;
+
+		List<SectionConnection> connections = new List<SectionConnection>();
+
+		// Check for connections around and insert foundations
+		if (map.GetConnections(piece.Coord, out connections))
+		{
+			for (int i = 0; i < connections.Count; i++)
+			{
+				// If there is connection in front/back, flag so we use section instead of long
+				if (piece.Orientation == connections[i].Dir) { isLong = false; }
+				if (backwards == connections[i].Dir) { isLong = false; }
+				// Add the foundation in the direction of the connection
+				AddBridgeKey(piece, connections[i].Dir, BRIDGES.FOUNDATION, debug);
+
+				if (isLong)
+				{
+					if (connections[i].Dir != piece.Orientation && connections[i].Dir != backwards)
+					{
+						AddBridgeKey(piece, connections[i].Dir, BRIDGES.HANDRAILLONGOPEN, debug);
+					}
+				}
+			}
+		}
+
+		if (isLong)
 		{
 			AddBridgeKey(piece, piece.Orientation, BRIDGES.LONG, debug);
-			AddBridgeKey(piece, DungeonUtils.TwistLeft(piece.Orientation), BRIDGES.HANDRAILLONG, debug);
-			AddBridgeKey(piece, DungeonUtils.TwistRight(piece.Orientation), BRIDGES.HANDRAILLONG, debug);
 		}
 		else
 		{
 			AddBridgeKey(piece, piece.Orientation, BRIDGES.SECTION, debug);
-			AddBridgeKey(piece, DungeonUtils.TwistLeft(piece.Orientation), BRIDGES.HANDRAILSECTION, debug);
-			AddBridgeKey(piece, DungeonUtils.TwistRight(piece.Orientation), BRIDGES.HANDRAILSECTION, debug);
+		}
 
-			if (doEndStub)
+		// Check all 4 directions and insert stubs when needed
+		for (int i = 1; i < 5; i++)
+		{
+			MapPiece nb = map.GetExistingPiece(piece.Coord + (MAPDIRECTION)i);
+			if (nb is not null)
 			{
-				AddBridgeKey(piece, piece.Orientation, BRIDGES.STUB, debug);
-				AddBridgeKey(piece, piece.Orientation, BRIDGES.HANDRAILSTUB, debug);
+				if (IsBridge(ref map, nb, debug))
+				{
+					AddBridgeKey(piece, (MAPDIRECTION)i, BRIDGES.STUB, debug);
+					AddBridgeKey(piece, (MAPDIRECTION)i, BRIDGES.HANDRAILSTUB, debug);
+				}
 			}
 
-			if (doStartStub)
+
+			if ((MAPDIRECTION)i != piece.Orientation && (MAPDIRECTION)i != backwards)
 			{
-				AddBridgeKey(piece, backwards, BRIDGES.STUB, debug);
-				AddBridgeKey(piece, backwards, BRIDGES.HANDRAILSTUB, debug);
+				if (!connections.Exists(p => p.Dir == (MAPDIRECTION)i))
+				{
+					if (nb is not null && IsBridge(ref map, nb, debug))
+					{
+						if (isLong) { AddBridgeKey(piece, (MAPDIRECTION)i, BRIDGES.HANDRAILLONGOPEN, debug); }
+					}
+					else
+					{
+						AddBridgeKey(piece, (MAPDIRECTION)i, isLong ? BRIDGES.HANDRAILLONG : BRIDGES.HANDRAILSECTION, debug);
+					}
+				}
+			}
+		}
+
+		// Check where posts are needed
+		for (int i = 1; i < 5; i++)
+		{
+			if ((MAPDIRECTION)i != piece.Orientation && (MAPDIRECTION)i != backwards)
+			{
+				MapPiece nb = map.GetExistingPiece(piece.Coord + (MAPDIRECTION)i);
+				if (nb is null) { continue; }
+				if (IsBridge(ref map, nb, debug) || connections.Exists(p => p.Dir == (MAPDIRECTION)i))
+				{
+					AddBridgeKey(piece, DungeonUtils.TwistRight((MAPDIRECTION)i), BRIDGES.HANDRAILPOST, debug);
+					AddBridgeKey(piece, DungeonUtils.Flip((MAPDIRECTION)i), BRIDGES.HANDRAILPOST, debug);
+				}
 			}
 		}
 		RemoveFlooring(piece, debug);
+	}
+
+	private bool IsBridge(ref MapData map, MapPiece piece, bool debug)
+	{
+		// Has to be part of a section
+		if (piece.MainSection < 0) { return false; }
+		// has to have floor
+		//if (!piece.hasFloor) { return; }
+		// The piece has to be a multi section
+		if (piece.Sections.Count < 2) { return false; }
+
+
+		MapPiece underPiece = map.GetExistingPiece(piece.Coord.StepDown);
+
+		if (underPiece is null) { return false; }
+
+		if (underPiece.hasCeiling) { return false; }
+
+		if (piece.MainSection != underPiece.MainSection) { return false; }
+
+		return true;
 	}
 
 	private void RemoveFlooring(MapPiece piece, bool debug)
@@ -119,7 +182,6 @@ internal class BridgeBuilder
 
 	private void AddBridgeKey(MapPiece piece, MAPDIRECTION dir, BRIDGES key, bool debug)
 	{
-		Godot.GD.Print($"AddSection GOAL! key[{key}]");
 		piece.AddExtra(new KeyData()
 		{
 			key = PIECEKEYS.BRIDGE,
@@ -131,7 +193,7 @@ internal class BridgeBuilder
 			log(new BuildLogEventArgument()
 			{
 				severity = BUILDLOGSEVERITY.INFO,
-				message = $"Bridge [{key}] added ",
+				message = $"Bridge [{key}] added Direction [{dir}] on  ",
 				mapLocations = [piece.Coord]
 			});
 		}

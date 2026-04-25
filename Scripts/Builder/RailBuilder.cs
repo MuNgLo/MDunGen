@@ -125,12 +125,15 @@ internal class RailBuilder
 				dir = (MAPDIRECTION)i,
 				variantID = (int)RAILING.CORNERROUNDED
 			});
-			log(new BuildLogEventArgument()
+			if (debug)
 			{
-				severity = BUILDLOGSEVERITY.INFO,
-				message = $"Railing [{RAILING.CORNERROUNDED}] added ",
-				mapLocations = [piece.Coord]
-			});
+				log(new BuildLogEventArgument()
+				{
+					severity = BUILDLOGSEVERITY.INFO,
+					message = $"Railing [{RAILING.CORNERROUNDED}] added ",
+					mapLocations = [piece.Coord]
+				});
+			}
 		}
 
 	}

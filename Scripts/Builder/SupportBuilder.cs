@@ -42,13 +42,13 @@ internal class SupportBuilder
 			{
 				foreach (int Z in map.Pieces[X][Y].Keys)
 				{
-					FitSupports(ref map, map.Pieces[X][Y][Z]);
+					FitSupports(ref map, map.Pieces[X][Y][Z], debug);
 				}
 			}
 		}
 		await Task.Delay(1);
 	}
-	internal void FitSupports(ref MapData map, MapPiece piece)
+	internal void FitSupports(ref MapData map, MapPiece piece, bool debug)
 	{
 		// Has to be part of a section
 		if (piece.MainSection < 0) { return; }
@@ -56,18 +56,18 @@ internal class SupportBuilder
 		if (piece.hasCeiling) { return; }
 
 		MapPiece upperPiece = map.GetExistingPiece(piece.Coord + MAPDIRECTION.UP);
-		
+
 		// If there is no piece above there is no need to check
-		if(upperPiece is null) { return; }
-		
+		if (upperPiece is null) { return; }
+
 		// Check N,E,S,W for match to a long piece
 		for (int i = 1; i < 5; i++)
 		{
 			// Check that this piece has no wall in teh direction
-			if(piece.HasWall((MAPDIRECTION)i)){ continue; }
+			if (piece.HasWall((MAPDIRECTION)i)) { continue; }
 
 			// Check for wall above
-			if(!upperPiece.HasWall((MAPDIRECTION)i)){ continue; }
+			if (!upperPiece.HasWall((MAPDIRECTION)i)) { continue; }
 
 			MapPiece otherPiece = map.GetExistingPiece(piece.Coord + (MAPDIRECTION)i);
 			if (otherPiece is null) { continue; }
@@ -81,12 +81,15 @@ internal class SupportBuilder
 					dir = (MAPDIRECTION)i,
 					variantID = (int)SUPPORT.LONG
 				});
-				log(new BuildLogEventArgument()
+				if (debug)
 				{
-					severity = BUILDLOGSEVERITY.INFO,
-					message = $"Support [{SUPPORT.LONG}] added ",
-					mapLocations = [piece.Coord]
-				});
+					log(new BuildLogEventArgument()
+					{
+						severity = BUILDLOGSEVERITY.INFO,
+						message = $"Support [{SUPPORT.LONG}] added ",
+						mapLocations = [piece.Coord]
+					});
+				}
 			}
 		}
 
@@ -121,12 +124,15 @@ internal class SupportBuilder
 				dir = (MAPDIRECTION)i,
 				variantID = (int)SUPPORT.CORNERROUNDED
 			});
-			log(new BuildLogEventArgument()
+			if (debug)
 			{
-				severity = BUILDLOGSEVERITY.INFO,
-				message = $"Railing [{SUPPORT.CORNERROUNDED}] added ",
-				mapLocations = [piece.Coord]
-			});
+				log(new BuildLogEventArgument()
+				{
+					severity = BUILDLOGSEVERITY.INFO,
+					message = $"Railing [{SUPPORT.CORNERROUNDED}] added ",
+					mapLocations = [piece.Coord]
+				});
+			}
 		}
 
 	}

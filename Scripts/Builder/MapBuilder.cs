@@ -125,10 +125,10 @@ internal class MapBuilder
 			}
 		}
 
-		await AddRails(debug);
+		await AddRails(false);
 		ProgressCallBack.Invoke((mapDesign.designRules.Count + 1) / totalSteps);
 
-		await AddSupports(debug);
+		await AddSupports(false);
 		ProgressCallBack.Invoke((mapDesign.designRules.Count + 2) / totalSteps);
 
 		BuildUtils.ProcessMapConnections(ref map, log);

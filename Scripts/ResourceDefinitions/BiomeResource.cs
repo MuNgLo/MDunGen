@@ -113,6 +113,8 @@ public partial class BiomeResource : DungeonAddonResource
 						ResourceLoader.Load<Resource>("res://addons/MDunGen/Meshes/Modular/Bridges/Default/HandRailLong.res"),
 						ResourceLoader.Load<Resource>("res://addons/MDunGen/Meshes/Modular/Bridges/Default/HandRailSection.res"),
 						ResourceLoader.Load<Resource>("res://addons/MDunGen/Meshes/Modular/Bridges/Default/HandRailStub.res"),
+						ResourceLoader.Load<Resource>("res://addons/MDunGen/Meshes/Modular/Bridges/Default/HandRailLongOpen.res"),
+						ResourceLoader.Load<Resource>("res://addons/MDunGen/Meshes/Modular/Bridges/Default/HandRailPost.res"),
 					]
 				}
 		];

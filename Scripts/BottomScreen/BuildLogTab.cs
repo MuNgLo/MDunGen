@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MDunGen.Bottom;
+
 [Tool, GlobalClass]
 public partial class BuildLogTab : MarginContainer
 {
@@ -18,7 +19,7 @@ public partial class BuildLogTab : MarginContainer
 	List<BuildLogEventArgument> entries;
 	public override void _Ready()
 	{
-		if(debug){ GD.Print($"BuildLogTab::_EnterTree()"); }
+		if (debug) { GD.Print($"BuildLogTab::_EnterTree()"); }
 		entries = new List<BuildLogEventArgument>();
 		logRichText.MetaClicked += WhenMetaClicked;
 		leFilter.TextChanged += WhenFilterChanged;
@@ -30,7 +31,7 @@ public partial class BuildLogTab : MarginContainer
 	MS.CameraControls camera;
 	public void CoordinateClicked(MapCoordinate coord)
 	{
-		camera = BS.addon.MS.FindChild("CameraControls") as MS.CameraControls; 
+		camera = BS.addon.MS.FindChild("CameraControls") as MS.CameraControls;
 		camera.FocusOnMapCoordinate(coord);
 	}
 
@@ -39,39 +40,43 @@ public partial class BuildLogTab : MarginContainer
 		ClearLog();
 		foreach (BuildLogEventArgument args in entries)
 		{
-			if (args.message.ToLower().Contains(newText))
+			if (args.message.ToLower().Contains(newText.ToLower()))
 			{
 				AddEntry(args);
 			}
 		}
 	}
 
-	private void WhenBuildLog(object sender, BuildLogEventArgument e)
+	private void WhenBuildLog(object sender, BuildLogEventArgument args)
 	{
-		if(debug){ GD.Print($"BuildLogTab::AddBuildLog() {e.message}"); }
-		entries.Add(e);
-		AddEntry(e);
+		if (debug) { GD.Print($"BuildLogTab::AddBuildLog() {args.message}"); }
+		entries.Add(args);
+		if (leFilter.Text == string.Empty || args.message.ToLower().Contains(leFilter.Text.ToLower()))
+		{
+			AddEntry(args);
+		}
 	}
 
 	void AddBuildEnd(object sender, EventArgs e)
 	{
-		if(debug){ GD.Print($"BuildLogTab::AddBuildEnd()"); }
+		if (debug) { GD.Print($"BuildLogTab::AddBuildEnd()"); }
 	}
 
 	void ClearLog(object sender, EventArgs args)
 	{
+		entries = new List<BuildLogEventArgument>();
 		ClearLog();
 	}
 	internal void ClearLog()
 	{
-		if(debug){ GD.Print($"BuildLogTab::ClearLog()"); }
+		if (debug) { GD.Print($"BuildLogTab::ClearLog()"); }
 		logRichText.Text = string.Empty;
 		logRichText.Clear();
 	}
 
 	void AddEntry(BuildLogEventArgument args)
 	{
-		if(debug){ GD.Print($"BuildLogTab::AddEntry()"); }
+		if (debug) { GD.Print($"BuildLogTab::AddEntry()"); }
 		logRichText.Text += args.BuildRichText(cbShowSource.ButtonPressed);
 		PushToEnd();
 	}

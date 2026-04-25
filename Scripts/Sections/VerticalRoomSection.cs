@@ -1,4 +1,5 @@
 ﻿// Gone through at v1.3
+using MDunGen.Builder;
 using MDunGen.Commons;
 using System;
 using System.Collections.Generic;
@@ -46,7 +47,8 @@ public class VerticalRoomSection : SectionBase
 			}
 		}
 
-		SealSection();
+		BuildUtils.SealSection(ref map, this);
+
 
 
 		

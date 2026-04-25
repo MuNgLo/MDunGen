@@ -61,7 +61,58 @@ internal static class BuildUtils
 			}, true);
 		*/
 	}
-	
+
+
+	/// <summary>
+	/// Puts wall,floor and ceiling keys against other sections
+	/// Pass -1 to skip the category(used to do this only for ceiling)
+	/// </summary>
+	/// <exception cref="NotImplementedException"></exception>
+	public static void SealSection(ref MapData map, ISection section, int wallVariant = 0, int floorVariant = 0, int ceilingVariant = 0)
+	{
+		// Locally cache the pieces before processing them since some sections construct the
+		// collection when Pieces is accessed
+		List<MapPiece> sectionPieces = section.Pieces;
+		foreach (MapPiece piece in sectionPieces)
+		{
+			// Floor if no section piece below it
+			MapPiece bellowPiece = map.GetExistingPiece(piece.Coord.StepDown);
+			if(bellowPiece is null || !bellowPiece.IsPartOfSection(piece.MainSection))
+			{
+				piece.keyFloor = new KeyData() { key = PIECEKEYS.F, dir = section.Orientation, variantID = floorVariant };
+			}
+
+
+			// Ceiling if no section piece above it
+			MapPiece abovePiece = map.GetExistingPiece(piece.Coord.StepUp);
+			if(abovePiece is null || !abovePiece.IsPartOfSection(piece.MainSection)) // Used to have this?? && ceilingVariant >= 0)
+			{
+				piece.keyCeiling = new KeyData() { key = PIECEKEYS.C, dir = section.Orientation, variantID = ceilingVariant };
+			}
+
+			// Walls
+			if (wallVariant >= 0)
+			{
+				for (int i = 1; i < 5; i++)
+				{
+					// Wall if no piece in that direction
+					if (!sectionPieces.Exists(p => p.Coord == piece.Coord + (MAPDIRECTION)i))
+					{
+						MapPiece nb = map.GetExistingPiece(piece.Coord + (MAPDIRECTION)i);
+						// Wall if the piece in that direction has a wall towards this piece
+						if (nb is null || nb.MainSection != piece.MainSection || nb.HasWall(DungeonUtils.Flip((MAPDIRECTION)i)))
+						{
+							piece.AssignWall(new KeyData() { key = PIECEKEYS.W, dir = (MAPDIRECTION)i, variantID = wallVariant }, true);
+						}
+					}
+				}
+			}
+		}
+	}
+
+
+
+
 	/// <summary>
 	/// Add a fake attachment when debugging a section
 	/// </summary>
@@ -319,7 +370,7 @@ internal static class BuildUtils
 		mp = null;
 		return false;
 	}
-	
+
 	#region  Connections
 	/// <summary>
 	/// Will insert a connection between 2 map pieces in the map data<br/>
@@ -370,9 +421,9 @@ internal static class BuildUtils
 			}
 
 			ISection section = map.Sections[connPair.Value.sectionID];
-			if(map.Connections[connPair.Key].connectedToConnectionID < 0)
+			if (map.Connections[connPair.Key].connectedToConnectionID < 0)
 			{
-				if(map.GetConnection(map.Connections[connPair.Key].coord + map.Connections[connPair.Key].Dir, out SectionConnection conn))
+				if (map.GetConnection(map.Connections[connPair.Key].coord + map.Connections[connPair.Key].Dir, out SectionConnection conn))
 				{
 					map.Connections[connPair.Key].connectedToConnectionID = conn.connectionID;
 				}
@@ -399,14 +450,15 @@ internal static class BuildUtils
 			{
 				if (fromID == toID) { continue; }
 				SectionConnection to = map.Connections[toID];
-				if(section.SectionIndex != to.sectionID){ 
+				if (section.SectionIndex != to.sectionID)
+				{
 					log(new BuildLogEventArgument()
 					{
 						severity = BUILDLOGSEVERITY.ERROR,
 						message = $"MapBuilder::DoPathingPass() Section miss match! Skipping!",
 						mapLocations = [conn.coord, to.coord]
 					});
-				    continue;
+					continue;
 				}
 				MapPiece mpStart = map.GetExistingPiece(conn.coord);
 				MapPiece mpEnd = map.GetExistingPiece(to.coord);

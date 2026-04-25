@@ -5,6 +5,7 @@ using MDunGen.Commons;
 using MDunGen.Resources;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MDunGen.Sections;
 
@@ -79,9 +80,17 @@ public class PathSection : SectionBase
 	
 		MakeSureStartPieceIsFirstPieceAndFixTheOrientation(startDir);
 
-		SealSection();
-		BuildEndCap();
+		BuildUtils.SealSection(ref map, this);
+		//BuildEndCap();
 		if (sectionDefinition.arches) { FitSmallArches(); }
+
+		// Mark last piece of all lines with debug end
+		foreach (Line line in lines)
+		{
+			line.Last.AddDebug(KeyData.End(line.Last.Orientation));
+		}
+
+
 		IsValid = true;
 		SetMinMaxCoord();
 		
@@ -141,10 +150,7 @@ public class PathSection : SectionBase
 		}
 		return null;
 	}
-	public override void SealSection(int wallVariant = 0, int floorVariant = 0, int ceilingVariant = 0)
-	{
-		base.SealSection(1);
-	}
+
 	/// <summary>
 	/// remember to check state before using returned piece
 	/// </summary>

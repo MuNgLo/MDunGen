@@ -196,46 +196,7 @@ public class SectionBase : ISection
 		return true;
 	}
 
-	/// <summary>
-	/// Puts wall,floor and ceiling keys against other sections
-	/// Pass -1 to skip the category
-	/// </summary>
-	/// <exception cref="NotImplementedException"></exception>
-	public virtual void SealSection(int wallVariant = 0, int floorVariant = 0, int ceilingVariant = 0)
-	{
-		List<MapPiece> sectionPieces = Pieces;
-		foreach (MapPiece piece in sectionPieces)
-		{
-			// Floor if no section piece below it
-			if (!sectionPieces.Exists(p => p.Coord == piece.Coord + MAPDIRECTION.DOWN) && floorVariant >= 0)
-			{
-				piece.keyFloor = new KeyData() { key = PIECEKEYS.F, dir = orientation, variantID = floorVariant };
-			}
-			// Ceiling if no section piece above it
-			if (!sectionPieces.Exists(p => p.Coord == piece.Coord + MAPDIRECTION.UP) && ceilingVariant >= 0)
-			{
-				piece.keyCeiling = new KeyData() { key = PIECEKEYS.C, dir = orientation, variantID = ceilingVariant };
-			}
-
-			// Walls
-			if (wallVariant >= 0)
-			{
-				for (int i = 1; i < 5; i++)
-				{
-					// Wall if no piece in that direction
-					if (!sectionPieces.Exists(p => p.Coord == piece.Coord + (MAPDIRECTION)i))
-					{
-						MapPiece nb = map.GetExistingPiece(piece.Coord + (MAPDIRECTION)i);
-						// Wall if the piece in that direction has a wall towards this piece
-						if (nb is null || nb.isEmpty || nb.HasWall(DungeonUtils.Flip((MAPDIRECTION)i)))
-						{
-							piece.AssignWall(new KeyData() { key = PIECEKEYS.W, dir = (MAPDIRECTION)i, variantID = wallVariant }, true);
-						}
-					}
-				}
-			}
-		}
-	}
+	
 	/// <summary>
 	/// Gets and returns the pieces that have walls on the given floor<br/>
 	/// Note that floor is the internal section relative floor
