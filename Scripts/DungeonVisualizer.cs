@@ -16,10 +16,7 @@ public partial class DungeonVisualizer : Node3D
 {
 	public static EventHandler<ISection> OnSectionVisualized;
 	[Export] private BiomeResource biome; // TODO refactor biome into sectionBase
-	/// <summary>
-	/// The runtime project dungeon node that generates and holds the dungeon map data
-	/// </summary>
-	[Export] private Dungeon dungeon;
+
 	
 	private Dictionary<PIECEKEYS, Dictionary<int, Resource>> cacheKeyedPieces;
 	private NavigationRegion3D mapContainer;
@@ -27,6 +24,7 @@ public partial class DungeonVisualizer : Node3D
 	private Node3D tileContainer;
 	private Node3D unsortedContainer;
 
+	Dungeon dungeon => Core.GetDungeon;
 
 	public async void ShowMap()
 	{

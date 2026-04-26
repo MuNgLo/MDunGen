@@ -19,13 +19,14 @@ public partial class Dungeon : Node
 	[Export] private bool spawnInOnLaunch = false;
 	[Export] private Vector3 globalOffset = Vector3.Zero;
 	[Export] private MapDesignResource dunSettings;
-	[Export] private DungeonVisualizer visualizer;
 
 	[ExportGroup("Seed")]
 	[Export] public int seed1 = 1111;
 	[Export] public int seed2 = 2222;
 	[Export] public int seed3 = 3333;
 	[Export] public int seed4 = 4444;
+	
+	DungeonVisualizer visualizer => Core.DungeonVisualizer;
 	public ulong[] MasterSeed => new[] { (ulong)seed1, (ulong)seed2, (ulong)seed3, (ulong)seed4 };
 
 	internal Dictionary<int, Dictionary<int, Dictionary<int, MapPiece>>> Pieces => map.Pieces;

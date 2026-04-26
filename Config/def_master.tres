@@ -1,100 +1,19 @@
 [gd_resource type="Resource" script_class="AddonSettingsResource" format=3 uid="uid://blngor0u0dbk4"]
 
+[ext_resource type="Resource" uid="uid://d0w4bxou2jqyn" path="res://Dungeon/DungeonPattern.tres" id="1_0iudd"]
 [ext_resource type="Script" uid="uid://c1a3kt0tn7hxb" path="res://addons/MDunGen/Scripts/ResourceDefinitions/AddonSettingsResource.cs" id="1_5xn5v"]
-[ext_resource type="Resource" uid="uid://de3h6je3yyg37" path="res://addons/MDunGen/Config/Biomes/def_biome.tres" id="1_vm4nt"]
-[ext_resource type="Script" uid="uid://5nmg7q8558mt" path="res://addons/MDunGen/Scripts/ResourceDefinitions/BuildSection.cs" id="2_52hq8"]
-[ext_resource type="Script" uid="uid://dabyiog8edqj1" path="res://addons/MDunGen/Scripts/ResourceDefinitions/SectionResource.cs" id="3_4kvfr"]
-[ext_resource type="Resource" uid="uid://bfws7yk2wikiu" path="res://addons/MDunGen/Config/Sections/PathLongTangledWide.tres" id="4_vm4nt"]
-[ext_resource type="Script" uid="uid://cgy3ixncw83o5" path="res://addons/MDunGen/Scripts/ResourceDefinitions/Loop.cs" id="5_52hq8"]
-[ext_resource type="Script" uid="uid://yjmny0yp4xhp" path="res://addons/MDunGen/Scripts/ResourceDefinitions/MapDesignResource.cs" id="5_f0wc4"]
-[ext_resource type="Resource" uid="uid://bi6wigkf4cpei" path="res://addons/MDunGen/Config/Sections/PathLongTangled.tres" id="6_4kvfr"]
-
-[sub_resource type="Resource" id="Resource_vn2lh"]
-resource_name = "DefaultStartRoom"
-script = ExtResource("3_4kvfr")
-sectionName = "DefaultStartRoom"
-sectionType = "RoomSection"
-sizeWidthMin = 5
-sizeDepthMin = 5
-nbFloorsMin = 2
-waterLevel = -1.0
-
-[sub_resource type="Resource" id="Resource_l2m60"]
-resource_name = "DefaultStartRoom"
-script = ExtResource("2_52hq8")
-location = 1
-section = SubResource("Resource_vn2lh")
-
-[sub_resource type="Resource" id="Resource_52hq8"]
-script = ExtResource("2_52hq8")
-direction = 7
-section = ExtResource("4_vm4nt")
-metadata/_custom_type_script = "uid://5nmg7q8558mt"
-
-[sub_resource type="Resource" id="Resource_vm4nt"]
-resource_name = "DefaultStandardRoom"
-script = ExtResource("3_4kvfr")
-sectionName = "DefaultStandardRoom"
-sectionType = "RoomSection"
-nbFloorsMin = 3
-nbFloorsMax = 5
-GrowHeight = 1
-AttachHeight = 1
-
-[sub_resource type="Resource" id="Resource_4kvfr"]
-resource_name = "DefaultStandardRoom"
-script = ExtResource("2_52hq8")
-location = 3
-targetedIndex = 1
-direction = 7
-section = SubResource("Resource_vm4nt")
-
-[sub_resource type="Resource" id="Resource_74xwj"]
-script = ExtResource("5_52hq8")
-loop = 10
-
-[sub_resource type="Resource" id="Resource_f0wc4"]
-resource_name = "DefaultStandardRoom"
-script = ExtResource("3_4kvfr")
-sectionName = "DefaultStandardRoom"
-sectionType = "RoomSection"
-nbFloorsMin = 4
-nbFloorsMax = 4
-AttachHeight = 4
-
-[sub_resource type="Resource" id="Resource_dheri"]
-resource_name = "DefaultStandardRoom"
-script = ExtResource("2_52hq8")
-direction = 7
-section = SubResource("Resource_f0wc4")
-
-[sub_resource type="Resource" id="Resource_p6qsa"]
-script = ExtResource("2_52hq8")
-direction = 7
-section = ExtResource("6_4kvfr")
-metadata/_custom_type_script = "uid://5nmg7q8558mt"
-
-[sub_resource type="Resource" id="Resource_dus8q"]
-script = ExtResource("5_f0wc4")
-defaultBiome = ExtResource("1_vm4nt")
-designRules/entry_0 = SubResource("Resource_l2m60")
-designRules/entry_1 = SubResource("Resource_52hq8")
-designRules/entry_2 = SubResource("Resource_4kvfr")
-designRules/entry_3 = SubResource("Resource_74xwj")
-designRules/entry_4 = SubResource("Resource_dheri")
-designRules/entry_5 = SubResource("Resource_p6qsa")
 
 [resource]
 script = ExtResource("1_5xn5v")
-design = SubResource("Resource_dus8q")
+design = ExtResource("1_0iudd")
 lastUsedProfile = "res://addons/MuNgLosDungeon/Config/def_profile.tres"
 ProjectResourcePath = "res://Dungeon/"
 maxVisibleLevels = 2
 showCeilings = false
+showDebug = false
 pathingPass = false
 cameraResetOnBuild = false
-useRandomSeed = false
-seed1 = 1269
-seed2 = 7435
-seed3 = 4482
-seed4 = 5034
+seed1 = 4111
+seed2 = 2455
+seed3 = 7999
+seed4 = 1797

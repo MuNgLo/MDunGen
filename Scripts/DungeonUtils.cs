@@ -1,4 +1,5 @@
 ﻿// Gone through at v1.3
+using System;
 using System.Linq;
 using Godot;
 using MDunGen.Commons;
@@ -258,7 +259,6 @@ static internal class DungeonUtils
 		Vector3 center = (max - min) * 0.5f + min;
 		return center;
 	}
-
 
 }// EOF CLASS
 
