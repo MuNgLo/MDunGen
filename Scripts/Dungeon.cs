@@ -16,7 +16,7 @@ namespace MDunGen;
 public partial class Dungeon : Node
 {
 	[Export] private bool debug = false;
-	[Export] private bool spawnInOnLaunch = false;
+	[Export] private bool spawnInOnConnect = true;
 	[Export] private Vector3 globalOffset = Vector3.Zero;
 	[Export] private MapDesignResource dunSettings;
 
@@ -25,7 +25,7 @@ public partial class Dungeon : Node
 	[Export] public int seed2 = 2222;
 	[Export] public int seed3 = 3333;
 	[Export] public int seed4 = 4444;
-	
+
 	DungeonVisualizer visualizer => Core.DungeonVisualizer;
 	public ulong[] MasterSeed => new[] { (ulong)seed1, (ulong)seed2, (ulong)seed3, (ulong)seed4 };
 
@@ -40,19 +40,26 @@ public partial class Dungeon : Node
 
 	public override void _Ready()
 	{
+		Core.Lobby.LobbyEvents.OnHostSetupReady += (o, s) =>
+		{
+			if (spawnInOnConnect) { GenerateMapData(dunSettings, MasterSeed); }
+		};
+		Core.Lobby.LobbyEvents.OnConnectedToServer += (o, s) =>
+		{
+			if (spawnInOnConnect) { GenerateMapData(dunSettings, MasterSeed); }
+		};
 		DungeonUtils.globalOffset = globalOffset;
 		visualizer.ClearVisualizer();
-		if (spawnInOnLaunch) { GenerateMapData(dunSettings, MasterSeed); }
 	}
 
 	internal void GenerateMapData(MapDesignResource design, ulong[] seed)
 	{
-		Log("Dungeon : Generating layout....");
-		BuildMapData(design, seed, () => { GeneratedMapData(); }, debug);
+		//Log("Dungeon : Generating layout....");
+		BuildMapData(design, seed, () => { MapDataReady(); }, debug);
 	}
-	private void GeneratedMapData()
+	private void MapDataReady()
 	{
-		Log($"Dungeon : Generation Completed #Pieces[{map.Pieces.Count}]");
+		//Log($"Dungeon : Generation Completed");
 		visualizer.ShowMap();
 	}
 
@@ -69,7 +76,7 @@ public partial class Dungeon : Node
 
 	private void UpdateProgress(float normalizedProgression)
 	{
-		GD.Print($"Building Dungeon [{(normalizedProgression * 100).ToString("00")}%]");
+		//GD.Print($"Building Dungeon [{(normalizedProgression * 100).ToString("00")}%]");
 	}
 
 	/// <summary>

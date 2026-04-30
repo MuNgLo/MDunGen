@@ -29,7 +29,7 @@ public partial class DungeonVisualizer : Node3D
 	public async void ShowMap()
 	{
 		await VisualizeSections();
-		BuildNavMesh();
+		if(Multiplayer.IsServer()){ BuildNavMesh(); }
 	}
 	public void ClearVisualizer()
 	{
@@ -220,7 +220,7 @@ public partial class DungeonVisualizer : Node3D
 		{
 			if (GetByKey(extra, biome, out Node3D ext, makeCollider))
 			{
-				DungeonUtils.ApplyMaterialOverrides(ext, biome.wall_materials);
+				//DungeonUtils.ApplyMaterialOverrides(ext, biome.wall_materials);
 				visualNode.AddChild(ext, true);
 			}
 		}

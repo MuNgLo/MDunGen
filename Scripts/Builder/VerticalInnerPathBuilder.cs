@@ -63,7 +63,7 @@ internal class VerticalInnerPathBuilder
 						mapPiece.AddExtra(
 							new KeyData()
 							{
-								key = PIECEKEYS.MISC,
+								key = PIECEKEYS.CLIMBABLE,
 								dir = DungeonUtils.Flip(mapPiece.Orientation),
 								variantID = 0
 							}
@@ -74,7 +74,7 @@ internal class VerticalInnerPathBuilder
 						mapPiece.AddExtra(
 							new KeyData()
 							{
-								key = PIECEKEYS.MISC,
+								key = PIECEKEYS.CLIMBABLE,
 								dir = DungeonUtils.Flip(mapPiece.Orientation),
 								variantID = 1
 							}

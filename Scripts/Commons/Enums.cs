@@ -30,7 +30,7 @@ public enum PIECEKEYS
 	WDW = 13,
 	WCI = 14,
 	ARCH = 15,
-	MISC = 16,
+	CLIMBABLE = 16,
 	RAILING = 17, 
 	SUPPORT = 18, 
 	BRIDGE = 19, 

@@ -88,7 +88,7 @@ public partial class BiomeResource : DungeonAddonResource
 				},
 			new BiomeEntryResource(){
 					ResourceName = "Ladders",
-					key = PIECEKEYS.MISC,
+					key = PIECEKEYS.CLIMBABLE,
 					resources = [
 						ResourceLoader.Load<Resource>("res://addons/MDunGen/Meshes/Standard/Standard_LadderFull.res"),
 						ResourceLoader.Load<Resource>("res://addons/MDunGen/Meshes/Standard/Standard_LadderStop.res"),
