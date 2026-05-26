@@ -38,7 +38,9 @@
 [ext_resource type="ArrayMesh" uid="uid://bkh5rww2qs4pl" path="res://addons/MDunGen/Meshes/Modular/Bridges/Default/HandRailLongOpen.res" id="26_prw1t"]
 [ext_resource type="PackedScene" uid="uid://dyruxrgt241g7" path="res://addons/MDunGen/Scenes/Standard/def_wall_corner.tscn" id="26_uhk14"]
 [ext_resource type="ArrayMesh" uid="uid://b7tvtok75pmq6" path="res://addons/MDunGen/Meshes/Modular/Bridges/Default/HandRailPost.res" id="27_dxe22"]
-[ext_resource type="PackedScene" uid="uid://kucpudoe2mhn" path="res://Dungeon/Walls/Wall01.tscn" id="35_prw1t"]
+[ext_resource type="PackedScene" uid="uid://b8cjyfjwaqgea" path="res://addons/MDunGen/Scenes/Standard/def_wall01.tscn" id="35_prw1t"]
+[ext_resource type="PackedScene" uid="uid://bv6l13mlr0w6b" path="res://addons/MDunGen/Scenes/Standard/def_wall02.tscn" id="36_dxe22"]
+[ext_resource type="PackedScene" uid="uid://bel2njfu1ge0j" path="res://addons/MDunGen/Scenes/Standard/def_wall03.tscn" id="37_ncyry"]
 
 [sub_resource type="Resource" id="Resource_prw1t"]
 resource_name = "Ceilings"
@@ -92,7 +94,7 @@ resources = [ExtResource("12_guq6r"), ExtResource("13_k3g1e"), ExtResource("14_g
 resource_name = "Walls"
 script = ExtResource("2_u2eaq")
 key = 11
-resources = [ExtResource("35_prw1t")]
+resources = [ExtResource("35_prw1t"), ExtResource("36_dxe22"), ExtResource("37_ncyry")]
 
 [sub_resource type="Resource" id="Resource_b5faw"]
 resource_name = "Openings"
