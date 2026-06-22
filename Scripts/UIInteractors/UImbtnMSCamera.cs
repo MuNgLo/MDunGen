@@ -1,3 +1,4 @@
+#if TOOLS
 using Godot;
 using MDunGen.MS;
 
@@ -49,3 +50,4 @@ public partial class UImbtnMSCamera : MenuButton
 		pop.SetItemChecked(1, mainScreen.addon.MasterConfig.cameraResetOnBuild);
 	}
 }// EOF CLASS
+#endif

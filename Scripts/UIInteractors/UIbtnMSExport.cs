@@ -1,3 +1,5 @@
+#if TOOLS
+
 using Godot;
 using MDunGen.MS;
 
@@ -22,3 +24,4 @@ public partial class UIbtnMSExport : Button
 		mainScreen.ShowExportPopup();
 	}
 }// EOF CLASS
+#endif

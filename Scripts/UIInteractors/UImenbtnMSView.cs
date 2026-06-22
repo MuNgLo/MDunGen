@@ -1,3 +1,4 @@
+#if TOOLS
 using Godot;
 using MDunGen.MS;
 
@@ -68,3 +69,4 @@ public partial class UImenbtnMSView : MenuButton
 		pop.SetItemChecked(4, mainScreen.addon.MasterConfig.showDebug);
 	}
 }// EOF CLASS
+#endif

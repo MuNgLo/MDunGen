@@ -1,3 +1,4 @@
+#if TOOLS
 using Godot;
 using MDunGen.MS;
 using MDunGen.Resources;
@@ -29,4 +30,5 @@ public partial class UIbtnMSRandom : Button
 	
 }// EOF CLASS
 
+#endif
 

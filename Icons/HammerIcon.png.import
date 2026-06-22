@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://c5o6ftgr2j4li"
 path.s3tc="res://.godot/imported/HammerIcon.png-a6c422348de42f95ade1ad4e22486e15.s3tc.ctex"
+path.etc2="res://.godot/imported/HammerIcon.png-a6c422348de42f95ade1ad4e22486e15.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://addons/MDunGen/Icons/HammerIcon.png"
-dest_files=["res://.godot/imported/HammerIcon.png-a6c422348de42f95ade1ad4e22486e15.s3tc.ctex"]
+dest_files=["res://.godot/imported/HammerIcon.png-a6c422348de42f95ade1ad4e22486e15.s3tc.ctex", "res://.godot/imported/HammerIcon.png-a6c422348de42f95ade1ad4e22486e15.etc2.ctex"]
 
 [params]
 

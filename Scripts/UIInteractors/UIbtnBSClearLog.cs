@@ -1,3 +1,4 @@
+#if TOOLS
 using Godot;
 using MDunGen.Bottom;
 using MDunGen.MS;
@@ -23,3 +24,4 @@ public partial class UIbtnBSClearLog : Button
 		buildLog.ClearLog();
 	}
 }// EOF CLASS
+#endif

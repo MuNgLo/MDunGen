@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://c0c6i48mav22o"
 path.s3tc="res://.godot/imported/defCeilingTexture.png-ff548796c42286c9d2441d2392391760.s3tc.ctex"
+path.etc2="res://.godot/imported/defCeilingTexture.png-ff548796c42286c9d2441d2392391760.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://addons/MDunGen/Materials/Textures/defCeilingTexture.png"
-dest_files=["res://.godot/imported/defCeilingTexture.png-ff548796c42286c9d2441d2392391760.s3tc.ctex"]
+dest_files=["res://.godot/imported/defCeilingTexture.png-ff548796c42286c9d2441d2392391760.s3tc.ctex", "res://.godot/imported/defCeilingTexture.png-ff548796c42286c9d2441d2392391760.etc2.ctex"]
 
 [params]
 

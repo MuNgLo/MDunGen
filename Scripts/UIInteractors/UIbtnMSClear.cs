@@ -1,3 +1,4 @@
+#if TOOLS
 using Godot;
 using MDunGen.MS;
 
@@ -22,3 +23,4 @@ public partial class UIbtnMSClear : Button
 		mainScreen.WhenClearPressed();
 	}
 }// EOF CLASS
+#endif

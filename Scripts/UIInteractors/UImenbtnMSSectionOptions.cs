@@ -1,3 +1,4 @@
+#if TOOLS
 using Godot;
 using MDunGen.MS;
 
@@ -63,3 +64,4 @@ public partial class UImenbtnMSSectionOptions : MenuButton
 		pop.SetItemChecked(1, mainScreen.addon.MasterConfig.sectionAddAttachment);
 	}
 }// EOF CLASS
+#endif

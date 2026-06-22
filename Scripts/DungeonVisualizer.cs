@@ -16,6 +16,7 @@ namespace MDunGen;
 public partial class DungeonVisualizer : Node3D
 {
 	public static EventHandler<ISection> OnSectionVisualized;
+	[Export] private bool bakeNavMesh = false;
 	[Export] private BiomeResource biome; // TODO refactor biome into sectionBase
 
 	
@@ -30,7 +31,7 @@ public partial class DungeonVisualizer : Node3D
 	public async void ShowMap()
 	{
 		await VisualizeSections();
-		if(Multiplayer.IsServer()){ BuildNavMesh(); }
+		if(Multiplayer.IsServer() && bakeNavMesh){ BuildNavMesh(); }
 	}
 	public void ClearVisualizer()
 	{

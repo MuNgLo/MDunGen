@@ -1,3 +1,4 @@
+#if TOOLS
 using Godot;
 using MDunGen.MS;
 
@@ -21,3 +22,5 @@ public partial class UIbtnMSBiome : Button
 		EditorInterface.Singleton.InspectObject(mainScreen.addon.MasterConfig.design.defaultBiome);
 	}
 }// EOF CLASS
+
+#endif

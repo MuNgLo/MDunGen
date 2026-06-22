@@ -1,3 +1,4 @@
+#if TOOLS
 using Godot;
 using MDunGen.MS;
 
@@ -24,3 +25,5 @@ public partial class UIbtnMSInspectSection : Button
 		
 	}
 }// EOF CLASS
+#endif
+

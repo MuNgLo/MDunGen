@@ -1,3 +1,4 @@
+#if TOOLS
 using Godot;
 using MDunGen.Commons;
 using System;
@@ -116,3 +117,4 @@ public partial class BuildLogTab : MarginContainer
 		}
 	}
 }// EOF CLASS
+#endif

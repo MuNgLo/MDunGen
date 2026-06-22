@@ -1,3 +1,4 @@
+#if TOOLS
 using Godot;
 using MDunGen.MS;
 
@@ -21,3 +22,4 @@ public partial class UIbtnMSMasterConfig : Button
 		mainScreen.PopupInitialSettingsDialogue();
 	}
 }// EOF CLASS
+#endif

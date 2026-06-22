@@ -1,3 +1,4 @@
+#if TOOLS
 using Godot;
 using MDunGen.Commons;
 using System;
@@ -77,3 +78,4 @@ public partial class BuildLogEntry : PanelContainer
 		richText.Text += $"[color=0093cb][url=location/{location}]{location}[/url][/color]";
 	}
 }// EOF CLASS
+#endif

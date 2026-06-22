@@ -1,3 +1,4 @@
+#if TOOLS
 using Godot;
 using MDunGen.Commons;
 using MDunGen.MS;
@@ -53,4 +54,5 @@ public partial class UIbtnMSBuild : Button
 	}
 }// EOF CLASS
 
+#endif
 
